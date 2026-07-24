@@ -2,6 +2,8 @@
 
 同一份真实落地页内容，分别放进 **30 种视觉风格**与 **30 种布局排版**中观察。项目最终交付为 63 个零外部依赖的静态 HTML 页面，可以部署到任意静态托管。
 
+在线展览：<https://l4place0.github.io/frontend-showcase/>
+
 ## 快速开始
 
 环境要求：
@@ -67,6 +69,8 @@ npm run dev
 ```bash
 npm run build
 ```
+
+推送到 `main` 后，`.github/workflows/pages.yml` 会运行同一构建流程，并将 `dist/` 自动发布到 GitHub Pages。
 
 ## 设计实验
 
