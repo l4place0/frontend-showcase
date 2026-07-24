@@ -1,0 +1,17 @@
+/* 布局·横向卷轴 —— 区块横排，scroll-snap（桌面端实验） */
+@media (min-width: 901px) {
+  body.l-horizontal main {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    max-width: none; scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+  }
+  body.l-horizontal main section {
+    min-width: 82vw; max-width: none; scroll-snap-align: start;
+    padding: 130px 6vw 60px; margin: 0;
+  }
+  body.l-horizontal .hero { min-height: 88vh; }
+  body.l-horizontal .section-title::after { content: " →"; color: var(--accent); }
+  body.l-horizontal footer { border-top: 1px solid var(--border); }
+  body.l-horizontal .nav-links::after {
+    content: "横向浏览 →"; color: var(--text-2); font-size: 12px; align-self: center;
+  }
+}

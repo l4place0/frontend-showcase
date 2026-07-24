@@ -1,0 +1,15 @@
+/* 布局·悬浮错落 —— 卡片微旋，层叠漂浮 */
+body.l-floating main section {
+  max-width: 980px; background: var(--surface);
+  border: 1.5px solid var(--border); padding: 44px 48px 36px;
+  position: relative; margin-bottom: -14px;
+  box-shadow: 0 10px 30px rgba(43,43,43,.06);
+}
+body.l-floating main section:nth-of-type(1) { transform: rotate(-.5deg); z-index: 2; }
+body.l-floating main section:nth-of-type(2) { transform: rotate(.45deg); z-index: 3; margin-left: auto; margin-right: 4%; }
+body.l-floating main section:nth-of-type(3) { transform: rotate(-.35deg); z-index: 4; margin-left: 6%; }
+body.l-floating main section:nth-of-type(4) { transform: rotate(.5deg); z-index: 5; margin-right: 8%; margin-left: auto; }
+body.l-floating main section:nth-of-type(5) { transform: rotate(-.4deg); z-index: 6; margin-left: 10%; }
+body.l-floating main section:hover { transform: rotate(0) translateY(-4px); transition: transform .35s ease; }
+body.l-floating .hero { min-height: 86vh; }
+body.l-floating footer { margin-top: 70px; }

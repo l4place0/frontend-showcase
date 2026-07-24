@@ -1,0 +1,12 @@
+/* 布局·杂志双栏 —— 头条跨栏，大小错落 */
+body.l-magazine .projects-grid { grid-template-columns: repeat(2, 1fr); }
+body.l-magazine .card.featured { grid-column: 1 / -1; }
+body.l-magazine .card.featured .desc { font-size: 16.5px; max-width: 640px; }
+body.l-magazine .card.featured h3 { font-size: 24px; }
+body.l-magazine .skills-wrap { gap: 60px; }
+body.l-magazine .about-wrap { grid-template-columns: 1.2fr 1fr; gap: 60px; }
+body.l-magazine section { border-bottom: 1px solid var(--border); padding-bottom: 70px; }
+body.l-magazine #contact { border-bottom: none; }
+@media (max-width: 720px) {
+  body.l-magazine .projects-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,26 @@
+/* 布局·中轴对称 —— 中线两侧，左右对望 */
+body.l-axis main { position: relative; max-width: 1080px; margin: 0 auto; }
+body.l-axis main::before {
+  content: ""; position: absolute; left: 50%; top: 40px; bottom: 60px;
+  width: 2px; background: var(--border); transform: translateX(-50%);
+}
+body.l-axis main section { width: calc(50% - 52px); padding: 60px 0 24px; position: relative; }
+body.l-axis main section:nth-of-type(odd) { margin-right: auto; text-align: right; }
+body.l-axis main section:nth-of-type(even) { margin-left: auto; }
+body.l-axis main section::before {
+  content: ""; position: absolute; top: 74px; width: 12px; height: 12px;
+  border-radius: 50%; background: var(--bg); border: 2.5px solid var(--accent);
+}
+body.l-axis main section:nth-of-type(odd)::before { right: -47px; }
+body.l-axis main section:nth-of-type(even)::before { left: -47px; }
+body.l-axis main section:nth-of-type(odd) .section-desc { margin-left: auto; }
+body.l-axis .projects-grid { grid-template-columns: 1fr; }
+body.l-axis .skills-wrap, body.l-axis .about-wrap { grid-template-columns: 1fr; gap: 24px; }
+body.l-axis .contact-grid { grid-template-columns: 1fr; }
+body.l-axis .post { flex-direction: column; align-items: flex-start; gap: 6px; }
+body.l-axis .post-arrow { display: none; }
+@media (max-width: 720px) {
+  body.l-axis main::before { display: none; }
+  body.l-axis main section { width: 100%; text-align: left !important; }
+  body.l-axis main section::before { display: none; }
+}

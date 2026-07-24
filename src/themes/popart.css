@@ -1,0 +1,58 @@
+/* 波普艺术 Pop Art —— 漫画波点，红黄蓝撞色 */
+.t-popart {
+  --bg: #ffd500; --bg2: #ffc700;
+  --surface: #ffffff; --surface-2: #ffe98a;
+  --border: #0f0f0f; --border-hover: #0f0f0f;
+  --text: #0f0f0f; --text-2: #4a4a4a;
+  --accent: #e62429; --accent-2: #0057ff;
+  --nav-bg: rgba(255,213,0,.94);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Helvetica Neue", "PingFang SC", sans-serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 3px;
+  --title-tt: uppercase; --title-ls: 1px; --title-size: 38px;
+  --bg-decor: linear-gradient(180deg, #ffd500 0%, #ffc700 100%);
+  --shadow: 7px 7px 0 #0f0f0f;
+  --shadow-hover: 3px 3px 0 #0f0f0f;
+  --card-hover-tf: translate(4px,4px);
+  --btn-hover-tf: translate(3px,3px);
+  --tag-hover-tf: translate(3px,3px);
+  --post-hover-tf: translate(4px,4px);
+  --avatar-glow: none; --avatar-anim: none;
+}
+body.t-popart .bg-fx {
+  background-image: radial-gradient(rgba(15,15,15,.14) 2px, transparent 2.5px);
+  background-size: 22px 22px;
+}
+body.t-popart nav { border-bottom: 4px solid #0f0f0f; }
+body.t-popart .hero h1 { color: #fff; text-shadow: 4px 4px 0 #e62429, 8px 8px 0 #0f0f0f; text-transform: uppercase; }
+body.t-popart .tagline { color: #0057ff; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; }
+body.t-popart .section-title { color: #e62429; text-shadow: 3px 3px 0 #0f0f0f; }
+body.t-popart .section-tag { background: #0f0f0f; color: #ffd500; border-color: #0f0f0f; font-weight: 800; box-shadow: 4px 4px 0 rgba(15,15,15,.3); }
+body.t-popart .card { border-color: #0f0f0f; }
+body.t-popart .card.featured { background: #ffe98a; }
+body.t-popart .card.featured::before { background: #e62429; color: #fff; border: 2px solid #0f0f0f; }
+body.t-popart .card .star { color: #e62429; font-weight: 800; }
+body.t-popart .btn { border: 3px solid #0f0f0f; font-weight: 800; text-transform: uppercase; }
+body.t-popart .btn-primary { background: #e62429; color: #fff; }
+body.t-popart .btn-ghost { background: #fff; }
+body.t-popart .btn-ghost:hover { border-color: #0f0f0f; color: #0057ff; }
+body.t-popart .lang { border: 2px solid #0f0f0f; background: #fff; color: #0f0f0f; font-weight: 600; }
+body.t-popart .tag { border: 3px solid #0f0f0f; background: #fff; font-weight: 700; }
+body.t-popart .tag:nth-child(3n+1) { background: #ffe98a; }
+body.t-popart .tag:nth-child(3n+2) { background: #dbe7ff; }
+body.t-popart .bar-track { border: 3px solid #0f0f0f; height: 16px; background: #fff; }
+body.t-popart .bar-fill { background: repeating-linear-gradient(-45deg, #e62429 0 8px, #ff6b6b 8px 16px); border-right: 3px solid #0f0f0f; }
+body.t-popart .bar-row:nth-child(2) .bar-fill { background: repeating-linear-gradient(-45deg, #0057ff 0 8px, #6b9fff 8px 16px); }
+body.t-popart .bar-row:nth-child(3) .bar-fill { background: repeating-linear-gradient(-45deg, #0f0f0f 0 8px, #555 8px 16px); }
+body.t-popart .hero-badge { border: 3px solid #0f0f0f; background: #fff; }
+body.t-popart .hero-badge i { background: #e62429; border-radius: 0; animation: none; }
+body.t-popart .stat b { color: #0f0f0f; text-shadow: 2px 2px 0 #e62429; }
+body.t-popart .fact { border: 3px solid #0f0f0f; background: #fff; }
+body.t-popart .fact b { color: #e62429; }
+body.t-popart .post { border: 3px solid #0f0f0f; background: #fff; }
+body.t-popart .post-meta em { font-weight: 800; text-transform: uppercase; }
+body.t-popart .contact-card { border: 3px solid #0f0f0f; background: #fff; }
+body.t-popart .contact-ico { border: 2px solid #0f0f0f; background: #ffe98a; }
+body.t-popart .contact-ico svg { fill: #0f0f0f; }
+body.t-popart .gallery-link { border: 3px solid #0f0f0f; background: #fff; font-weight: 700; }

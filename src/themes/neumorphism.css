@@ -1,0 +1,38 @@
+/* 新拟态 Neumorphism —— 柔和浮雕，触感界面 */
+.t-neumorphism {
+  --bg: #e0e5ec; --bg2: #d3dae6;
+  --surface: #e0e5ec; --surface-2: #d3dae6;
+  --border: transparent; --border-hover: transparent;
+  --text: #3d4859; --text-2: #7a8699;
+  --accent: #5b7fff; --accent-2: #9d6bff;
+  --nav-bg: rgba(224,229,236,.88);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 22px; --radius-sm: 16px;
+  --bg-decor: linear-gradient(145deg, #e6ebf2 0%, #d3dae6 100%);
+  --shadow: 9px 9px 18px #b8bec7, -9px -9px 18px #ffffff;
+  --shadow-hover: 4px 4px 10px #b8bec7, -4px -4px 10px #ffffff;
+  --card-hover-tf: none;
+  --btn-hover-tf: none;
+  --tag-hover-tf: none;
+  --post-hover-tf: none;
+  --avatar-glow: none;
+  --bar-radius: 99px;
+}
+body.t-neumorphism .card,
+body.t-neumorphism .post,
+body.t-neumorphism .fact,
+body.t-neumorphism .contact-card,
+body.t-neumorphism .tag,
+body.t-neumorphism .btn,
+body.t-neumorphism .hero-badge,
+body.t-neumorphism .section-tag,
+body.t-neumorphism .contact-ico,
+body.t-neumorphism .gallery-link { border: 1px solid rgba(255,255,255,.45); }
+body.t-neumorphism .btn-primary { color: #fff; text-shadow: 0 1px 2px rgba(61,72,89,.3); }
+body.t-neumorphism .bar-track { box-shadow: inset 3px 3px 7px #b8bec7, inset -3px -3px 7px #ffffff; background: #d3dae6; }
+body.t-neumorphism .bar-fill { background: linear-gradient(90deg, #5b7fff, #9d6bff); box-shadow: 2px 2px 5px #b8bec7; }
+body.t-neumorphism .lang { box-shadow: inset 2px 2px 5px #b8bec7, inset -2px -2px 5px #ffffff; border-color: transparent; }
+body.t-neumorphism .card.featured { border: 1px solid rgba(255,255,255,.5); }
+body.t-neumorphism .card.featured::before { border-radius: 99px 0 0 99px; }
+body.t-neumorphism nav { box-shadow: 0 4px 14px #c3c9d4; }

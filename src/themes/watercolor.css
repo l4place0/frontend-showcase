@@ -1,0 +1,49 @@
+/* 水彩手绘 Watercolor —— 不规则笔触，纸间晕染 */
+.t-watercolor {
+  --bg: #f9f6f0; --bg2: #f3eee4;
+  --surface: #fffefa; --surface-2: #f6f1e7;
+  --border: rgba(91,142,196,.4); --border-hover: #5b8ec4;
+  --text: #3c3a36; --text-2: #8a847a;
+  --accent: #5b8ec4; --accent-2: #d4847c;
+  --nav-bg: rgba(249,246,240,.85);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: Georgia, "Noto Serif SC", "Songti SC", serif;
+  --radius: 18px 6px 20px 8px; --radius-sm: 12px 4px 14px 6px; --bar-radius: 8px 3px 9px 4px;
+  --bg-decor: linear-gradient(180deg, #f9f6f0 0%, #f3eee4 100%);
+  --shadow: 0 6px 22px rgba(120,100,70,.1);
+  --shadow-hover: 0 12px 32px rgba(91,142,196,.18);
+  --card-hover-tf: translateY(-4px) rotate(-.4deg);
+  --avatar-glow: radial-gradient(circle, rgba(91,142,196,.25), transparent 65%);
+}
+body.t-watercolor .bg-fx {
+  background:
+    radial-gradient(ellipse 340px 260px at 12% 18%, rgba(91,142,196,.13), transparent 70%),
+    radial-gradient(ellipse 400px 300px at 88% 30%, rgba(212,132,124,.11), transparent 70%),
+    radial-gradient(ellipse 380px 280px at 20% 82%, rgba(168,184,122,.12), transparent 70%),
+    radial-gradient(ellipse 320px 260px at 78% 78%, rgba(220,190,120,.12), transparent 70%);
+  filter: blur(28px);
+}
+body.t-watercolor .hero h1 { font-style: italic; letter-spacing: -1px; color: #3c3a36; }
+body.t-watercolor .tagline { font-style: italic; }
+body.t-watercolor .section-title { font-style: italic; }
+body.t-watercolor .section-title::after { content: ""; display: block; width: 130px; height: 7px; margin-top: 8px; background: linear-gradient(90deg, rgba(91,142,196,.5), rgba(212,132,124,.3), transparent); border-radius: 99px; filter: blur(1px); }
+body.t-watercolor .section-tag { border: 2px solid rgba(91,142,196,.35); background: rgba(255,254,250,.7); border-radius: 14px 4px 16px 6px; }
+body.t-watercolor .card { border: 2px solid rgba(91,142,196,.3); border-radius: 22px 8px 24px 10px; }
+body.t-watercolor .card:nth-child(even) { border-radius: 10px 24px 8px 22px; border-color: rgba(212,132,124,.3); }
+body.t-watercolor .card:nth-child(even):hover { border-color: #d4847c; }
+body.t-watercolor .card.featured { border-color: #5b8ec4; border-width: 2.5px; }
+body.t-watercolor .card.featured::before { background: #d4847c; border-radius: 99px 0 0 99px; }
+body.t-watercolor .btn { border-radius: 16px 5px 18px 7px; border: 2px solid transparent; }
+body.t-watercolor .btn-primary { background: #5b8ec4; color: #fff; }
+body.t-watercolor .btn-primary:hover { background: #4a7cb2; }
+body.t-watercolor .btn-ghost { border-color: rgba(91,142,196,.4); background: #fffefa; }
+body.t-watercolor .lang { border-radius: 10px 3px 12px 5px; border-width: 1.5px; }
+body.t-watercolor .tag { border-radius: 12px 4px 14px 6px; border-width: 1.5px; }
+body.t-watercolor .bar-track { height: 10px; background: #efe9dc; }
+body.t-watercolor .bar-fill { background: linear-gradient(90deg, #5b8ec4, #d4847c); filter: blur(.4px); opacity: .9; }
+body.t-watercolor .hero-badge { border: 2px solid rgba(212,132,124,.4); border-radius: 16px 5px 18px 8px; }
+body.t-watercolor .hero-badge i { background: #d4847c; }
+body.t-watercolor .fact { border: 2px solid rgba(91,142,196,.25); border-radius: 16px 6px 18px 8px; }
+body.t-watercolor .post { border: 2px solid rgba(91,142,196,.25); border-radius: 18px 7px 20px 9px; }
+body.t-watercolor .contact-card { border: 2px solid rgba(91,142,196,.3); border-radius: 20px 8px 22px 10px; }
+body.t-watercolor .contact-ico { border-radius: 50% 40% 55% 45%; border-width: 2px; }

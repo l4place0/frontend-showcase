@@ -1,0 +1,40 @@
+/* 蒸汽波 Vaporwave —— 粉紫青渐变，复古未来 */
+.t-vaporwave {
+  --bg: #150826; --bg2: #241040;
+  --surface: rgba(255,113,206,.07); --surface-2: rgba(1,205,254,.1);
+  --border: rgba(1,205,254,.3); --border-hover: #ff71ce;
+  --text: #f8ecff; --text-2: #b49bd6;
+  --accent: #01cdfe; --accent-2: #ff71ce;
+  --nav-bg: rgba(21,8,38,.82);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Segoe UI", "PingFang SC", sans-serif;
+  --radius: 4px; --radius-sm: 3px; --bar-radius: 4px;
+  --bg-decor: linear-gradient(180deg, #150826 0%, #241040 100%);
+  --h1-grad: linear-gradient(180deg, #fffb96 5%, #ff71ce 50%, #01cdfe 95%);
+  --h1-clip: text; --h1-fill: transparent;
+  --avatar-glow: radial-gradient(circle, rgba(255,113,206,.35), transparent 65%);
+}
+body.t-vaporwave .bg-fx {
+  background-image:
+    linear-gradient(rgba(1,205,254,.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(1,205,254,.14) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: linear-gradient(180deg, transparent 30%, #000 78%);
+  mask-image: linear-gradient(180deg, transparent 30%, #000 78%);
+}
+body.t-vaporwave .hero h1 { font-style: italic; text-transform: uppercase; letter-spacing: 2px; filter: drop-shadow(0 0 18px rgba(255,113,206,.4)); }
+body.t-vaporwave .tagline { color: #fffb96; font-style: italic; letter-spacing: 2px; }
+body.t-vaporwave .section-title { font-style: italic; text-transform: uppercase; }
+body.t-vaporwave .section-tag { background: rgba(1,205,254,.1); }
+body.t-vaporwave .card { border-color: rgba(255,113,206,.25); background: linear-gradient(160deg, rgba(255,113,206,.07), rgba(1,205,254,.05)); }
+body.t-vaporwave .card:hover { border-color: var(--accent); box-shadow: 0 0 26px rgba(1,205,254,.22), 0 0 46px rgba(255,113,206,.14); }
+body.t-vaporwave .card.featured { border-color: var(--accent-2); }
+body.t-vaporwave .card.featured::before { background: linear-gradient(90deg, #ff71ce, #01cdfe); color: #150826; }
+body.t-vaporwave .btn-primary { background: linear-gradient(90deg, #ff71ce, #b967ff); color: #fff; }
+body.t-vaporwave .btn-primary:hover { box-shadow: 0 0 28px rgba(255,113,206,.45); }
+body.t-vaporwave .btn-ghost:hover { box-shadow: 0 0 20px rgba(1,205,254,.25); }
+body.t-vaporwave .bar-fill { background: linear-gradient(90deg, #01cdfe, #ff71ce); }
+body.t-vaporwave .stat b { background: linear-gradient(180deg, #fffb96, #ff71ce); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+body.t-vaporwave .tag:hover { box-shadow: 0 0 14px rgba(1,205,254,.3); }
+body.t-vaporwave .hero-badge i { background: #fffb96; }
+body.t-vaporwave footer { border-top-color: rgba(255,113,206,.25); }

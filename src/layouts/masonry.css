@@ -1,0 +1,14 @@
+/* 布局·瀑布流 —— 双列区块自然跌落 */
+body.l-masonry main { columns: 2; column-gap: 28px; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+body.l-masonry main section {
+  break-inside: avoid; display: inline-block; width: 100%;
+  padding-left: 0; padding-right: 0;
+}
+body.l-masonry .projects-grid { grid-template-columns: 1fr; }
+body.l-masonry .skills-wrap { grid-template-columns: 1fr; gap: 28px; }
+body.l-masonry .about-wrap { grid-template-columns: 1fr; gap: 28px; }
+body.l-masonry #skills { margin-top: 110px; }
+@media (max-width: 720px) {
+  body.l-masonry main { columns: 1; }
+  body.l-masonry #skills { margin-top: 0; }
+}

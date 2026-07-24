@@ -1,0 +1,27 @@
+/* 极客终端 Terminal —— 磷光绿命令行世界 */
+.t-terminal {
+  --bg: #050907; --bg2: #08110b;
+  --surface: rgba(0,255,156,.05); --surface-2: rgba(0,255,156,.1);
+  --border: rgba(0,255,156,.18); --border-hover: rgba(0,255,156,.6);
+  --text: #b9ffdb; --text-2: #5da383;
+  --accent: #00ff9c; --accent-2: #a9ffce;
+  --nav-bg: rgba(5,9,7,.88);
+  --font-body: "JetBrains Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+  --font-head: var(--font-body);
+  --radius: 6px; --radius-sm: 4px;
+  --bg-decor:
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,255,156,.012) 3px 4px),
+    linear-gradient(180deg, #050907 0%, #08110b 100%);
+  --avatar-glow: radial-gradient(circle, rgba(0,255,156,.22), transparent 65%);
+  --bar-radius: 3px;
+  --font-tag: var(--font-body);
+}
+body.t-terminal .tagline::before { content: "$ whoami → "; color: var(--text-2); font-weight: 400; }
+body.t-terminal .section-title::before { content: "# "; color: var(--text-2); }
+body.t-terminal .section-tag::before { content: "~/"; color: var(--text-2); }
+body.t-terminal .hero-badge i { border-radius: 0; animation: blink 1.1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .15; box-shadow: none; } }
+body.t-terminal .card.featured::before { content: "$ TOP"; font-family: var(--font-body); }
+body.t-terminal .logo::after { content: "▊"; color: var(--accent); animation: blink 1.1s steps(2) infinite; margin-left: 4px; }
+body.t-terminal .btn { letter-spacing: .5px; }
+body.t-terminal .bar-track { border: 1px solid rgba(0,255,156,.18); }

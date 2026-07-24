@@ -1,0 +1,16 @@
+/* 布局·居中窄栏 —— 720px 阅读带 */
+body.l-centered .hero {
+  flex-direction: column; justify-content: center; text-align: center; gap: 40px;
+  max-width: 760px;
+}
+body.l-centered .hero-right { order: -1; }
+body.l-centered .hero-cta, body.l-centered .hero-stats { justify-content: center; }
+body.l-centered section { max-width: 720px; }
+body.l-centered .skills-wrap, body.l-centered .about-wrap { grid-template-columns: 1fr; gap: 34px; }
+body.l-centered .projects-grid { grid-template-columns: 1fr; }
+body.l-centered .section-desc { margin-left: auto; margin-right: auto; text-align: center; }
+body.l-centered .reveal > .section-tag { display: inline-block; }
+body.l-centered section > .reveal:first-child { text-align: center; }
+body.l-centered .post { flex-direction: column; align-items: flex-start; gap: 8px; }
+body.l-centered .post-arrow { display: none; }
+body.l-centered footer { justify-content: center; text-align: center; }

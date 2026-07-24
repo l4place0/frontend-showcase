@@ -1,0 +1,42 @@
+/* 复古像素 Pixel —— 8-bit 游戏机美学 */
+.t-pixel {
+  --bg: #1a1c2c; --bg2: #14152b;
+  --surface: #262a44; --surface-2: #333860;
+  --border: #4a5080; --border-hover: #ffcd75;
+  --text: #f4f4f4; --text-2: #9ba0d0;
+  --accent: #ffcd75; --accent-2: #38b764;
+  --nav-bg: rgba(26,28,44,.95);
+  --font-body: "Courier New", "Lucida Console", monospace;
+  --font-head: "Courier New", "Lucida Console", monospace;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 3px;
+  --title-tt: uppercase; --title-ls: 2px; --title-size: 34px;
+  --btn-tt: uppercase;
+  --bg-decor:
+    repeating-linear-gradient(0deg, transparent 0 4px, rgba(0,0,0,.1) 4px 5px),
+    linear-gradient(180deg, #1a1c2c 0%, #14152b 100%);
+  --shadow: 5px 5px 0 #0a0b18;
+  --shadow-hover: 8px 8px 0 #0a0b18;
+  --card-hover-tf: translate(-3px,-3px);
+  --btn-hover-tf: translate(-2px,-2px);
+  --tag-hover-tf: translate(-2px,-2px);
+  --post-hover-tf: translate(-3px,-3px);
+  --avatar-glow: none;
+  --avatar-anim: none;
+  --h1-ls: 3px;
+}
+body.t-pixel .hero h1 { color: var(--accent); text-shadow: 4px 4px 0 #0a0b18; }
+body.t-pixel .tagline { color: var(--accent-2); text-transform: uppercase; letter-spacing: 2px; }
+body.t-pixel .hero-badge i { border-radius: 0; animation: pixblink 1s steps(2) infinite; }
+@keyframes pixblink { 50% { opacity: .2; box-shadow: none; } }
+body.t-pixel .btn { border-color: var(--border); border-width: 3px; font-weight: 700; letter-spacing: 1px; }
+body.t-pixel .btn-primary { background: var(--accent); color: #1a1c2c; border-color: #0a0b18; }
+body.t-pixel .btn-ghost { border-color: var(--border); }
+body.t-pixel .section-tag { background: var(--accent-2); color: #0a0b18; border-color: #0a0b18; font-weight: 700; box-shadow: 4px 4px 0 #0a0b18; }
+body.t-pixel .card.featured::before { background: var(--accent-2); color: #0a0b18; }
+body.t-pixel .bar-track { border: 3px solid #0a0b18; height: 14px; }
+body.t-pixel .bar-fill { background: repeating-linear-gradient(90deg, var(--accent) 0 8px, #e0a94f 8px 10px); }
+body.t-pixel .bar-row:nth-child(2) .bar-fill { background: repeating-linear-gradient(90deg, var(--accent-2) 0 8px, #2a8a4c 8px 10px); }
+body.t-pixel .logo { text-transform: uppercase; }
+body.t-pixel .stat b { text-shadow: 2px 2px 0 #0a0b18; }
+body.t-pixel .contact-ico svg { fill: var(--accent); }

@@ -1,0 +1,17 @@
+/* 布局·横向图条 —— 卡片横向滑动条 */
+body.l-album-rows .projects-grid {
+  display: flex; overflow-x: auto; gap: 18px; padding-bottom: 14px;
+  scroll-snap-type: x mandatory; scrollbar-width: thin;
+}
+body.l-album-rows .card { min-width: 320px; scroll-snap-align: start; }
+body.l-album-rows #projects { max-width: none; padding-left: calc(50% - 516px); padding-right: 0; }
+body.l-album-rows #projects .section-desc, body.l-album-rows #projects > .reveal:first-child { padding-right: 24px; }
+body.l-album-rows .blog-list {
+  display: flex; overflow-x: auto; gap: 16px; padding-bottom: 14px;
+}
+body.l-album-rows .post { min-width: 400px; flex-shrink: 0; }
+body.l-album-rows #blog { max-width: none; padding-left: calc(50% - 516px); padding-right: 0; }
+body.l-album-rows #blog > .reveal:first-child { padding-right: 24px; }
+@media (max-width: 1080px) {
+  body.l-album-rows #projects, body.l-album-rows #blog { padding-left: 24px; }
+}

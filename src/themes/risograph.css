@@ -1,0 +1,52 @@
+/* 孔版印刷 Risograph —— 颗粒质感，双色叠印 */
+.t-risograph {
+  --bg: #f4f1ea; --bg2: #ece8de;
+  --surface: #f4f1ea; --surface-2: #e8e3d6;
+  --border: #1a3a8f; --border-hover: #ff48b0;
+  --text: #1a3a8f; --text-2: #6a6a5a;
+  --accent: #ff48b0; --accent-2: #0078bf;
+  --nav-bg: rgba(244,241,234,.92);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Helvetica Neue", "PingFang SC", sans-serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 2px;
+  --title-tt: uppercase; --title-ls: 1px;
+  --bg-decor: linear-gradient(180deg, #f4f1ea 0%, #ece8de 100%);
+  --shadow: 4px 4px 0 rgba(0,120,191,.85);
+  --shadow-hover: 6px 6px 0 #ff48b0;
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+}
+body.t-risograph .bg-fx {
+  background-image: radial-gradient(rgba(26,58,143,.16) .8px, transparent .8px);
+  background-size: 5px 5px; opacity: .55;
+}
+body.t-risograph .hero h1 { color: var(--accent); text-shadow: 3px 3px 0 var(--accent-2); text-transform: uppercase; }
+body.t-risograph .tagline { color: var(--accent-2); font-weight: 700; letter-spacing: 2px; }
+body.t-risograph .section-title { color: var(--accent-2); text-shadow: 2px 2px 0 rgba(255,72,176,.5); }
+body.t-risograph .section-tag { background: var(--accent-2); color: #f4f1ea; border-color: var(--accent-2); font-weight: 700; }
+body.t-risograph .card { border-color: var(--accent-2); }
+body.t-risograph .card:hover { border-color: var(--accent); box-shadow: 6px 6px 0 #ff48b0; }
+body.t-risograph .card.featured { border-color: var(--accent); box-shadow: 4px 4px 0 rgba(0,120,191,.85); }
+body.t-risograph .card.featured::before { background: var(--accent); color: #f4f1ea; }
+body.t-risograph .btn { border: 2px solid var(--accent-2); font-weight: 700; }
+body.t-risograph .btn-primary { background: var(--accent); border-color: var(--accent); color: #f4f1ea; box-shadow: 4px 4px 0 var(--accent-2); }
+body.t-risograph .btn-primary:hover { box-shadow: 2px 2px 0 var(--accent-2); }
+body.t-risograph .btn-ghost { color: var(--accent-2); box-shadow: 4px 4px 0 rgba(0,120,191,.4); }
+body.t-risograph .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+body.t-risograph .bar-track { border: 2px solid var(--accent-2); background: transparent; height: 12px; }
+body.t-risograph .bar-fill { background: repeating-linear-gradient(-45deg, var(--accent) 0 5px, rgba(255,72,176,.45) 5px 9px); }
+body.t-risograph .bar-row:nth-child(2) .bar-fill { background: repeating-linear-gradient(-45deg, var(--accent-2) 0 5px, rgba(0,120,191,.4) 5px 9px); }
+body.t-risograph .lang { border: 1px solid var(--accent-2); background: transparent; color: var(--accent-2); }
+body.t-risograph .tag { border: 2px solid var(--accent-2); background: transparent; color: var(--accent-2); }
+body.t-risograph .tag:hover { border-color: var(--accent); color: var(--accent); box-shadow: 3px 3px 0 rgba(255,72,176,.4); }
+body.t-risograph .post { border: 2px solid var(--accent-2); }
+body.t-risograph .post:hover { border-color: var(--accent); box-shadow: 5px 5px 0 rgba(255,72,176,.4); }
+body.t-risograph .fact { border: 2px solid var(--accent-2); }
+body.t-risograph .fact b { color: var(--accent); }
+body.t-risograph .stat b { color: var(--accent); text-shadow: 2px 2px 0 rgba(0,120,191,.35); }
+body.t-risograph .hero-badge { border: 2px solid var(--accent-2); background: transparent; }
+body.t-risograph .hero-badge i { background: var(--accent); border-radius: 0; animation: none; }
+body.t-risograph .contact-card { border: 2px solid var(--accent-2); }
+body.t-risograph .contact-card:hover { border-color: var(--accent); box-shadow: 5px 5px 0 rgba(255,72,176,.4); }
+body.t-risograph .contact-ico svg { fill: var(--accent-2); }

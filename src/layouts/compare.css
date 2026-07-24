@@ -1,0 +1,21 @@
+/* 布局·双列对照 —— 两两并置，左右互文 */
+body.l-compare main {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 30px 48px;
+  max-width: 1080px; margin: 0 auto; padding: 50px 24px 24px;
+}
+body.l-compare main section { padding: 34px 0 20px; margin: 0; max-width: none; border-top: 3px double var(--border); }
+body.l-compare #projects { grid-column: 1; grid-row: 1; }
+body.l-compare #skills { grid-column: 2; grid-row: 1; }
+body.l-compare #about { grid-column: 1; grid-row: 2; }
+body.l-compare #blog { grid-column: 2; grid-row: 2; }
+body.l-compare #contact { grid-column: 1 / -1; }
+body.l-compare .projects-grid { grid-template-columns: 1fr; }
+body.l-compare .skills-wrap, body.l-compare .about-wrap { grid-template-columns: 1fr; gap: 24px; }
+body.l-compare .post { flex-direction: column; align-items: flex-start; gap: 6px; }
+body.l-compare .post-arrow { display: none; }
+body.l-compare .contact-grid { grid-template-columns: 1fr 1fr; }
+@media (max-width: 720px) {
+  body.l-compare main { grid-template-columns: 1fr; }
+  body.l-compare #projects, body.l-compare #skills, body.l-compare #about,
+  body.l-compare #blog, body.l-compare #contact { grid-column: 1; grid-row: auto; }
+}

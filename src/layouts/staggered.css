@@ -1,0 +1,11 @@
+/* 布局·阶梯错位 —— 区块左右交替递进 */
+body.l-staggered main section { max-width: 860px; }
+body.l-staggered main section:nth-of-type(odd) { margin-right: auto; margin-left: 5%; }
+body.l-staggered main section:nth-of-type(even) { margin-left: auto; margin-right: 5%; }
+body.l-staggered main section:nth-of-type(odd) > .reveal:first-child { border-left: 3px solid var(--accent); padding-left: 20px; }
+body.l-staggered main section:nth-of-type(even) > .reveal:first-child { border-right: 3px solid var(--accent); padding-right: 20px; text-align: right; }
+body.l-staggered main section:nth-of-type(even) .section-desc { margin-left: auto; }
+@media (max-width: 720px) {
+  body.l-staggered main section:nth-of-type(odd),
+  body.l-staggered main section:nth-of-type(even) { margin-left: auto; margin-right: auto; }
+}

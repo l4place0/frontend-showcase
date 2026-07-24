@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>布局展览柜 · 前端风格博物馆</title>
+<meta name="description" content="禅意东方统一皮肤下的 30 种布局排版实验，同一落地页测试内容。">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #16161c; color: #e8e8ee; min-height: 100vh;
+  font-family: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.7; padding-top: 38px;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(50% 35% at 80% 0%, rgba(192,132,252,.07), transparent 70%),
+    radial-gradient(45% 35% at 10% 100%, rgba(125,211,252,.07), transparent 70%);
+}
+.wrap { max-width: 1160px; margin: 0 auto; padding: 74px 24px 60px; position: relative; }
+.g-head { margin-bottom: 44px; }
+.g-head .kicker {
+  display: inline-block; font-size: 13px; letter-spacing: 3px; color: #c084fc;
+  border: 1px solid rgba(192,132,252,.35); padding: 4px 14px; border-radius: 99px; margin-bottom: 16px;
+}
+.g-head h1 { font-size: clamp(30px, 4.6vw, 44px); line-height: 1.2; }
+.g-head h1 span { color: #c084fc; }
+.g-head p { color: #9a9aa8; max-width: 660px; margin-top: 12px; }
+.g-head p b { color: #cfcfda; font-weight: 600; }
+.g-switch { margin-top: 20px; font-size: 14px; }
+.g-switch a { color: #7dd3fc; text-decoration: none; border-bottom: 1px dashed rgba(125,211,252,.5); padding-bottom: 1px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+
+/* 布局卡片：zen 米白线框预览 */
+.l-card {
+  display: block; text-decoration: none;
+  background: #1d1d24; border: 1px solid rgba(255,255,255,.09); border-radius: 14px;
+  overflow: hidden; transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+.l-card:hover { transform: translateY(-6px); border-color: rgba(192,132,252,.55); box-shadow: 0 18px 44px rgba(0,0,0,.45); }
+.lp { height: 108px; background: #f5f3ee; border-bottom: 1px solid #e0dccd; padding: 13px; display: grid; gap: 6px; }
+.lp i { display: block; background: rgba(43,43,43,.18); border-radius: 2px; }
+.lp i.hl { background: rgba(199,62,58,.55); }
+.lp-rows { grid-template-rows: 1.4fr 1fr 1fr; }
+.lp-cols { grid-template-columns: 1fr 1fr 1fr; }
+.lp-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.lp-split { grid-template-columns: 2fr 3fr; grid-template-rows: 1fr 1fr; }
+.lp-split i:first-child { grid-row: 1 / 3; }
+.lp-timeline { grid-template-columns: 6px 1fr; grid-template-rows: 1fr 1fr 1fr; }
+.lp-timeline i:first-child { grid-row: 1 / 4; background: rgba(43,43,43,.35); }
+.lp-hero { grid-template-rows: 2fr 1fr 1fr; }
+.lp-masonry { grid-template-columns: 1fr 1fr; grid-template-rows: 1.6fr 1fr; }
+.lp-masonry i:nth-child(2) { grid-row: 1 / 3; }
+.lp-band { grid-template-rows: 1fr 1fr 1fr; gap: 0; padding: 0; }
+.lp-band i { border-radius: 0; }
+.lp-band i:nth-child(2) { background: rgba(43,43,43,.3); }
+.l-info { padding: 14px 18px 16px; display: flex; align-items: center; gap: 12px; }
+.l-names { flex: 1; min-width: 0; }
+.l-names b { font-size: 15px; color: #f0f0f5; display: block; }
+.l-names span { font-size: 12px; color: #8a8a96; display: block; margin-top: 1px; }
+.l-num {
+  position: absolute; top: 10px; right: 12px; z-index: 2;
+  font-size: 11.5px; font-weight: 700; color: rgba(43,43,43,.55);
+  background: rgba(245,243,238,.85); border: 1px solid rgba(43,43,43,.15);
+  padding: 1px 9px; border-radius: 99px;
+}
+.g-cell { position: relative; }
+.g-foot { margin-top: 44px; color: #8a8a96; font-size: 13.5px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.g-foot a { color: #c084fc; text-decoration: none; }
+@media (max-width: 640px) { .wrap { padding-top: 56px; } }
+</style>
+<style>
+/*__MUSEUM_BAR_CSS__*/
+</style>
+</head>
+<body>
+<div class="museum-bar">
+  <a class="mb-logo" href="index.html">◈ 风格博物馆</a>
+  <span class="mb-crumb">／<a href="layouts.html">布局展览柜</a></span>
+  <span class="mb-current">30 件展品</span>
+  <a class="mb-other" href="styles.html">风格展览柜 →</a>
+</div>
+
+<div class="wrap">
+  <div class="g-head">
+    <span class="kicker">LAYOUT CABINET · 布局展览柜</span>
+    <h1>禅意东方皮肤，<span>30 种布局排版</span></h1>
+    <p>本柜控制变量：统一<b>禅意东方（Zen）</b>视觉皮肤、统一测试内容（l4place 个人落地页），只改变<b>信息架构</b>——网格、动线、密度与节奏。卡片上的线框是结构示意，点进去看完整页面。布局展品配有可拖动的<b>布局实验台</b>：内容宽度、纵向节奏、网格间距、卡片尺寸与 Hero 比例均可连续调节。</p>
+    <p class="g-switch">想看皮肤实验？<a href="styles.html">去风格展览柜 →</a></p>
+  </div>
+  <div class="grid">
+<!--__CARDS__-->
+  </div>
+  <div class="g-foot">
+    <p>© 2026 前端风格博物馆 · 布局展览柜 · 共 30 件</p>
+    <p><a href="index.html">← 返回门户</a> · <a href="styles.html">风格展览柜 →</a></p>
+  </div>
+</div>
+</body>
+</html>

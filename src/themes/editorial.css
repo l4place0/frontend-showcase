@@ -1,0 +1,47 @@
+/* 杂志编辑 Editorial —— 粗衬线大字，报纸栏线 */
+.t-editorial {
+  --bg: #faf7f2; --bg2: #f3efe7;
+  --surface: transparent; --surface-2: #efe9dd;
+  --border: rgba(28,25,23,.28); --border-hover: #9f1239;
+  --text: #1c1917; --text-2: #6b625a;
+  --accent: #9f1239; --accent-2: #1c1917;
+  --nav-bg: rgba(250,247,242,.92);
+  --font-body: Georgia, "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-head: Georgia, "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --title-size: 42px; --title-ls: -1px;
+  --bg-decor: linear-gradient(180deg, #faf7f2 0%, #f3efe7 100%);
+  --shadow: none; --shadow-hover: none;
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+  --h1-ls: -2px;
+}
+body.t-editorial { font-size: 17px; }
+body.t-editorial .hero h1 { font-style: italic; font-weight: 900; }
+body.t-editorial .tagline { font-style: normal; letter-spacing: 4px; text-transform: uppercase; font-size: 15px; }
+body.t-editorial .tagline::before, body.t-editorial .tagline::after { content: "—"; color: var(--text-2); margin: 0 10px; }
+body.t-editorial .section-title { border-bottom: 1px solid var(--text); padding-bottom: 14px; }
+body.t-editorial .section-tag { background: transparent; border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; letter-spacing: 4px; padding: 5px 2px; }
+body.t-editorial .card { border: none; border-top: 3px double var(--border); padding: 22px 4px 18px; }
+body.t-editorial .card:hover { border-top-color: var(--accent); box-shadow: none; }
+body.t-editorial .card.featured { border-top: 3px solid var(--accent); }
+body.t-editorial .card.featured::before { content: "★ 特稿"; background: var(--accent); border-radius: 0; }
+body.t-editorial .card h3 { font-size: 22px; }
+body.t-editorial .card .desc { font-size: 15px; }
+body.t-editorial .lang { background: transparent; border: 1px solid var(--border); border-radius: 0; font-style: italic; }
+body.t-editorial .btn { border: 1px solid var(--text); font-style: normal; letter-spacing: 1px; }
+body.t-editorial .btn-primary { background: var(--text); color: var(--bg); }
+body.t-editorial .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+body.t-editorial .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+body.t-editorial .post { border: none; border-top: 1px solid var(--border); padding: 20px 4px; }
+body.t-editorial .post:last-child { border-bottom: 1px solid var(--border); }
+body.t-editorial .post:hover { box-shadow: none; background: rgba(28,25,23,.03); }
+body.t-editorial .post-meta em { font-style: italic; }
+body.t-editorial .fact { border: none; border-left: 1px solid var(--text); background: transparent; padding: 8px 16px; }
+body.t-editorial .bar-track { background: transparent; border: 1px solid var(--border); height: 10px; }
+body.t-editorial .bar-fill { background: repeating-linear-gradient(-45deg, var(--text) 0 4px, transparent 4px 7px); }
+body.t-editorial .tag { border-radius: 0; background: transparent; }
+body.t-editorial .tag:hover { color: var(--accent); border-color: var(--accent); }
+body.t-editorial .hero-badge { border-radius: 0; background: transparent; }
+body.t-editorial .hero-badge i { border-radius: 0; }
+body.t-editorial .skills-note { font-style: italic; }

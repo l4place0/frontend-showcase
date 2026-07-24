@@ -1,0 +1,24 @@
+/* 布局·Z 字动线 —— 视线折线引导（右上→左下→右下） */
+body.l-z-pattern main {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px 56px;
+  max-width: 1080px; margin: 0 auto; padding: 60px 24px 24px;
+}
+body.l-z-pattern main section { padding: 0; margin: 0; max-width: none; }
+body.l-z-pattern #projects { grid-column: 2; grid-row: 1; }
+body.l-z-pattern #about { grid-column: 1; grid-row: 2; }
+body.l-z-pattern #contact { grid-column: 2; grid-row: 3; }
+body.l-z-pattern #skills { grid-column: 1 / -1; grid-row: 4; }
+body.l-z-pattern #blog { grid-column: 1 / -1; grid-row: 5; }
+body.l-z-pattern .projects-grid { grid-template-columns: 1fr; }
+body.l-z-pattern .about-wrap { grid-template-columns: 1fr; }
+body.l-z-pattern .contact-grid { grid-template-columns: 1fr; }
+body.l-z-pattern #about { border-left: 3px solid var(--accent); padding-left: 28px; }
+body.l-z-pattern #projects { border-right: 3px solid var(--accent); padding-right: 28px; }
+body.l-z-pattern #projects > .reveal:first-child { text-align: right; }
+body.l-z-pattern #projects .section-desc { margin-left: auto; }
+@media (max-width: 720px) {
+  body.l-z-pattern main { grid-template-columns: 1fr; }
+  body.l-z-pattern #projects, body.l-z-pattern #about, body.l-z-pattern #contact,
+  body.l-z-pattern #skills, body.l-z-pattern #blog { grid-column: 1; grid-row: auto; }
+  body.l-z-pattern #projects > .reveal:first-child { text-align: left; }
+}

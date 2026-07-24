@@ -1,0 +1,52 @@
+/* 粗野主义 Brutalist —— 硬边黑框，生猛直接 */
+.t-brutalist {
+  --bg: #fffef2; --bg2: #fff8d6;
+  --surface: #ffffff; --surface-2: #fff3bf;
+  --border: #111111; --border-hover: #111111;
+  --text: #111111; --text-2: #4a4a4a;
+  --accent: #111111; --accent-2: #ffdd00;
+  --nav-bg: rgba(255,254,242,.95);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Helvetica Neue", "PingFang SC", sans-serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 3px;
+  --title-tt: uppercase; --title-ls: -0.5px; --title-size: 40px;
+  --bg-decor: linear-gradient(180deg, #fffef2 0%, #fff8d6 100%);
+  --shadow: 7px 7px 0 #111111;
+  --shadow-hover: 3px 3px 0 #111111;
+  --card-hover-tf: translate(4px,4px);
+  --btn-hover-tf: translate(3px,3px);
+  --tag-hover-tf: translate(3px,3px);
+  --post-hover-tf: translate(4px,4px);
+  --avatar-glow: none;
+  --avatar-anim: none;
+  --font-tag: var(--font-body);
+}
+body.t-brutalist nav { border-bottom-width: 4px; }
+body.t-brutalist .logo { text-transform: uppercase; }
+body.t-brutalist .logo span { background: #ffdd00; color: #111; padding: 0 6px; border: 3px solid #111; margin-left: 4px; }
+body.t-brutalist .hero h1 { text-transform: uppercase; font-weight: 900; }
+body.t-brutalist .tagline {
+  background: #ffdd00; color: #111; display: inline-block;
+  padding: 4px 14px; border: 3px solid #111; box-shadow: 5px 5px 0 #111;
+  font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+}
+body.t-brutalist .hero-badge i { border-radius: 0; background: #111; animation: none; }
+body.t-brutalist .section-tag { background: #111; color: #ffdd00; border-color: #111; font-weight: 800; }
+body.t-brutalist .btn { border-color: #111; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; }
+body.t-brutalist .btn-primary { background: #ffdd00; color: #111; }
+body.t-brutalist .btn-ghost { border-color: #111; }
+body.t-brutalist .card.featured { background: #fffbe0; }
+body.t-brutalist .card.featured::before { background: #111; color: #ffdd00; }
+body.t-brutalist .card .star { color: #111; font-weight: 800; }
+body.t-brutalist .lang { background: #fff3bf; color: #111; font-weight: 600; border-width: 2px; }
+body.t-brutalist .tag { font-weight: 600; }
+body.t-brutalist .bar-track { border: 3px solid #111; height: 16px; background: #fff; }
+body.t-brutalist .bar-fill { background: #ffdd00; border-right: 3px solid #111; }
+body.t-brutalist .bar-row:first-child .bar-fill { background: #ff5c8a; }
+body.t-brutalist .bar-row:nth-child(2) .bar-fill { background: #4dabff; }
+body.t-brutalist .stat b { color: #111; font-size: 30px; }
+body.t-brutalist .fact b { color: #111; }
+body.t-brutalist .post-meta em { font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+body.t-brutalist .gallery-link { border-width: 3px; font-weight: 700; }
+body.t-brutalist .contact-ico svg { fill: #111; }

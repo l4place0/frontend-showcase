@@ -1,0 +1,43 @@
+/* 极光 Aurora —— 深空夜幕，流动光幕 */
+.t-aurora {
+  --bg: #030b1a; --bg2: #061226;
+  --surface: rgba(74,222,128,.05); --surface-2: rgba(167,139,250,.09);
+  --border: rgba(148,222,255,.16); --border-hover: rgba(74,222,128,.6);
+  --text: #e8f4ff; --text-2: #7d93b8;
+  --accent: #4ade80; --accent-2: #a78bfa;
+  --nav-bg: rgba(3,11,26,.75);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 18px; --radius-sm: 12px;
+  --bg-decor: linear-gradient(180deg, #030b1a 0%, #061226 100%);
+  --h1-grad: linear-gradient(115deg, #e8f4ff 20%, #4ade80 55%, #22d3ee 80%, #a78bfa 100%);
+  --h1-clip: text; --h1-fill: transparent;
+  --avatar-glow: radial-gradient(circle, rgba(74,222,128,.28), transparent 65%);
+}
+body.t-aurora .bg-fx { overflow: hidden; }
+body.t-aurora .bg-fx::before, body.t-aurora .bg-fx::after {
+  content: ""; position: absolute; inset: -25% -40% 40% -40%;
+  background: linear-gradient(100deg, transparent 15%, rgba(74,222,128,.16) 35%, rgba(34,211,238,.13) 52%, rgba(167,139,250,.16) 68%, transparent 88%);
+  filter: blur(46px);
+  animation: aurora-flow 13s ease-in-out infinite alternate;
+}
+body.t-aurora .bg-fx::after { animation-duration: 19s; animation-delay: -6s; opacity: .6; transform: scaleY(-1); }
+@keyframes aurora-flow {
+  0% { transform: translateX(-6%) skewX(-8deg); opacity: .55; }
+  50% { opacity: .95; }
+  100% { transform: translateX(6%) skewX(6deg); opacity: .6; }
+}
+@media (prefers-reduced-motion: reduce) { body.t-aurora .bg-fx::before, body.t-aurora .bg-fx::after { animation: none; } }
+body.t-aurora .card, body.t-aurora .post, body.t-aurora .fact, body.t-aurora .contact-card,
+body.t-aurora .hero-badge, body.t-aurora .tag, body.t-aurora .section-tag {
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+body.t-aurora .card:hover { box-shadow: 0 0 30px rgba(74,222,128,.14), inset 0 0 26px rgba(167,139,250,.05); }
+body.t-aurora .card.featured { border-color: rgba(74,222,128,.45); }
+body.t-aurora .card.featured::before { background: linear-gradient(90deg, #4ade80, #22d3ee); color: #030b1a; }
+body.t-aurora .btn-primary { background: linear-gradient(90deg, #4ade80, #22d3ee); color: #030b1a; }
+body.t-aurora .btn-primary:hover { box-shadow: 0 8px 32px rgba(74,222,128,.35); }
+body.t-aurora .bar-fill { background: linear-gradient(90deg, #4ade80, #22d3ee, #a78bfa); }
+body.t-aurora .stat b { background: linear-gradient(90deg, #4ade80, #22d3ee); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+body.t-aurora .tagline { color: #22d3ee; }
+body.t-aurora .hero-badge i { background: #4ade80; }

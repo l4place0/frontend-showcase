@@ -1,0 +1,71 @@
+/* 包豪斯 Bauhaus —— 三原色几何构成 */
+.t-bauhaus {
+  --bg: #f2ede4; --bg2: #e9e2d5;
+  --surface: #fbf8f2; --surface-2: #efe9dc;
+  --border: #141414; --border-hover: #d64541;
+  --text: #141414; --text-2: #5c584f;
+  --accent: #d64541; --accent-2: #1f5fa8;
+  --nav-bg: rgba(242,237,228,.94);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Helvetica Neue", "Arial Black", Arial, "PingFang SC", sans-serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 2px;
+  --title-tt: uppercase; --title-ls: -0.5px; --title-size: 42px;
+  --bg-decor: linear-gradient(180deg, #f2ede4 0%, #e9e2d5 100%);
+  --shadow: none; --shadow-hover: none;
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+  --h1-ls: -2px;
+}
+body.t-bauhaus .bg-fx {
+  background:
+    radial-gradient(circle 150px at 88% 14%, #d64541 98%, transparent),
+    linear-gradient(45deg, transparent 49.7%, #f2b705 50%, transparent 50.3%),
+    radial-gradient(circle 90px at 6% 88%, #1f5fa8 98%, transparent),
+    linear-gradient(#f2b705, #f2b705);
+  background-size: 300px 300px, 180px 180px, 180px 180px, 90px 90px;
+  background-position: 88% 5%, 4% 30%, 3% 88%, 82% 80%;
+  background-repeat: no-repeat;
+  opacity: .9;
+}
+body.t-bauhaus nav { border-bottom-width: 4px; }
+body.t-bauhaus .logo span { background: #d64541; color: #f2ede4; padding: 0 6px; margin-left: 4px; border-radius: 50%; }
+body.t-bauhaus .hero h1 { font-weight: 900; }
+body.t-bauhaus .hero h1::after { content: ""; display: block; width: 90px; height: 45px; margin-top: 10px; background: #f2b705; border-radius: 90px 90px 0 0; }
+body.t-bauhaus .tagline { color: #1f5fa8; text-transform: uppercase; letter-spacing: 3px; }
+body.t-bauhaus .section-title::before { content: ""; display: inline-block; width: 20px; height: 20px; background: #d64541; border-radius: 50%; margin-right: 14px; vertical-align: baseline; }
+body.t-bauhaus .section-tag { background: #141414; color: #f2ede4; border-color: #141414; font-weight: 700; letter-spacing: 3px; }
+body.t-bauhaus .card { border-width: 2px; border-top-width: 10px; }
+body.t-bauhaus .card:nth-child(3n+1) { border-top-color: #d64541; }
+body.t-bauhaus .card:nth-child(3n+2) { border-top-color: #f2b705; }
+body.t-bauhaus .card:nth-child(3n) { border-top-color: #1f5fa8; }
+body.t-bauhaus .card:hover { border-color: #141414; box-shadow: 8px 8px 0 rgba(20,20,20,.12); }
+body.t-bauhaus .card.featured { border-top-color: #d64541; border-color: #d64541; }
+body.t-bauhaus .card.featured::before { background: #d64541; }
+body.t-bauhaus .btn { border: 2px solid #141414; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+body.t-bauhaus .btn-primary { background: #d64541; border-color: #d64541; color: #f2ede4; border-radius: 99px; }
+body.t-bauhaus .btn-primary:hover { background: #b93a36; }
+body.t-bauhaus .btn-ghost { border-radius: 99px; }
+body.t-bauhaus .btn-ghost:hover { border-color: #1f5fa8; color: #1f5fa8; }
+body.t-bauhaus .bar-track { border: 2px solid #141414; height: 14px; background: #fbf8f2; }
+body.t-bauhaus .bar-fill { background: #d64541; }
+body.t-bauhaus .bar-row:nth-child(2) .bar-fill { background: #f2b705; }
+body.t-bauhaus .bar-row:nth-child(3) .bar-fill { background: #1f5fa8; }
+body.t-bauhaus .bar-row:nth-child(4) .bar-fill { background: #141414; }
+body.t-bauhaus .bar-row:nth-child(5) .bar-fill { background: #d64541; }
+body.t-bauhaus .bar-row:nth-child(6) .bar-fill { background: #f2b705; }
+body.t-bauhaus .tag { border: 2px solid #141414; font-weight: 600; }
+body.t-bauhaus .tag:hover { background: #141414; color: #f2ede4; }
+body.t-bauhaus .hero-badge { border: 2px solid #141414; }
+body.t-bauhaus .hero-badge i { background: #f2b705; border: 1.5px solid #141414; animation: none; }
+body.t-bauhaus .stat b { color: #141414; }
+body.t-bauhaus .stat:nth-child(1) b { color: #d64541; }
+body.t-bauhaus .stat:nth-child(3) b { color: #1f5fa8; }
+body.t-bauhaus .fact { border: 2px solid #141414; }
+body.t-bauhaus .fact b { color: #d64541; }
+body.t-bauhaus .post { border: 2px solid #141414; }
+body.t-bauhaus .post:hover { border-color: #d64541; }
+body.t-bauhaus .contact-card { border: 2px solid #141414; }
+body.t-bauhaus .contact-ico { border: 2px solid #141414; border-radius: 50%; background: #f2b705; }
+body.t-bauhaus .contact-ico svg { fill: #141414; }
+body.t-bauhaus .gallery-link { border: 2px solid #141414; font-weight: 700; }

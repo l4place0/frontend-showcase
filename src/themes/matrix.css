@@ -1,0 +1,38 @@
+/* 黑客帝国 Matrix —— 代码雨夜，绿光觉醒 */
+.t-matrix {
+  --bg: #000000; --bg2: #020a02;
+  --surface: rgba(0,255,65,.05); --surface-2: rgba(0,255,65,.1);
+  --border: rgba(0,255,65,.22); --border-hover: #00ff41;
+  --text: #c8ffc8; --text-2: #4f9f5f;
+  --accent: #00ff41; --accent-2: #b4ffb4;
+  --nav-bg: rgba(0,0,0,.85);
+  --font-body: "JetBrains Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+  --font-head: var(--font-body);
+  --radius: 3px; --radius-sm: 2px; --bar-radius: 2px; --ribbon-radius: 0;
+  --stars-display: block;
+  --bg-decor: linear-gradient(180deg, #000000 0%, #020a02 100%);
+  --shadow: none;
+  --shadow-hover: 0 0 24px rgba(0,255,65,.22);
+  --avatar-glow: radial-gradient(circle, rgba(0,255,65,.3), transparent 65%);
+}
+body.t-matrix .hero h1 { text-shadow: 0 0 14px rgba(0,255,65,.75), 0 0 42px rgba(0,255,65,.4); letter-spacing: 4px; }
+body.t-matrix .tagline { text-shadow: 0 0 10px rgba(0,255,65,.6); }
+body.t-matrix .tagline::before { content: "> "; color: var(--text-2); }
+body.t-matrix .section-title { text-shadow: 0 0 12px rgba(0,255,65,.5); text-transform: uppercase; letter-spacing: 2px; }
+body.t-matrix .section-tag { background: rgba(0,255,65,.08); letter-spacing: 3px; }
+body.t-matrix .card:hover { box-shadow: 0 0 24px rgba(0,255,65,.2), inset 0 0 18px rgba(0,255,65,.05); }
+body.t-matrix .card.featured { border-color: var(--accent); }
+body.t-matrix .card.featured::before { content: "★ THE ONE"; background: var(--accent); color: #000; border-radius: 0; }
+body.t-matrix .btn { letter-spacing: 1px; }
+body.t-matrix .btn-primary { background: var(--accent); color: #000; font-weight: 700; }
+body.t-matrix .btn-primary:hover { box-shadow: 0 0 30px rgba(0,255,65,.5); }
+body.t-matrix .btn-ghost:hover { box-shadow: 0 0 16px rgba(0,255,65,.25); }
+body.t-matrix .bar-track { border: 1px solid rgba(0,255,65,.25); background: transparent; height: 12px; }
+body.t-matrix .bar-fill { background: repeating-linear-gradient(90deg, var(--accent) 0 4px, transparent 4px 6px); }
+body.t-matrix .hero-badge i { border-radius: 0; animation: matrixblink 1s steps(2) infinite; }
+@keyframes matrixblink { 50% { opacity: .1; box-shadow: none; } }
+body.t-matrix .stat b { text-shadow: 0 0 10px rgba(0,255,65,.6); }
+body.t-matrix .logo::after { content: "_"; color: var(--accent); animation: matrixblink 1s steps(2) infinite; }
+body.t-matrix .tag:hover { box-shadow: 0 0 12px rgba(0,255,65,.25); }
+body.t-matrix .contact-ico svg { fill: var(--accent); }
+body.t-matrix .post:hover .post-body h3 { text-shadow: 0 0 8px rgba(0,255,65,.5); }

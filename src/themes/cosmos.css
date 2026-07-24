@@ -1,0 +1,18 @@
+/* 太空漫游 Cosmos —— 深空星域，青紫辉光 */
+.t-cosmos {
+  --bg: #060a1a; --bg2: #0b1030;
+  --surface: rgba(148,163,255,.055); --surface-2: rgba(148,163,255,.11);
+  --border: rgba(148,163,255,.14); --border-hover: rgba(125,211,252,.55);
+  --text: #e7ebff; --text-2: #98a1c8;
+  --accent: #7dd3fc; --accent-2: #c084fc;
+  --nav-bg: rgba(6,10,26,.7);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --stars-display: block;
+  --bg-decor:
+    radial-gradient(60% 45% at 75% 8%, rgba(192,132,252,.1), transparent 70%),
+    radial-gradient(55% 40% at 15% 85%, rgba(125,211,252,.09), transparent 70%),
+    linear-gradient(180deg, #060a1a 0%, #0b1030 100%);
+  --h1-grad: linear-gradient(120deg, #e7ebff 30%, #7dd3fc 70%, #c084fc);
+  --h1-clip: text; --h1-fill: transparent;
+}

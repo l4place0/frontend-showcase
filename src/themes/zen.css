@@ -1,0 +1,55 @@
+/* 禅意东方 Zen —— 留白墨色，细线朱砂 */
+.t-zen {
+  --bg: #f5f3ec; --bg2: #edeade;
+  --surface: transparent; --surface-2: #e8e4d6;
+  --border: rgba(43,43,43,.22); --border-hover: #c73e3a;
+  --text: #2b2b2b; --text-2: #7d7a70;
+  --accent: #3d5a45; --accent-2: #c73e3a;
+  --nav-bg: rgba(245,243,236,.9);
+  --font-body: "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+  --font-head: "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bg-decor: linear-gradient(180deg, #f5f3ec 0%, #edeade 100%);
+  --shadow: none; --shadow-hover: none;
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+}
+body.t-zen section { padding-top: 110px; }
+body.t-zen .hero h1 { font-weight: 400; letter-spacing: 12px; }
+body.t-zen .hero h1::after { content: ""; display: block; width: 1px; height: 52px; background: var(--text); margin-top: 22px; opacity: .5; }
+body.t-zen .tagline { color: var(--accent); font-weight: 400; letter-spacing: 6px; }
+body.t-zen .tagline::before { content: "【"; color: var(--accent-2); }
+body.t-zen .tagline::after { content: "】"; color: var(--accent-2); }
+body.t-zen .hero-badge { background: transparent; border: none; border-left: 2px solid var(--accent-2); border-radius: 0; padding: 4px 12px; }
+body.t-zen .hero-badge i { background: var(--accent-2); border-radius: 0; width: 6px; height: 6px; animation: none; }
+body.t-zen .section-title { font-weight: 400; letter-spacing: 8px; }
+body.t-zen .section-title::before { content: ""; display: block; width: 34px; height: 2px; background: var(--accent-2); margin-bottom: 18px; }
+body.t-zen .section-tag { display: none; }
+body.t-zen .card { border: none; border-top: 1px solid var(--border); padding: 26px 2px 20px; background: transparent; }
+body.t-zen .card:hover { border-top-color: var(--text); box-shadow: none; }
+body.t-zen .card.featured { border-top: 2px solid var(--accent-2); }
+body.t-zen .card.featured::before { content: "特"; background: var(--accent-2); border-radius: 0; padding: 3px 9px; }
+body.t-zen .card h3 { font-weight: 400; letter-spacing: 2px; }
+body.t-zen .lang { border: none; background: var(--surface-2); border-radius: 0; }
+body.t-zen .btn { border: 1px solid var(--text); font-weight: 400; letter-spacing: 3px; border-radius: 0; }
+body.t-zen .btn-primary { background: var(--text); color: var(--bg); }
+body.t-zen .btn-primary:hover { background: var(--accent); border-color: var(--accent); box-shadow: none; }
+body.t-zen .btn-ghost:hover { border-color: var(--accent); color: var(--accent); box-shadow: none; }
+body.t-zen .post { border: none; border-top: 1px solid var(--border); padding: 24px 2px; background: transparent; }
+body.t-zen .post:last-child { border-bottom: 1px solid var(--border); }
+body.t-zen .post:hover { box-shadow: none; }
+body.t-zen .post:hover .post-body h3 { color: var(--accent); }
+body.t-zen .fact { border: none; background: transparent; border-bottom: 1px solid var(--border); padding: 14px 2px; }
+body.t-zen .fact b { font-weight: 400; color: var(--accent); letter-spacing: 1px; }
+body.t-zen .bar-track { background: var(--surface-2); height: 2px; }
+body.t-zen .bar-fill { background: var(--text); height: 100%; }
+body.t-zen .bar-row:first-child .bar-fill { background: var(--accent-2); }
+body.t-zen .tag { border: none; border-bottom: 1px solid var(--border); background: transparent; border-radius: 0; padding: 4px 4px; }
+body.t-zen .tag:hover { border-bottom-color: var(--accent); color: var(--accent); }
+body.t-zen .stat b { font-weight: 400; color: var(--text); }
+body.t-zen .stat span { letter-spacing: 2px; }
+body.t-zen .contact-card { border: none; border-top: 1px solid var(--border); background: transparent; }
+body.t-zen .contact-card:hover { border-top-color: var(--accent); box-shadow: none; }
+body.t-zen .contact-ico { border: 1px solid var(--border); border-radius: 50%; background: transparent; }
+body.t-zen .contact-ico svg { fill: var(--text); }
+body.t-zen .skills-note { border-left: 1px solid var(--border); padding-left: 14px; }

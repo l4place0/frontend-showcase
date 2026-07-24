@@ -1,0 +1,74 @@
+/* 孟菲斯 Memphis —— 几何撞色， playful 80s */
+.t-memphis {
+  --bg: #fff9e8; --bg2: #fff2d0;
+  --surface: #ffffff; --surface-2: #ffe9f0;
+  --border: #12121a; --border-hover: #12121a;
+  --text: #12121a; --text-2: #5c5c6a;
+  --accent: #f6416c; --accent-2: #00b8a9;
+  --nav-bg: rgba(255,249,232,.94);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Helvetica Neue", "PingFang SC", sans-serif;
+  --radius: 14px; --radius-sm: 8px; --bar-radius: 8px;
+  --bw: 2.5px;
+  --bg-decor: linear-gradient(180deg, #fff9e8 0%, #fff2d0 100%);
+  --shadow: 5px 5px 0 #12121a;
+  --shadow-hover: 8px 8px 0 #f6416c;
+  --card-hover-tf: translate(-3px,-3px) rotate(-.5deg);
+  --btn-hover-tf: translate(-2px,-2px);
+  --tag-hover-tf: translate(-2px,-2px) rotate(-1deg);
+  --post-hover-tf: translate(-3px,-3px);
+  --avatar-glow: none;
+  --avatar-anim: float 4s ease-in-out infinite;
+}
+body.t-memphis .bg-fx {
+  background-image:
+    radial-gradient(circle at 8% 20%, transparent 8px, #f6416c 8px 10px, transparent 10px),
+    radial-gradient(#00b8a9 2.5px, transparent 3px),
+    radial-gradient(#ffd23f 2.5px, transparent 3px),
+    linear-gradient(45deg, transparent 46%, #7b61ff 46% 54%, transparent 54%);
+  background-size: 260px 260px, 90px 90px, 120px 120px, 200px 200px;
+  background-position: 0 0, 30px 60px, 80px 20px, 140px 100px;
+  opacity: .5;
+}
+body.t-memphis .hero h1 { color: #12121a; }
+body.t-memphis .hero h1::first-letter { color: #f6416c; }
+body.t-memphis .tagline { color: #00b8a9; font-weight: 800; }
+body.t-memphis .section-title { color: #12121a; }
+body.t-memphis .section-title::after { content: ""; display: inline-block; width: 44px; height: 10px; margin-left: 14px; background: repeating-linear-gradient(-45deg, #ffd23f 0 6px, transparent 6px 11px); }
+body.t-memphis .section-tag { background: #ffd23f; color: #12121a; border-color: #12121a; font-weight: 800; }
+body.t-memphis .card { border-color: #12121a; }
+body.t-memphis .card:nth-child(3n+1) { border-radius: 22px 6px 22px 6px; }
+body.t-memphis .card:nth-child(3n+2) { border-radius: 6px 22px 6px 22px; }
+body.t-memphis .card.featured { background: #ffe9f0; border-color: #f6416c; border-width: 3px; }
+body.t-memphis .card.featured::before { background: #00b8a9; color: #fff; border: 2px solid #12121a; border-radius: 99px 0 0 99px; }
+body.t-memphis .card .star { color: #f6416c; font-weight: 800; }
+body.t-memphis .btn { border: 2.5px solid #12121a; font-weight: 800; border-radius: 99px; }
+body.t-memphis .btn-primary { background: #f6416c; color: #fff; box-shadow: 4px 4px 0 #12121a; }
+body.t-memphis .btn-primary:hover { box-shadow: 7px 7px 0 #00b8a9; }
+body.t-memphis .btn-ghost { background: #fff; box-shadow: 4px 4px 0 #12121a; }
+body.t-memphis .btn-ghost:hover { box-shadow: 7px 7px 0 #ffd23f; border-color: #12121a; }
+body.t-memphis .lang { border: 2px solid #12121a; background: #fff; color: #12121a; font-weight: 600; }
+body.t-memphis .lang:nth-child(odd) { background: #d9f4f1; }
+body.t-memphis .tag { border: 2.5px solid #12121a; background: #fff; font-weight: 600; }
+body.t-memphis .tag:nth-child(3n+1) { background: #ffe9f0; }
+body.t-memphis .tag:nth-child(3n+2) { background: #d9f4f1; }
+body.t-memphis .tag:nth-child(3n) { background: #fff3c4; }
+body.t-memphis .bar-track { border: 2.5px solid #12121a; height: 15px; background: #fff; }
+body.t-memphis .bar-fill { background: repeating-linear-gradient(-45deg, #f6416c 0 8px, #ff8fab 8px 16px); border-right: 2.5px solid #12121a; }
+body.t-memphis .bar-row:nth-child(2) .bar-fill { background: repeating-linear-gradient(-45deg, #00b8a9 0 8px, #6fd9cd 8px 16px); }
+body.t-memphis .bar-row:nth-child(3) .bar-fill { background: repeating-linear-gradient(-45deg, #ffd23f 0 8px, #ffe89a 8px 16px); }
+body.t-memphis .bar-row:nth-child(4) .bar-fill { background: repeating-linear-gradient(-45deg, #7b61ff 0 8px, #b3a3ff 8px 16px); }
+body.t-memphis .hero-badge { border: 2.5px solid #12121a; background: #fff; }
+body.t-memphis .hero-badge i { background: #00b8a9; border-radius: 0; transform: rotate(45deg); animation: none; }
+body.t-memphis .stat b { color: #f6416c; }
+body.t-memphis .stat:nth-child(2) b { color: #00b8a9; }
+body.t-memphis .stat:nth-child(3) b { color: #7b61ff; }
+body.t-memphis .stat:nth-child(4) b { color: #e8a200; }
+body.t-memphis .fact { border: 2.5px solid #12121a; background: #fff; }
+body.t-memphis .fact b { color: #f6416c; }
+body.t-memphis .post { border: 2.5px solid #12121a; background: #fff; }
+body.t-memphis .post-meta em { font-weight: 800; }
+body.t-memphis .contact-card { border: 2.5px solid #12121a; background: #fff; }
+body.t-memphis .contact-ico { border: 2px solid #12121a; background: #fff3c4; border-radius: 50%; }
+body.t-memphis .contact-ico svg { fill: #12121a; }
+body.t-memphis .gallery-link { border: 2.5px solid #12121a; background: #fff; font-weight: 700; border-radius: 99px; }

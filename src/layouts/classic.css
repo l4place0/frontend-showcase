@@ -1,0 +1,5 @@
+/* 布局·经典单栏 —— 垂直阅读流，返璞归真（基准版式） */
+body.l-classic section { padding-top: 110px; }
+body.l-classic .section-title { margin-bottom: 14px; }
+body.l-classic .hero { min-height: 92vh; }
+body.l-classic footer { margin-top: 80px; }

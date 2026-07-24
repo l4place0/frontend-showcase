@@ -1,0 +1,22 @@
+/* 布局·时间线 —— 竖线串珠，节点标记 */
+body.l-timeline main { position: relative; max-width: 880px; margin: 0 auto; counter-reset: secno; }
+body.l-timeline main::before {
+  content: ""; position: absolute; left: 36px; top: 60px; bottom: 40px;
+  width: 2px; background: var(--border);
+}
+body.l-timeline main section { position: relative; padding-left: 92px; padding-right: 0; }
+body.l-timeline main section::before {
+  content: ""; position: absolute; left: 28px; top: 106px;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--bg); border: 2.5px solid var(--accent);
+}
+body.l-timeline .section-tag::before {
+  counter-increment: secno; content: counter(secno, decimal-leading-zero) " · ";
+  color: var(--text-2);
+}
+body.l-timeline .hero { max-width: 880px; }
+@media (max-width: 640px) {
+  body.l-timeline main::before { left: 20px; }
+  body.l-timeline main section { padding-left: 56px; }
+  body.l-timeline main section::before { left: 12px; }
+}

@@ -1,0 +1,62 @@
+/* 糖果马卡龙 Candy —— pastel 甜点铺 */
+.t-candy {
+  --bg: #fff0f6; --bg2: #ffe3ef;
+  --surface: #ffffff; --surface-2: #ffeef5;
+  --border: rgba(255,143,179,.35); --border-hover: #ff8fb3;
+  --text: #5c4a5a; --text-2: #a08a9c;
+  --accent: #ff8fb3; --accent-2: #8fc7ff;
+  --nav-bg: rgba(255,240,246,.88);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 26px; --radius-sm: 99px; --bar-radius: 99px;
+  --bg-decor: linear-gradient(180deg, #fff0f6 0%, #ffe3ef 100%);
+  --shadow: 0 8px 24px rgba(255,143,179,.16);
+  --shadow-hover: 0 14px 36px rgba(255,143,179,.26);
+  --avatar-glow: radial-gradient(circle, rgba(255,143,179,.4), transparent 65%);
+}
+body.t-candy .bg-fx {
+  background:
+    radial-gradient(ellipse 160px 60px at 20% 16%, rgba(255,255,255,.95), transparent 70%),
+    radial-gradient(ellipse 200px 70px at 75% 10%, rgba(255,255,255,.9), transparent 70%),
+    radial-gradient(ellipse 180px 60px at 55% 88%, rgba(255,255,255,.85), transparent 70%),
+    radial-gradient(ellipse 150px 55px at 90% 70%, rgba(255,255,255,.8), transparent 70%);
+}
+body.t-candy .hero h1 { color: #ff8fb3; }
+body.t-candy .tagline { color: #8fc7ff; font-weight: 700; }
+body.t-candy .section-title { color: #5c4a5a; }
+body.t-candy .section-tag { background: #fff; border-color: rgba(255,143,179,.4); color: #ff8fb3; font-weight: 700; }
+body.t-candy .card { border-color: rgba(255,143,179,.25); }
+body.t-candy .card:nth-child(3n+2) { border-color: rgba(143,199,255,.35); }
+body.t-candy .card:nth-child(3n) { border-color: rgba(255,209,102,.45); }
+body.t-candy .card.featured { border-color: #ff8fb3; border-width: 2px; }
+body.t-candy .card.featured::before { background: linear-gradient(90deg, #ff8fb3, #8fc7ff); }
+body.t-candy .btn { border-radius: 99px; font-weight: 700; }
+body.t-candy .btn-primary { background: linear-gradient(90deg, #ff8fb3, #ffa8c6); color: #fff; }
+body.t-candy .btn-ghost { background: #fff; border-color: rgba(143,199,255,.5); }
+body.t-candy .btn-ghost:hover { border-color: #8fc7ff; color: #8fc7ff; }
+body.t-candy .lang { background: #ffeef5; border-color: rgba(255,143,179,.3); color: #b0788f; }
+body.t-candy .lang:nth-child(even) { background: #e8f3ff; border-color: rgba(143,199,255,.35); color: #6a94c4; }
+body.t-candy .tag { background: #fff; border-width: 1.5px; }
+body.t-candy .tag:nth-child(4n+1) { border-color: rgba(255,143,179,.5); color: #ff8fb3; }
+body.t-candy .tag:nth-child(4n+2) { border-color: rgba(143,199,255,.55); color: #6aa8e0; }
+body.t-candy .tag:nth-child(4n+3) { border-color: rgba(255,209,102,.6); color: #d9a520; }
+body.t-candy .tag:nth-child(4n) { border-color: rgba(168,230,183,.7); color: #5da86f; }
+body.t-candy .bar-track { background: #ffeef5; height: 12px; }
+body.t-candy .bar-fill { background: linear-gradient(90deg, #ff8fb3, #8fc7ff); }
+body.t-candy .bar-row:nth-child(2) .bar-fill { background: linear-gradient(90deg, #8fc7ff, #a8e6b7); }
+body.t-candy .bar-row:nth-child(3) .bar-fill { background: linear-gradient(90deg, #ffd166, #ff8fb3); }
+body.t-candy .bar-row:nth-child(4) .bar-fill { background: linear-gradient(90deg, #c3aef0, #8fc7ff); }
+body.t-candy .hero-badge { background: #fff; border-color: rgba(255,143,179,.4); }
+body.t-candy .hero-badge i { background: #ffd166; }
+body.t-candy .stat b { color: #ff8fb3; }
+body.t-candy .stat:nth-child(2) b { color: #8fc7ff; }
+body.t-candy .stat:nth-child(3) b { color: #d9a520; }
+body.t-candy .stat:nth-child(4) b { color: #5da86f; }
+body.t-candy .fact { background: #fff; border-color: rgba(255,143,179,.3); }
+body.t-candy .fact b { color: #ff8fb3; }
+body.t-candy .post { background: #fff; border-color: rgba(255,143,179,.25); }
+body.t-candy .post:hover { border-color: #ff8fb3; }
+body.t-candy .contact-card { background: #fff; border-color: rgba(255,143,179,.3); }
+body.t-candy .contact-ico { background: #ffeef5; border-color: rgba(255,143,179,.35); border-radius: 50%; }
+body.t-candy .contact-ico svg { fill: #ff8fb3; }
+body.t-candy .gallery-link { border-radius: 99px; background: #fff; }

@@ -1,0 +1,32 @@
+/* 布局·对话流 —— 区块成气泡，左右交谈 */
+body.l-chatflow main { max-width: 900px; margin: 0 auto; }
+body.l-chatflow main section {
+  max-width: 640px; margin-bottom: 44px; padding: 32px 34px;
+  border: 1.5px solid var(--border); background: var(--surface);
+  position: relative;
+}
+body.l-chatflow main section:nth-of-type(odd) {
+  margin-right: auto; border-radius: 24px 24px 24px 6px;
+}
+body.l-chatflow main section:nth-of-type(even) {
+  margin-left: auto; border-radius: 24px 24px 6px 24px;
+}
+body.l-chatflow main section::after {
+  content: ""; position: absolute; bottom: -11px; width: 20px; height: 20px;
+  background: var(--surface); border-bottom: 1.5px solid var(--border);
+}
+body.l-chatflow main section:nth-of-type(odd)::after {
+  left: 26px; border-left: 1.5px solid var(--border);
+  transform: rotate(-45deg); clip-path: polygon(0 0, 100% 0, 0 100%);
+  border: none; background: var(--surface);
+  box-shadow: -1.5px 1.5px 0 0 var(--border);
+}
+body.l-chatflow main section:nth-of-type(even)::after {
+  right: 26px; transform: rotate(45deg);
+  box-shadow: 1.5px 1.5px 0 0 var(--border);
+}
+body.l-chatflow .section-tag { margin-bottom: 10px; }
+body.l-chatflow .section-title { font-size: 24px; }
+body.l-chatflow .section-desc { margin-bottom: 26px; }
+body.l-chatflow .skills-wrap, body.l-chatflow .about-wrap { grid-template-columns: 1fr; gap: 26px; }
+body.l-chatflow .projects-grid { grid-template-columns: 1fr; }

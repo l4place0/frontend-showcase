@@ -1,0 +1,53 @@
+/* 装饰艺术 Art Deco —— 黑金几何，对称奢华 */
+.t-artdeco {
+  --bg: #0c0c0e; --bg2: #141416;
+  --surface: rgba(201,162,39,.06); --surface-2: rgba(201,162,39,.12);
+  --border: rgba(201,162,39,.42); --border-hover: #e5c76b;
+  --text: #f2ead8; --text-2: #a89a7c;
+  --accent: #e5c76b; --accent-2: #c9a227;
+  --nav-bg: rgba(12,12,14,.88);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: Georgia, "Times New Roman", "Noto Serif SC", serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --title-tt: uppercase; --title-ls: 4px; --title-size: 34px;
+  --bg-decor: linear-gradient(180deg, #0c0c0e 0%, #141416 100%);
+  --shadow: none; --shadow-hover: 0 0 30px rgba(201,162,39,.15);
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: radial-gradient(circle, rgba(201,162,39,.28), transparent 65%);
+  --h1-ls: 6px;
+}
+body.t-artdeco .bg-fx {
+  background:
+    repeating-conic-gradient(from 0deg at 50% -20%, rgba(201,162,39,.05) 0deg 6deg, transparent 6deg 12deg);
+}
+body.t-artdeco .hero h1 { text-transform: uppercase; font-weight: 400; }
+body.t-artdeco .hero h1::after {
+  content: ""; display: block; width: 180px; height: 12px; margin: 18px auto 0;
+  background:
+    linear-gradient(90deg, transparent 0 38%, var(--accent) 38% 62%, transparent 62%),
+    linear-gradient(90deg, var(--accent), var(--accent));
+  background-size: 100% 2px, 100% 1px; background-position: 0 8px, 0 3px; background-repeat: no-repeat;
+}
+body.t-artdeco .hero { text-align: center; flex-direction: column; justify-content: center; }
+body.t-artdeco .hero-desc { margin-left: auto; margin-right: auto; }
+body.t-artdeco .hero-cta, body.t-artdeco .hero-stats { justify-content: center; }
+body.t-artdeco .section-title { text-align: center; font-weight: 400; }
+body.t-artdeco .section-title::before, body.t-artdeco .section-title::after {
+  content: "◆"; color: var(--accent-2); font-size: 13px; margin: 0 16px; vertical-align: middle;
+}
+body.t-artdeco .reveal > .section-desc { text-align: center; margin-left: auto; margin-right: auto; }
+body.t-artdeco .section-tag { display: block; width: fit-content; margin: 0 auto 14px; background: transparent; letter-spacing: 5px; }
+body.t-artdeco .card, body.t-artdeco .post, body.t-artdeco .fact, body.t-artdeco .contact-card {
+  outline: 1px solid rgba(201,162,39,.18); outline-offset: -6px;
+}
+body.t-artdeco .card:hover, body.t-artdeco .post:hover, body.t-artdeco .contact-card:hover { border-color: var(--accent); }
+body.t-artdeco .card.featured::before { background: var(--accent-2); color: #0c0c0e; }
+body.t-artdeco .btn { letter-spacing: 2px; text-transform: uppercase; font-size: 13px; }
+body.t-artdeco .btn-primary { background: transparent; color: var(--accent); border-color: var(--accent-2); }
+body.t-artdeco .btn-primary:hover { background: rgba(201,162,39,.12); box-shadow: 0 0 24px rgba(201,162,39,.2); }
+body.t-artdeco .bar-track { border: 1px solid var(--border); background: transparent; height: 10px; }
+body.t-artdeco .bar-fill { background: linear-gradient(90deg, var(--accent-2), var(--accent)); }
+body.t-artdeco .hero-badge i { border-radius: 0; transform: rotate(45deg); animation: none; background: var(--accent); }
+body.t-artdeco .stat b { font-weight: 400; letter-spacing: 2px; }
+body.t-artdeco .contact-ico { transform: rotate(45deg); border-color: var(--border); }
+body.t-artdeco .contact-ico svg { transform: rotate(-45deg); }

@@ -1,0 +1,24 @@
+/* 落日余晖 Sunset —— 暖橙暗色，柔和圆润 */
+.t-sunset {
+  --bg: #1b1114; --bg2: #2a161d;
+  --surface: rgba(251,146,60,.065); --surface-2: rgba(251,146,60,.12);
+  --border: rgba(251,146,60,.17); --border-hover: rgba(251,146,60,.6);
+  --text: #fdf0e6; --text-2: #c49b92;
+  --accent: #fb923c; --accent-2: #f472b6;
+  --nav-bg: rgba(27,17,20,.75);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 22px; --radius-sm: 14px;
+  --bg-decor: linear-gradient(180deg, #1b1114 0%, #2a161d 100%);
+  --h1-grad: linear-gradient(120deg, #fb923c 20%, #f472b6 80%);
+  --h1-clip: text; --h1-fill: transparent;
+}
+body.t-sunset .bg-fx {
+  background:
+    radial-gradient(circle at 50% 118%, rgba(251,146,60,.32), transparent 52%),
+    radial-gradient(circle at 50% 118%, rgba(244,114,182,.2), transparent 68%);
+}
+body.t-sunset .avatar-wrap::after { filter: blur(16px); }
+body.t-sunset .btn { border-radius: 99px; }
+body.t-sunset .btn-primary { background: linear-gradient(120deg, #fb923c, #f472b6); color: #2a1010; }
+body.t-sunset .section-tag { border-radius: 99px; }

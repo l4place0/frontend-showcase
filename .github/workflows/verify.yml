@@ -1,0 +1,41 @@
+name: Verify museum
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install project metadata
+        run: npm ci
+
+      - name: Generate, validate, and package
+        run: npm run build
+
+      - name: Upload static artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-style-museum
+          path: dist/
+          if-no-files-found: error

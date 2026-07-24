@@ -1,0 +1,25 @@
+/* 暗黑极简 Midnight —— 纯黑克制，一束电蓝 */
+.t-midnight {
+  --bg: #000000; --bg2: #0a0a0a;
+  --surface: rgba(255,255,255,.028); --surface-2: rgba(255,255,255,.06);
+  --border: rgba(255,255,255,.12); --border-hover: rgba(59,130,246,.8);
+  --text: #f5f5f5; --text-2: #6b6b6b;
+  --accent: #3b82f6; --accent-2: #60a5fa;
+  --nav-bg: rgba(0,0,0,.78);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 10px; --radius-sm: 8px;
+  --bg-decor: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+  --shadow: none; --shadow-hover: none;
+  --avatar-glow: radial-gradient(circle, rgba(59,130,246,.16), transparent 65%);
+}
+body.t-midnight .hero h1 { font-weight: 800; letter-spacing: -2px; }
+body.t-midnight .section-title { letter-spacing: -1px; }
+body.t-midnight .section-tag { border: none; background: var(--surface); letter-spacing: 4px; font-size: 11.5px; }
+body.t-midnight .card:hover { background: rgba(59,130,246,.04); }
+body.t-midnight .card.featured { border-color: rgba(59,130,246,.45); }
+body.t-midnight .btn-primary:hover { box-shadow: 0 0 32px rgba(59,130,246,.4); }
+body.t-midnight .bar-fill { background: var(--accent); }
+body.t-midnight .hero-badge i { animation: none; }
+body.t-midnight .stat b { font-weight: 800; }
+body.t-midnight .contact-ico svg { fill: var(--text); }

@@ -1,0 +1,40 @@
+/* 玻璃拟态 Glass —— 流光背景，毛玻璃卡片 */
+.t-glass {
+  --bg: #20204a; --bg2: #151538;
+  --surface: rgba(255,255,255,.09); --surface-2: rgba(255,255,255,.14);
+  --border: rgba(255,255,255,.22); --border-hover: rgba(255,255,255,.5);
+  --text: #ffffff; --text-2: rgba(255,255,255,.68);
+  --accent: #8be9fd; --accent-2: #ff9ff3;
+  --nav-bg: rgba(32,32,74,.4);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 20px; --radius-sm: 14px;
+  --bg-decor: linear-gradient(160deg, #20204a 0%, #151538 100%);
+  --shadow: 0 8px 32px rgba(0,0,0,.25);
+  --shadow-hover: 0 14px 44px rgba(0,0,0,.32);
+  --avatar-glow: radial-gradient(circle, rgba(255,159,243,.3), transparent 65%);
+}
+body.t-glass .bg-fx {
+  background:
+    radial-gradient(circle at 18% 22%, rgba(123,47,247,.55), transparent 42%),
+    radial-gradient(circle at 82% 18%, rgba(0,198,255,.45), transparent 40%),
+    radial-gradient(circle at 72% 82%, rgba(241,7,163,.42), transparent 46%),
+    radial-gradient(circle at 22% 85%, rgba(255,190,80,.3), transparent 40%);
+  filter: blur(50px);
+}
+body.t-glass .card,
+body.t-glass .post,
+body.t-glass .fact,
+body.t-glass .contact-card,
+body.t-glass .hero-badge,
+body.t-glass .section-tag,
+body.t-glass .tag,
+body.t-glass .btn-ghost {
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+body.t-glass .hero h1 { text-shadow: 0 2px 24px rgba(0,0,0,.35); }
+body.t-glass .btn-primary { background: rgba(255,255,255,.92); color: #20204a; }
+body.t-glass .btn-primary:hover { background: #fff; }
+body.t-glass .bar-track { background: rgba(255,255,255,.12); }
+body.t-glass .bar-fill { background: linear-gradient(90deg, #8be9fd, #ff9ff3); }
+body.t-glass .card.featured::before { background: rgba(255,255,255,.92); color: #20204a; }

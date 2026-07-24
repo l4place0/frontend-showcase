@@ -1,0 +1,18 @@
+/* 布局·左右分屏 —— 左固定简介，右滚内容 */
+@media (min-width: 901px) {
+  body.l-split-screen .hero {
+    position: fixed; left: 0; top: 38px; bottom: 0; width: 42%;
+    flex-direction: column; justify-content: center; align-items: flex-start;
+    padding: 90px 44px 40px; gap: 30px; z-index: 5;
+    background: var(--bg); border-right: 1.5px solid var(--border);
+    min-height: 0; max-width: none;
+  }
+  body.l-split-screen .hero-left { flex: none; }
+  body.l-split-screen .hero-right { flex: none; }
+  body.l-split-screen .avatar-wrap { width: min(150px, 30vw); }
+  body.l-split-screen .hero-stats { flex-direction: column; gap: 14px; margin-top: 30px; }
+  body.l-split-screen main { margin-left: 42%; }
+  body.l-split-screen main section { max-width: 760px; padding-left: 48px; padding-right: 40px; margin: 0; }
+  body.l-split-screen nav { left: 42%; }
+  body.l-split-screen footer { margin-left: 42%; max-width: 760px; }
+}

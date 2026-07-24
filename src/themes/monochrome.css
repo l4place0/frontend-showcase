@@ -1,0 +1,43 @@
+/* 黑白灰 Monochrome —— 零彩色，摄影集质感 */
+.t-monochrome {
+  --bg: #fafafa; --bg2: #f0f0f0;
+  --surface: #ffffff; --surface-2: #f0f0f0;
+  --border: #d4d4d4; --border-hover: #171717;
+  --text: #171717; --text-2: #737373;
+  --accent: #262626; --accent-2: #a3a3a3;
+  --nav-bg: rgba(250,250,250,.88);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Helvetica Neue", Helvetica, Arial, "PingFang SC", sans-serif;
+  --radius: 2px; --radius-sm: 2px; --bar-radius: 2px;
+  --bg-decor: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%);
+  --shadow: none;
+  --shadow-hover: 0 14px 34px rgba(0,0,0,.1);
+  --avatar-glow: none;
+  --title-ls: -0.5px; --title-size: 38px;
+}
+body.t-monochrome ::selection { background: #171717; color: #fafafa; }
+body.t-monochrome .hero h1 { font-weight: 800; letter-spacing: -3px; }
+body.t-monochrome .tagline { font-weight: 400; letter-spacing: 6px; text-transform: uppercase; font-size: 15px; }
+body.t-monochrome .section-tag { background: #171717; color: #fafafa; border-color: #171717; letter-spacing: 4px; }
+body.t-monochrome .card { border-color: #e5e5e5; }
+body.t-monochrome .card:hover { border-color: #171717; }
+body.t-monochrome .card.featured { border-color: #171717; border-width: 2px; }
+body.t-monochrome .card.featured::before { background: #171717; }
+body.t-monochrome .btn { border-radius: 2px; font-weight: 600; }
+body.t-monochrome .btn-primary { background: #171717; color: #fafafa; }
+body.t-monochrome .btn-primary:hover { background: #404040; }
+body.t-monochrome .btn-ghost:hover { border-color: #171717; }
+body.t-monochrome .bar-track { background: #e5e5e5; height: 10px; }
+body.t-monochrome .bar-fill { background: #171717; }
+body.t-monochrome .bar-row:nth-child(2) .bar-fill { background: #525252; }
+body.t-monochrome .bar-row:nth-child(3) .bar-fill { background: #737373; }
+body.t-monochrome .bar-row:nth-child(4) .bar-fill { background: #a3a3a3; }
+body.t-monochrome .bar-row:nth-child(5) .bar-fill { background: #c4c4c4; }
+body.t-monochrome .bar-row:nth-child(6) .bar-fill { background: #d4d4d4; }
+body.t-monochrome .tag:hover { background: #171717; color: #fafafa; }
+body.t-monochrome .stat b { color: #171717; font-weight: 800; }
+body.t-monochrome .hero-badge i { background: #171717; animation: none; }
+body.t-monochrome .fact { border-left: 3px solid #171717; }
+body.t-monochrome .fact b { color: #171717; }
+body.t-monochrome .post-meta em { font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+body.t-monochrome .contact-ico svg { fill: #171717; }

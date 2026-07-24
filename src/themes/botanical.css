@@ -1,0 +1,52 @@
+/* 植物系 Botanical —— 鼠尾草绿，有机生长 */
+.t-botanical {
+  --bg: #f4f5ef; --bg2: #e9ede0;
+  --surface: #ffffff; --surface-2: #eef1e5;
+  --border: rgba(95,127,90,.28); --border-hover: #5f7f5a;
+  --text: #2e3b2f; --text-2: #6b7a68;
+  --accent: #5f7f5a; --accent-2: #c9a86a;
+  --nav-bg: rgba(244,245,239,.88);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: Georgia, "Noto Serif SC", "Songti SC", serif;
+  --radius: 26px 26px 26px 8px; --radius-sm: 16px 16px 16px 4px; --bar-radius: 99px;
+  --bg-decor: linear-gradient(180deg, #f4f5ef 0%, #e9ede0 100%);
+  --shadow: 0 6px 20px rgba(70,95,66,.09);
+  --shadow-hover: 0 14px 34px rgba(70,95,66,.16);
+  --avatar-glow: radial-gradient(circle, rgba(95,127,90,.28), transparent 65%);
+}
+body.t-botanical .bg-fx {
+  background:
+    radial-gradient(circle at 90% 8%, rgba(95,127,90,.1), transparent 30%),
+    radial-gradient(circle at 4% 60%, rgba(201,168,106,.09), transparent 28%),
+    radial-gradient(circle at 60% 95%, rgba(95,127,90,.08), transparent 32%);
+}
+body.t-botanical .hero h1 { color: #2e3b2f; }
+body.t-botanical .tagline { color: #5f7f5a; font-style: italic; }
+body.t-botanical .section-tag { background: #eef1e5; border-color: rgba(95,127,90,.3); border-radius: 99px 99px 99px 4px; }
+body.t-botanical .section-title::after { content: "❧"; color: var(--accent); font-size: .6em; margin-left: 12px; opacity: .7; }
+body.t-botanical .card { border-radius: 28px 28px 28px 8px; border-color: rgba(95,127,90,.22); }
+body.t-botanical .card:nth-child(even) { border-radius: 28px 28px 8px 28px; }
+body.t-botanical .card.featured { border-color: #5f7f5a; border-width: 2px; }
+body.t-botanical .card.featured::before { background: #5f7f5a; }
+body.t-botanical .btn { border-radius: 99px 99px 99px 12px; }
+body.t-botanical .btn-primary { background: #5f7f5a; color: #f4f5ef; }
+body.t-botanical .btn-primary:hover { background: #4d6a49; }
+body.t-botanical .btn-ghost { border-color: rgba(95,127,90,.35); }
+body.t-botanical .btn-ghost:hover { border-color: #5f7f5a; }
+body.t-botanical .lang { border-radius: 99px 99px 99px 6px; }
+body.t-botanical .tag { border-radius: 99px 99px 99px 8px; border-color: rgba(95,127,90,.3); }
+body.t-botanical .tag:hover { background: #5f7f5a; color: #f4f5ef; border-color: #5f7f5a; }
+body.t-botanical .bar-track { background: #e2e7d6; height: 10px; }
+body.t-botanical .bar-fill { background: linear-gradient(90deg, #5f7f5a, #8faa87); }
+body.t-botanical .bar-row:nth-child(2) .bar-fill { background: linear-gradient(90deg, #c9a86a, #dcc48f); }
+body.t-botanical .hero-badge { border-color: rgba(95,127,90,.35); border-radius: 99px 99px 99px 8px; }
+body.t-botanical .hero-badge i { background: #5f7f5a; border-radius: 50% 50% 50% 0; animation: none; }
+body.t-botanical .stat b { color: #5f7f5a; }
+body.t-botanical .fact { border-radius: 20px 20px 20px 6px; border-color: rgba(95,127,90,.25); }
+body.t-botanical .fact b { color: #5f7f5a; }
+body.t-botanical .post { border-radius: 24px 24px 24px 8px; border-color: rgba(95,127,90,.22); }
+body.t-botanical .post:hover { border-color: #5f7f5a; }
+body.t-botanical .contact-card { border-radius: 24px 24px 24px 8px; border-color: rgba(95,127,90,.25); }
+body.t-botanical .contact-ico { border-radius: 50% 50% 50% 8%; background: #eef1e5; }
+body.t-botanical .contact-ico svg { fill: #5f7f5a; }
+body.t-botanical .gallery-link { border-radius: 99px; }

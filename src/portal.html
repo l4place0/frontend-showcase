@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>前端风格博物馆 · 同一份内容的 60 种打开方式</title>
+<meta name="description" content="前端风格博物馆：30 种视觉风格 × 30 种布局排版，渲染同一份落地页测试内容。">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg, #121218); color: var(--text, #e8e8ee); min-height: 100vh;
+  font-family: var(--font-body, "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif);
+  line-height: 1.7; padding-top: 38px; transition: background .7s ease, color .7s ease;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none;
+  background: var(--bg-decor,
+    radial-gradient(55% 40% at 80% 0%, color-mix(in srgb, var(--accent, #7dd3fc) 11%, transparent), transparent 70%));
+}
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding: 90px 24px 60px; position: relative;
+  transition: opacity .28s ease, filter .28s ease, transform .28s ease;
+}
+body.theme-fade-out .wrap { opacity: 0; filter: blur(7px); transform: scale(.992); }
+::view-transition-image-pair(root) { isolation: isolate; }
+::view-transition-old(root) {
+  animation: museum-theme-out 820ms cubic-bezier(.4, 0, .2, 1) both;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  animation: museum-theme-in 820ms cubic-bezier(.16, 1, .3, 1) both;
+  mix-blend-mode: normal;
+}
+@keyframes museum-theme-out {
+  from { opacity: 1; filter: blur(0); transform: scale(1); }
+  to { opacity: 0; filter: blur(8px); transform: scale(.985); }
+}
+@keyframes museum-theme-in {
+  from { opacity: 0; filter: blur(10px); transform: scale(1.018); }
+  to { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+.hero { text-align: center; margin-bottom: 70px; }
+.hero .kicker {
+  display: inline-block; font-size: 13px; letter-spacing: 4px; color: var(--accent, #7dd3fc);
+  border: 1px solid color-mix(in srgb, var(--accent, #7dd3fc) 35%, transparent); padding: 5px 16px; border-radius: var(--radius-sm, 99px); margin-bottom: 22px;
+}
+.hero h1 { font-family: var(--font-head, inherit); font-size: clamp(38px, 6.4vw, 64px); line-height: 1.15; letter-spacing: var(--h1-ls, -1px); transition: color .7s ease; }
+.hero h1 span { color: var(--accent, #7dd3fc); }
+.hero .sub { font-size: clamp(16px, 2.4vw, 21px); color: var(--text-2, #b8b8c6); margin-top: 16px; }
+.hero .desc { color: var(--text-2, #8a8a98); max-width: 660px; margin: 20px auto 0; font-size: 15px; }
+.hero .desc b { color: var(--text, #c9c9d6); font-weight: 600; }
+.stats { display: flex; justify-content: center; gap: 44px; margin-top: 40px; flex-wrap: wrap; }
+.stat b { font-size: 30px; color: var(--accent, #7dd3fc); display: block; }
+.stat span { font-size: 13px; color: var(--text-2, #8a8a98); }
+.live-style {
+  width: fit-content; max-width: 100%; margin: 28px auto 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;
+  padding: 8px 10px 8px 14px; border: 1px solid var(--border, rgba(255,255,255,.14)); border-radius: 999px;
+  background: var(--surface, rgba(255,255,255,.05)); box-shadow: var(--shadow, none);
+}
+.live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent, #7dd3fc); box-shadow: 0 0 12px var(--accent, #7dd3fc); }
+.live-style strong { color: var(--text, #e8e8ee); font-size: 12px; }
+.live-style small { color: var(--text-2, #8a8a98); font-size: 11px; min-width: 54px; }
+.live-style button {
+  border: 1px solid var(--border, rgba(255,255,255,.14)); border-radius: 999px; padding: 5px 10px; cursor: pointer;
+  color: var(--text, #e8e8ee); background: var(--surface-2, rgba(255,255,255,.07)); font: inherit; font-size: 11px;
+}
+.live-style button:hover { border-color: var(--accent, #7dd3fc); color: var(--accent, #7dd3fc); }
+.cabinets { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 56px; }
+.cab {
+  display: block; text-decoration: none; position: relative; overflow: hidden;
+  background: var(--surface, rgba(255,255,255,.04)); border: var(--bw, 1px) solid var(--border, rgba(255,255,255,.1));
+  border-radius: var(--radius, 18px); padding: 36px 34px 30px; box-shadow: var(--shadow, none);
+  transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+.cab:hover { transform: var(--card-hover-tf, translateY(-6px)); border-color: var(--border-hover, var(--accent)); box-shadow: var(--shadow-hover, 0 20px 50px rgba(0,0,0,.4)); }
+.cab .num { font-family: var(--font-head, inherit); font-size: 56px; font-weight: 800; color: var(--accent, #7dd3fc); line-height: 1; }
+.cab.cab-l .num { color: var(--accent-2, #c084fc); }
+.cab h2 { font-family: var(--font-head, inherit); font-size: 24px; margin: 14px 0 8px; color: var(--text, #f0f0f5); }
+.cab p { font-size: 14px; color: var(--text-2, #9a9aa8); }
+.cab .go { display: inline-block; margin-top: 18px; font-size: 14px; font-weight: 600; color: var(--accent, #7dd3fc); }
+.cab.cab-l .go { color: var(--accent-2, #c084fc); }
+.cab::after {
+  content: ""; position: absolute; right: -40px; bottom: -40px; width: 150px; height: 150px;
+  border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent, #7dd3fc) 18%, transparent), transparent 70%);
+}
+.cab.cab-l::after { background: radial-gradient(circle, color-mix(in srgb, var(--accent-2, #c084fc) 20%, transparent), transparent 70%); }
+.note {
+  border: 1px dashed var(--border, rgba(255,255,255,.18)); border-radius: var(--radius, 14px);
+  padding: 24px 28px; color: var(--text-2, #9a9aa8); font-size: 14px; background: var(--surface, transparent);
+}
+.note b { color: var(--text, #d9d9e2); }
+.note a { color: var(--accent, #7dd3fc); text-decoration: none; }
+.foot { margin-top: 48px; padding-top: 26px; border-top: 1px solid var(--border, rgba(255,255,255,.09)); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--text-2, #7a7a86); }
+.foot a { color: var(--accent, #7dd3fc); text-decoration: none; }
+@media (max-width: 720px) { .cabinets { grid-template-columns: 1fr; } .wrap { padding-top: 64px; } }
+@media (prefers-reduced-motion: reduce) {
+  .wrap { transition: none; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 1ms; }
+}
+</style>
+<style>
+/*__MUSEUM_BAR_CSS__*/
+</style>
+<style>
+/*__PORTAL_THEMES__*/
+</style>
+</head>
+<body class="t-midnight">
+<div class="museum-bar">
+  <a class="mb-logo" href="index.html">◈ 风格博物馆</a>
+  <span class="mb-current">门户</span>
+  <a class="mb-other" href="styles.html">风格展览柜</a>
+  <a class="mb-other" href="layouts.html">布局展览柜</a>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="kicker">FRONTEND STYLE MUSEUM</span>
+    <h1>前端风格博物馆<br><span>同一份内容，60 种打开方式</span></h1>
+    <p class="sub">30 种视觉风格 × 30 种布局排版</p>
+    <p class="desc">这是一座前端设计实验场。馆内所有展品渲染的都是<b>同一份测试内容</b>——一份个人落地页（含 Hero / 作品集 / 技能 / 关于 / 文章 / 联系），数据来自 <b>l4place</b> 的真实 GitHub，在这里仅作为<b>业务测试用例</b>。风格与排版，才是展品本身。</p>
+    <div class="stats">
+      <div class="stat"><b>1</b><span>份测试内容</span></div>
+      <div class="stat"><b>30</b><span>视觉风格</span></div>
+      <div class="stat"><b>30</b><span>布局排版</span></div>
+      <div class="stat"><b>63</b><span>个页面</span></div>
+    </div>
+    <div class="live-style" aria-live="polite">
+      <span class="live-dot" aria-hidden="true"></span>
+      <strong id="liveTheme">正在选取风格…</strong>
+      <small id="liveCountdown">10 秒后切换</small>
+      <button type="button" id="liveNext">换一个</button>
+      <button type="button" id="livePause" aria-pressed="false">暂停</button>
+    </div>
+  </div>
+
+  <div class="cabinets">
+    <a class="cab" href="styles.html">
+      <div class="num">30</div>
+      <h2>风格展览柜</h2>
+      <p>同一份落地页 × 30 套视觉皮肤：太空、赛博朋克、禅意、粗野、包豪斯、蒸汽波…… 换肤不换药，看设计语言如何改变气质。</p>
+      <span class="go">进入展柜 →</span>
+    </a>
+    <a class="cab cab-l" href="layouts.html">
+      <div class="num">30</div>
+      <h2>布局展览柜</h2>
+      <p>统一「禅意东方」皮肤 × 30 种布局实验：瀑布流、时间线、分屏、手风琴、对话流、九宫格…… 皮肤不动，看信息架构如何改变阅读。</p>
+      <span class="go">进入展柜 →</span>
+    </a>
+  </div>
+
+  <div class="note">
+    <b>关于测试用例：</b>展品内容为 <b>l4place</b> 的个人落地页，项目与技能占比来自其 GitHub 真实公开数据（gomoku 五子棋 AI、flower-recognized 等），文章链接指向 <a href="https://blog.l4pl.top" target="_blank" rel="noopener">blog.l4pl.top</a>。选择真实数据而非 lorem ipsum，是为了让风格对比在"真内容"下成立。
+  </div>
+
+  <div class="foot">
+    <p>© 2026 前端风格博物馆 · build.py 一键生成全部页面</p>
+    <p><a href="https://github.com/l4place0" target="_blank" rel="noopener">测试内容来源：github.com/l4place0 →</a></p>
+  </div>
+</div>
+<script>
+(function () {
+  const themes = [
+    /*__THEME_DATA__*/
+  ];
+  const name = document.getElementById('liveTheme');
+  const countdown = document.getElementById('liveCountdown');
+  const pause = document.getElementById('livePause');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  let current = -1, remaining = 10, paused = false, transitioning = false;
+  function commitTheme(next) {
+    current = next; remaining = 10;
+    Array.from(document.body.classList).filter(c => c.startsWith('t-')).forEach(c => document.body.classList.remove(c));
+    document.body.classList.add('t-' + themes[current].slug);
+    name.textContent = themes[current].name;
+    countdown.textContent = '10 秒后切换';
+  }
+  function applyRandom() {
+    if (transitioning) return;
+    let next;
+    do { next = Math.floor(Math.random() * themes.length); } while (themes.length > 1 && next === current);
+    if (current < 0 || reducedMotion.matches) {
+      commitTheme(next);
+      return;
+    }
+    transitioning = true;
+    if (document.startViewTransition) {
+      const transition = document.startViewTransition(() => commitTheme(next));
+      transition.finished.finally(() => { transitioning = false; });
+    } else {
+      document.body.classList.add('theme-fade-out');
+      setTimeout(() => {
+        commitTheme(next);
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          document.body.classList.remove('theme-fade-out');
+          setTimeout(() => { transitioning = false; }, 300);
+        }));
+      }, 280);
+    }
+  }
+  document.getElementById('liveNext').addEventListener('click', applyRandom);
+  pause.addEventListener('click', () => {
+    paused = !paused; pause.setAttribute('aria-pressed', String(paused));
+    pause.textContent = paused ? '继续' : '暂停';
+    countdown.textContent = paused ? '自动切换已暂停' : remaining + ' 秒后切换';
+  });
+  applyRandom();
+  setInterval(() => {
+    if (paused) return;
+    remaining -= 1;
+    if (remaining <= 0) applyRandom();
+    else countdown.textContent = remaining + ' 秒后切换';
+  }, 1000);
+})();
+</script>
+</body>
+</html>

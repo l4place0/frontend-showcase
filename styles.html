@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风格展览柜 · 前端风格博物馆</title>
+<meta name="description" content="30 种视觉风格渲染同一份落地页测试内容，卡片即缩略小样，点击对比。">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #16161c; color: #e8e8ee; min-height: 100vh;
+  font-family: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.7; padding-top: 38px;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(50% 35% at 80% 0%, rgba(125,211,252,.07), transparent 70%),
+    radial-gradient(45% 35% at 10% 100%, rgba(192,132,252,.07), transparent 70%);
+}
+.wrap { max-width: 1160px; margin: 0 auto; padding: 74px 24px 60px; position: relative; }
+.g-head { margin-bottom: 44px; }
+.g-head .kicker {
+  display: inline-block; font-size: 13px; letter-spacing: 3px; color: #7dd3fc;
+  border: 1px solid rgba(125,211,252,.3); padding: 4px 14px; border-radius: 99px; margin-bottom: 16px;
+}
+.g-head h1 { font-size: clamp(30px, 4.6vw, 44px); line-height: 1.2; }
+.g-head h1 span { color: #7dd3fc; }
+.g-head p { color: #9a9aa8; max-width: 660px; margin-top: 12px; }
+.g-head p b { color: #cfcfda; font-weight: 600; }
+.g-switch { margin-top: 20px; font-size: 14px; }
+.g-switch a { color: #c084fc; text-decoration: none; border-bottom: 1px dashed rgba(192,132,252,.5); padding-bottom: 1px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
+
+/* 风格卡片：用各主题变量渲染，卡片本身就是小样 */
+.g-card {
+  display: block; text-decoration: none;
+  background: var(--bg); color: var(--text);
+  border: 1px solid rgba(255,255,255,.09); border-radius: 16px; overflow: hidden;
+  transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+.g-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 18px 46px rgba(0,0,0,.45); }
+.g-preview {
+  padding: 26px 22px 22px; min-height: 168px;
+  background: var(--bg-decor, var(--bg));
+  border-bottom: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 7px; justify-content: center;
+}
+.g-mini-title {
+  font-family: var(--font-head); color: var(--text);
+  font-size: 25px; font-weight: 700; line-height: 1.2;
+  text-transform: var(--title-tt, none); letter-spacing: var(--title-ls, 0);
+  background: var(--h1-grad, none); -webkit-background-clip: var(--h1-clip, border-box); background-clip: var(--h1-clip, border-box);
+  -webkit-text-fill-color: var(--h1-fill, currentColor);
+}
+.g-mini-tag { font-family: var(--font-head); color: var(--accent); font-size: 13.5px; font-weight: 600; }
+.g-mini-btn {
+  align-self: flex-start; margin-top: 8px;
+  font-size: 11.5px; font-weight: 600; font-family: var(--font-btn, var(--font-body));
+  background: var(--accent); color: var(--on-accent, var(--bg));
+  padding: 5px 14px; border-radius: var(--radius, 10px);
+  text-transform: var(--btn-tt, none);
+}
+.g-mini-lines { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.g-mini-lines i { display: block; height: 6px; border-radius: var(--radius-sm, 3px); background: var(--surface-2); }
+.g-info { padding: 16px 22px 18px; display: flex; align-items: center; gap: 14px; background: var(--surface); }
+.g-names { flex: 1; min-width: 0; }
+.g-names b { font-size: 15.5px; color: var(--text); font-family: var(--font-head); display: block; }
+.g-names span { font-size: 12px; color: var(--text-2); display: block; margin-top: 1px; }
+.g-dots { display: flex; gap: 6px; }
+.g-dots i { width: 13px; height: 13px; border-radius: 50%; border: 1px solid rgba(128,128,128,.35); }
+.g-num {
+  position: absolute; top: 12px; right: 14px; z-index: 2;
+  font-size: 11.5px; font-weight: 700; color: var(--text-2);
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 2px 9px; border-radius: var(--radius-sm, 99px);
+}
+.g-cell { position: relative; }
+.g-foot { margin-top: 44px; color: #8a8a96; font-size: 13.5px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.g-foot a { color: #7dd3fc; text-decoration: none; }
+@media (max-width: 640px) { .wrap { padding-top: 56px; } }
+</style>
+<style>
+/* 博物馆导航条（馆页版本：样式与 base.css 内一致，供门户/展柜页注入） */
+.museum-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  height: 38px; display: flex; align-items: center; gap: 10px;
+  padding: 0 20px; font-size: 12.5px;
+  background: color-mix(in srgb, var(--nav-bg, var(--bg, #16161c)) 90%, transparent);
+  color: var(--text-2, #9a9aa8);
+  border-bottom: var(--bw, 1px) solid var(--border, rgba(255,255,255,.1));
+  box-shadow: 0 5px 22px color-mix(in srgb, var(--bg, #000) 16%, transparent);
+  backdrop-filter: var(--nav-blur, blur(16px)); -webkit-backdrop-filter: var(--nav-blur, blur(16px));
+  font-family: var(--font-body, "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif);
+  transition: background .55s ease, color .55s ease, border-color .55s ease, box-shadow .55s ease;
+}
+.museum-bar a { color: var(--text-2, #c9c9d6); text-decoration: none; transition: color .25s; }
+.museum-bar a:hover { color: var(--accent, #7dd3fc); }
+.mb-logo { font-family: var(--font-head, inherit); font-weight: 700; letter-spacing: .5px; color: var(--text, #e8e8ee) !important; }
+.mb-crumb { color: color-mix(in srgb, var(--text-2, #9a9aa8) 72%, transparent); }
+.mb-crumb a { color: var(--text-2, #9a9aa8); }
+.mb-current {
+  color: var(--accent, #7dd3fc); background: color-mix(in srgb, var(--accent, #7dd3fc) 11%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #7dd3fc) 32%, transparent);
+  padding: 1px 10px; border-radius: var(--radius-sm, 99px); font-size: 12px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mb-other { margin-left: auto; }
+.mb-other + .mb-other { margin-left: 16px; }
+@media (max-width: 640px) {
+  .museum-bar { font-size: 11.5px; gap: 6px; padding: 0 12px; }
+  .mb-other { display: none; }
+}
+
+</style>
+<style>
+.t-cosmos {
+  --bg: #060a1a; --bg2: #0b1030;
+  --surface: rgba(148,163,255,.055); --surface-2: rgba(148,163,255,.11);
+  --border: rgba(148,163,255,.14); --border-hover: rgba(125,211,252,.55);
+  --text: #e7ebff; --text-2: #98a1c8;
+  --accent: #7dd3fc; --accent-2: #c084fc;
+  --nav-bg: rgba(6,10,26,.7);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --stars-display: block;
+  --bg-decor:
+    radial-gradient(60% 45% at 75% 8%, rgba(192,132,252,.1), transparent 70%),
+    radial-gradient(55% 40% at 15% 85%, rgba(125,211,252,.09), transparent 70%),
+    linear-gradient(180deg, #060a1a 0%, #0b1030 100%);
+  --h1-grad: linear-gradient(120deg, #e7ebff 30%, #7dd3fc 70%, #c084fc);
+  --h1-clip: text; --h1-fill: transparent;
+}
+.t-paper {
+  --bg: #f7f5ef; --bg2: #efeade;
+  --surface: #fffdf8; --surface-2: #f1ede2;
+  --border: rgba(23,23,28,.13); --border-hover: rgba(79,70,229,.6);
+  --text: #17171c; --text-2: #6d6d78;
+  --accent: #4f46e5; --accent-2: #0e9fd8;
+  --nav-bg: rgba(247,245,239,.85);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: Georgia, "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --radius: 4px; --radius-sm: 3px;
+  --bg-decor: linear-gradient(180deg, #f7f5ef 0%, #efeade 100%);
+  --shadow: none;
+  --shadow-hover: 0 12px 32px rgba(23,23,28,.08);
+  --avatar-glow: none;
+  --bar-radius: 2px;
+}
+.t-terminal {
+  --bg: #050907; --bg2: #08110b;
+  --surface: rgba(0,255,156,.05); --surface-2: rgba(0,255,156,.1);
+  --border: rgba(0,255,156,.18); --border-hover: rgba(0,255,156,.6);
+  --text: #b9ffdb; --text-2: #5da383;
+  --accent: #00ff9c; --accent-2: #a9ffce;
+  --nav-bg: rgba(5,9,7,.88);
+  --font-body: "JetBrains Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+  --font-head: var(--font-body);
+  --radius: 6px; --radius-sm: 4px;
+  --bg-decor:
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,255,156,.012) 3px 4px),
+    linear-gradient(180deg, #050907 0%, #08110b 100%);
+  --avatar-glow: radial-gradient(circle, rgba(0,255,156,.22), transparent 65%);
+  --bar-radius: 3px;
+  --font-tag: var(--font-body);
+}
+.t-sunset {
+  --bg: #1b1114; --bg2: #2a161d;
+  --surface: rgba(251,146,60,.065); --surface-2: rgba(251,146,60,.12);
+  --border: rgba(251,146,60,.17); --border-hover: rgba(251,146,60,.6);
+  --text: #fdf0e6; --text-2: #c49b92;
+  --accent: #fb923c; --accent-2: #f472b6;
+  --nav-bg: rgba(27,17,20,.75);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 22px; --radius-sm: 14px;
+  --bg-decor: linear-gradient(180deg, #1b1114 0%, #2a161d 100%);
+  --h1-grad: linear-gradient(120deg, #fb923c 20%, #f472b6 80%);
+  --h1-clip: text; --h1-fill: transparent;
+}
+.t-cyberpunk {
+  --bg: #0d0221; --bg2: #190536;
+  --surface: rgba(0,229,255,.05); --surface-2: rgba(255,46,136,.09);
+  --border: rgba(0,229,255,.28); --border-hover: #ff2e88;
+  --text: #eaf6ff; --text-2: #8d7fb8;
+  --accent: #00e5ff; --accent-2: #ff2e88;
+  --nav-bg: rgba(13,2,33,.85);
+  --font-body: "Segoe UI", "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Segoe UI", "PingFang SC", sans-serif;
+  --radius: 2px; --radius-sm: 2px;
+  --title-tt: uppercase; --title-ls: 1px;
+  --btn-tt: uppercase;
+  --bg-decor: linear-gradient(180deg, #0d0221 0%, #190536 100%);
+  --avatar-glow: radial-gradient(circle, rgba(255,46,136,.3), transparent 65%);
+  --bar-radius: 2px;
+  --ribbon-radius: 0;
+}
+.t-neumorphism {
+  --bg: #e0e5ec; --bg2: #d3dae6;
+  --surface: #e0e5ec; --surface-2: #d3dae6;
+  --border: transparent; --border-hover: transparent;
+  --text: #3d4859; --text-2: #7a8699;
+  --accent: #5b7fff; --accent-2: #9d6bff;
+  --nav-bg: rgba(224,229,236,.88);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 22px; --radius-sm: 16px;
+  --bg-decor: linear-gradient(145deg, #e6ebf2 0%, #d3dae6 100%);
+  --shadow: 9px 9px 18px #b8bec7, -9px -9px 18px #ffffff;
+  --shadow-hover: 4px 4px 10px #b8bec7, -4px -4px 10px #ffffff;
+  --card-hover-tf: none;
+  --btn-hover-tf: none;
+  --tag-hover-tf: none;
+  --post-hover-tf: none;
+  --avatar-glow: none;
+  --bar-radius: 99px;
+}
+.t-swiss {
+  --bg: #ffffff; --bg2: #f2f2f2;
+  --surface: #ffffff; --surface-2: #f2f2f2;
+  --border: #111111; --border-hover: #e30613;
+  --text: #111111; --text-2: #565656;
+  --accent: #e30613; --accent-2: #111111;
+  --nav-bg: rgba(255,255,255,.94);
+  --font-body: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Helvetica Neue", Helvetica, Arial, "PingFang SC", sans-serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 2px;
+  --title-tt: uppercase; --title-ls: -0.5px; --title-size: 40px;
+  --bg-decor: linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
+  --shadow: none;
+  --shadow-hover: none;
+  --card-hover-tf: none;
+  --btn-hover-tf: none;
+  --tag-hover-tf: none;
+  --post-hover-tf: none;
+  --avatar-glow: none;
+  --h1-ls: -2px;
+}
+.t-glass {
+  --bg: #20204a; --bg2: #151538;
+  --surface: rgba(255,255,255,.09); --surface-2: rgba(255,255,255,.14);
+  --border: rgba(255,255,255,.22); --border-hover: rgba(255,255,255,.5);
+  --text: #ffffff; --text-2: rgba(255,255,255,.68);
+  --accent: #8be9fd; --accent-2: #ff9ff3;
+  --nav-bg: rgba(32,32,74,.4);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 20px; --radius-sm: 14px;
+  --bg-decor: linear-gradient(160deg, #20204a 0%, #151538 100%);
+  --shadow: 0 8px 32px rgba(0,0,0,.25);
+  --shadow-hover: 0 14px 44px rgba(0,0,0,.32);
+  --avatar-glow: radial-gradient(circle, rgba(255,159,243,.3), transparent 65%);
+}
+.t-pixel {
+  --bg: #1a1c2c; --bg2: #14152b;
+  --surface: #262a44; --surface-2: #333860;
+  --border: #4a5080; --border-hover: #ffcd75;
+  --text: #f4f4f4; --text-2: #9ba0d0;
+  --accent: #ffcd75; --accent-2: #38b764;
+  --nav-bg: rgba(26,28,44,.95);
+  --font-body: "Courier New", "Lucida Console", monospace;
+  --font-head: "Courier New", "Lucida Console", monospace;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 3px;
+  --title-tt: uppercase; --title-ls: 2px; --title-size: 34px;
+  --btn-tt: uppercase;
+  --bg-decor:
+    repeating-linear-gradient(0deg, transparent 0 4px, rgba(0,0,0,.1) 4px 5px),
+    linear-gradient(180deg, #1a1c2c 0%, #14152b 100%);
+  --shadow: 5px 5px 0 #0a0b18;
+  --shadow-hover: 8px 8px 0 #0a0b18;
+  --card-hover-tf: translate(-3px,-3px);
+  --btn-hover-tf: translate(-2px,-2px);
+  --tag-hover-tf: translate(-2px,-2px);
+  --post-hover-tf: translate(-3px,-3px);
+  --avatar-glow: none;
+  --avatar-anim: none;
+  --h1-ls: 3px;
+}
+.t-brutalist {
+  --bg: #fffef2; --bg2: #fff8d6;
+  --surface: #ffffff; --surface-2: #fff3bf;
+  --border: #111111; --border-hover: #111111;
+  --text: #111111; --text-2: #4a4a4a;
+  --accent: #111111; --accent-2: #ffdd00;
+  --nav-bg: rgba(255,254,242,.95);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Helvetica Neue", "PingFang SC", sans-serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 3px;
+  --title-tt: uppercase; --title-ls: -0.5px; --title-size: 40px;
+  --bg-decor: linear-gradient(180deg, #fffef2 0%, #fff8d6 100%);
+  --shadow: 7px 7px 0 #111111;
+  --shadow-hover: 3px 3px 0 #111111;
+  --card-hover-tf: translate(4px,4px);
+  --btn-hover-tf: translate(3px,3px);
+  --tag-hover-tf: translate(3px,3px);
+  --post-hover-tf: translate(4px,4px);
+  --avatar-glow: none;
+  --avatar-anim: none;
+  --font-tag: var(--font-body);
+}
+.t-editorial {
+  --bg: #faf7f2; --bg2: #f3efe7;
+  --surface: transparent; --surface-2: #efe9dd;
+  --border: rgba(28,25,23,.28); --border-hover: #9f1239;
+  --text: #1c1917; --text-2: #6b625a;
+  --accent: #9f1239; --accent-2: #1c1917;
+  --nav-bg: rgba(250,247,242,.92);
+  --font-body: Georgia, "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-head: Georgia, "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --title-size: 42px; --title-ls: -1px;
+  --bg-decor: linear-gradient(180deg, #faf7f2 0%, #f3efe7 100%);
+  --shadow: none; --shadow-hover: none;
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+  --h1-ls: -2px;
+}
+.t-artdeco {
+  --bg: #0c0c0e; --bg2: #141416;
+  --surface: rgba(201,162,39,.06); --surface-2: rgba(201,162,39,.12);
+  --border: rgba(201,162,39,.42); --border-hover: #e5c76b;
+  --text: #f2ead8; --text-2: #a89a7c;
+  --accent: #e5c76b; --accent-2: #c9a227;
+  --nav-bg: rgba(12,12,14,.88);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: Georgia, "Times New Roman", "Noto Serif SC", serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --title-tt: uppercase; --title-ls: 4px; --title-size: 34px;
+  --bg-decor: linear-gradient(180deg, #0c0c0e 0%, #141416 100%);
+  --shadow: none; --shadow-hover: 0 0 30px rgba(201,162,39,.15);
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: radial-gradient(circle, rgba(201,162,39,.28), transparent 65%);
+  --h1-ls: 6px;
+}
+.t-vaporwave {
+  --bg: #150826; --bg2: #241040;
+  --surface: rgba(255,113,206,.07); --surface-2: rgba(1,205,254,.1);
+  --border: rgba(1,205,254,.3); --border-hover: #ff71ce;
+  --text: #f8ecff; --text-2: #b49bd6;
+  --accent: #01cdfe; --accent-2: #ff71ce;
+  --nav-bg: rgba(21,8,38,.82);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Segoe UI", "PingFang SC", sans-serif;
+  --radius: 4px; --radius-sm: 3px; --bar-radius: 4px;
+  --bg-decor: linear-gradient(180deg, #150826 0%, #241040 100%);
+  --h1-grad: linear-gradient(180deg, #fffb96 5%, #ff71ce 50%, #01cdfe 95%);
+  --h1-clip: text; --h1-fill: transparent;
+  --avatar-glow: radial-gradient(circle, rgba(255,113,206,.35), transparent 65%);
+}
+.t-blueprint {
+  --bg: #16324f; --bg2: #12283f;
+  --surface: rgba(255,255,255,.05); --surface-2: rgba(255,255,255,.1);
+  --border: rgba(255,255,255,.38); --border-hover: #ffd166;
+  --text: #f0f6ff; --text-2: #9db8d4;
+  --accent: #ffd166; --accent-2: #8ecae6;
+  --nav-bg: rgba(18,40,63,.9);
+  --font-body: "JetBrains Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+  --font-head: var(--font-body);
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bg-decor: linear-gradient(180deg, #16324f 0%, #12283f 100%);
+  --shadow: none; --shadow-hover: none;
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+}
+.t-zen {
+  --bg: #f5f3ec; --bg2: #edeade;
+  --surface: transparent; --surface-2: #e8e4d6;
+  --border: rgba(43,43,43,.22); --border-hover: #c73e3a;
+  --text: #2b2b2b; --text-2: #7d7a70;
+  --accent: #3d5a45; --accent-2: #c73e3a;
+  --nav-bg: rgba(245,243,236,.9);
+  --font-body: "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+  --font-head: "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bg-decor: linear-gradient(180deg, #f5f3ec 0%, #edeade 100%);
+  --shadow: none; --shadow-hover: none;
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+}
+.t-risograph {
+  --bg: #f4f1ea; --bg2: #ece8de;
+  --surface: #f4f1ea; --surface-2: #e8e3d6;
+  --border: #1a3a8f; --border-hover: #ff48b0;
+  --text: #1a3a8f; --text-2: #6a6a5a;
+  --accent: #ff48b0; --accent-2: #0078bf;
+  --nav-bg: rgba(244,241,234,.92);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Helvetica Neue", "PingFang SC", sans-serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 2px;
+  --title-tt: uppercase; --title-ls: 1px;
+  --bg-decor: linear-gradient(180deg, #f4f1ea 0%, #ece8de 100%);
+  --shadow: 4px 4px 0 rgba(0,120,191,.85);
+  --shadow-hover: 6px 6px 0 #ff48b0;
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+}
+.t-popart {
+  --bg: #ffd500; --bg2: #ffc700;
+  --surface: #ffffff; --surface-2: #ffe98a;
+  --border: #0f0f0f; --border-hover: #0f0f0f;
+  --text: #0f0f0f; --text-2: #4a4a4a;
+  --accent: #e62429; --accent-2: #0057ff;
+  --nav-bg: rgba(255,213,0,.94);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Helvetica Neue", "PingFang SC", sans-serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 3px;
+  --title-tt: uppercase; --title-ls: 1px; --title-size: 38px;
+  --bg-decor: linear-gradient(180deg, #ffd500 0%, #ffc700 100%);
+  --shadow: 7px 7px 0 #0f0f0f;
+  --shadow-hover: 3px 3px 0 #0f0f0f;
+  --card-hover-tf: translate(4px,4px);
+  --btn-hover-tf: translate(3px,3px);
+  --tag-hover-tf: translate(3px,3px);
+  --post-hover-tf: translate(4px,4px);
+  --avatar-glow: none; --avatar-anim: none;
+}
+.t-aurora {
+  --bg: #030b1a; --bg2: #061226;
+  --surface: rgba(74,222,128,.05); --surface-2: rgba(167,139,250,.09);
+  --border: rgba(148,222,255,.16); --border-hover: rgba(74,222,128,.6);
+  --text: #e8f4ff; --text-2: #7d93b8;
+  --accent: #4ade80; --accent-2: #a78bfa;
+  --nav-bg: rgba(3,11,26,.75);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 18px; --radius-sm: 12px;
+  --bg-decor: linear-gradient(180deg, #030b1a 0%, #061226 100%);
+  --h1-grad: linear-gradient(115deg, #e8f4ff 20%, #4ade80 55%, #22d3ee 80%, #a78bfa 100%);
+  --h1-clip: text; --h1-fill: transparent;
+  --avatar-glow: radial-gradient(circle, rgba(74,222,128,.28), transparent 65%);
+}
+.t-chalkboard {
+  --bg: #22332d; --bg2: #1a2823;
+  --surface: rgba(240,237,228,.05); --surface-2: rgba(240,237,228,.09);
+  --border: rgba(240,237,228,.32); --border-hover: #ffd166;
+  --text: #f0ede4; --text-2: #9db0a6;
+  --accent: #ffd166; --accent-2: #8ecae6;
+  --nav-bg: rgba(26,40,35,.9);
+  --font-body: "Segoe Print", "Bradley Hand", "Comic Sans MS", "PingFang SC", "Microsoft YaHei", cursive;
+  --font-head: "Segoe Print", "Bradley Hand", "Comic Sans MS", "PingFang SC", cursive;
+  --radius: 4px; --radius-sm: 3px; --bar-radius: 3px; --ribbon-radius: 3px;
+  --bg-decor: linear-gradient(160deg, #22332d 0%, #1a2823 100%);
+  --shadow: none; --shadow-hover: none;
+  --card-hover-tf: rotate(-.4deg); --post-hover-tf: rotate(.4deg);
+  --btn-hover-tf: rotate(-1deg); --tag-hover-tf: rotate(-1.5deg);
+  --avatar-glow: none; --avatar-anim: none;
+}
+.t-memphis {
+  --bg: #fff9e8; --bg2: #fff2d0;
+  --surface: #ffffff; --surface-2: #ffe9f0;
+  --border: #12121a; --border-hover: #12121a;
+  --text: #12121a; --text-2: #5c5c6a;
+  --accent: #f6416c; --accent-2: #00b8a9;
+  --nav-bg: rgba(255,249,232,.94);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Helvetica Neue", "PingFang SC", sans-serif;
+  --radius: 14px; --radius-sm: 8px; --bar-radius: 8px;
+  --bw: 2.5px;
+  --bg-decor: linear-gradient(180deg, #fff9e8 0%, #fff2d0 100%);
+  --shadow: 5px 5px 0 #12121a;
+  --shadow-hover: 8px 8px 0 #f6416c;
+  --card-hover-tf: translate(-3px,-3px) rotate(-.5deg);
+  --btn-hover-tf: translate(-2px,-2px);
+  --tag-hover-tf: translate(-2px,-2px) rotate(-1deg);
+  --post-hover-tf: translate(-3px,-3px);
+  --avatar-glow: none;
+  --avatar-anim: float 4s ease-in-out infinite;
+}
+.t-midnight {
+  --bg: #000000; --bg2: #0a0a0a;
+  --surface: rgba(255,255,255,.028); --surface-2: rgba(255,255,255,.06);
+  --border: rgba(255,255,255,.12); --border-hover: rgba(59,130,246,.8);
+  --text: #f5f5f5; --text-2: #6b6b6b;
+  --accent: #3b82f6; --accent-2: #60a5fa;
+  --nav-bg: rgba(0,0,0,.78);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 10px; --radius-sm: 8px;
+  --bg-decor: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+  --shadow: none; --shadow-hover: none;
+  --avatar-glow: radial-gradient(circle, rgba(59,130,246,.16), transparent 65%);
+}
+.t-monochrome {
+  --bg: #fafafa; --bg2: #f0f0f0;
+  --surface: #ffffff; --surface-2: #f0f0f0;
+  --border: #d4d4d4; --border-hover: #171717;
+  --text: #171717; --text-2: #737373;
+  --accent: #262626; --accent-2: #a3a3a3;
+  --nav-bg: rgba(250,250,250,.88);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Helvetica Neue", Helvetica, Arial, "PingFang SC", sans-serif;
+  --radius: 2px; --radius-sm: 2px; --bar-radius: 2px;
+  --bg-decor: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%);
+  --shadow: none;
+  --shadow-hover: 0 14px 34px rgba(0,0,0,.1);
+  --avatar-glow: none;
+  --title-ls: -0.5px; --title-size: 38px;
+}
+.t-watercolor {
+  --bg: #f9f6f0; --bg2: #f3eee4;
+  --surface: #fffefa; --surface-2: #f6f1e7;
+  --border: rgba(91,142,196,.4); --border-hover: #5b8ec4;
+  --text: #3c3a36; --text-2: #8a847a;
+  --accent: #5b8ec4; --accent-2: #d4847c;
+  --nav-bg: rgba(249,246,240,.85);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: Georgia, "Noto Serif SC", "Songti SC", serif;
+  --radius: 18px 6px 20px 8px; --radius-sm: 12px 4px 14px 6px; --bar-radius: 8px 3px 9px 4px;
+  --bg-decor: linear-gradient(180deg, #f9f6f0 0%, #f3eee4 100%);
+  --shadow: 0 6px 22px rgba(120,100,70,.1);
+  --shadow-hover: 0 12px 32px rgba(91,142,196,.18);
+  --card-hover-tf: translateY(-4px) rotate(-.4deg);
+  --avatar-glow: radial-gradient(circle, rgba(91,142,196,.25), transparent 65%);
+}
+.t-botanical {
+  --bg: #f4f5ef; --bg2: #e9ede0;
+  --surface: #ffffff; --surface-2: #eef1e5;
+  --border: rgba(95,127,90,.28); --border-hover: #5f7f5a;
+  --text: #2e3b2f; --text-2: #6b7a68;
+  --accent: #5f7f5a; --accent-2: #c9a86a;
+  --nav-bg: rgba(244,245,239,.88);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: Georgia, "Noto Serif SC", "Songti SC", serif;
+  --radius: 26px 26px 26px 8px; --radius-sm: 16px 16px 16px 4px; --bar-radius: 99px;
+  --bg-decor: linear-gradient(180deg, #f4f5ef 0%, #e9ede0 100%);
+  --shadow: 0 6px 20px rgba(70,95,66,.09);
+  --shadow-hover: 0 14px 34px rgba(70,95,66,.16);
+  --avatar-glow: radial-gradient(circle, rgba(95,127,90,.28), transparent 65%);
+}
+.t-parchment {
+  --bg: #e8dcc3; --bg2: #ddcfb0;
+  --surface: rgba(255,250,236,.55); --surface-2: rgba(255,250,236,.85);
+  --border: rgba(61,47,29,.35); --border-hover: #8b2323;
+  --text: #3d2f1d; --text-2: #7a6a50;
+  --accent: #8b2323; --accent-2: #b8860b;
+  --nav-bg: rgba(232,220,195,.9);
+  --font-body: Georgia, "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-head: Georgia, "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --radius: 3px; --radius-sm: 2px; --bar-radius: 2px;
+  --bg-decor:
+    radial-gradient(ellipse 80% 60% at 50% 40%, transparent 60%, rgba(120,90,40,.16) 100%),
+    linear-gradient(180deg, #e8dcc3 0%, #ddcfb0 100%);
+  --shadow: 0 4px 16px rgba(90,70,35,.14);
+  --shadow-hover: 0 10px 26px rgba(90,70,35,.2);
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+}
+.t-bauhaus {
+  --bg: #f2ede4; --bg2: #e9e2d5;
+  --surface: #fbf8f2; --surface-2: #efe9dc;
+  --border: #141414; --border-hover: #d64541;
+  --text: #141414; --text-2: #5c584f;
+  --accent: #d64541; --accent-2: #1f5fa8;
+  --nav-bg: rgba(242,237,228,.94);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Helvetica Neue", "Arial Black", Arial, "PingFang SC", sans-serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 2px;
+  --title-tt: uppercase; --title-ls: -0.5px; --title-size: 42px;
+  --bg-decor: linear-gradient(180deg, #f2ede4 0%, #e9e2d5 100%);
+  --shadow: none; --shadow-hover: none;
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+  --h1-ls: -2px;
+}
+.t-y2k {
+  --bg: #dfe6f2; --bg2: #cdd8ec;
+  --surface: rgba(255,255,255,.66); --surface-2: rgba(255,255,255,.9);
+  --border: rgba(255,255,255,.9); --border-hover: #7f9cf5;
+  --text: #2a2f45; --text-2: #6b7394;
+  --accent: #7f9cf5; --accent-2: #f687b3;
+  --nav-bg: rgba(223,230,242,.75);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 24px; --radius-sm: 99px; --bar-radius: 99px;
+  --bg-decor:
+    radial-gradient(60% 45% at 80% 6%, rgba(246,135,179,.22), transparent 70%),
+    radial-gradient(55% 45% at 10% 90%, rgba(127,156,245,.24), transparent 70%),
+    linear-gradient(160deg, #e8eef8 0%, #cdd8ec 100%);
+  --shadow: 0 8px 24px rgba(90,110,170,.16), inset 0 1.5px 0 rgba(255,255,255,.95);
+  --shadow-hover: 0 14px 36px rgba(127,156,245,.3), inset 0 1.5px 0 rgba(255,255,255,.95);
+  --avatar-glow: radial-gradient(circle, rgba(246,135,179,.35), transparent 65%);
+}
+.t-matrix {
+  --bg: #000000; --bg2: #020a02;
+  --surface: rgba(0,255,65,.05); --surface-2: rgba(0,255,65,.1);
+  --border: rgba(0,255,65,.22); --border-hover: #00ff41;
+  --text: #c8ffc8; --text-2: #4f9f5f;
+  --accent: #00ff41; --accent-2: #b4ffb4;
+  --nav-bg: rgba(0,0,0,.85);
+  --font-body: "JetBrains Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+  --font-head: var(--font-body);
+  --radius: 3px; --radius-sm: 2px; --bar-radius: 2px; --ribbon-radius: 0;
+  --stars-display: block;
+  --bg-decor: linear-gradient(180deg, #000000 0%, #020a02 100%);
+  --shadow: none;
+  --shadow-hover: 0 0 24px rgba(0,255,65,.22);
+  --avatar-glow: radial-gradient(circle, rgba(0,255,65,.3), transparent 65%);
+}
+.t-clay {
+  --bg: #f0e9e4; --bg2: #e8ded6;
+  --surface: #f7f2ed; --surface-2: #efe6de;
+  --border: transparent; --border-hover: transparent;
+  --text: #4a4038; --text-2: #94857a;
+  --accent: #e07a5f; --accent-2: #81b29a;
+  --nav-bg: rgba(240,233,228,.88);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 30px; --radius-sm: 22px; --bar-radius: 99px;
+  --bg-decor: linear-gradient(160deg, #f2ebe5 0%, #e8ded6 100%);
+  --shadow:
+    inset -4px -4px 10px rgba(255,255,255,.95),
+    inset 4px 4px 10px rgba(74,64,56,.06),
+    14px 14px 28px rgba(74,64,56,.1);
+  --shadow-hover:
+    inset -3px -3px 8px rgba(255,255,255,.95),
+    inset 3px 3px 8px rgba(74,64,56,.05),
+    8px 8px 18px rgba(74,64,56,.08);
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none;
+}
+.t-candy {
+  --bg: #fff0f6; --bg2: #ffe3ef;
+  --surface: #ffffff; --surface-2: #ffeef5;
+  --border: rgba(255,143,179,.35); --border-hover: #ff8fb3;
+  --text: #5c4a5a; --text-2: #a08a9c;
+  --accent: #ff8fb3; --accent-2: #8fc7ff;
+  --nav-bg: rgba(255,240,246,.88);
+  --font-body: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: var(--font-body);
+  --radius: 26px; --radius-sm: 99px; --bar-radius: 99px;
+  --bg-decor: linear-gradient(180deg, #fff0f6 0%, #ffe3ef 100%);
+  --shadow: 0 8px 24px rgba(255,143,179,.16);
+  --shadow-hover: 0 14px 36px rgba(255,143,179,.26);
+  --avatar-glow: radial-gradient(circle, rgba(255,143,179,.4), transparent 65%);
+}
+</style>
+</head>
+<body>
+<div class="museum-bar">
+  <a class="mb-logo" href="index.html">◈ 风格博物馆</a>
+  <span class="mb-crumb">／<a href="styles.html">风格展览柜</a></span>
+  <span class="mb-current">30 件展品</span>
+  <a class="mb-other" href="layouts.html">布局展览柜 →</a>
+</div>
+
+<div class="wrap">
+  <div class="g-head">
+    <span class="kicker">STYLE CABINET · 风格展览柜</span>
+    <h1>同一份落地页，<span>30 种视觉风格</span></h1>
+    <p>所有页面渲染的都是<b>同一份测试内容</b>（l4place 个人落地页：项目、技能、文章均为 GitHub 真实数据，仅作业务测试用例）。<b>30 套皮肤换肤不换药</b>——卡片本身就是缩略小样，点进去看完整页面。风格展品配有可拖动的<b>视觉调色台</b>：色相、饱和度、对比度、文字比例、行高与圆角均可连续调节。</p>
+    <p class="g-switch">想看排版实验？<a href="layouts.html">去布局展览柜 →</a></p>
+  </div>
+  <div class="grid">
+    <div class="g-cell">
+      <span class="g-num">01</span>
+      <a class="g-card t-cosmos" href="cosmos.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>太空漫游 · Cosmos</b><span>深空星域，青紫辉光</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">02</span>
+      <a class="g-card t-paper" href="paper.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>纸感极简 · Paper</b><span>米白编辑排版，克制优雅</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">03</span>
+      <a class="g-card t-terminal" href="terminal.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>极客终端 · Terminal</b><span>磷光绿命令行世界</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">04</span>
+      <a class="g-card t-sunset" href="sunset.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>落日余晖 · Sunset</b><span>暖橙暗色，柔和圆润</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">05</span>
+      <a class="g-card t-cyberpunk" href="cyberpunk.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>赛博朋克 · Cyberpunk</b><span>霓虹夜色，故障美学</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">06</span>
+      <a class="g-card t-neumorphism" href="neumorphism.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>新拟态 · Neumorphism</b><span>柔和浮雕，触感界面</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">07</span>
+      <a class="g-card t-swiss" href="swiss.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>瑞士网格 · Swiss</b><span>国际主义排版，红黑构成</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">08</span>
+      <a class="g-card t-glass" href="glass.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>玻璃拟态 · Glass</b><span>流光背景，毛玻璃卡片</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">09</span>
+      <a class="g-card t-pixel" href="pixel.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>复古像素 · Pixel</b><span>8-bit 游戏机美学</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">10</span>
+      <a class="g-card t-brutalist" href="brutalist.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>粗野主义 · Brutalist</b><span>硬边黑框，生猛直接</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">11</span>
+      <a class="g-card t-editorial" href="editorial.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>杂志编辑 · Editorial</b><span>粗衬线大字，报纸栏线</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">12</span>
+      <a class="g-card t-artdeco" href="artdeco.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>装饰艺术 · Art Deco</b><span>黑金几何，对称奢华</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">13</span>
+      <a class="g-card t-vaporwave" href="vaporwave.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>蒸汽波 · Vaporwave</b><span>粉紫青渐变，复古未来</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">14</span>
+      <a class="g-card t-blueprint" href="blueprint.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>工程蓝图 · Blueprint</b><span>蓝底白线，网格标注</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">15</span>
+      <a class="g-card t-zen" href="zen.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>禅意东方 · Zen</b><span>留白墨色，细线朱砂</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">16</span>
+      <a class="g-card t-risograph" href="risograph.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>孔版印刷 · Risograph</b><span>颗粒质感，双色叠印</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">17</span>
+      <a class="g-card t-popart" href="popart.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>波普艺术 · Pop Art</b><span>漫画波点，红黄蓝撞色</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">18</span>
+      <a class="g-card t-aurora" href="aurora.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>极光 · Aurora</b><span>深空夜幕，流动光幕</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">19</span>
+      <a class="g-card t-chalkboard" href="chalkboard.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>黑板粉笔 · Chalkboard</b><span>深绿板面，粉笔涂鸦</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">20</span>
+      <a class="g-card t-memphis" href="memphis.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>孟菲斯 · Memphis</b><span>几何撞色， playful 80s</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">21</span>
+      <a class="g-card t-midnight" href="midnight.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>暗黑极简 · Midnight</b><span>纯黑克制，一束电蓝</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">22</span>
+      <a class="g-card t-monochrome" href="monochrome.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>黑白灰 · Monochrome</b><span>零彩色，摄影集质感</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">23</span>
+      <a class="g-card t-watercolor" href="watercolor.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>水彩手绘 · Watercolor</b><span>不规则笔触，纸间晕染</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">24</span>
+      <a class="g-card t-botanical" href="botanical.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>植物系 · Botanical</b><span>鼠尾草绿，有机生长</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">25</span>
+      <a class="g-card t-parchment" href="parchment.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>羊皮纸手稿 · Parchment</b><span>古籍墨香，红泥印章</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">26</span>
+      <a class="g-card t-bauhaus" href="bauhaus.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>包豪斯 · Bauhaus</b><span>三原色几何构成</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">27</span>
+      <a class="g-card t-y2k" href="y2k.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>千禧年 · Y2K</b><span>金属银泡泡，浅蓝紫闪光</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">28</span>
+      <a class="g-card t-matrix" href="matrix.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>黑客帝国 · Matrix</b><span>代码雨夜，绿光觉醒</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">29</span>
+      <a class="g-card t-clay" href="clay.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>粘土拟物 · Clay</b><span>奶油圆胖，触感膨胀</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+    <div class="g-cell">
+      <span class="g-num">30</span>
+      <a class="g-card t-candy" href="candy.html" target="_blank">
+        <div class="g-preview">
+          <div class="g-mini-title">l4place</div>
+          <div class="g-mini-tag">AI 时代探索者</div>
+          <div class="g-mini-btn">查看项目 ↓</div>
+          <div class="g-mini-lines"><i style="width:84%"></i><i style="width:62%"></i></div>
+        </div>
+        <div class="g-info">
+          <div class="g-names"><b>糖果马卡龙 · Candy</b><span>pastel 甜点铺</span></div>
+          <div class="g-dots"><i style="background:var(--bg)"></i><i style="background:var(--surface-2)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i></div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="g-foot">
+    <p>© 2026 前端风格博物馆 · 风格展览柜 · 共 30 件</p>
+    <p><a href="index.html">← 返回门户</a> · <a href="layouts.html">布局展览柜 →</a></p>
+  </div>
+</div>
+</body>
+</html>

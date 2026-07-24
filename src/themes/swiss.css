@@ -1,0 +1,47 @@
+/* 瑞士网格 Swiss —— 国际主义排版，红黑构成 */
+.t-swiss {
+  --bg: #ffffff; --bg2: #f2f2f2;
+  --surface: #ffffff; --surface-2: #f2f2f2;
+  --border: #111111; --border-hover: #e30613;
+  --text: #111111; --text-2: #565656;
+  --accent: #e30613; --accent-2: #111111;
+  --nav-bg: rgba(255,255,255,.94);
+  --font-body: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Helvetica Neue", Helvetica, Arial, "PingFang SC", sans-serif;
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bw: 2px;
+  --title-tt: uppercase; --title-ls: -0.5px; --title-size: 40px;
+  --bg-decor: linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
+  --shadow: none;
+  --shadow-hover: none;
+  --card-hover-tf: none;
+  --btn-hover-tf: none;
+  --tag-hover-tf: none;
+  --post-hover-tf: none;
+  --avatar-glow: none;
+  --h1-ls: -2px;
+}
+body.t-swiss nav { border-bottom-width: 4px; }
+body.t-swiss .logo { text-transform: uppercase; letter-spacing: 1px; }
+body.t-swiss .logo span { display: inline-block; background: var(--accent); color: #fff; padding: 0 6px; margin-left: 4px; }
+body.t-swiss .hero h1 { text-transform: none; font-weight: 800; }
+body.t-swiss .section-title::before { content: ""; display: block; width: 46px; height: 10px; background: var(--accent); margin-bottom: 14px; }
+body.t-swiss .section-tag { background: #111; color: #fff; border-color: #111; font-weight: 700; letter-spacing: 3px; }
+body.t-swiss .card { border-width: 2px; }
+body.t-swiss .card:hover { border-color: var(--accent); }
+body.t-swiss .card.featured { border-color: var(--accent); border-width: 3px; }
+body.t-swiss .card.featured::before { background: var(--accent); }
+body.t-swiss .btn { border-width: 2px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+body.t-swiss .btn-primary { background: var(--accent); color: #fff; }
+body.t-swiss .btn-primary:hover { background: #111; }
+body.t-swiss .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+body.t-swiss .bar-fill { background: #111; }
+body.t-swiss .bar-row:first-child .bar-fill { background: var(--accent); }
+body.t-swiss .bar-track { border: 2px solid #111; background: #fff; height: 12px; }
+body.t-swiss .tag { border-width: 2px; font-weight: 600; }
+body.t-swiss .hero-badge i { border-radius: 0; background: var(--accent); animation: none; }
+body.t-swiss .fact { border-left: 6px solid #111; }
+body.t-swiss .fact b { color: #111; }
+body.t-swiss .post { border-width: 2px; }
+body.t-swiss .post:hover { border-color: var(--accent); }
+body.t-swiss .post-meta em { font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }

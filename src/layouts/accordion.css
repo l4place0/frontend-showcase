@@ -1,0 +1,23 @@
+/* 布局·手风琴 —— 默认折叠成标题条，悬停展开 */
+body.l-accordion .hero { min-height: 82vh; }
+body.l-accordion main section {
+  max-height: 108px; overflow: hidden; cursor: pointer;
+  border-top: 1.5px solid var(--border);
+  padding-top: 30px; padding-bottom: 30px;
+  transition: max-height .55s cubic-bezier(.2,.7,.2,1);
+}
+body.l-accordion main section:hover { max-height: 2600px; }
+body.l-accordion main section:last-of-type { border-bottom: 1.5px solid var(--border); }
+body.l-accordion .section-title::after {
+  content: "+"; float: right; color: var(--text-2); font-weight: 400;
+  transition: transform .3s;
+}
+body.l-accordion main section:hover .section-title::after { content: "−"; color: var(--accent); }
+body.l-accordion .section-desc { margin-bottom: 26px; }
+body.l-accordion .reveal { opacity: 1; transform: none; }
+body.l-accordion main section::after {
+  content: "悬停展开"; position: absolute; margin-top: -52px; right: 24px;
+  font-size: 12px; color: var(--text-2); letter-spacing: 2px;
+}
+body.l-accordion main section:hover::after { content: ""; }
+body.l-accordion main section { position: relative; }

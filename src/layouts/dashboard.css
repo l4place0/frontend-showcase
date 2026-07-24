@@ -1,0 +1,33 @@
+/* 布局·仪表盘 —— 四格 widget 拼盘 */
+body.l-dashboard .hero { min-height: auto; padding-bottom: 30px; }
+body.l-dashboard main {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+  max-width: 1080px; margin: 0 auto; padding: 40px 24px 24px;
+}
+body.l-dashboard main section {
+  padding: 22px; margin: 0; max-width: none;
+  border: 1.5px solid var(--border); background: var(--surface);
+}
+body.l-dashboard .section-desc, body.l-dashboard .skills-note { display: none; }
+body.l-dashboard .section-title { font-size: 19px; margin-bottom: 6px; }
+body.l-dashboard .section-tag { margin-bottom: 8px; padding: 2px 10px; font-size: 11.5px; }
+body.l-dashboard #projects { grid-column: 1 / 3; grid-row: 1 / 3; }
+body.l-dashboard #skills { grid-column: 3 / 5; }
+body.l-dashboard #about { grid-column: 3 / 5; }
+body.l-dashboard #blog { grid-column: 1 / 3; }
+body.l-dashboard #contact { grid-column: 3 / 5; }
+body.l-dashboard .projects-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+body.l-dashboard .card { padding: 18px; }
+body.l-dashboard .card .desc { font-size: 13px; }
+body.l-dashboard .skills-wrap, body.l-dashboard .about-wrap { grid-template-columns: 1fr; gap: 20px; }
+body.l-dashboard .post { padding: 14px 16px; flex-direction: column; align-items: flex-start; gap: 4px; }
+body.l-dashboard .post-arrow { display: none; }
+body.l-dashboard .post-body p { display: none; }
+body.l-dashboard .contact-card { padding: 16px; }
+body.l-dashboard .contact-grid { grid-template-columns: 1fr; gap: 12px; }
+body.l-dashboard footer { margin-top: 24px; }
+@media (max-width: 900px) {
+  body.l-dashboard main { grid-template-columns: 1fr 1fr; }
+  body.l-dashboard #projects, body.l-dashboard #skills, body.l-dashboard #about,
+  body.l-dashboard #blog, body.l-dashboard #contact { grid-column: 1 / -1; grid-row: auto; }
+}

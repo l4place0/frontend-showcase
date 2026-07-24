@@ -1,0 +1,22 @@
+/* 布局·F 型阅读 —— 左重右轻，扫视友好 */
+body.l-f-pattern main {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 24px 60px;
+  max-width: 1080px; margin: 0 auto; padding: 40px 24px 24px;
+}
+body.l-f-pattern main section { padding: 40px 0 20px; margin: 0; max-width: none; }
+body.l-f-pattern #projects { grid-column: 1; grid-row: 1 / 4; border-right: 1.5px solid var(--border); padding-right: 50px; }
+body.l-f-pattern #skills { grid-column: 2; grid-row: 1; }
+body.l-f-pattern #about { grid-column: 2; grid-row: 2; }
+body.l-f-pattern #blog { grid-column: 2; grid-row: 3; }
+body.l-f-pattern #contact { grid-column: 1 / -1; border-top: 1.5px solid var(--border); }
+body.l-f-pattern .projects-grid { grid-template-columns: 1fr 1fr; }
+body.l-f-pattern .card.featured { grid-column: 1 / -1; }
+body.l-f-pattern .skills-wrap, body.l-f-pattern .about-wrap { grid-template-columns: 1fr; gap: 24px; }
+body.l-f-pattern .post { flex-direction: column; align-items: flex-start; gap: 6px; padding: 16px 18px; }
+body.l-f-pattern .post-arrow { display: none; }
+@media (max-width: 900px) {
+  body.l-f-pattern main { grid-template-columns: 1fr; }
+  body.l-f-pattern #projects, body.l-f-pattern #skills, body.l-f-pattern #about,
+  body.l-f-pattern #blog, body.l-f-pattern #contact { grid-column: 1; grid-row: auto; }
+  body.l-f-pattern #projects { border-right: none; padding-right: 0; }
+}

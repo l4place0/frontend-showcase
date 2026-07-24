@@ -1,0 +1,22 @@
+/* 布局·沉浸首屏 —— 超大标题占满第一屏 */
+body.l-hero-full .hero {
+  max-width: none; padding-left: 8vw; padding-right: 8vw;
+  position: relative; min-height: 100vh;
+}
+body.l-hero-full .hero h1 { font-size: clamp(62px, 11vw, 126px); letter-spacing: -1px; }
+body.l-hero-full .tagline { font-size: clamp(21px, 3vw, 30px); }
+body.l-hero-full .hero-desc { font-size: 18px; max-width: 600px; }
+body.l-hero-full .hero::after {
+  content: "向下滚动 ↓"; position: absolute; bottom: 34px; left: 50%;
+  transform: translateX(-50%); font-size: 12px; letter-spacing: 5px;
+  color: var(--text-2); animation: herofullhint 2.2s ease-in-out infinite;
+}
+@keyframes herofullhint {
+  0%, 100% { transform: translate(-50%, 0); opacity: .55; }
+  50% { transform: translate(-50%, 9px); opacity: 1; }
+}
+body.l-hero-full .hero-stats { gap: 48px; }
+body.l-hero-full .stat b { font-size: 32px; }
+@media (prefers-reduced-motion: reduce) {
+  body.l-hero-full .hero::after { animation: none; }
+}

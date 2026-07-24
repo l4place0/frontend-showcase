@@ -1,0 +1,49 @@
+/* 黑板粉笔 Chalkboard —— 深绿板面，粉笔涂鸦 */
+.t-chalkboard {
+  --bg: #22332d; --bg2: #1a2823;
+  --surface: rgba(240,237,228,.05); --surface-2: rgba(240,237,228,.09);
+  --border: rgba(240,237,228,.32); --border-hover: #ffd166;
+  --text: #f0ede4; --text-2: #9db0a6;
+  --accent: #ffd166; --accent-2: #8ecae6;
+  --nav-bg: rgba(26,40,35,.9);
+  --font-body: "Segoe Print", "Bradley Hand", "Comic Sans MS", "PingFang SC", "Microsoft YaHei", cursive;
+  --font-head: "Segoe Print", "Bradley Hand", "Comic Sans MS", "PingFang SC", cursive;
+  --radius: 4px; --radius-sm: 3px; --bar-radius: 3px; --ribbon-radius: 3px;
+  --bg-decor: linear-gradient(160deg, #22332d 0%, #1a2823 100%);
+  --shadow: none; --shadow-hover: none;
+  --card-hover-tf: rotate(-.4deg); --post-hover-tf: rotate(.4deg);
+  --btn-hover-tf: rotate(-1deg); --tag-hover-tf: rotate(-1.5deg);
+  --avatar-glow: none; --avatar-anim: none;
+}
+body.t-chalkboard .bg-fx {
+  background-image: radial-gradient(rgba(240,237,228,.05) 1px, transparent 1px);
+  background-size: 7px 7px;
+}
+body.t-chalkboard .card, body.t-chalkboard .post, body.t-chalkboard .fact, body.t-chalkboard .contact-card,
+body.t-chalkboard .tag, body.t-chalkboard .hero-badge, body.t-chalkboard .section-tag, body.t-chalkboard .btn-ghost {
+  border-style: dashed;
+}
+body.t-chalkboard .hero h1 { color: #f0ede4; text-shadow: 0 0 2px rgba(240,237,228,.6), 2px 2px 0 rgba(240,237,228,.12); letter-spacing: 2px; }
+body.t-chalkboard .tagline { color: var(--accent); }
+body.t-chalkboard .tagline::before { content: "★ "; }
+body.t-chalkboard .section-title { color: #f0ede4; text-shadow: 0 0 2px rgba(240,237,228,.5); }
+body.t-chalkboard .section-title::after { content: ""; display: block; height: 6px; margin-top: 8px; background: repeating-linear-gradient(90deg, var(--border) 0 14px, transparent 14px 20px); opacity: .7; }
+body.t-chalkboard .section-tag { background: transparent; color: var(--accent-2); }
+body.t-chalkboard .card:hover { border-color: var(--accent); }
+body.t-chalkboard .card.featured { border-color: var(--accent); }
+body.t-chalkboard .card.featured::before { content: "★ 重点"; background: var(--accent); color: #22332d; font-weight: 700; }
+body.t-chalkboard .btn-primary { background: var(--accent); color: #22332d; border: 2px dashed rgba(34,51,45,.7); font-weight: 700; }
+body.t-chalkboard .btn-primary:hover { box-shadow: 0 0 22px rgba(255,209,102,.3); }
+body.t-chalkboard .bar-track { border: 2px dashed var(--border); background: transparent; height: 12px; }
+body.t-chalkboard .bar-fill { background: repeating-linear-gradient(-45deg, #f0ede4 0 5px, rgba(240,237,228,.35) 5px 9px); }
+body.t-chalkboard .bar-row:first-child .bar-fill { background: repeating-linear-gradient(-45deg, var(--accent) 0 5px, rgba(255,209,102,.4) 5px 9px); }
+body.t-chalkboard .bar-row:nth-child(2) .bar-fill { background: repeating-linear-gradient(-45deg, var(--accent-2) 0 5px, rgba(142,202,230,.4) 5px 9px); }
+body.t-chalkboard .bar-row:nth-child(3) .bar-fill { background: repeating-linear-gradient(-45deg, #ff8fa3 0 5px, rgba(255,143,163,.4) 5px 9px); }
+body.t-chalkboard .hero-badge i { background: var(--accent); border-radius: 0; animation: none; }
+body.t-chalkboard .stat b { color: var(--accent); }
+body.t-chalkboard .fact b { color: var(--accent-2); }
+body.t-chalkboard .post-meta em { color: #ff8fa3; }
+body.t-chalkboard .lang { border: 1px dashed var(--border); background: transparent; }
+body.t-chalkboard .contact-ico { border-style: dashed; }
+body.t-chalkboard .contact-ico svg { fill: var(--accent-2); }
+body.t-chalkboard .skills-note { border-left: 2px dashed var(--border); padding-left: 12px; }

@@ -1,0 +1,39 @@
+/* 赛博朋克 Cyberpunk —— 霓虹夜色，故障美学 */
+.t-cyberpunk {
+  --bg: #0d0221; --bg2: #190536;
+  --surface: rgba(0,229,255,.05); --surface-2: rgba(255,46,136,.09);
+  --border: rgba(0,229,255,.28); --border-hover: #ff2e88;
+  --text: #eaf6ff; --text-2: #8d7fb8;
+  --accent: #00e5ff; --accent-2: #ff2e88;
+  --nav-bg: rgba(13,2,33,.85);
+  --font-body: "Segoe UI", "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-head: "Arial Black", "Segoe UI", "PingFang SC", sans-serif;
+  --radius: 2px; --radius-sm: 2px;
+  --title-tt: uppercase; --title-ls: 1px;
+  --btn-tt: uppercase;
+  --bg-decor: linear-gradient(180deg, #0d0221 0%, #190536 100%);
+  --avatar-glow: radial-gradient(circle, rgba(255,46,136,.3), transparent 65%);
+  --bar-radius: 2px;
+  --ribbon-radius: 0;
+}
+body.t-cyberpunk .bg-fx {
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.16) 3px 4px);
+  opacity: .8;
+}
+body.t-cyberpunk .hero h1 {
+  text-shadow: 3px 0 var(--accent-2), -3px 0 var(--accent);
+  animation: glitch 3.2s infinite;
+}
+@keyframes glitch {
+  0%, 91%, 94%, 100% { text-shadow: 3px 0 var(--accent-2), -3px 0 var(--accent); transform: none; }
+  92% { text-shadow: -4px 0 var(--accent-2), 4px 0 var(--accent); transform: translateX(2px); }
+  93% { text-shadow: 4px 0 var(--accent-2), -4px 0 var(--accent); transform: translateX(-2px); }
+}
+body.t-cyberpunk .section-title { text-shadow: 0 0 22px color-mix(in srgb, var(--accent) 55%, transparent); }
+body.t-cyberpunk .card { clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px)); }
+body.t-cyberpunk .card:hover { box-shadow: 0 0 28px rgba(255,46,136,.25), inset 0 0 22px rgba(0,229,255,.06); }
+body.t-cyberpunk .card.featured::before { border-radius: 0; padding: 3px 12px; }
+body.t-cyberpunk .btn { clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px)); border-radius: 0; }
+body.t-cyberpunk .btn-primary { background: var(--accent-2); color: #fff; }
+body.t-cyberpunk .tagline { color: var(--accent-2); text-transform: uppercase; letter-spacing: 3px; }
+body.t-cyberpunk .hero-badge i { border-radius: 0; }

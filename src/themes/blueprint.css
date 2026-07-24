@@ -1,0 +1,47 @@
+/* 工程蓝图 Blueprint —— 蓝底白线，网格标注 */
+.t-blueprint {
+  --bg: #16324f; --bg2: #12283f;
+  --surface: rgba(255,255,255,.05); --surface-2: rgba(255,255,255,.1);
+  --border: rgba(255,255,255,.38); --border-hover: #ffd166;
+  --text: #f0f6ff; --text-2: #9db8d4;
+  --accent: #ffd166; --accent-2: #8ecae6;
+  --nav-bg: rgba(18,40,63,.9);
+  --font-body: "JetBrains Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+  --font-head: var(--font-body);
+  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;
+  --bg-decor: linear-gradient(180deg, #16324f 0%, #12283f 100%);
+  --shadow: none; --shadow-hover: none;
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+}
+body.t-blueprint .bg-fx {
+  background-image:
+    linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+}
+body.t-blueprint .section-tag { background: transparent; border-style: dashed; }
+body.t-blueprint .section-tag::before { content: "[ "; color: var(--text-2); }
+body.t-blueprint .section-tag::after { content: " ]"; color: var(--text-2); }
+body.t-blueprint .section-title { font-weight: 400; letter-spacing: 1px; }
+body.t-blueprint .section-title::after { content: ""; display: block; height: 1px; margin-top: 12px; background: repeating-linear-gradient(90deg, var(--border) 0 10px, transparent 10px 16px); }
+body.t-blueprint .card, body.t-blueprint .post, body.t-blueprint .fact, body.t-blueprint .contact-card { border-style: dashed; border-width: 1px; }
+body.t-blueprint .card:hover, body.t-blueprint .post:hover, body.t-blueprint .contact-card:hover { border-style: solid; border-color: var(--accent); }
+body.t-blueprint .card.featured { border-style: solid; border-color: var(--accent); }
+body.t-blueprint .card.featured::before { content: "FIG.01 ★"; background: var(--accent); color: #16324f; border-radius: 0; font-weight: 700; }
+body.t-blueprint .hero h1 { font-weight: 400; }
+body.t-blueprint .hero h1::after { content: ""; display: block; width: 220px; height: 10px; margin-top: 14px; background: repeating-linear-gradient(90deg, var(--accent) 0 2px, transparent 2px 12px); }
+body.t-blueprint .btn { border: 1px solid var(--border); font-weight: 400; letter-spacing: 1px; }
+body.t-blueprint .btn-primary { background: var(--accent); color: #16324f; border-color: var(--accent); font-weight: 700; }
+body.t-blueprint .btn-primary:hover { box-shadow: 0 0 0 3px rgba(255,209,102,.3); }
+body.t-blueprint .bar-track { border: 1px solid var(--border); background: transparent; height: 12px; }
+body.t-blueprint .bar-fill { background: repeating-linear-gradient(-45deg, var(--accent-2) 0 6px, transparent 6px 9px); }
+body.t-blueprint .bar-row:first-child .bar-fill { background: repeating-linear-gradient(-45deg, var(--accent) 0 6px, transparent 6px 9px); }
+body.t-blueprint .hero-badge i { border-radius: 0; animation: none; }
+body.t-blueprint .tag { border-style: dashed; }
+body.t-blueprint .tag:hover { border-style: solid; }
+body.t-blueprint .contact-ico { border-style: dashed; }
+body.t-blueprint .stat b { color: var(--accent); font-weight: 700; }
+body.t-blueprint .skills-note { border-left: 2px solid var(--border); padding-left: 12px; }

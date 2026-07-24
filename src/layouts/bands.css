@@ -1,0 +1,11 @@
+/* 布局·全宽色带 —— 区块通栏，底色交替 */
+body.l-bands main section {
+  max-width: none; margin: 0;
+  padding: 72px calc(50% - 516px) 52px;
+}
+body.l-bands main section:nth-of-type(even) { background: var(--surface-2); }
+body.l-bands .hero { border-bottom: 1.5px solid var(--border); }
+body.l-bands #contact { border-top: 1.5px solid var(--border); }
+@media (max-width: 1080px) {
+  body.l-bands main section { padding-left: 24px; padding-right: 24px; }
+}

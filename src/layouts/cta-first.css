@@ -1,0 +1,10 @@
+/* 布局·联系优先 —— CTA 提到最前，行动导向 */
+body.l-cta-first main { display: flex; flex-direction: column; }
+body.l-cta-first #contact { order: -1; padding-top: 40px; }
+body.l-cta-first #contact .contact-grid { grid-template-columns: repeat(2, 1fr); }
+body.l-cta-first #contact .contact-card { padding: 34px; border-width: 2px; }
+body.l-cta-first .hero { min-height: 70vh; }
+body.l-cta-first #projects { border-top: 1.5px solid var(--border); }
+@media (max-width: 640px) {
+  body.l-cta-first #contact .contact-grid { grid-template-columns: 1fr; }
+}

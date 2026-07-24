@@ -1,0 +1,5 @@
+/* 布局·倒序 —— 联系在前，项目压轴 */
+body.l-reverse main { display: flex; flex-direction: column-reverse; }
+body.l-reverse main section { padding-top: 70px; }
+body.l-reverse .hero { min-height: 82vh; }
+body.l-reverse .hero-cta .btn-primary { content: "立即联系"; }

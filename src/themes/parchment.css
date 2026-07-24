@@ -1,0 +1,58 @@
+/* 羊皮纸手稿 Parchment —— 古籍墨香，红泥印章 */
+.t-parchment {
+  --bg: #e8dcc3; --bg2: #ddcfb0;
+  --surface: rgba(255,250,236,.55); --surface-2: rgba(255,250,236,.85);
+  --border: rgba(61,47,29,.35); --border-hover: #8b2323;
+  --text: #3d2f1d; --text-2: #7a6a50;
+  --accent: #8b2323; --accent-2: #b8860b;
+  --nav-bg: rgba(232,220,195,.9);
+  --font-body: Georgia, "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-head: Georgia, "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --radius: 3px; --radius-sm: 2px; --bar-radius: 2px;
+  --bg-decor:
+    radial-gradient(ellipse 80% 60% at 50% 40%, transparent 60%, rgba(120,90,40,.16) 100%),
+    linear-gradient(180deg, #e8dcc3 0%, #ddcfb0 100%);
+  --shadow: 0 4px 16px rgba(90,70,35,.14);
+  --shadow-hover: 0 10px 26px rgba(90,70,35,.2);
+  --card-hover-tf: none; --btn-hover-tf: none; --tag-hover-tf: none; --post-hover-tf: none;
+  --avatar-glow: none; --avatar-anim: none;
+}
+body.t-parchment .bg-fx {
+  background-image:
+    radial-gradient(rgba(120,90,40,.1) 1px, transparent 1.5px),
+    radial-gradient(rgba(120,90,40,.07) 1px, transparent 1.5px);
+  background-size: 90px 90px, 53px 53px;
+  background-position: 0 0, 26px 40px;
+}
+body.t-parchment .hero h1 { font-size: clamp(46px, 7.4vw, 76px); letter-spacing: 2px; }
+body.t-parchment .tagline { letter-spacing: 8px; font-size: clamp(14px, 2vw, 18px); }
+body.t-parchment .section-tag {
+  background: #8b2323; color: #f2e8d5; border: 1px solid #6d1a1a;
+  transform: rotate(-2deg); font-weight: 700; letter-spacing: 4px;
+  box-shadow: 1px 2px 6px rgba(90,30,30,.35);
+}
+body.t-parchment .section-title::after { content: ""; display: block; height: 2px; margin-top: 12px; background: linear-gradient(90deg, var(--border) 60%, transparent); }
+body.t-parchment .card { outline: 1px solid rgba(61,47,29,.18); outline-offset: -5px; }
+body.t-parchment .card.featured { border-color: #8b2323; border-width: 2px; }
+body.t-parchment .card.featured::before { content: "藏"; background: #8b2323; border-radius: 0; font-size: 14px; padding: 4px 10px; letter-spacing: 0; }
+body.t-parchment .btn { border: 1.5px solid var(--border); font-family: var(--font-head); }
+body.t-parchment .btn-primary { background: #8b2323; color: #f2e8d5; border-color: #6d1a1a; }
+body.t-parchment .btn-primary:hover { background: #6d1a1a; }
+body.t-parchment .btn-ghost:hover { border-color: #8b2323; color: #8b2323; }
+body.t-parchment .bar-track { border: 1px solid var(--border); background: rgba(255,250,236,.5); height: 12px; }
+body.t-parchment .bar-fill { background: linear-gradient(90deg, #8b2323, #b8860b); opacity: .88; }
+body.t-parchment .hero-badge { border: 1.5px solid var(--border); background: var(--surface); }
+body.t-parchment .hero-badge i { background: #8b2323; animation: none; }
+body.t-parchment .stat b { color: #8b2323; font-size: 30px; }
+body.t-parchment .about-text > p:first-of-type::first-letter {
+  font-size: 3.1em; float: left; line-height: .9; padding: 4px 10px 0 0;
+  color: #8b2323; font-weight: 700;
+}
+body.t-parchment .fact { border-left: 3px solid #8b2323; }
+body.t-parchment .fact b { color: #8b2323; }
+body.t-parchment .post { border-bottom: 2px solid var(--border); }
+body.t-parchment .post:hover { border-color: #8b2323; }
+body.t-parchment .post-meta em { font-weight: 700; letter-spacing: 2px; }
+body.t-parchment .contact-ico { border: 1.5px solid var(--border); }
+body.t-parchment .contact-ico svg { fill: #8b2323; }
+body.t-parchment .tag:hover { border-color: #8b2323; color: #8b2323; }

@@ -1,0 +1,19 @@
+/* 布局·大字报 —— 巨号标题，气场全开 */
+body.l-big-type { font-size: 17px; }
+body.l-big-type .hero h1 { font-size: clamp(64px, 11vw, 122px); letter-spacing: -2px; }
+body.l-big-type .tagline { font-size: clamp(22px, 3vw, 30px); }
+body.l-big-type .section-title { font-size: clamp(46px, 7.5vw, 80px); letter-spacing: -1px; margin-bottom: 16px; }
+body.l-big-type .section-tag { font-size: 14px; }
+body.l-big-type .section-desc { font-size: 18px; max-width: 640px; }
+body.l-big-type .projects-grid { grid-template-columns: 1fr; }
+body.l-big-type .card { padding: 38px 42px; }
+body.l-big-type .card h3 { font-size: 25px; }
+body.l-big-type .card .desc { font-size: 16.5px; }
+body.l-big-type .skills-wrap { grid-template-columns: 1fr; gap: 50px; }
+body.l-big-type .bar-row { margin-bottom: 24px; }
+body.l-big-type .bar-label { font-size: 15.5px; }
+body.l-big-type .about-text p { font-size: 18px; }
+body.l-big-type .post { padding: 30px 34px; }
+body.l-big-type .post-body h3 { font-size: 21px; }
+body.l-big-type .hero { max-width: 1180px; }
+body.l-big-type section { max-width: 1180px; }

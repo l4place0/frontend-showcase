@@ -1,0 +1,21 @@
+/* 布局·终端窗格 —— tmux 分屏，标题栏装点 */
+body.l-panes main { max-width: 1080px; margin: 0 auto; }
+body.l-panes main section {
+  border: 1.5px solid var(--border); margin: 0 auto 26px; padding: 0;
+  max-width: 1032px; background: var(--surface);
+}
+body.l-panes main section::before {
+  content: "● ● ●   ~/l4place/" attr(id) " — zsh";
+  display: block; padding: 8px 16px;
+  border-bottom: 1.5px solid var(--border);
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 12px; letter-spacing: 1px; color: var(--text-2);
+  background: var(--surface-2);
+}
+body.l-panes main section > * { padding-left: 26px; padding-right: 26px; }
+body.l-panes main section > .reveal:first-child { padding-top: 24px; }
+body.l-panes main section > :last-child { padding-bottom: 26px; }
+body.l-panes main section > div:last-child { padding-bottom: 26px; }
+body.l-panes .projects-grid, body.l-panes .skills-wrap, body.l-panes .about-wrap,
+body.l-panes .blog-list, body.l-panes .contact-grid { padding-bottom: 26px; }
+body.l-panes .hero { border: none; }

@@ -1,0 +1,28 @@
+/* 布局·自由拼贴 —— 不规则混排，手作感 */
+body.l-collage main {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px;
+  max-width: 1080px; margin: 0 auto; padding: 50px 24px 24px;
+}
+body.l-collage main section {
+  padding: 28px; margin: 0; max-width: none;
+  border: 1.5px solid var(--border); background: var(--surface);
+}
+body.l-collage #projects { grid-column: 1 / 5; }
+body.l-collage #skills { grid-column: 5 / 7; grid-row: span 2; }
+body.l-collage #about { grid-column: 1 / 3; transform: rotate(-.7deg); }
+body.l-collage #blog { grid-column: 3 / 5; transform: rotate(.5deg); }
+body.l-collage #contact { grid-column: 5 / 7; transform: rotate(-.4deg); }
+body.l-collage .section-desc, body.l-collage .skills-note { display: none; }
+body.l-collage .section-title { font-size: 22px; }
+body.l-collage .projects-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+body.l-collage .card { padding: 18px; }
+body.l-collage .card .desc { font-size: 13.5px; }
+body.l-collage .skills-wrap, body.l-collage .about-wrap { grid-template-columns: 1fr; gap: 20px; }
+body.l-collage .post { flex-direction: column; align-items: flex-start; gap: 4px; padding: 14px 16px; }
+body.l-collage .post-arrow, body.l-collage .post-body p { display: none; }
+body.l-collage .contact-grid { grid-template-columns: 1fr; }
+@media (max-width: 900px) {
+  body.l-collage main { grid-template-columns: 1fr; }
+  body.l-collage #projects, body.l-collage #skills, body.l-collage #about,
+  body.l-collage #blog, body.l-collage #contact { grid-column: 1 / -1; grid-row: auto; transform: none; }
+}

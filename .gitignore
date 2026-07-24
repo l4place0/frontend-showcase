@@ -1,0 +1,19 @@
+# Build output
+dist/
+
+# Local development
+node_modules/
+server.log
+server-error.log
+*.log
+
+# Local agent/workspace state
+.workbuddy/
+HANDOFF.md
+
+# Editor and OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

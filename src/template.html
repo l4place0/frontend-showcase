@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{EXHIBIT_LABEL}} · {{CABINET_NAME}} · 前端风格博物馆</title>
+<meta name="description" content="前端风格博物馆：同一份落地页测试内容，以 {{EXHIBIT_LABEL}} 呈现。内容为 l4place 个人落地页（业务测试用例）。">
+<meta property="og:title" content="{{EXHIBIT_LABEL}} · 前端风格博物馆">
+<meta property="og:description" content="同一份内容的 N 种打开方式——视觉风格与布局排版的对比实验。">
+<meta property="og:type" content="website">
+<style>
+/*__BASE_CSS__*/
+/*__THEME_CSS__*/
+</style>
+</head>
+<body class="{{BODY_CLASS}}">
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="bg-fx" aria-hidden="true"></div>
+<div class="page">
+
+<div class="museum-bar">
+  <a class="mb-logo" href="index.html">◈ 风格博物馆</a>
+  <span class="mb-crumb">／<a href="{{CABINET_URL}}">{{CABINET_NAME}}</a></span>
+  <span class="mb-current">{{EXHIBIT_LABEL}}</span>
+  <a class="mb-other" href="{{OTHER_URL}}">{{OTHER_NAME}} →</a>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#top">l4place<span>.</span></a>
+    <div class="nav-links">
+      <a href="#projects">项目</a>
+      <a href="#skills">技能</a>
+      <a href="#about">关于</a>
+      <a href="#blog">文章</a>
+      <a href="#contact">联系</a>
+    </div>
+    <a class="gallery-link" href="{{CABINET_URL}}" title="返回{{CABINET_NAME}}">{{CABINET_SHORT}} ▦</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-left">
+    <div class="hero-badge"><i></i>正在探索 AI 的边界</div>
+    <h1>l4place</h1>
+    <p class="tagline">AI 时代探索者</p>
+    <p class="hero-desc">写 Python，也写 JavaScript；训练模型，也打磨界面。从五子棋 AI 到 LLM 应用，我把感兴趣的想法变成能跑起来的东西，并在这里记录过程与结果。</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projects">查看项目 ↓</a>
+      <a class="btn btn-ghost" href="https://github.com/l4place0" target="_blank" rel="noopener">GitHub →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><b>10+</b><span>公开仓库</span></div>
+      <div class="stat"><b>6+</b><span>编程语言</span></div>
+      <div class="stat"><b>2</b><span>AI 项目</span></div>
+      <div class="stat"><b>2024</b><span>启程探索</span></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="avatar-wrap">
+      <svg class="avatar-svg" viewBox="0 0 220 220" role="img" aria-label="头像占位符">
+        <defs>
+          <linearGradient id="ag" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:var(--accent)"/>
+            <stop offset="1" style="stop-color:var(--accent-2)"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="110" cy="126" rx="98" ry="26" fill="none" stroke="url(#ag)" stroke-width="2" opacity=".55" transform="rotate(-16 110 126)"/>
+        <circle cx="110" cy="110" r="74" fill="url(#ag)" opacity=".18"/>
+        <circle cx="110" cy="110" r="58" fill="none" stroke="url(#ag)" stroke-width="2.5"/>
+        <circle cx="110" cy="110" r="58" fill="var(--bg)" opacity=".72"/>
+        <text x="110" y="126" text-anchor="middle" font-size="42" font-weight="700" fill="var(--text)" font-family="monospace">L4</text>
+        <circle cx="186" cy="66" r="4" fill="var(--accent)"/>
+        <circle cx="34" cy="150" r="3" fill="var(--accent-2)"/>
+        <circle cx="168" cy="176" r="2.5" fill="var(--accent)" opacity=".7"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section id="projects">
+  <div class="reveal">
+    <span class="section-tag">PROJECTS</span>
+    <h2 class="section-title">作品集</h2>
+    <p class="section-desc">从 AI 引擎到全栈应用——这些是我真正花时间折腾过的东西，全部开源。</p>
+  </div>
+  <div class="projects-grid">
+    <article class="card featured reveal">
+      <div class="card-top">
+        <h3><a href="https://github.com/l4place0/gomoku" target="_blank" rel="noopener">gomoku</a></h3>
+        <span class="star">★</span>
+      </div>
+      <p class="desc">15×15 五子棋 AI 引擎：MCTS 搜索 + KataGomo 神经网络 + AutoML 训练管线，从博弈算法一路做到模型自训练。</p>
+      <div class="langs"><span class="lang">Python</span><span class="lang">C++</span><span class="lang">JavaScript</span><span class="lang">强化学习</span></div>
+    </article>
+
+    <article class="card reveal">
+      <div class="card-top">
+        <h3><a href="https://github.com/l4place0/flower-recognized" target="_blank" rel="noopener">flower-recognized</a></h3>
+        <span class="star">★ 4</span>
+      </div>
+      <p class="desc">花卉识别模型与大语言模型结合的智能识别系统——视觉模型负责看，LLM 负责讲，毕业设计级别的完整实践。</p>
+      <div class="langs"><span class="lang">Python</span><span class="lang">计算机视觉</span><span class="lang">LLM 集成</span></div>
+    </article>
+
+    <article class="card reveal">
+      <div class="card-top">
+        <h3><a href="https://github.com/l4place0/sky-takeout" target="_blank" rel="noopener">sky-takeout</a></h3>
+        <span class="more-ico">↗</span>
+      </div>
+      <p class="desc">全栈外卖平台：Vue 前端 + Java 后端 + Docker 部署，代码量最大的一个项目，完整走完业务系统全流程。</p>
+      <div class="langs"><span class="lang">Vue</span><span class="lang">Java</span><span class="lang">SCSS</span><span class="lang">Docker</span></div>
+    </article>
+
+    <article class="card reveal">
+      <div class="card-top">
+        <h3><a href="https://github.com/l4place0/bilibili-learning-helper" target="_blank" rel="noopener">bilibili-learning-helper</a></h3>
+        <span class="more-ico">↗</span>
+      </div>
+      <p class="desc">B 站学习助手：把视频学习流程工具化，Python 为主力，配套 Web 界面与 Docker 一键部署。</p>
+      <div class="langs"><span class="lang">Python</span><span class="lang">Shell</span><span class="lang">Docker</span></div>
+    </article>
+
+    <article class="card reveal">
+      <div class="card-top">
+        <h3><a href="https://github.com/l4place0/l4p-blog" target="_blank" rel="noopener">l4p-blog</a></h3>
+        <span class="more-ico">↗</span>
+      </div>
+      <p class="desc">复古文艺风个人博客，Astro + GitHub Pages 构建，已上线至 blog.l4pl.top——这里展示的文章就沉淀在那里。</p>
+      <div class="langs"><span class="lang">Astro</span><span class="lang">TypeScript</span><span class="lang">CSS</span></div>
+    </article>
+
+    <article class="card reveal">
+      <div class="card-top">
+        <h3><a href="https://github.com/l4place0?tab=repositories" target="_blank" rel="noopener">更多仓库 →</a></h3>
+        <span class="more-ico">↗</span>
+      </div>
+      <p class="desc">算法练习、热点阅读、视频摘要…… 10 个公开仓库持续更新中，欢迎来 GitHub 逛逛。</p>
+      <div class="langs"><span class="lang">C++</span><span class="lang">HTML</span><span class="lang">更多</span></div>
+    </article>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="reveal">
+    <span class="section-tag">SKILLS</span>
+    <h2 class="section-title">技能栈</h2>
+    <p class="section-desc">不写自评进度条——以下占比全部来自 GitHub 公开仓库的真实代码量统计。</p>
+  </div>
+  <div class="skills-wrap">
+    <div class="skill-group reveal">
+      <h3>语言分布</h3>
+      <div class="bar-row"><div class="bar-label"><span>JavaScript</span><span>38.6%</span></div><div class="bar-track"><div class="bar-fill" data-w="38.6%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>Python</span><span>30.8%</span></div><div class="bar-track"><div class="bar-fill" data-w="30.8%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>SCSS</span><span>10.0%</span></div><div class="bar-track"><div class="bar-fill" data-w="10%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>Vue</span><span>9.7%</span></div><div class="bar-track"><div class="bar-fill" data-w="9.7%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>Java</span><span>7.2%</span></div><div class="bar-track"><div class="bar-fill" data-w="7.2%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>TypeScript</span><span>2.2%</span></div><div class="bar-track"><div class="bar-fill" data-w="2.2%"></div></div></div>
+      <p class="skills-note">统计口径：l4place0 名下公开仓库字节数，其余语言（C++ / Astro / HTML / CSS / Shell 等）合计约 1.5%。</p>
+    </div>
+    <div class="skill-group reveal">
+      <h3>领域能力</h3>
+      <div class="tag-block">
+        <p class="tag-title">AI 与机器学习</p>
+        <div class="tag-cloud">
+          <span class="tag">深度学习</span><span class="tag">MCTS</span><span class="tag">神经网络</span>
+          <span class="tag">LLM 集成</span><span class="tag">计算机视觉</span><span class="tag">AutoML</span>
+        </div>
+      </div>
+      <div class="tag-block">
+        <p class="tag-title">前端工程</p>
+        <div class="tag-cloud">
+          <span class="tag">Vue</span><span class="tag">Astro</span><span class="tag">TypeScript</span>
+          <span class="tag">SCSS</span><span class="tag">响应式设计</span>
+        </div>
+      </div>
+      <div class="tag-block">
+        <p class="tag-title">后端与运维</p>
+        <div class="tag-cloud">
+          <span class="tag">Java</span><span class="tag">C++</span><span class="tag">Docker</span>
+          <span class="tag">Shell</span><span class="tag">GitHub Pages</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="reveal">
+    <span class="section-tag">ABOUT</span>
+    <h2 class="section-title">关于我</h2>
+  </div>
+  <div class="about-wrap">
+    <div class="about-text reveal">
+      <p>你好，我是 <b>l4place</b>，一名 AI 时代的探索者。</p>
+      <p>我的好奇心横跨算法与产品：会为了让 AI 学会下五子棋，从 MCTS 写到神经网络再搭一套 AutoML 训练管线；也会把大语言模型接进花卉识别系统，让模型既看得懂花、也讲得出花。</p>
+      <p>不写模型的时候，我在做全栈应用和效率工具——Vue 外卖平台、B 站学习助手，还有一座复古文艺风的 <a href="https://blog.l4pl.top" target="_blank" rel="noopener">个人博客</a>。主力语言是 Python，也常泡在 JavaScript / TypeScript 的世界里。</p>
+      <p>最近在探索的方向：<b>AI 工程化与智能体应用</b>。这个站点本身就是探索的一部分。</p>
+    </div>
+    <div class="about-facts reveal">
+      <div class="fact"><b>2024</b><span>开始 GitHub 开源之旅</span></div>
+      <div class="fact"><b>10 个</b><span>公开仓库，持续更新</span></div>
+      <div class="fact"><b>2 个</b><span>AI 项目：博弈引擎与 LLM 应用</span></div>
+      <div class="fact"><b>1 座</b><span>自搭博客：blog.l4pl.top</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="blog">
+  <div class="reveal">
+    <span class="section-tag">BLOG</span>
+    <h2 class="section-title">文章</h2>
+    <p class="section-desc">示例文章——完整内容沉淀在我的 Astro 博客，点击跳转。</p>
+  </div>
+  <div class="blog-list">
+    <a class="post reveal" href="https://blog.l4pl.top" target="_blank" rel="noopener">
+      <div class="post-meta"><em>AI / 强化学习</em>2026-07 · 12 min</div>
+      <div class="post-body">
+        <h3>从 MCTS 到神经网络：训练一个会思考的五子棋 AI</h3>
+        <p>复盘 gomoku 项目：博弈搜索怎么与神经网络互补，AutoML 管线又如何让模型越下越强。</p>
+      </div>
+      <span class="post-arrow">→</span>
+    </a>
+    <a class="post reveal" href="https://blog.l4pl.top" target="_blank" rel="noopener">
+      <div class="post-meta"><em>前端 / 建站</em>2026-07 · 8 min</div>
+      <div class="post-body">
+        <h3>用 Astro 搭一座复古文艺的数字花园</h3>
+        <p>为什么是 Astro 而不是 Next.js：内容站的选型逻辑、零 JS 交付与 GitHub Pages 部署实录。</p>
+      </div>
+      <span class="post-arrow">→</span>
+    </a>
+    <a class="post reveal" href="https://blog.l4pl.top" target="_blank" rel="noopener">
+      <div class="post-meta"><em>AI 应用</em>2026-05 · 10 min</div>
+      <div class="post-body">
+        <h3>当花卉识别遇上大语言模型</h3>
+        <p>视觉模型给出标签之后，让 LLM 把它变成一段有温度的科普——一次 CV + LLM 的联姻实验。</p>
+      </div>
+      <span class="post-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="reveal">
+    <span class="section-tag">CONTACT</span>
+    <h2 class="section-title">联系我</h2>
+    <p class="section-desc">对项目感兴趣、想交流 AI 或全栈开发？来这里找我。</p>
+  </div>
+  <div class="contact-grid">
+    <a class="contact-card reveal" href="https://github.com/l4place0" target="_blank" rel="noopener">
+      <span class="contact-ico"><svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.69-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.16 1.18a11 11 0 0 1 5.76 0c2.2-1.49 3.16-1.18 3.16-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.26 5.68.41.35.78 1.05.78 2.13v3.16c0 .31.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></span>
+      <span><h3>GitHub</h3><p>github.com/l4place0 — 全部源码在这里</p></span>
+    </a>
+    <a class="contact-card reveal" href="https://blog.l4pl.top" target="_blank" rel="noopener">
+      <span class="contact-ico"><svg viewBox="0 0 24 24"><path d="M4 3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm3 4v2h8V7H7zm0 4v2h8v-2H7zm0 4v2h5v-2H7z"/></svg></span>
+      <span><h3>博客</h3><p>blog.l4pl.top — 长文与思考沉淀</p></span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>© 2026 l4place · 本页内容为博物馆演示用的业务测试用例</p>
+  <p>{{CABINET_NAME}} · {{EXHIBIT_LABEL}} · <a href="{{CABINET_URL}}">← 返回展柜（共 30 件）</a></p>
+</footer>
+
+</div>
+
+<div class="param-dock" id="paramDock" data-kind="{{PARAM_KIND}}">
+  <div class="pd-panel" id="pdPanel" role="dialog" aria-label="{{PARAM_TITLE}}">
+    <div class="pd-head">
+      <div><b>{{PARAM_TITLE}}</b><span>{{CABINET_SHORT}}专属参数 · 实时预览</span></div>
+      <button class="pd-close" id="pdClose" aria-label="关闭参数面板">×</button>
+    </div>
+<!--__PARAM_CONTROLS__-->
+    <button class="pd-reset" id="pdReset">恢复本柜默认值</button>
+    <p class="pd-note">参数会在{{CABINET_SHORT}}展品之间保持</p>
+  </div>
+  <button class="pd-toggle" id="pdToggle" aria-label="打开并拖动{{PARAM_TITLE}}" aria-expanded="false">
+    <span class="pd-grip" aria-hidden="true">⠿</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10a2 2 0 1 0 0-2H4v2zm0 6h4a2 2 0 1 0 0-2H4v2zm0 6h12a2 2 0 1 0 0-2H4v2z"/></svg>
+    <span>{{PARAM_TITLE}}</span>
+  </button>
+</div>
+
+<script>
+// 两柜参数独立记忆；悬浮胶囊支持鼠标/触摸拖动并自动贴合视口
+(function () {
+  const root = document.documentElement;
+  const dock = document.getElementById('paramDock');
+  const toggle = document.getElementById('pdToggle');
+  const panel = document.getElementById('pdPanel');
+  const kind = dock.dataset.kind;
+  const KEY = 'museum-params-' + kind;
+  const POS_KEY = 'museum-param-position-' + kind;
+  const ranges = Array.from(dock.querySelectorAll('.pd-range'));
+  let params = {};
+  try { params = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { params = {}; }
+  const format = (input, raw) => {
+    const v = Number(raw);
+    if (input.dataset.format === 'px') return v + 'px';
+    if (input.dataset.format === 'deg') return (v > 0 ? '+' : '') + v + '°';
+    return v + '%';
+  };
+  function setValue(input, raw) {
+    const v = Number(raw);
+    const mode = input.dataset.format;
+    let cssValue = v;
+    if (mode === 'px') cssValue = v + 'px';
+    if (mode === 'deg') cssValue = v + 'deg';
+    if (mode === 'scale') cssValue = v / 100;
+    if (mode === 'share') cssValue = v / (100 - v);
+    root.style.setProperty(input.dataset.css, cssValue);
+    input.value = v;
+    const out = dock.querySelector('[data-output="' + input.dataset.param + '"]');
+    if (out) out.value = format(input, v);
+    const pct = (v - Number(input.min)) / (Number(input.max) - Number(input.min)) * 100;
+    input.style.setProperty('--range-progress', pct + '%');
+  }
+  function apply() {
+    ranges.forEach(input => setValue(input, params[input.dataset.param] ?? input.defaultValue));
+    try { localStorage.setItem(KEY, JSON.stringify(params)); } catch (e) {}
+  }
+  ranges.forEach(input => {
+    input.addEventListener('input', () => {
+      params[input.dataset.param] = Number(input.value);
+      apply();
+    });
+  });
+  document.getElementById('pdReset').addEventListener('click', () => { params = {}; apply(); });
+  function positionPanel() {
+    const r = toggle.getBoundingClientRect();
+    const pw = Math.min(320, innerWidth - 24);
+    panel.style.width = pw + 'px';
+    const ph = panel.offsetHeight;
+    const left = Math.max(12, Math.min(innerWidth - pw - 12, r.left + r.width / 2 - pw / 2));
+    const fitsAbove = r.top > ph + 18;
+    panel.style.left = left + 'px';
+    const proposedTop = fitsAbove ? r.top - ph - 10 : r.bottom + 10;
+    panel.style.top = Math.max(12, Math.min(innerHeight - ph - 12, proposedTop)) + 'px';
+  }
+  function setOpen(open) {
+    dock.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) requestAnimationFrame(positionPanel);
+  }
+  document.getElementById('pdClose').addEventListener('click', () => setOpen(false));
+  document.addEventListener('click', e => { if (!dock.contains(e.target)) setOpen(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
+  toggle.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault(); setOpen(!dock.classList.contains('open'));
+    }
+  });
+  addEventListener('resize', () => {
+    clampDock();
+    if (dock.classList.contains('open')) positionPanel();
+  });
+
+  let drag = null;
+  function clampDock() {
+    const r = toggle.getBoundingClientRect();
+    const x = Math.max(10, Math.min(innerWidth - r.width - 10, parseFloat(dock.style.left) || r.left));
+    const y = Math.max(48, Math.min(innerHeight - r.height - 10, parseFloat(dock.style.top) || r.top));
+    dock.style.left = x + 'px'; dock.style.top = y + 'px';
+    dock.style.right = 'auto'; dock.style.bottom = 'auto';
+  }
+  try {
+    const saved = JSON.parse(localStorage.getItem(POS_KEY) || 'null');
+    if (saved) {
+      dock.style.left = Math.round(saved.x * innerWidth) + 'px';
+      dock.style.top = Math.round(saved.y * innerHeight) + 'px';
+    }
+  } catch (e) {}
+  toggle.addEventListener('pointerdown', e => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
+    const r = dock.getBoundingClientRect();
+    drag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, x: r.left, y: r.top, moved: false };
+    toggle.setPointerCapture(e.pointerId);
+  });
+  toggle.addEventListener('pointermove', e => {
+    if (!drag || drag.id !== e.pointerId) return;
+    const dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+    if (Math.hypot(dx, dy) < 4 && !drag.moved) return;
+    drag.moved = true; dock.classList.add('dragging'); setOpen(false);
+    dock.style.left = drag.x + dx + 'px'; dock.style.top = drag.y + dy + 'px';
+    clampDock();
+  });
+  toggle.addEventListener('pointerup', e => {
+    if (!drag || drag.id !== e.pointerId) return;
+    const moved = drag.moved; drag = null; dock.classList.remove('dragging');
+    if (moved) {
+      const r = dock.getBoundingClientRect();
+      try { localStorage.setItem(POS_KEY, JSON.stringify({ x: r.left / innerWidth, y: r.top / innerHeight })); } catch (err) {}
+    } else {
+      setOpen(!dock.classList.contains('open'));
+    }
+  });
+  requestAnimationFrame(clampDock);
+  apply();
+})();
+</script>
+
+<script>
+// 滚动淡入
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// 技能条动画
+const barIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.w);
+      barIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.skill-group').forEach(el => barIO.observe(el));
+
+// 背景 canvas：太空=星空，黑客帝国=代码雨（canvas 显示时才运行）
+const cv = document.getElementById('stars');
+if (getComputedStyle(cv).display !== 'none') {
+  const ctx = cv.getContext('2d');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W, H;
+  if (document.body.classList.contains('t-matrix')) {
+    const chars = 'アイウエオカキクケコサシスセソタチツテト0123456789ABCDEFXYZ$#@%&';
+    let drops;
+    function resizeM() {
+      W = cv.width = innerWidth; H = cv.height = innerHeight;
+      drops = Array.from({length: Math.ceil(W / 16)}, () => Math.random() * -60);
+      ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+    }
+    resizeM(); addEventListener('resize', resizeM);
+    let last = 0;
+    (function rain(t) {
+      if (t - last > 52) {
+        last = t;
+        ctx.fillStyle = 'rgba(0,0,0,.08)'; ctx.fillRect(0, 0, W, H);
+        ctx.font = '14px monospace';
+        drops.forEach((y, i) => {
+          ctx.fillStyle = Math.random() > .96 ? '#b4ffb4' : '#00c136';
+          ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * 16, y * 16);
+          drops[i] = (y * 16 > H && Math.random() > .976) ? 0 : y + 1;
+        });
+      }
+      if (!reduced) requestAnimationFrame(rain);
+    })(0);
+  } else {
+    let stars = [];
+    function resize() {
+      W = cv.width = innerWidth; H = cv.height = innerHeight;
+      stars = Array.from({length: 170}, () => ({
+        x: Math.random()*W, y: Math.random()*H,
+        r: Math.random()*1.4 + .3, s: Math.random()*2 + .6,
+        p: Math.random()*Math.PI*2, d: Math.random()*.12 + .02
+      }));
+    }
+    resize(); addEventListener('resize', resize);
+    (function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (const st of stars) {
+        st.p += st.d;
+        ctx.globalAlpha = st.s * (.45 + .55 * Math.sin(st.p)) / 2.6 + .12;
+        ctx.fillStyle = '#cfe4ff';
+        ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, 7); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (!reduced) requestAnimationFrame(draw);
+    })();
+  }
+}
+</script>
+</body>
+</html>
