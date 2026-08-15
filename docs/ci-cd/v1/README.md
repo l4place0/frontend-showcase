@@ -1,9 +1,9 @@
 # Frontend Showcase CI/CD v1
 
-状态：**v1 实现候选已完成本地验收，生产验收待 feature → dev → main 发布链路完成**
+状态：**v1 已实现，并于 2026-08-15 完成首次生产验收**
 文档日期：2026-08-15
 设计基线：`dev` 提交 `c5153cc8e81d0d7a537fa1125d5f4e6a0e13f3d2`
-生产基线：`main` 提交 `9a39d32c49b1fa4e3fdc4e4e11a74528968e4069`
+改造前生产基线：`main` 提交 `9a39d32c49b1fa4e3fdc4e4e11a74528968e4069`
 
 ## 1. 目的
 
@@ -26,6 +26,7 @@ v1 的核心目标是：
 | [04-operations.md](./04-operations.md) | 失败分类、排查、部署、smoke、恢复和回滚手册 |
 | [05-learning-and-decisions.md](./05-learning-and-decisions.md) | 从 Git 工作流到 CI/CD 治理的学习历程和已收敛决策 |
 | [06-delivery-plan.md](./06-delivery-plan.md) | MVP 范围、实施顺序、风险、验收和后续演进 |
+| [07-acceptance-record.md](./07-acceptance-record.md) | 实施变更、受控失败、远端门禁、生产部署和独立复核证据 |
 
 ## 3. 设计原则
 
