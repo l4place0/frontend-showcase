@@ -1,0 +1,463 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [dev, main]
+  push:
+    branches: [dev, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+env:
+  NODE_VERSION: "22"
+  SITE_ARTIFACT_NAME: site-${{ github.sha }}-attempt-${{ github.run_attempt }}
+  REPORT_RETENTION_DAYS: "14"
+
+jobs:
+  release_policy:
+    name: CI / release-policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Enforce dev to main promotion
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          if [[ "$EVENT_NAME" == "pull_request" && "$BASE_REF" == "main" && "$HEAD_REF" != "dev" ]]; then
+            echo "Production pull requests must promote dev to main; received $HEAD_REF to $BASE_REF."
+            exit 1
+          fi
+          echo "Release policy passed for ${HEAD_REF:-$GITHUB_REF}."
+
+  build:
+    name: CI / build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      artifact-name: ${{ steps.artifact-metadata.outputs.name }}
+      artifact-digest: ${{ steps.upload-site.outputs.artifact-digest }}
+      dist-digest: ${{ steps.create-artifact.outputs.dist-digest }}
+      total-bytes: ${{ steps.create-artifact.outputs.total-bytes }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and validate once
+        run: npm run build
+
+      - name: Create immutable site artifact
+        id: create-artifact
+        run: npm run ci:artifact:create
+
+      - name: Publish artifact metadata
+        id: artifact-metadata
+        run: echo "name=$SITE_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Upload immutable site artifact
+        id: upload-site
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ env.SITE_ARTIFACT_NAME }}
+          path: .generated/ci/site-artifact/
+          if-no-files-found: error
+          retention-days: ${{ github.ref == 'refs/heads/main' && 90 || github.ref == 'refs/heads/dev' && 14 || 7 }}
+
+      - name: Upload artifact identity probe
+        uses: actions/upload-artifact@v7
+        with:
+          name: site-manifest-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/ci/site-artifact/artifact-manifest.json
+          if-no-files-found: error
+          retention-days: 30
+
+  component:
+    name: CI / component
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run component tests
+        env:
+          PLAYWRIGHT_REPORT_SCOPE: components
+        run: npm run test:components
+
+      - name: Upload component diagnostics
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: component-report-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: |
+            .generated/playwright-report/components/
+            .generated/test-results/components/
+          if-no-files-found: warn
+          retention-days: ${{ env.REPORT_RETENTION_DAYS }}
+
+      - name: Upload component machine result
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: component-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/test-results/components/results.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  e2e:
+    name: CI / e2e
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Download immutable site artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.build.outputs.artifact-name }}
+          path: .
+
+      - name: Verify immutable site artifact
+        run: npm run ci:artifact:verify -- .
+
+      - name: Run ordinary end-to-end tests
+        env:
+          PLAYWRIGHT_REPORT_SCOPE: e2e
+          PLAYWRIGHT_USE_EXISTING_DIST: "1"
+        run: npm run test:e2e:ordinary
+
+      - name: Upload end-to-end diagnostics
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-report-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: |
+            .generated/playwright-report/e2e/
+            .generated/test-results/e2e/
+          if-no-files-found: warn
+          retention-days: ${{ env.REPORT_RETENTION_DAYS }}
+
+      - name: Upload end-to-end machine result
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/test-results/e2e/results.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  webgl:
+    name: CI / webgl
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Download immutable site artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.build.outputs.artifact-name }}
+          path: .
+
+      - name: Verify immutable site artifact
+        run: npm run ci:artifact:verify -- .
+
+      - name: Run isolated WebGL tests
+        env:
+          PLAYWRIGHT_REPORT_SCOPE: webgl
+          PLAYWRIGHT_USE_EXISTING_DIST: "1"
+        run: npm run test:webgl
+
+      - name: Upload WebGL diagnostics
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: webgl-report-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: |
+            .generated/playwright-report/webgl/
+            .generated/test-results/webgl/
+          if-no-files-found: warn
+          retention-days: ${{ env.REPORT_RETENTION_DAYS }}
+
+      - name: Upload WebGL machine result
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: webgl-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/test-results/webgl/results.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  visual:
+    name: CI / visual
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Download immutable site artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.build.outputs.artifact-name }}
+          path: .
+
+      - name: Verify immutable site artifact
+        run: npm run ci:artifact:verify -- .
+
+      - name: Run visual regression tests
+        env:
+          PLAYWRIGHT_REPORT_SCOPE: visual
+          PLAYWRIGHT_USE_EXISTING_DIST: "1"
+        run: npm run test:visual
+
+      - name: Upload visual diagnostics
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: visual-report-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: |
+            .generated/playwright-report/visual/
+            .generated/test-results/visual/
+          if-no-files-found: warn
+          retention-days: ${{ env.REPORT_RETENTION_DAYS }}
+
+      - name: Upload visual machine result
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: visual-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/test-results/visual/results.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  quality_gate:
+    name: CI / quality-gate
+    if: ${{ always() }}
+    needs: [release_policy, build, component, e2e, webgl, visual]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Assert every required layer passed
+        env:
+          CI_JOB_RESULTS: >-
+            {"release-policy":"${{ needs.release_policy.result }}","build":"${{ needs.build.result }}","component":"${{ needs.component.result }}","e2e":"${{ needs.e2e.result }}","webgl":"${{ needs.webgl.result }}","visual":"${{ needs.visual.result }}"}
+        run: node scripts/ci/assert-quality-gate.mjs
+
+  diagnostics:
+    name: CI / diagnostics
+    if: ${{ !cancelled() }}
+    needs: [release_policy, build, component, e2e, webgl, visual]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Download site identity
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: site-manifest-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/diagnostic-input/site
+
+      - name: Download machine-readable test results
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          pattern: '*-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}'
+          path: .generated/diagnostic-input/test-reports
+
+      - name: Build machine-readable diagnostic bundle
+        env:
+          CI_HEAD_REF: ${{ github.head_ref }}
+          CI_BASE_REF: ${{ github.base_ref }}
+          CI_ARTIFACT_NAME: ${{ needs.build.outputs.artifact-name }}
+          CI_ARTIFACT_UPLOAD_DIGEST: ${{ needs.build.outputs.artifact-digest }}
+          CI_JOB_RESULTS: >-
+            {"release-policy":"${{ needs.release_policy.result }}","build":"${{ needs.build.result }}","component":"${{ needs.component.result }}","e2e":"${{ needs.e2e.result }}","webgl":"${{ needs.webgl.result }}","visual":"${{ needs.visual.result }}"}
+        run: node scripts/ci/summarize-ci.mjs
+
+      - name: Upload machine-readable diagnostics
+        uses: actions/upload-artifact@v7
+        with:
+          name: ci-diagnostics-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/ci-diagnostics/
+          if-no-files-found: error
+          retention-days: 30
+
+  package_pages:
+    name: CI / package-pages
+    if: >-
+      ${{ needs.quality_gate.result == 'success' && github.ref == 'refs/heads/main' &&
+          (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+    needs: [build, quality_gate]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Download verified site artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.build.outputs.artifact-name }}
+          path: .
+
+      - name: Verify production artifact identity
+        run: node scripts/ci/verify-artifact.mjs .
+
+      - name: Create Pages promotion package
+        run: npm run ci:pages:package -- . .generated/pages
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: .generated/pages/
+
+  deploy:
+    name: CI / deploy
+    needs: package_pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages-production
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page-url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Verify candidate is the latest main commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          latest_sha="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq .object.sha)"
+          test "$latest_sha" = "$GITHUB_SHA" || {
+            echo "Candidate $GITHUB_SHA is stale; latest main is $latest_sha."
+            exit 1
+          }
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  smoke:
+    name: CI / production-smoke
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Verify deployed site
+        run: node scripts/ci/smoke.mjs "${{ needs.deploy.outputs.page-url }}" "${{ github.sha }}"
