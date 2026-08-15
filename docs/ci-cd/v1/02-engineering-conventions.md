@@ -50,8 +50,9 @@
 5. WebGL retry 必须用于诊断；任何 flaky 仍必须使门禁失败。
 6. Visual 必须在每个 PR 运行并作为 required layer。
 7. Visual baseline 更新必须是明确、可审查的源码变更；CI 不得自动接受新 baseline。
-8. 不得通过扩大 timeout、增加 retry 或弱化断言来掩盖未分类的波动。
-9. 修改测试或 workflow 后必须按仓库要求运行相关的 `npm run build`、`npm run test:components`、`npm run test:e2e`；代表性视觉变更还必须审慎运行并更新 visual。
+8. Visual baseline 必须按 `process.platform` 分离；Linux runner 与 macOS 本地字体栅格和布局差异不得共用同一 PNG，也不得靠扩大像素容差掩盖。
+9. 不得通过扩大 timeout、增加 retry 或弱化断言来掩盖未分类的波动。
+10. 修改测试或 workflow 后必须按仓库要求运行相关的 `npm run build`、`npm run test:components`、`npm run test:e2e`；代表性视觉变更还必须审慎运行并更新 visual。
 
 ## 6. Artifact
 

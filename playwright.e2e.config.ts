@@ -11,7 +11,7 @@ export default defineConfig({
   testMatch: ["e2e/**/*.spec.ts", "visual/**/*.spec.ts"],
   outputDir: `.generated/test-results/${reportScope}`,
   snapshotDir: "./tests/visual/__snapshots__",
-  snapshotPathTemplate: "{snapshotDir}/{testFilePath}/{arg}{ext}",
+  snapshotPathTemplate: "{snapshotDir}/{testFilePath}/{platform}/{arg}{ext}",
   fullyParallel: true,
   workers: process.env.CI ? 2 : undefined,
   forbidOnly: Boolean(process.env.CI),

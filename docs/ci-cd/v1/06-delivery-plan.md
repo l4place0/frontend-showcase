@@ -152,7 +152,7 @@
 | Required check 尚不存在就启用保护 | 先运行成功，再配置保护 |
 | WebGL 隔离后仍 flaky | readiness/focus 探针、同 artifact 复现，不弱化门槛 |
 | Artifact 过大或传输慢 | 先记录大小和 P95，再评估打包/布局 |
-| Visual runner 差异 | 固定环境和输入，baseline 只人工更新 |
+| Visual runner 差异 | 固定环境和输入，按平台保存 baseline，且只人工审查更新 |
 | Condition 错误导致 PR 可部署 | main-only condition + environment policy + 最小权限三重防线 |
 | Diagnostic bundle 泄露敏感信息 | 默认不采集 secrets/env，上传前清理和限制内容 |
 | Prompt injection 影响 Agent | 诊断数据按不可信输入处理，只读/sandbox/人工确认 |
