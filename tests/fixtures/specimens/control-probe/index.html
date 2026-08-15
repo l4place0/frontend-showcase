@@ -7,8 +7,10 @@
       addEventListener("message", (event) => {
         if (event.data?.type !== "specimen:init" || !event.ports[0]) return;
         const port = event.ports[0];
+        const messages = [];
         port.onmessage = ({ data }) => {
-          output.textContent = JSON.stringify(data);
+          messages.push(data);
+          output.textContent = JSON.stringify(messages);
           if (data?.type === "specimen:set-controls") port.postMessage({ type: "specimen:controls-applied" });
         };
         port.postMessage({ type: "specimen:ready", specimenVersion: 1 });

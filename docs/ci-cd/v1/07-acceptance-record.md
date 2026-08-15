@@ -61,6 +61,8 @@ Artifact 审计确认不包含 `.prototype-engineering/`、`.generated` 源路�
 2. WebGL 继续使用专用 job、单 worker、非 fully-parallel 和 fail-on-flaky；仅将已分类的 Linux 软件渲染完整路径预算从 120 秒调整为 180 秒。
 3. 后续 PR/dev/main 三类真实 run 的 WebGL 均在首次 attempt 通过。
 
+验收记录 PR `#6` 的首个 run `31876774181` 又验证了 fail-on-flaky 门槛：component ProtocolProbe 首次断言被稍后的 `specimen:resume` 消息覆盖，retry 通过，但 job 仍失败。根因是测试 fixture 只保存最后一条 MessageChannel 消息，并非产品丢失 controls。修正后 probe 保存消息历史，目标用例在 CI 两 worker 条件下 `repeat-each=20` 全部通过，完整 component 7/7 通过。
+
 ## 4. 可观测性成本反馈
 
 受控失败 run 的第一版 diagnostic finalizer 重复下载并上传深度附件，诊断包达到 276,127,002 bytes。根据该成本探针立即修正数据平面：
