@@ -105,6 +105,8 @@ Agent 的 workflow 权限保持 `contents: read`；只有 deploy job具有 `page
 
 `github-pages` environment 使用 custom branch policy，只允许 `main`。Repository Actions 默认 workflow 权限为 read。非法 feature → main 由 release-policy 在 build 前拒绝，合法生产路径只有 dev → main。
 
+受控 Draft PR `#5` / run `31876718513` 验证了非法路径：release-policy 在 3 秒内失败，build、component、E2E、WebGL 和 visual 全部跳过，quality-gate 失败，diagnostics 成功，Pages 三层跳过；PR 随后关闭且从未合并。
+
 ## 7. 后续观察
 
 首次验收不构成长期性能结论。继续按 20–30 次代表性 run 观察：
