@@ -1,8 +1,9 @@
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, stat } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import Ajv2020 from "ajv/dist/2020.js";
 import { createHash } from "node:crypto";
+import sharp from "sharp";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const target = path.resolve(root, process.argv[2] || "dist");
@@ -41,6 +42,17 @@ for (const item of items) {
   }
   if (manifest?.entry !== "index.html" || manifest?.ai?.prompt !== "AI.md" || manifest?.ai?.context !== "ai-context.json" || manifest?.learning?.resource !== "learning.json") {
     errors.push(`${item.id}: public manifest links must be relative to the item directory`);
+  }
+  if (item.thumbnail !== "thumbnail.webp" || manifest?.thumbnail !== item.thumbnail) errors.push(`${item.id}: catalog/manifest thumbnail contract mismatch`);
+  try {
+    const thumbnailPath = path.join(target, dir, item.thumbnail || "");
+    const [metadata, details] = await Promise.all([sharp(thumbnailPath).metadata(), stat(thumbnailPath)]);
+    if (metadata.format !== "webp" || metadata.width !== 1200 || metadata.height !== 900) {
+      errors.push(`${item.id}: thumbnail must be a 1200x900 WebP`);
+    }
+    if (details.size > 200_000) errors.push(`${item.id}: thumbnail exceeds 200000 bytes (${details.size})`);
+  } catch (error) {
+    errors.push(`${item.id}: missing or invalid thumbnail (${error.message})`);
   }
   if (context?.id !== item.id || !context?.prompt) errors.push(`${item.id}: invalid AI context`);
   if (context?.learning?.resource !== "learning.json" || context?.learning?.version !== 1 || context?.learning?.contentRevision !== learning?.contentRevision) errors.push(`${item.id}: invalid learning discovery in AI context`);

@@ -60,6 +60,20 @@ for (const item of catalog) {
   if (!item.runtime || typeof item.runtime.scripts !== "boolean") errors.push(`${item.id}: invalid runtime declaration`);
   if (!item.ai?.prompt || !item.ai?.context) errors.push(`${item.id}: missing AI discovery links`);
   if (!item.learning?.resource) errors.push(`${item.id}: missing learning discovery link`);
+  if (item.thumbnail !== "thumbnail.webp") errors.push(`${item.id}: production thumbnail must be thumbnail.webp`);
+  if (!item.preview?.strategy) errors.push(`${item.id}: missing preview strategy`);
+  if (!new Set(["capture", "poster"]).has(item.preview?.strategy)) errors.push(`${item.id}: unsupported preview strategy ${item.preview?.strategy}`);
+  if (item.preview?.strategy === "capture" && !item.preview.anchor) errors.push(`${item.id}: capture preview requires an anchor`);
+  if (item.preview?.strategy === "poster") {
+    if (!item.preview.source || path.isAbsolute(item.preview.source) || item.preview.source.split(/[\\/]/).includes("..")) {
+      errors.push(`${item.id}: poster source must be a safe item-relative path`);
+    } else if (item.renderer !== "static") {
+      errors.push(`${item.id}: poster previews are only supported for static specimens`);
+    } else {
+      try { await access(path.join(root, item.sourceDir || "", item.preview.source)); }
+      catch { errors.push(`${item.id}: poster source does not exist: ${item.preview.source}`); }
+    }
+  }
   try {
     const learning = JSON.parse(await readFile(path.join(root, "specimens", "learning", "items", `${item.id}.json`), "utf8"));
     if (!validateLearning(learning)) errors.push(`${item.id}: learning schema validation failed: ${validateLearning.errors?.map((error) => `${error.instancePath || "/"} ${error.message}`).join(", ")}`);

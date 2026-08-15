@@ -28,6 +28,9 @@ const catalog = await fetchRequired("./specimens.json", "json");
 if (catalog.specimenVersion !== 1 || catalog.items?.length !== 62) {
   throw new Error(`deployed catalog expected Protocol v1 with 62 items, found ${catalog.items?.length ?? "invalid"}`);
 }
+const missingThumbnails = catalog.items.filter((item) => item.thumbnail !== "thumbnail.webp");
+if (missingThumbnails.length) throw new Error(`deployed catalog has invalid thumbnail metadata: ${missingThumbnails.map(({ id }) => id).join(", ")}`);
+await Promise.all(catalog.items.map((item) => fetchRequired(`./items/${encodeURIComponent(item.id)}/${item.thumbnail}`)));
 
 const manifest = await fetchRequired("./artifact-manifest.json", "json");
 if (manifest.schemaVersion !== 1 || !manifest.distDigest) throw new Error("deployed artifact manifest is invalid");
@@ -44,4 +47,4 @@ for (const relative of [
   await fetchRequired(relative);
 }
 
-console.log(`[smoke] ${base} serves commit ${manifest.commit} (${manifest.distDigest}) with 62 Protocol v1 specimens`);
+console.log(`[smoke] ${base} serves commit ${manifest.commit} (${manifest.distDigest}) with 62 Protocol v1 specimens and 62 thumbnails`);

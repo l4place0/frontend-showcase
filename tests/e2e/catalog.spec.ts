@@ -36,6 +36,25 @@ test("catalog supports its stable navigation routes", async ({ page, request }) 
   }
 });
 
+test("every production specimen publishes a loadable local thumbnail", async ({ page, request }) => {
+  const items = await readCatalog(request);
+  expect(items).toHaveLength(62);
+
+  for (const item of items) {
+    expect(item.thumbnail, `${item.id} is missing thumbnail metadata`).toBe("thumbnail.webp");
+    const response = await request.get(`./items/${encodeURIComponent(item.id)}/${item.thumbnail}`);
+    expect(response.ok(), `${item.id} thumbnail returned ${response.status()}`).toBeTruthy();
+    expect(response.headers()["content-type"]).toContain("image/webp");
+  }
+
+  await page.goto("./#/collections");
+  const thumbnails = page.locator(".specimen-card img");
+  await expect(thumbnails).toHaveCount(60);
+  await expect(page.locator(".preview-fallback")).toHaveCount(0);
+  for (const thumbnail of await thumbnails.all()) await thumbnail.scrollIntoViewIfNeeded();
+  await expect.poll(() => thumbnails.evaluateAll((images: HTMLImageElement[]) => images.filter((image) => image.complete && image.naturalWidth > 0).length)).toBe(60);
+});
+
 test("top-level collections are separated from style and layout filters", async ({ page }) => {
   await page.goto("./#/");
 

@@ -59,7 +59,7 @@ export const layouts = [
   ["classic", "经典单栏", "Classic", "垂直阅读流，返璞归真"],
   ["magazine", "杂志双栏", "Magazine", "头条跨栏，大小错落"],
   ["side-nav", "侧边导航", "Side Nav", "左轨右文，文档式"],
-  ["hero-full", "沉浸首屏", "Hero Full", "超大标题占满第一屏"],
+  ["hero-full", "沉浸首屏", "Hero Full", "超大标题占满第一屏", { preview: { strategy: "capture", anchor: "viewport" } }],
   ["masonry", "瀑布流", "Masonry", "双列区块自然跌落"],
   ["timeline", "时间线", "Timeline", "竖线串珠，节点标记"],
   ["centered", "居中窄栏", "Centered", "720px 阅读带"],
@@ -148,6 +148,7 @@ export const staticItems = [
     controls: [],
     sourceDir: "specimens/items/time-gallery-webgl",
     bundle: { source: "app.js", output: "app.bundle.js", inlineArtworkImages: "assets/artworks.json" },
+    preview: { strategy: "poster", source: "assets/artworks/09-5-151972.jpg" },
     sourceFiles: ["index.html", "app.bundle.js", "styles.css", "assets/artworks.json"],
     content: {
       periods: 9,
@@ -204,6 +205,8 @@ export function createCatalog() {
     })),
   ].map((item) => ({
     ...item,
+    thumbnail: item.thumbnail || "thumbnail.webp",
+    preview: item.preview || { strategy: "capture", anchor: item.category === "layout" ? "main" : "viewport" },
     learning: learningMetadata(item.id),
   }));
 }
