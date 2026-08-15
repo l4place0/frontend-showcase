@@ -1,0 +1,195 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-grid9",
+  "title": "把内容映射进三乘三占位图",
+  "summary": "项目占左上四格，技能与关于占右上两格，博客和联系填满底行；内容删减让每个格子承担清晰职责。",
+  "difficulty": "advanced",
+  "durationMinutes": 13,
+  "concepts": [
+    "explicit grid map",
+    "spanning cells",
+    "content compression",
+    "responsive linearization"
+  ],
+  "objectives": [
+    "画出五区段的九宫格坐标",
+    "解释项目与联系为何跨格",
+    "验证 900px 以下显式行列全部解除"
+  ],
+  "prerequisites": [
+    "CSS Grid lines",
+    "grid-auto-rows",
+    "媒体查询"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "越过 Hero 后按左上四格、右上两格、底行三格识别内容。",
+      "eyebrow": "MAP THE NINE CELLS",
+      "title": "面积直接表达区段优先级",
+      "body": "项目占 2×2；技能和关于各占右侧一格；博客占左下；联系横跨底部两格。描述被删减以适配最小 180px 行高。",
+      "annotations": [
+        {
+          "id": "projects-quad",
+          "anchor": [
+            31,
+            78
+          ],
+          "elbow": [
+            20,
+            69
+          ],
+          "end": [
+            8,
+            69
+          ],
+          "detailSide": "right",
+          "summary": "项目占四格",
+          "detail": "grid-column 1/3 与 grid-row 1/3 共同形成 2×2 主区。"
+        },
+        {
+          "id": "right-stack",
+          "anchor": [
+            82,
+            79
+          ],
+          "elbow": [
+            72,
+            70
+          ],
+          "end": [
+            60,
+            70
+          ],
+          "detailSide": "right",
+          "summary": "技能/关于上下堆叠",
+          "detail": "两者共享第三列，分别占第一、第二行。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 901
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 700
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "逐项把 selector 翻译成格坐标。",
+      "eyebrow": "PLACE AND COMPRESS",
+      "title": "显式地图要求同步的信息预算",
+      "body": "grid placement 固定版图；section padding、标题字号与隐藏摘要压缩内容，避免格子被长文撑破。",
+      "code": {
+        "file": "src/layouts/grid9.css",
+        "locator": "body.l-grid9 main",
+        "snippet": "body.l-grid9 main {\n  display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: minmax(180px, auto);\n  gap: 16px; max-width: 1080px; margin: 0 auto; padding: 40px 24px 24px;\n}\nbody.l-grid9 main section {\n  padding: 24px; margin: 0; max-width: none;\n  border: 1.5px solid var(--border); background: var(--surface);\n}\nbody.l-grid9 #projects { grid-column: 1 / 3; grid-row: 1 / 3; }\nbody.l-grid9 #skills { grid-column: 3; grid-row: 1 / 2; }\nbody.l-grid9 #about { grid-column: 3; grid-row: 2 / 3; }\nbody.l-grid9 #blog { grid-column: 1; grid-row: 3; }\nbody.l-grid9 #contact { grid-column: 2 / 4; grid-row: 3; }\nbody.l-grid9 .section-desc, body.l-grid9 .skills-note { display: none; }",
+        "sourceDigest": "sha256:ca3c1589e51e449a291fd9f024cf2365c5c79c011a90af08f051c3d70336dbc0",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "核心地图固定，使用真实视口状态验证降级。",
+      "eyebrow": "UNMAP THE GRID",
+      "title": "窄屏必须撤销所有坐标",
+      "body": "桌面先复述九宫格地图；缩到 880px 后 main 单列，五区段的 grid-column/grid-row 全部回到 auto。",
+      "experiments": [
+        {
+          "id": "desktop-map",
+          "label": "原生观察：在 1000px 以上画出五区段坐标",
+          "initial": {},
+          "controls": {},
+          "expected": "项目 2×2、右侧两格、底行博客 1 格与联系 2 格。",
+          "reset": "保持桌面视口。"
+        },
+        {
+          "id": "linearize",
+          "label": "原生操作：把展品窗口缩到 880px",
+          "initial": {},
+          "controls": {},
+          "expected": "main 变一列，五区段按源顺序排列，不残留显式行列。",
+          "reset": "恢复桌面视口。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需比较桌面与 880px。",
+      "eyebrow": "EXPLAIN THE MAP",
+      "title": "判断格坐标与降级",
+      "body": "正确项为 C、A、B。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "联系区为何横跨底部两格？",
+          "options": [
+            "padding 更大",
+            "使用 flex",
+            "grid-column:2/4 且 grid-row:3"
+          ],
+          "correct": 2,
+          "explanation": "明确的行列线定义面积。"
+        },
+        {
+          "id": "q2",
+          "question": "180px 是固定行高吗？",
+          "options": [
+            "不是，minmax(180px,auto) 允许内容撑高",
+            "是，内容会被裁掉",
+            "只在移动端"
+          ],
+          "correct": 0,
+          "explanation": "它是最小值而非上限。"
+        },
+        {
+          "id": "q3",
+          "question": "880px 时最关键的清理？",
+          "options": [
+            "只隐藏标题",
+            "所有区段 grid-column/grid-row 归 auto",
+            "保持 2×2 项目"
+          ],
+          "correct": 1,
+          "explanation": "单列还需撤销旧坐标。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只建立三列却不定义区段坐标。",
+    "强制固定 180px 高导致内容溢出。",
+    "移动端改单列但保留 grid-row。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "画出桌面九宫格地图。",
+      "验证 880px 完整线性化。",
+      "三题全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

@@ -1,0 +1,202 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-magazine",
+  "title": "用跨栏头条建立编辑层级",
+  "summary": "学习双栏网格如何让主推项目跨栏，并在窄屏恢复单栏阅读顺序。",
+  "difficulty": "intermediate",
+  "durationMinutes": 11,
+  "concepts": [
+    "CSS Grid",
+    "column spanning",
+    "editorial hierarchy",
+    "responsive collapse"
+  ],
+  "objectives": [
+    "识别头条与普通卡片的层级差",
+    "解释 grid-column 跨栏",
+    "预测 720px 以下的重排结果"
+  ],
+  "prerequisites": [
+    "CSS Grid 基础",
+    "媒体查询"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先看主推卡片占据几列，再沿后续卡片成对阅读。",
+      "eyebrow": "FIND THE LEAD STORY",
+      "title": "头条先横跨，内容再成双",
+      "body": "featured 卡片跨两列且标题更大，其他项目形成双栏节奏；区段规则线像杂志分版。",
+      "annotations": [
+        {
+          "id": "featured-span",
+          "anchor": [
+            50,
+            45
+          ],
+          "elbow": [
+            63,
+            36
+          ],
+          "end": [
+            78,
+            36
+          ],
+          "detailSide": "left",
+          "summary": "头条横跨两栏",
+          "detail": "featured 使用 grid-column: 1 / -1，占满当前网格所有列。"
+        },
+        {
+          "id": "section-rule",
+          "anchor": [
+            50,
+            83
+          ],
+          "elbow": [
+            37,
+            75
+          ],
+          "end": [
+            23,
+            75
+          ],
+          "detailSide": "right",
+          "summary": "规则线分版",
+          "detail": "section 底边与额外留白把长页切成编辑版块。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 721
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 700
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "跨栏只改变视觉占位，不改变 featured 的源顺序。",
+      "eyebrow": "SPAN WITHOUT REORDER",
+      "title": "网格面积表达内容权重",
+      "body": "双栏建立常规节奏，featured 横跨全部列并放大标题；720px 以下退回一列。",
+      "code": {
+        "file": "src/layouts/magazine.css",
+        "locator": "body.l-magazine .projects-grid",
+        "snippet": "/* 布局·杂志双栏 —— 头条跨栏，大小错落 */\nbody.l-magazine .projects-grid { grid-template-columns: repeat(2, 1fr); }\nbody.l-magazine .card.featured { grid-column: 1 / -1; }\nbody.l-magazine .card.featured .desc { font-size: 16.5px; max-width: 640px; }\nbody.l-magazine .card.featured h3 { font-size: 24px; }\nbody.l-magazine .skills-wrap { gap: 60px; }\nbody.l-magazine .about-wrap { grid-template-columns: 1.2fr 1fr; gap: 60px; }\nbody.l-magazine section { border-bottom: 1px solid var(--border); padding-bottom: 70px; }\nbody.l-magazine #contact { border-bottom: none; }\n@media (max-width: 720px) {\n  body.l-magazine .projects-grid { grid-template-columns: 1fr; }\n}",
+        "sourceDigest": "sha256:a59fd1816b594c404c144f43549c48eb3914cee6f7c9c42e52868178cd565a2c",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "改变卡片最小宽度与间距，再缩窄视口。",
+      "eyebrow": "PRESSURE THE GRID",
+      "title": "层级要经得起重排",
+      "body": "宽屏参数改变卡片密度；窄屏媒体查询必须让所有卡片按源顺序单列。",
+      "experiments": [
+        {
+          "id": "dense",
+          "label": "压缩卡片与间距",
+          "initial": {
+            "cardMin": 310,
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "cardMin": 240,
+            "gap": 55,
+            "cardPad": 16
+          },
+          "expected": "双栏更紧凑，featured 仍横跨全部列并保持最高权重。",
+          "reset": "恢复 cardMin=310、gap=100、cardPad=26。"
+        },
+        {
+          "id": "mobile",
+          "label": "视口操作：把展品窗口缩到 700px 宽，验证窄屏单栏",
+          "initial": {},
+          "controls": {},
+          "expected": "项目网格退为一列，featured 与普通卡片按原始阅读顺序排列。",
+          "reset": "把展品窗口恢复到桌面宽度。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "回答跨栏、源顺序和断点。",
+      "eyebrow": "PROVE THE HIERARCHY",
+      "title": "面积就是编辑权重",
+      "body": "三题检查网格因果。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "grid-column: 1 / -1 表示什么？",
+          "options": [
+            "从第一条网格线跨到最后一条",
+            "只占第一列",
+            "改变源顺序"
+          ],
+          "correct": 0,
+          "explanation": "它让头条跨越当前所有列。"
+        },
+        {
+          "id": "q2",
+          "question": "720px 以下为何改为一列？",
+          "options": [
+            "隐藏 featured",
+            "避免窄列挤压并维持源顺序",
+            "切换主题颜色"
+          ],
+          "correct": 1,
+          "explanation": "单列是空间不足时的可读降级。"
+        },
+        {
+          "id": "q3",
+          "question": "头条层级由哪些信号共同形成？",
+          "options": [
+            "跨栏、较大标题和更宽描述",
+            "随机旋转",
+            "固定定位"
+          ],
+          "correct": 0,
+          "explanation": "面积与字级共同表达权重。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "用视觉跨栏误解为 DOM 重排。",
+    "窄屏仍强制双栏导致不可读。",
+    "只放大标题却不给头条更多空间。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成密度实验并检查 700px 视口。",
+      "能解释 featured 的三种层级信号。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

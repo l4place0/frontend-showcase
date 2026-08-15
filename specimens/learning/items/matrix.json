@@ -1,0 +1,206 @@
+{
+  "learningVersion": 1,
+  "itemId": "matrix",
+  "title": "把荧光终端变成矩阵界面",
+  "summary": "从发光文字、条纹数据条与离散光标理解：Matrix 身份来自“屏幕发光 + 数字节奏”，不只是绿色。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "emissive contrast",
+    "repeating gradients",
+    "stepped blink",
+    "semantic labels"
+  ],
+  "objectives": [
+    "区分普通绿色文字与发光层级",
+    "解释技能条的离散数字节奏",
+    "比较连续 glow 与 steps 光标的不同运动语义"
+  ],
+  "prerequisites": [
+    "text-shadow",
+    "repeating-linear-gradient",
+    "steps easing"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "比较主标题、tagline、主推标、技能条和 logo 光标。",
+      "eyebrow": "READ THE SIGNAL",
+      "title": "连续发光和离散闪烁分工明确",
+      "body": "标题用多层 text-shadow 像屏幕余辉；技能条被切成绿色短段；徽点与下划线光标用 steps(2) 明灭。",
+      "annotations": [
+        {
+          "id": "title-glow",
+          "anchor": [
+            31,
+            34
+          ],
+          "elbow": [
+            20,
+            26
+          ],
+          "end": [
+            9,
+            26
+          ],
+          "detailSide": "right",
+          "summary": "标题双层余辉",
+          "detail": "14px 亮核与 42px 宽光晕叠加，建立从字符到屏幕的发光层次。"
+        },
+        {
+          "id": "cursor",
+          "anchor": [
+            14,
+            12
+          ],
+          "elbow": [
+            26,
+            18
+          ],
+          "end": [
+            39,
+            18
+          ],
+          "detailSide": "left",
+          "summary": "下划线离散闪烁",
+          "detail": "logo::after 的 _ 与 hero-badge 共用 matrixblink，而不是柔和呼吸。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "寻找余辉、分段和 THE ONE 三种矩阵语义。",
+      "eyebrow": "GLOW WITH RHYTHM",
+      "title": "发光负责材质，分段负责数据感",
+      "body": "多层阴影让文字和交互像自发光屏幕；repeating gradient 把连续进度切为数据格；THE ONE 和 > 把内容翻译成电影语汇。",
+      "code": {
+        "file": "src/themes/matrix.css",
+        "locator": "body.t-matrix .hero h1",
+        "snippet": "body.t-matrix .hero h1 { text-shadow: 0 0 14px rgba(0,255,65,.75), 0 0 42px rgba(0,255,65,.4); letter-spacing: 4px; }\nbody.t-matrix .tagline { text-shadow: 0 0 10px rgba(0,255,65,.6); }\nbody.t-matrix .tagline::before { content: \"> \"; color: var(--text-2); }\nbody.t-matrix .section-title { text-shadow: 0 0 12px rgba(0,255,65,.5); text-transform: uppercase; letter-spacing: 2px; }\nbody.t-matrix .section-tag { background: rgba(0,255,65,.08); letter-spacing: 3px; }\nbody.t-matrix .card:hover { box-shadow: 0 0 24px rgba(0,255,65,.2), inset 0 0 18px rgba(0,255,65,.05); }\nbody.t-matrix .card.featured { border-color: var(--accent); }\nbody.t-matrix .card.featured::before { content: \"★ THE ONE\"; background: var(--accent); color: #000; border-radius: 0; }\nbody.t-matrix .btn { letter-spacing: 1px; }\nbody.t-matrix .btn-primary { background: var(--accent); color: #000; font-weight: 700; }\nbody.t-matrix .btn-primary:hover { box-shadow: 0 0 30px rgba(0,255,65,.5); }\nbody.t-matrix .btn-ghost:hover { box-shadow: 0 0 16px rgba(0,255,65,.25); }\nbody.t-matrix .bar-track { border: 1px solid rgba(0,255,65,.25); background: transparent; height: 12px; }\nbody.t-matrix .bar-fill { background: repeating-linear-gradient(90deg, var(--accent) 0 4px, transparent 4px 6px); }\nbody.t-matrix .hero-badge i { border-radius: 0; animation: matrixblink 1s steps(2) infinite; }\n@keyframes matrixblink { 50% { opacity: .1; box-shadow: none; } }\nbody.t-matrix .stat b { text-shadow: 0 0 10px rgba(0,255,65,.6); }\nbody.t-matrix .logo::after { content: \"_\"; color: var(--accent); animation: matrixblink 1s steps(2) infinite; }",
+        "sourceDigest": "sha256:e5c21ed7c5e93f37a1617433d925ea96e17550c867dd633d9340eaa63dcd44c3",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "先改变色相，再压低对比，观察哪些矩阵线索独立存在。",
+      "eyebrow": "DECOUPLE GREEN FROM MATRIX",
+      "title": "绿色可移，数字节奏不可丢",
+      "body": "色相偏移会把整套荧光系统换色，但 THE ONE、分段条和离散光标仍在；低对比会让 glow 与黑底分离不足。",
+      "experiments": [
+        {
+          "id": "shift-code",
+          "label": "把绿色代码场偏向青色",
+          "initial": {
+            "hue": 0,
+            "saturation": 100,
+            "contrast": 100
+          },
+          "controls": {
+            "hue": 42,
+            "saturation": 85
+          },
+          "expected": "发光色整体偏移，但 >、THE ONE、分段技能条和下划线光标仍保持矩阵语义。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "dim-signal",
+          "label": "压低对比观察信号丢失",
+          "initial": {
+            "contrast": 100
+          },
+          "controls": {
+            "contrast": 76
+          },
+          "expected": "深绿表面、细边框与远光晕更难区分；条纹几何仍在但发光层级减弱。",
+          "reset": "恢复 contrast=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要观察发光、条纹和闪烁。",
+      "eyebrow": "DECODE THE MATRIX",
+      "title": "判断屏幕材质与数字节奏",
+      "body": "正确项依次位于 C、A、B。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "技能条为什么像离散数据而不是普通进度条？",
+          "options": [
+            "使用圆角",
+            "文字是等宽字体",
+            "repeating-linear-gradient 每 6px 留出透明间隔"
+          ],
+          "correct": 2,
+          "explanation": "4px 色块 + 2px 透明间隔产生重复数据格。"
+        },
+        {
+          "id": "q2",
+          "question": "色相偏移后仍能认出 Matrix 的最强证据组合是？",
+          "options": [
+            ">、THE ONE、分段条与 steps 光标",
+            "纯绿色数值",
+            "大圆角卡片"
+          ],
+          "correct": 0,
+          "explanation": "实验表明语义与数字节奏可跨色相保留。"
+        },
+        {
+          "id": "q3",
+          "question": "标题 glow 与 logo 光标的运动/材质职责如何区分？",
+          "options": [
+            "两者都只改变布局",
+            "标题用连续阴影表达余辉，光标用离散透明度表达信号",
+            "标题负责分栏，光标负责字体"
+          ],
+          "correct": 1,
+          "explanation": "一个是静态光学层级，一个是 steps 状态节奏。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把 Matrix 主题简化成绿色配色。",
+    "技能条使用连续渐变，丢失数字格节奏。",
+    "把光标做成平滑呼吸而非离散开关。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能指出一个连续 glow 和一个离散信号。",
+      "完成色相偏移与低对比实验。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

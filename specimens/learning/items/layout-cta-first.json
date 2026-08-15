@@ -1,0 +1,201 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-cta-first",
+  "title": "让真实联系节点成为第一行动区",
+  "summary": "构建器按 sectionOrder 将真实 #contact 放到 main 首位，随后才是 projects、skills、about、blog；CSS 不使用负 order，并以 70vh Hero、两列行动卡和固定联系锚点缩短路径。",
+  "difficulty": "intermediate",
+  "durationMinutes": 14,
+  "concepts": [
+    "persistent CTA",
+    "shortened hero",
+    "order-safe anchor navigation",
+    "focus-visible"
+  ],
+  "objectives": [
+    "验证 contact 在生成 DOM 与视觉中都位于第一",
+    "解释为何不再使用 order:-1",
+    "用触控与键盘执行固定联系锚点并检查焦点顺序"
+  ],
+  "prerequisites": [
+    "anchor navigation",
+    "focus-visible",
+    "document order"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定场景核对两处可见状态或顺序证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "第一行动区是真实 DOM 第一段",
+      "body": "构建器按 sectionOrder 将真实 #contact 放到 main 首位，随后才是 projects、skills、about、blog；CSS 不使用负 order，并以 70vh Hero、两列行动卡和固定联系锚点缩短路径。",
+      "annotations": [
+        {
+          "id": "contact-heading",
+          "anchor": [
+            50,
+            24
+          ],
+          "elbow": [
+            64,
+            17
+          ],
+          "end": [
+            78,
+            17
+          ],
+          "detailSide": "left",
+          "summary": "联系标题紧接 70vh Hero",
+          "detail": "生成 HTML 的 main 第一个真实节点就是 #contact，不靠 CSS order 搬动。"
+        },
+        {
+          "id": "paired-actions",
+          "anchor": [
+            50,
+            66
+          ],
+          "elbow": [
+            65,
+            58
+          ],
+          "end": [
+            79,
+            58
+          ],
+          "detailSide": "left",
+          "summary": "两张真实行动卡并列",
+          "detail": "repeat(2,1fr)、34px 内距与 2px 边框强化第一行动区；640px 以下降为单列。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 901
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 650
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可执行状态和顺序连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "生成顺序承担语义，CSS 只承担强调",
+      "body": "sectionOrder=[contact,projects,skills,about,blog] 在构建期重排真实 DOM；CSS 保持 main 为正常 column，再用短 Hero、联系卡与固定 nav 锚点强化行动。",
+      "code": {
+        "file": "src/layouts/cta-first.css",
+        "locator": "body.l-cta-first #contact",
+        "snippet": "/* 布局·联系优先 —— 保持 DOM 顺序，以短 Hero 和持久联系入口缩短行动路径 */\nbody.l-cta-first main { display: flex; flex-direction: column; }\nbody.l-cta-first #contact { padding-top: 40px; }\nbody.l-cta-first #contact .contact-grid { grid-template-columns: repeat(2, 1fr); }\nbody.l-cta-first #contact .contact-card { padding: 34px; border-width: 2px; }\nbody.l-cta-first .hero { min-height: 70vh; }\nbody.l-cta-first #projects { border-top: 1.5px solid var(--border); }\nbody.l-cta-first nav .nav-links a[href=\"#contact\"] {\n  color: var(--bg); background: var(--accent); border-radius: 99px;\n  padding: 8px 14px; font-weight: 700;\n}\nbody.l-cta-first nav .nav-links a[href=\"#contact\"]:focus-visible {\n  outline: 3px solid var(--accent-2); outline-offset: 3px;\n}\n@media (max-width: 640px) {\n  body.l-cta-first #contact .contact-grid { grid-template-columns: 1fr; }\n}",
+        "sourceDigest": "sha256:29ffe0ed9e97f1157be4d5ba68084dc1f6e176b4f66bae53bf9ab82800b57ca5",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "原生动作使用空 controls；参数实验只使用 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "执行联系跳转，再压力测试行动卡",
+      "body": "原生锚点验证触控和 Tab+Enter；width/gap 改变联系区密度，不改变 DOM/视觉顺序。",
+      "experiments": [
+        {
+          "id": "activate-contact",
+          "label": "触控或 Tab+Enter 激活固定“联系”链接",
+          "initial": {},
+          "controls": {},
+          "expected": "链接跳到生成 DOM 中真实的首个 #contact；焦点按导航原生顺序移动，没有正数 tabindex。",
+          "reset": "点击 logo #top 返回 Hero。"
+        },
+        {
+          "id": "stress-contact-grid",
+          "label": "收窄联系内容带与卡间距",
+          "initial": {
+            "width": 1080,
+            "gap": 100
+          },
+          "controls": {
+            "width": 720,
+            "gap": 72
+          },
+          "expected": "联系区变窄、两卡更紧；它仍是 main 第一段，后续 projects 顺序不变。",
+          "reset": "恢复 width=1080、gap=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案必须对应触控、键盘和源码证据。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "证明 CTA 最前不是 CSS 视觉搬运",
+      "body": "答案需对应生成 DOM、正常 column 与真实锚点。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "生成 HTML 的 main 第一段是什么？",
+          "options": [
+            "contact",
+            "projects",
+            "blog"
+          ],
+          "correct": 0,
+          "explanation": "sectionOrder 将真实 #contact 放在首位。"
+        },
+        {
+          "id": "q2",
+          "question": "为什么无需 #contact order:-1？",
+          "options": [
+            "CSS 隐藏了其他段",
+            "DOM 已与目标几何一致",
+            "使用 tabindex=1"
+          ],
+          "correct": 1,
+          "explanation": "生成顺序已经承担语义和视觉顺序。"
+        },
+        {
+          "id": "q3",
+          "question": "640px 以下联系卡如何变化？",
+          "options": [
+            "两列保持不变",
+            "变为一列",
+            "复制成四张"
+          ],
+          "correct": 1,
+          "explanation": "媒体查询只改变网格列数，不重排节点。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "保留 order:-1，导致视觉第一段与 DOM 最后一段冲突。",
+    "复制联系内容制造看似前置的第二份 CTA。",
+    "用正数 tabindex 模拟生成顺序。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "检查生成 HTML section 顺序为 contact→projects→skills→about→blog。",
+      "用触控和 Tab+Enter 激活真实联系链接。",
+      "完成 width/gap 实验并确认视觉、DOM、焦点顺序一致。"
+    ]
+  },
+  "contentRevision": 3
+}

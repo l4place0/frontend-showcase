@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-chatflow",
+  "title": "让区段像双方轮流发言",
+  "summary": "奇偶区段左右对齐、镜像底角与气泡尾巴，把普通长页转成对话节奏；内部复杂网格在 640px 气泡中退为单列。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "alternating alignment",
+    "mirrored radii",
+    "pseudo-element tails",
+    "nested simplification"
+  ],
+  "objectives": [
+    "解释奇偶区段如何形成双方发言",
+    "拆解两个方向的气泡尾巴",
+    "验证内部 padding 变化不破坏外层对话方向"
+  ],
+  "prerequisites": [
+    "nth-of-type",
+    "pseudo-elements",
+    "transform"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "越过 Hero 后比较连续两个区段的左右边缘和底部尖角。",
+      "eyebrow": "FOLLOW THE SPEAKERS",
+      "title": "左右位置、缺口和尾巴三次镜像",
+      "body": "奇数气泡靠左且左下收紧，偶数靠右且右下收紧；尾巴随发言方换边和旋转。",
+      "annotations": [
+        {
+          "id": "left-speaker",
+          "anchor": [
+            28,
+            80
+          ],
+          "elbow": [
+            17,
+            71
+          ],
+          "end": [
+            7,
+            71
+          ],
+          "detailSide": "right",
+          "summary": "奇数区段靠左",
+          "detail": "margin-right:auto，左下小圆角与左侧尾巴指向同一说话方。"
+        },
+        {
+          "id": "right-speaker",
+          "anchor": [
+            72,
+            80
+          ],
+          "elbow": [
+            82,
+            71
+          ],
+          "end": [
+            93,
+            71
+          ],
+          "detailSide": "left",
+          "summary": "偶数区段靠右",
+          "detail": "margin-left:auto，并镜像右下缺口和尾巴。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 700
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "外层发言方向和内层内容布局分开阅读。",
+      "eyebrow": "ALIGN, NOT REORDER",
+      "title": "视觉轮流不改变源顺序",
+      "body": "nth-of-type 只改变 margin、圆角和尾巴方向；DOM 仍按项目→技能→关于→博客→联系。气泡内 grids 退为单列。",
+      "code": {
+        "file": "src/layouts/chatflow.css",
+        "locator": "body.l-chatflow main section",
+        "snippet": "body.l-chatflow main section {\n  max-width: 640px; margin-bottom: 44px; padding: 32px 34px;\n  border: 1.5px solid var(--border); background: var(--surface);\n  position: relative;\n}\nbody.l-chatflow main section:nth-of-type(odd) {\n  margin-right: auto; border-radius: 24px 24px 24px 6px;\n}\nbody.l-chatflow main section:nth-of-type(even) {\n  margin-left: auto; border-radius: 24px 24px 6px 24px;\n}\nbody.l-chatflow main section::after {\n  content: \"\"; position: absolute; bottom: -11px; width: 20px; height: 20px;\n  background: var(--surface); border-bottom: 1.5px solid var(--border);\n}\nbody.l-chatflow main section:nth-of-type(odd)::after {\n  left: 26px; border-left: 1.5px solid var(--border);\n  transform: rotate(-45deg); clip-path: polygon(0 0, 100% 0, 0 100%);\n  border: none; background: var(--surface);\n  box-shadow: -1.5px 1.5px 0 0 var(--border);\n}\nbody.l-chatflow main section:nth-of-type(even)::after {\n  right: 26px; transform: rotate(45deg);\n  box-shadow: 1.5px 1.5px 0 0 var(--border);\n}",
+        "sourceDigest": "sha256:119adbf48468700264ea0df36d7db989b671a059ba680fd65729bf1afb597d89",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "用真实内部 cardPad/gap 改变气泡高度，检查发言方向。",
+      "eyebrow": "CHANGE MESSAGE LENGTH",
+      "title": "消息变长，双方位置不应交换",
+      "body": "cardPad 与 gap 改变项目气泡内部高度；奇偶对齐、尾巴方向和 640px 上限仍固定。",
+      "experiments": [
+        {
+          "id": "long-message",
+          "label": "增大项目卡内边距",
+          "initial": {
+            "cardPad": 26,
+            "gap": 100
+          },
+          "controls": {
+            "cardPad": 42,
+            "gap": 135
+          },
+          "expected": "项目气泡变高，内部仍单列；它继续作为奇数区段靠左、尾巴在左。",
+          "reset": "恢复 cardPad=26、gap=100。"
+        },
+        {
+          "id": "short-message",
+          "label": "压缩项目卡内容",
+          "initial": {
+            "cardPad": 26,
+            "gap": 100
+          },
+          "controls": {
+            "cardPad": 14,
+            "gap": 55
+          },
+          "expected": "气泡高度缩短，但后续偶数区段仍靠右，视觉顺序不改变。",
+          "reset": "恢复默认参数。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需观察两种尾巴。",
+      "eyebrow": "EXPLAIN THE DIALOGUE",
+      "title": "判断镜像而非重排",
+      "body": "正确项为 B、C、A。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "偶数区段为何靠右？",
+          "options": [
+            "DOM 被移动",
+            "margin-left:auto",
+            "使用 fixed"
+          ],
+          "correct": 1,
+          "explanation": "自动左边距把 640px 气泡推向右侧。"
+        },
+        {
+          "id": "q2",
+          "question": "右侧尾巴与左侧尾巴的关键差异？",
+          "options": [
+            "颜色不同",
+            "删除伪元素",
+            "定位到 right:26px 并 rotate(45deg)"
+          ],
+          "correct": 2,
+          "explanation": "位置和旋转同步镜像。"
+        },
+        {
+          "id": "q3",
+          "question": "cardPad 增大后哪项保持？",
+          "options": [
+            "奇偶发言方向与尾巴边",
+            "气泡高度",
+            "卡片 padding"
+          ],
+          "correct": 0,
+          "explanation": "control 只改变消息内部尺寸。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "用 CSS order 重排内容，破坏阅读顺序。",
+    "只左右对齐却不镜像圆角和尾巴。",
+    "气泡内保留多列复杂网格导致过窄。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "指出连续两区段的三项镜像差异。",
+      "完成长/短消息实验。",
+      "三题全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

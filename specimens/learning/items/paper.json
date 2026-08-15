@@ -1,0 +1,209 @@
+{
+  "learningVersion": 1,
+  "itemId": "paper",
+  "title": "纸感不是贴图，而是克制的层级",
+  "summary": "通过暖白表面、衬线标题、细边与左侧强调，学习无纹理也能建立纸张般的编辑语气。",
+  "difficulty": "beginner",
+  "durationMinutes": 10,
+  "concepts": [
+    "luminance hierarchy",
+    "typography",
+    "edge emphasis",
+    "restraint"
+  ],
+  "objectives": [
+    "解释纸感为何不依赖图片纹理",
+    "识别左边框如何替代厚重阴影",
+    "用圆角和行高实验判断克制边界"
+  ],
+  "prerequisites": [
+    "颜色与字体族基础",
+    "CSS 边框"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "比较底色、卡片纸面、衬线标题和项目卡左边缘。",
+      "eyebrow": "READ THE PAPER",
+      "title": "最少但明确的强调",
+      "body": "暖白底与略亮表面形成纸张叠放，左侧规则线承担主次提示。",
+      "annotations": [
+        {
+          "id": "paper-ground",
+          "anchor": [
+            78,
+            28
+          ],
+          "elbow": [
+            69,
+            21
+          ],
+          "end": [
+            58,
+            21
+          ],
+          "detailSide": "right",
+          "summary": "暖白明度差",
+          "detail": "背景、表面和次级表面只保留小幅明度差，没有图片纹理。"
+        },
+        {
+          "id": "left-rule",
+          "anchor": [
+            27,
+            63
+          ],
+          "elbow": [
+            18,
+            55
+          ],
+          "end": [
+            9,
+            55
+          ],
+          "detailSide": "right",
+          "summary": "左线表达主次",
+          "detail": "featured、fact 与 post 用细左边线代替厚重阴影。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "区分全局纸面 token 与局部边缘强调。",
+      "eyebrow": "REMOVE BEFORE ADD",
+      "title": "用删减建立质感",
+      "body": "阴影默认关闭、圆角压低、标题换成衬线；组件只在左边缘增加可读的层级信号。",
+      "code": {
+        "file": "src/themes/paper.css",
+        "locator": "body.t-paper .section-tag",
+        "snippet": "body.t-paper .section-tag { background: transparent; border-style: dashed; letter-spacing: 3px; }\nbody.t-paper .card { border-left: 3px solid transparent; }\nbody.t-paper .card:hover { border-left-color: var(--accent); border-top-color: var(--border); border-right-color: var(--border); border-bottom-color: var(--border); }\nbody.t-paper .card.featured { border-left-color: var(--accent); }\nbody.t-paper .hero h1 { letter-spacing: -1px; }\nbody.t-paper .btn { border-radius: 3px; }\nbody.t-paper .fact { border-left: 3px solid var(--accent); }\nbody.t-paper .post { border-left: 3px solid transparent; }\nbody.t-paper .post:hover { border-left-color: var(--accent); }",
+        "sourceDigest": "sha256:5a4eecef14dc2ed28255413d01b7cfc7bcad9227b5f467794ff7132b1170d67b",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "提高圆角和行高，再恢复硬边，比较编辑语气。",
+      "eyebrow": "TEST RESTRAINT",
+      "title": "圆润到什么程度会像软件卡片",
+      "body": "参数实验用同一内容揭示几何和阅读节奏的边界。",
+      "experiments": [
+        {
+          "id": "soften",
+          "label": "放大圆角与行高",
+          "initial": {
+            "radius": 100,
+            "line": 170,
+            "contrast": 100
+          },
+          "controls": {
+            "radius": 220,
+            "line": 205
+          },
+          "expected": "页面更松软，纸面编辑感减弱，卡片更像通用软件组件。",
+          "reset": "恢复 radius=100、line=170。"
+        },
+        {
+          "id": "harden",
+          "label": "压平几何",
+          "initial": {
+            "radius": 100,
+            "line": 170,
+            "contrast": 100
+          },
+          "controls": {
+            "radius": 0,
+            "line": 155,
+            "contrast": 115
+          },
+          "expected": "规则线和衬线标题更突出，版面更接近硬朗印刷物。",
+          "reset": "恢复默认参数。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "判断纸感机制而非表面标签。",
+      "eyebrow": "EXPLAIN THE RESTRAINT",
+      "title": "没有纹理也能像纸",
+      "body": "三题检查明度、边缘和字体。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "本展品的纸感主要来自什么？",
+          "options": [
+            "暖白明度层级、衬线标题与细规则线",
+            "远程纸纹图片",
+            "强烈霓虹阴影"
+          ],
+          "correct": 0,
+          "explanation": "主题不依赖图片纹理，并主动削弱阴影。"
+        },
+        {
+          "id": "q2",
+          "question": "featured 卡片保留左侧强调线的目的？",
+          "options": [
+            "让布局变成三列",
+            "以最小视觉成本表达主次",
+            "隐藏标题"
+          ],
+          "correct": 1,
+          "explanation": "边缘规则线提供层级，不改变结构。"
+        },
+        {
+          "id": "q3",
+          "question": "为什么标题使用衬线字体？",
+          "options": [
+            "建立编辑与印刷语气",
+            "触发 WebGL",
+            "控制卡片间距"
+          ],
+          "correct": 0,
+          "explanation": "字体角色是视觉身份的一部分。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "用纸纹图片替代明度层级设计。",
+    "同时加入大圆角和重阴影破坏克制。",
+    "把左侧强调线误认为布局网格。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成软化与硬化两个实验。",
+      "能指出三种不用纹理建立纸感的方法。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

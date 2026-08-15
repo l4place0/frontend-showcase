@@ -1,0 +1,205 @@
+{
+  "learningVersion": 1,
+  "itemId": "swiss",
+  "title": "用红黑规则线建立国际主义秩序",
+  "summary": "观察零圆角、粗黑栏线、红色短标与无阴影卡片如何让排版权重取代装饰深度。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "typographic hierarchy",
+    "rule-based grid",
+    "red accent economy",
+    "zero-decoration interaction"
+  ],
+  "objectives": [
+    "识别红色只出现在哪些高权重位置",
+    "解释无阴影和零圆角如何暴露网格",
+    "验证字体比例与对比度对排版秩序的影响"
+  ],
+  "prerequisites": [
+    "typographic scale",
+    "border hierarchy",
+    "CSS tokens"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先观察初始 Hero 构图中的标注，再向下验证相同机制。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先从瑞士网格的初始画面取证",
+      "body": "观察零圆角、粗黑栏线、红色短标与无阴影卡片如何让排版权重取代装饰深度。",
+      "annotations": [
+        {
+          "id": "red-stop",
+          "anchor": [
+            31,
+            34
+          ],
+          "elbow": [
+            20,
+            26
+          ],
+          "end": [
+            9,
+            26
+          ],
+          "detailSide": "right",
+          "summary": "红色是稀缺停止信号",
+          "detail": "logo 方块、栏目短条和主按钮复用同一红色。"
+        },
+        {
+          "id": "black-rule",
+          "anchor": [
+            68,
+            13
+          ],
+          "elbow": [
+            59,
+            21
+          ],
+          "end": [
+            47,
+            21
+          ],
+          "detailSide": "left",
+          "summary": "导航底边加粗为基准线",
+          "detail": "4px 黑线把导航与版面分开，代替阴影。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见效果连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "面积、字重和线宽共同排序",
+      "body": "栏目标题前的 46×10 红条提供定位，普通卡 2px 黑框，featured 升到 3px 红框；hover 只换边色，不漂浮。",
+      "code": {
+        "file": "src/themes/swiss.css",
+        "locator": "body.t-swiss nav",
+        "snippet": "body.t-swiss nav { border-bottom-width: 4px; }\nbody.t-swiss .logo { text-transform: uppercase; letter-spacing: 1px; }\nbody.t-swiss .logo span { display: inline-block; background: var(--accent); color: #fff; padding: 0 6px; margin-left: 4px; }\nbody.t-swiss .hero h1 { text-transform: none; font-weight: 800; }\nbody.t-swiss .section-title::before { content: \"\"; display: block; width: 46px; height: 10px; background: var(--accent); margin-bottom: 14px; }\nbody.t-swiss .section-tag { background: #111; color: #fff; border-color: #111; font-weight: 700; letter-spacing: 3px; }\nbody.t-swiss .card { border-width: 2px; }\nbody.t-swiss .card:hover { border-color: var(--accent); }\nbody.t-swiss .card.featured { border-color: var(--accent); border-width: 3px; }\nbody.t-swiss .card.featured::before { background: var(--accent); }\nbody.t-swiss .btn { border-width: 2px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }\nbody.t-swiss .btn-primary { background: var(--accent); color: #fff; }\nbody.t-swiss .btn-primary:hover { background: #111; }\nbody.t-swiss .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }\nbody.t-swiss .bar-fill { background: #111; }\nbody.t-swiss .bar-row:first-child .bar-fill { background: var(--accent); }\nbody.t-swiss .bar-track { border: 2px solid #111; background: #fff; height: 12px; }",
+        "sourceDigest": "sha256:71cedb648c9c12d0869d943a584e55efe83d4ec01276eb20e1967be6a3277986",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用真实 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "改变字块密度，保留网格秩序",
+      "body": "分别推动字号、行高与对比度，观察红条和黑线固定时，信息层级如何重新分配。",
+      "experiments": [
+        {
+          "id": "type-pressure",
+          "label": "放大字体并收紧行高",
+          "initial": {
+            "font": 100,
+            "line": 170
+          },
+          "controls": {
+            "font": 118,
+            "line": 145
+          },
+          "expected": "字块更密更重，红条和黑线位置不变；长文换行与可读性压力上升。",
+          "reset": "恢复 font=100、line=170。"
+        },
+        {
+          "id": "rule-contrast",
+          "label": "压低整体对比度",
+          "initial": {
+            "contrast": 100
+          },
+          "controls": {
+            "contrast": 76
+          },
+          "expected": "黑色栏线、正文与红色停止信号的层级差缩小，网格秩序变弱。",
+          "reset": "恢复 contrast=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合标注、源码和实验。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "读懂瑞士网格的排序证据",
+      "body": "用字重、线宽和留白的实际变化判断，而不是只认红黑配色。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "featured 比普通卡多出的结构信号？",
+          "options": [
+            "阴影",
+            "3px 红色边框",
+            "大圆角"
+          ],
+          "correct": 1,
+          "explanation": "普通卡 2px 黑框，featured 提升为红色 3px。"
+        },
+        {
+          "id": "q2",
+          "question": "hover 为什么不使用上浮？",
+          "options": [
+            "card-hover-tf 被关闭，状态只靠边色",
+            "浏览器无 transform",
+            "红色禁止移动"
+          ],
+          "correct": 0,
+          "explanation": "瑞士版式保持网格稳定。"
+        },
+        {
+          "id": "q3",
+          "question": "font=118、line=145 后主要压力？",
+          "options": [
+            "背景渐变消失",
+            "DOM 重排",
+            "字块密度和换行上升"
+          ],
+          "correct": 2,
+          "explanation": "字体与行高 control 实际改变排版。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把红色铺满所有组件，失去稀缺强调。",
+    "用圆角与阴影替代网格和栏线。",
+    "只追求大字而忽略行高与换行。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成至少两组 manifest control 实验并比较基准状态。",
+      "能从初始画面指出两个标注机制。",
+      "三道测验全部答对并解释源码因果。"
+    ]
+  },
+  "contentRevision": 1
+}

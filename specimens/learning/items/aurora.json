@@ -1,0 +1,201 @@
+{
+  "learningVersion": 1,
+  "itemId": "aurora",
+  "title": "双层光幕如何缓慢错相流动",
+  "summary": "用两个共享渐变但周期、延迟和垂直方向不同的伪元素，构成不重复的极光层，并验证 reduced-motion 静止降级。",
+  "difficulty": "advanced",
+  "durationMinutes": 14,
+  "concepts": [
+    "layered pseudo-elements",
+    "phase offset",
+    "blurred light curtains",
+    "reduced motion"
+  ],
+  "objectives": [
+    "解释两层光幕为何不会同步",
+    "区分渐变色带与运动变形的职责",
+    "验证减少动态后空间层次仍成立"
+  ],
+  "prerequisites": [
+    "pseudo-elements",
+    "keyframes",
+    "animation delay"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "观察背景顶部绿色、青色和紫色带，等待两层亮度交替。",
+      "eyebrow": "WATCH THE PHASES",
+      "title": "同一光带用两种时间尺度叠成天空",
+      "body": "before 以 13s 往返，after 以 19s、-6s 延迟并垂直翻转；两层不会同时到达峰值。",
+      "annotations": [
+        {
+          "id": "upper-curtain",
+          "anchor": [
+            54,
+            18
+          ],
+          "elbow": [
+            66,
+            12
+          ],
+          "end": [
+            80,
+            12
+          ],
+          "detailSide": "left",
+          "summary": "13s 主光幕",
+          "detail": "宽幅渐变经 46px 模糊后横向移动并 skew。"
+        },
+        {
+          "id": "mirrored-curtain",
+          "anchor": [
+            72,
+            31
+          ],
+          "elbow": [
+            82,
+            24
+          ],
+          "end": [
+            93,
+            24
+          ],
+          "detailSide": "left",
+          "summary": "19s 翻转副光幕",
+          "detail": "scaleY(-1)、负延迟和较低 opacity 让第二层错相。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "分别追踪空间层和时间层。",
+      "eyebrow": "SAME COLOR, DIFFERENT TIME",
+      "title": "错相比增加更多颜色更重要",
+      "body": "两伪元素共享绿色—青色—紫色渐变；第二层只改变周期、相位、透明度与方向。keyframes 同时改变横移、倾斜与呼吸亮度。",
+      "code": {
+        "file": "src/themes/aurora.css",
+        "locator": "body.t-aurora .bg-fx::before",
+        "snippet": "body.t-aurora .bg-fx { overflow: hidden; }\nbody.t-aurora .bg-fx::before, body.t-aurora .bg-fx::after {\n  content: \"\"; position: absolute; inset: -25% -40% 40% -40%;\n  background: linear-gradient(100deg, transparent 15%, rgba(74,222,128,.16) 35%, rgba(34,211,238,.13) 52%, rgba(167,139,250,.16) 68%, transparent 88%);\n  filter: blur(46px);\n  animation: aurora-flow 13s ease-in-out infinite alternate;\n}\nbody.t-aurora .bg-fx::after { animation-duration: 19s; animation-delay: -6s; opacity: .6; transform: scaleY(-1); }\n@keyframes aurora-flow {\n  0% { transform: translateX(-6%) skewX(-8deg); opacity: .55; }\n  50% { opacity: .95; }\n  100% { transform: translateX(6%) skewX(6deg); opacity: .6; }\n}\n@media (prefers-reduced-motion: reduce) { body.t-aurora .bg-fx::before, body.t-aurora .bg-fx::after { animation: none; } }\nbody.t-aurora .card, body.t-aurora .post, body.t-aurora .fact, body.t-aurora .contact-card,\nbody.t-aurora .hero-badge, body.t-aurora .tag, body.t-aurora .section-tag {\n  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);\n}",
+        "sourceDigest": "sha256:14678de455f6274e63b48b323789ab6ae5e2f741e292efd4a5a11dcdcb4b1243",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "改变光幕色能量，再验证静止降级。",
+      "eyebrow": "SEPARATE COLOR FROM MOTION",
+      "title": "静止极光仍需保留光层",
+      "body": "降低饱和度会减弱光幕色彩但不改变错相；系统 reduced motion 会停止两层动画，保留渐变与毛玻璃层次。",
+      "experiments": [
+        {
+          "id": "pale-curtain",
+          "label": "降低极光饱和度",
+          "initial": {
+            "saturation": 100,
+            "contrast": 100
+          },
+          "controls": {
+            "saturation": 55,
+            "contrast": 112
+          },
+          "expected": "色幕更淡但两层仍以不同周期错相；卡片的 backdrop blur 仍采样背景。",
+          "reset": "恢复 saturation=100、contrast=100。"
+        },
+        {
+          "id": "reduced-curtain",
+          "label": "原生观察：启用系统减少动态并重新打开展品",
+          "initial": {},
+          "controls": {},
+          "expected": "before/after 停止流动，但绿色—青色—紫色静态光层和卡片透明深度仍存在。",
+          "reset": "恢复系统动态偏好。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需比较正常与减少动态状态。",
+      "eyebrow": "EXPLAIN THE CURTAIN",
+      "title": "判断错相与静止降级",
+      "body": "正确项为 B、C、A。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "副光幕与主光幕不同步的关键组合？",
+          "options": [
+            "更多 DOM 内容",
+            "19s 周期、-6s 延迟和垂直翻转",
+            "更大字体"
+          ],
+          "correct": 1,
+          "explanation": "时间与方向差制造错相。"
+        },
+        {
+          "id": "q2",
+          "question": "减少动态后哪项应保留？",
+          "options": [
+            "无限横移",
+            "13s 呼吸",
+            "静态渐变光层与毛玻璃深度"
+          ],
+          "correct": 2,
+          "explanation": "降级移除运动，不移除视觉信息。"
+        },
+        {
+          "id": "q3",
+          "question": "keyframes 中间 50% 只改 opacity 的作用？",
+          "options": [
+            "让光幕在路径中段达到亮度峰值",
+            "切换网格列数",
+            "重建伪元素"
+          ],
+          "correct": 0,
+          "explanation": "空间变形在两端，亮度在中段呼吸。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "两层使用相同周期和相位。",
+    "reduced motion 时隐藏整个光幕。",
+    "用高饱和硬边渐变替代大范围模糊。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "指出两层光幕的三项时间差。",
+      "完成去饱和与 reduced-motion 观察。",
+      "三题全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

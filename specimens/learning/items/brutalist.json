@@ -1,0 +1,204 @@
+{
+  "learningVersion": 1,
+  "itemId": "brutalist",
+  "title": "硬边、实色与按压反馈",
+  "summary": "用三像素黑框、无模糊偏移影和黄黑实色块理解粗野主义为何把结构与交互直接暴露出来。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "hard borders",
+    "offset shadows",
+    "press feedback",
+    "structural exposure"
+  ],
+  "objectives": [
+    "解释无模糊阴影如何模拟实体错位",
+    "比较默认与 hover 的位移/阴影联动",
+    "识别黄色强调块如何承担层级"
+  ],
+  "prerequisites": [
+    "box-shadow",
+    "transform",
+    "CSS tokens"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "比较黄色 tagline、两个 CTA 与 logo 句点的黑框和影子。",
+      "eyebrow": "READ THE IMPACT",
+      "title": "每条边都拒绝隐身",
+      "body": "3px 黑框把组件结构直接画出；黄色实色块标记重要信息；右下硬影在 hover 时缩短，同时元素向影子方向移动。",
+      "annotations": [
+        {
+          "id": "tagline-block",
+          "anchor": [
+            31,
+            43
+          ],
+          "elbow": [
+            21,
+            35
+          ],
+          "end": [
+            9,
+            35
+          ],
+          "detailSide": "right",
+          "summary": "黄色标语像贴纸",
+          "detail": "边框、实色和 5px 无模糊影让 tagline 成为实体标签。"
+        },
+        {
+          "id": "cta-press",
+          "anchor": [
+            34,
+            58
+          ],
+          "elbow": [
+            46,
+            50
+          ],
+          "end": [
+            59,
+            50
+          ],
+          "detailSide": "left",
+          "summary": "按钮向影子压下",
+          "detail": "hover 位移与 shadow 从 7px 缩到 3px 配对，模拟按压。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把硬边、偏移影和位移看作同一个物理模型。",
+      "eyebrow": "BORDER, SHADOW, PRESS",
+      "title": "视觉冲击来自一致的实体规则",
+      "body": "零圆角和 3px 边框暴露盒模型；7px 无模糊影建立高度；hover 位移 3–4px 并缩短影子，形成可解释的按压。",
+      "code": {
+        "file": "src/themes/brutalist.css",
+        "locator": "--shadow-hover",
+        "snippet": "  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;\n  --bw: 3px;\n  --title-tt: uppercase; --title-ls: -0.5px; --title-size: 40px;\n  --bg-decor: linear-gradient(180deg, #fffef2 0%, #fff8d6 100%);\n  --shadow: 7px 7px 0 #111111;\n  --shadow-hover: 3px 3px 0 #111111;\n  --card-hover-tf: translate(4px,4px);\n  --btn-hover-tf: translate(3px,3px);\n  --tag-hover-tf: translate(3px,3px);\n  --post-hover-tf: translate(4px,4px);\n  --avatar-glow: none;\n  --avatar-anim: none;\n  --font-tag: var(--font-body);",
+        "sourceDigest": "sha256:9e3b63eb1a8a1ee2e91fe13b68c479b5628b56c5fb9f64953c82330ca1878eb2",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "调节对比和圆角压力，观察主题硬约束。",
+      "eyebrow": "PRESS THE BLOCKS",
+      "title": "硬度可测，不靠形容词",
+      "body": "提高对比强化实色边界；通用圆角推高仍被主题的零圆角抵抗。",
+      "experiments": [
+        {
+          "id": "ink-pressure",
+          "label": "提高黑白对比",
+          "initial": {
+            "contrast": 100,
+            "saturation": 100
+          },
+          "controls": {
+            "contrast": 130
+          },
+          "expected": "黑框、硬影与黄色块分离更强，按压位移仍与影子缩短对应。",
+          "reset": "恢复 contrast=100。"
+        },
+        {
+          "id": "rounding-resistance",
+          "label": "把通用圆角推至最大",
+          "initial": {
+            "radius": 100
+          },
+          "controls": {
+            "radius": 220
+          },
+          "expected": "主题 radius=0 使主要组件继续保持硬边，证明粗野几何是显式约束。",
+          "reset": "恢复 radius=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案要匹配 hover 前后。",
+      "eyebrow": "EXPLAIN THE IMPACT",
+      "title": "判断按压因果",
+      "body": "正确项为 B、C、A。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "hover 时卡片为何像被按下？",
+          "options": [
+            "阴影变得更模糊",
+            "元素向右下移动且影子从 7px 缩短",
+            "圆角增大"
+          ],
+          "correct": 1,
+          "explanation": "位移量与影子缩短共同模拟高度下降。"
+        },
+        {
+          "id": "q2",
+          "question": "radius 调到 220 后为何仍多为硬角？",
+          "options": [
+            "浏览器忽略 control",
+            "黄色覆盖了圆角",
+            "主题 token 把 radius 设为 0"
+          ],
+          "correct": 2,
+          "explanation": "0 乘通用比例仍为 0。"
+        },
+        {
+          "id": "q3",
+          "question": "黄色在此主题的主要职责？",
+          "options": [
+            "用实色块标记重要信息和行动",
+            "制造玻璃模糊",
+            "绘制背景星空"
+          ],
+          "correct": 0,
+          "explanation": "tagline、主按钮和技能条都用黄色表达优先级。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "给硬影加 blur，变成普通卡片阴影。",
+    "只加粗边框却没有按压位移反馈。",
+    "大量增加强调色，削弱黄黑二元层级。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "演示一个组件 hover 前后的位移与影子差。",
+      "完成对比与圆角压力实验。",
+      "三题全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

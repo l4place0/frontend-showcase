@@ -1,0 +1,205 @@
+{
+  "learningVersion": 1,
+  "itemId": "vaporwave",
+  "title": "让网格从地平线下方浮现",
+  "summary": "青色正交网格通过纵向 mask 只在页面下部显现，粉青黄渐变则把标题、按钮和统计数字统一成复古未来调色。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "masked grid",
+    "retro gradient hierarchy",
+    "neon edge glow",
+    "limited palette"
+  ],
+  "objectives": [
+    "解释 mask 为什么让网格只在下部出现",
+    "追踪黄粉青三色在不同组件的职责",
+    "验证色相和对比度不会改变网格位置"
+  ],
+  "prerequisites": [
+    "mask-image",
+    "multiple gradients",
+    "drop-shadow"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先观察初始 Hero 构图中的标注，再向下验证相同机制。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先从蒸汽波的初始画面取证",
+      "body": "青色正交网格通过纵向 mask 只在页面下部显现，粉青黄渐变则把标题、按钮和统计数字统一成复古未来调色。",
+      "annotations": [
+        {
+          "id": "masked-grid",
+          "anchor": [
+            74,
+            78
+          ],
+          "elbow": [
+            64,
+            69
+          ],
+          "end": [
+            51,
+            69
+          ],
+          "detailSide": "left",
+          "summary": "网格从下部渐显",
+          "detail": "mask 在 30% 前透明，到 78% 才完全显现。"
+        },
+        {
+          "id": "tricolor-title",
+          "anchor": [
+            31,
+            34
+          ],
+          "elbow": [
+            20,
+            26
+          ],
+          "end": [
+            9,
+            26
+          ],
+          "detailSide": "right",
+          "summary": "标题由黄到粉再到青",
+          "detail": "纵向渐变模拟复古显示器的色带。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见效果连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "透视感来自显隐梯度，不是 3D 变形",
+      "body": "44px 正交网格本身等距；纵向 mask 隐藏上部、显露下部，视觉上形成地面。粉青 glow 和黄高光重复到卡片、按钮、统计。",
+      "code": {
+        "file": "src/themes/vaporwave.css",
+        "locator": "body.t-vaporwave .bg-fx",
+        "snippet": "body.t-vaporwave .bg-fx {\n  background-image:\n    linear-gradient(rgba(1,205,254,.14) 1px, transparent 1px),\n    linear-gradient(90deg, rgba(1,205,254,.14) 1px, transparent 1px);\n  background-size: 44px 44px;\n  -webkit-mask-image: linear-gradient(180deg, transparent 30%, #000 78%);\n  mask-image: linear-gradient(180deg, transparent 30%, #000 78%);\n}\nbody.t-vaporwave .hero h1 { font-style: italic; text-transform: uppercase; letter-spacing: 2px; filter: drop-shadow(0 0 18px rgba(255,113,206,.4)); }\nbody.t-vaporwave .tagline { color: #fffb96; font-style: italic; letter-spacing: 2px; }\nbody.t-vaporwave .section-title { font-style: italic; text-transform: uppercase; }\nbody.t-vaporwave .section-tag { background: rgba(1,205,254,.1); }\nbody.t-vaporwave .card { border-color: rgba(255,113,206,.25); background: linear-gradient(160deg, rgba(255,113,206,.07), rgba(1,205,254,.05)); }\nbody.t-vaporwave .card:hover { border-color: var(--accent); box-shadow: 0 0 26px rgba(1,205,254,.22), 0 0 46px rgba(255,113,206,.14); }\nbody.t-vaporwave .card.featured { border-color: var(--accent-2); }\nbody.t-vaporwave .card.featured::before { background: linear-gradient(90deg, #ff71ce, #01cdfe); color: #150826; }\nbody.t-vaporwave .btn-primary { background: linear-gradient(90deg, #ff71ce, #b967ff); color: #fff; }\nbody.t-vaporwave .btn-primary:hover { box-shadow: 0 0 28px rgba(255,113,206,.45); }\nbody.t-vaporwave .btn-ghost:hover { box-shadow: 0 0 20px rgba(1,205,254,.25); }\nbody.t-vaporwave .bar-fill { background: linear-gradient(90deg, #01cdfe, #ff71ce); }\nbody.t-vaporwave .stat b { background: linear-gradient(180deg, #fffb96, #ff71ce); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }",
+        "sourceDigest": "sha256:636354b0dd8e4f55646d2e4acfb8dbaa01042e84bdd20fabb98c6c55fd79771c",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用真实 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "分离霓虹色谱与地平线深度",
+      "body": "改变色相和对比度后继续观察下半屏网格；验证透视错觉来自遮罩衰减，而非颜色名称。",
+      "experiments": [
+        {
+          "id": "tape-hue",
+          "label": "偏移整套复古色带",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 34,
+            "saturation": 72
+          },
+          "expected": "黄粉青整体迁移，但 mask 边界与 44px 网格仍固定在下部。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "neon-contrast",
+          "label": "提高霓虹对比",
+          "initial": {
+            "contrast": 100
+          },
+          "controls": {
+            "contrast": 130
+          },
+          "expected": "网格线、标题 drop-shadow 与卡片 hover glow 更锐利，暗底分离增强。",
+          "reset": "恢复 contrast=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合标注、源码和实验。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "找出霓虹地平线的成立条件",
+      "body": "答案需要同时解释遮罩方向、网格位置和三色渐变的分工。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "网格为何像从地平线下出现？",
+          "options": [
+            "使用 perspective",
+            "纵向 mask 从透明过渡到不透明",
+            "网格尺寸逐行变化"
+          ],
+          "correct": 1,
+          "explanation": "网格等距，显隐梯度制造深度暗示。"
+        },
+        {
+          "id": "q2",
+          "question": "44px 控制什么？",
+          "options": [
+            "正交网格重复周期",
+            "标题字号",
+            "卡片圆角"
+          ],
+          "correct": 0,
+          "explanation": "background-size 同时控制横纵线间距。"
+        },
+        {
+          "id": "q3",
+          "question": "色相实验中哪项保持？",
+          "options": [
+            "黄粉青具体色值",
+            "glow 色相",
+            "mask 的 30%/78% 显隐位置"
+          ],
+          "correct": 2,
+          "explanation": "滤镜不改 mask 几何。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "用 3D 倾斜替代当前的遮罩地平线机制。",
+    "让网格覆盖标题上方，抢夺层级。",
+    "增加过多霓虹色，破坏三色系统。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成至少两组 manifest control 实验并比较基准状态。",
+      "能从初始画面指出两个标注机制。",
+      "三道测验全部答对并解释源码因果。"
+    ]
+  },
+  "contentRevision": 1
+}

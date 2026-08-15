@@ -1,0 +1,204 @@
+{
+  "learningVersion": 1,
+  "itemId": "popart",
+  "title": "波点、原色与漫画按压",
+  "summary": "黄底红蓝原色、24px 漫画波点、7px 黑硬影和斜纹技能条共同构成可触发的波普画格。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "halftone dots",
+    "primary color blocks",
+    "comic offset shadow",
+    "striped fills"
+  ],
+  "objectives": [
+    "解释背景波点的周期与尺度",
+    "比较红蓝技能条的条纹轮换",
+    "验证饱和度和对比度对漫画冲击的影响"
+  ],
+  "prerequisites": [
+    "radial-gradient",
+    "hard shadows",
+    "repeating gradients"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先观察初始 Hero 构图中的标注，再向下验证相同机制。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先从波普艺术的初始画面取证",
+      "body": "黄底红蓝原色、24px 漫画波点、7px 黑硬影和斜纹技能条共同构成可触发的波普画格。",
+      "annotations": [
+        {
+          "id": "halftone",
+          "anchor": [
+            79,
+            27
+          ],
+          "elbow": [
+            69,
+            19
+          ],
+          "end": [
+            57,
+            19
+          ],
+          "detailSide": "left",
+          "summary": "24px 漫画波点",
+          "detail": "3px 黑点在 24px 网格中重复，浮在黄色纸面。"
+        },
+        {
+          "id": "comic-cta",
+          "anchor": [
+            34,
+            58
+          ],
+          "elbow": [
+            23,
+            50
+          ],
+          "end": [
+            10,
+            50
+          ],
+          "detailSide": "right",
+          "summary": "红色按钮配黑硬影",
+          "detail": "按压时位移和影长共同变化，像漫画贴纸。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见效果连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "纹理、色块与动作都使用硬边",
+      "body": "背景点阵无模糊；卡片与按钮用 3px 黑框和 7px 硬影；技能条以红、蓝、黑斜纹区分数据行。",
+      "code": {
+        "file": "src/themes/popart.css",
+        "locator": "body.t-popart nav",
+        "snippet": "  background-image: radial-gradient(rgba(15,15,15,.14) 2px, transparent 2.5px);\n  background-size: 22px 22px;\n}\nbody.t-popart nav { border-bottom: 4px solid #0f0f0f; }\nbody.t-popart .hero h1 { color: #fff; text-shadow: 4px 4px 0 #e62429, 8px 8px 0 #0f0f0f; text-transform: uppercase; }\nbody.t-popart .tagline { color: #0057ff; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; }\nbody.t-popart .section-title { color: #e62429; text-shadow: 3px 3px 0 #0f0f0f; }\nbody.t-popart .section-tag { background: #0f0f0f; color: #ffd500; border-color: #0f0f0f; font-weight: 800; box-shadow: 4px 4px 0 rgba(15,15,15,.3); }\nbody.t-popart .card { border-color: #0f0f0f; }\nbody.t-popart .card.featured { background: #ffe98a; }\nbody.t-popart .card.featured::before { background: #e62429; color: #fff; border: 2px solid #0f0f0f; }\nbody.t-popart .card .star { color: #e62429; font-weight: 800; }\nbody.t-popart .btn { border: 3px solid #0f0f0f; font-weight: 800; text-transform: uppercase; }\nbody.t-popart .btn-primary { background: #e62429; color: #fff; }\nbody.t-popart .btn-ghost { background: #fff; }\nbody.t-popart .btn-ghost:hover { border-color: #0f0f0f; color: #0057ff; }\nbody.t-popart .lang { border: 2px solid #0f0f0f; background: #fff; color: #0f0f0f; font-weight: 600; }\nbody.t-popart .tag { border: 3px solid #0f0f0f; background: #fff; font-weight: 700; }\nbody.t-popart .tag:nth-child(3n+1) { background: #ffe98a; }\nbody.t-popart .tag:nth-child(3n+2) { background: #dbe7ff; }\nbody.t-popart .bar-track { border: 3px solid #0f0f0f; height: 16px; background: #fff; }\nbody.t-popart .bar-fill { background: repeating-linear-gradient(-45deg, #e62429 0 8px, #ff6b6b 8px 16px); border-right: 3px solid #0f0f0f; }\nbody.t-popart .bar-row:nth-child(2) .bar-fill { background: repeating-linear-gradient(-45deg, #0057ff 0 8px, #6b9fff 8px 16px); }\nbody.t-popart .bar-row:nth-child(3) .bar-fill { background: repeating-linear-gradient(-45deg, #0f0f0f 0 8px, #555 8px 16px); }",
+        "sourceDigest": "sha256:a2a12c5189b33fde44af4afc28ce508ed3b967425ef3534e199c3f50ae1ea392",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用真实 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "把原色拿走，检查硬边骨架",
+      "body": "降低饱和度并提高对比度，观察波点、粗框和按压硬影是否比红黄蓝更能维持漫画语气。",
+      "experiments": [
+        {
+          "id": "mute-primary",
+          "label": "降低原色饱和度",
+          "initial": {
+            "saturation": 100,
+            "contrast": 100
+          },
+          "controls": {
+            "saturation": 52
+          },
+          "expected": "红蓝色块退淡，黑框与波点仍在，但波普冲击明显下降。",
+          "reset": "恢复 saturation=100。"
+        },
+        {
+          "id": "ink-contrast",
+          "label": "提高漫画墨线对比",
+          "initial": {
+            "contrast": 100
+          },
+          "controls": {
+            "contrast": 130
+          },
+          "expected": "黑框、点阵和硬影更强，红蓝斜纹边界更锐利。",
+          "reset": "恢复 contrast=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合标注、源码和实验。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "证明波普感不只是一组原色",
+      "body": "结合点阵间距、硬阴影位移和斜纹技能条，判断哪些机制可在去色后保留。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "背景波点的重复周期？",
+          "options": [
+            "3px",
+            "24px",
+            "7px"
+          ],
+          "correct": 1,
+          "explanation": "点半径约 3px，网格周期 24px。"
+        },
+        {
+          "id": "q2",
+          "question": "第二条技能条使用什么主色？",
+          "options": [
+            "红",
+            "黑",
+            "蓝"
+          ],
+          "correct": 2,
+          "explanation": "nth-child(2) 改为蓝色斜纹。"
+        },
+        {
+          "id": "q3",
+          "question": "降低饱和度后仍保持的机制？",
+          "options": [
+            "黑框、波点与硬影关系",
+            "红蓝原色强度",
+            "黄色具体色值"
+          ],
+          "correct": 0,
+          "explanation": "几何和硬边不依赖具体饱和度。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把波点做成大面积噪声，影响正文。",
+    "用柔和阴影替代漫画硬影。",
+    "红蓝黄之外继续堆叠高饱和颜色。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成至少两组 manifest control 实验并比较基准状态。",
+      "能从初始画面指出两个标注机制。",
+      "三道测验全部答对并解释源码因果。"
+    ]
+  },
+  "contentRevision": 1
+}

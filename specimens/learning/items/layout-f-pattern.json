@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-f-pattern",
+  "title": "用宽主栏与窄侧栏组织 F 型扫视",
+  "summary": "项目主栏占两份宽度并纵跨前三行，技能、关于、文章依次堆在一份宽的右栏；联系区横跨底部，形成两条水平扫视线。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "2:1 reading grid",
+    "row spanning",
+    "dominant content rail",
+    "responsive collapse"
+  ],
+  "objectives": [
+    "解释 projects 为何 grid-row:1/4",
+    "指出 featured 卡如何横跨主栏两列",
+    "验证项目内部密度变化不影响 2:1 外框"
+  ],
+  "prerequisites": [
+    "grid row spans",
+    "nested grids",
+    "scan patterns"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定断点和滚动位置同时核对两处布局证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从真实滚动场景读取布局",
+      "body": "项目主栏占两份宽度并纵跨前三行，技能、关于、文章依次堆在一份宽的右栏；联系区横跨底部，形成两条水平扫视线。",
+      "annotations": [
+        {
+          "id": "dominant-project-rail",
+          "anchor": [
+            31,
+            47
+          ],
+          "elbow": [
+            18,
+            39
+          ],
+          "end": [
+            8,
+            39
+          ],
+          "detailSide": "right",
+          "summary": "项目主栏占据 2/3 宽度",
+          "detail": "projects 在 column 1 并纵跨 row 1/4，右边框把长主栏与短侧栏分开。"
+        },
+        {
+          "id": "stacked-side-rail",
+          "anchor": [
+            78,
+            31
+          ],
+          "elbow": [
+            87,
+            23
+          ],
+          "end": [
+            94,
+            23
+          ],
+          "detailSide": "left",
+          "summary": "技能从窄侧栏顶部开始",
+          "detail": "skills、about、blog 依次落在右栏三行，适合从左标题向右快速扫视。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 901
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 760
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "将可见位置关系连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "F 的竖干是主栏，短横是侧栏入口",
+      "body": "main 使用 2fr 1fr；projects 纵跨前三行成为持续竖干，右栏按 skills/about/blog 堆叠。featured 卡再横跨主栏内部两列，提供第一条强横线。",
+      "code": {
+        "file": "src/layouts/f-pattern.css",
+        "locator": "body.l-f-pattern main",
+        "snippet": "/* 布局·F 型阅读 —— 左重右轻，扫视友好 */\nbody.l-f-pattern main {\n  display: grid; grid-template-columns: 2fr 1fr; gap: 24px 60px;\n  max-width: 1080px; margin: 0 auto; padding: 40px 24px 24px;\n}\nbody.l-f-pattern main section { padding: 40px 0 20px; margin: 0; max-width: none; }\nbody.l-f-pattern #projects { grid-column: 1; grid-row: 1 / 4; border-right: 1.5px solid var(--border); padding-right: 50px; }\nbody.l-f-pattern #skills { grid-column: 2; grid-row: 1; }\nbody.l-f-pattern #about { grid-column: 2; grid-row: 2; }\nbody.l-f-pattern #blog { grid-column: 2; grid-row: 3; }\nbody.l-f-pattern #contact { grid-column: 1 / -1; border-top: 1.5px solid var(--border); }\nbody.l-f-pattern .projects-grid { grid-template-columns: 1fr 1fr; }\nbody.l-f-pattern .card.featured { grid-column: 1 / -1; }\nbody.l-f-pattern .skills-wrap, body.l-f-pattern .about-wrap { grid-template-columns: 1fr; gap: 24px; }\nbody.l-f-pattern .post { flex-direction: column; align-items: flex-start; gap: 6px; padding: 16px 18px; }\nbody.l-f-pattern .post-arrow { display: none; }\n@media (max-width: 900px) {\n  body.l-f-pattern main { grid-template-columns: 1fr; }\n  body.l-f-pattern #projects, body.l-f-pattern #skills, body.l-f-pattern #about,\n  body.l-f-pattern #blog, body.l-f-pattern #contact { grid-column: 1; grid-row: auto; }\n  body.l-f-pattern #projects { border-right: none; padding-right: 0; }\n}",
+        "sourceDigest": "sha256:8a1eabfb5c57bac26dd4dfc34dd7effdf0963dc284c83b9e46a4d2c16d33a501",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "仅使用未被该布局专属 CSS 架空的 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "改变主栏内部密度，守住 2:1 骨架",
+      "body": "外层 24×60px gap 与 2fr/1fr 是固定规则；用内层 gap 和 cardPad 压缩或放松项目内容。",
+      "experiments": [
+        {
+          "id": "compact-main-rail",
+          "label": "压缩主栏卡片",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 50,
+            "cardPad": 14
+          },
+          "expected": "左侧项目卡更密，featured 仍横跨两列，右栏仍保持一份宽。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        },
+        {
+          "id": "expand-main-rail",
+          "label": "放大主栏卡片",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 175,
+            "cardPad": 42
+          },
+          "expected": "项目卡间与内部留白扩大，主栏变长；右侧三段仍依次贴着 F 的竖向阅读轨。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和控件结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "从 2:1、跨行与 featured 跨列识别 F",
+      "body": "三处网格关系必须同时成立。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "projects 为什么能与右侧三个章节并行？",
+          "options": [
+            "它 grid-row:1/4",
+            "它 position:fixed",
+            "右栏绝对定位"
+          ],
+          "correct": 0,
+          "explanation": "跨三行使主栏贯穿 skills/about/blog。"
+        },
+        {
+          "id": "q2",
+          "question": "featured 卡在项目主栏内部如何强调？",
+          "options": [
+            "grid-column:1/-1",
+            "移动到侧栏",
+            "宽度固定 1080px"
+          ],
+          "correct": 0,
+          "explanation": "它横跨嵌套网格两列。"
+        },
+        {
+          "id": "q3",
+          "question": "900px 以下的核心降级是什么？",
+          "options": [
+            "主栏缩到 1fr/2fr",
+            "main 变单列并移除项目右边框",
+            "隐藏侧栏"
+          ],
+          "correct": 1,
+          "explanation": "移动端展平所有显式行列。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只把左栏做宽，却没有让它纵跨右侧三个章节。",
+    "将外层 60px 列距误写成 gap 控件可变。",
+    "featured 卡仍只占半个主栏，失去顶部强横扫视线。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在 1200px 正文场景指出宽主栏与窄侧栏。",
+      "完成 gap/cardPad 两组真实实验。",
+      "能解释 projects 跨行和 featured 跨列的两级网格。"
+    ]
+  },
+  "contentRevision": 1
+}

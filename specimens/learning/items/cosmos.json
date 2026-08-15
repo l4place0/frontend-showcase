@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "cosmos",
+  "title": "用语义 token 搭建深空层次",
+  "summary": "从背景光场、半透明表面与渐变标题理解：太空感来自亮度层级，不只是蓝紫配色。",
+  "difficulty": "beginner",
+  "durationMinutes": 10,
+  "concepts": [
+    "semantic tokens",
+    "radial gradients",
+    "luminance hierarchy",
+    "gradient text"
+  ],
+  "objectives": [
+    "识别背景、表面、边框和文字的亮度层级",
+    "解释两个径向光场如何形成纵深",
+    "判断调色后何时破坏可读性"
+  ],
+  "prerequisites": [
+    "CSS 自定义属性",
+    "渐变基础"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "从页面底色、卡片表面到标题高光依次比较亮度。",
+      "eyebrow": "READ THE DEPTH",
+      "title": "色相会变，层级必须留下",
+      "body": "深空结构由暗背景、微亮表面、细边框、正文和高亮标题逐级组成。",
+      "annotations": [
+        {
+          "id": "light-fields",
+          "anchor": [
+            75,
+            16
+          ],
+          "elbow": [
+            68,
+            28
+          ],
+          "end": [
+            56,
+            28
+          ],
+          "detailSide": "right",
+          "summary": "右上紫、左下青",
+          "detail": "两个偏心径向光场叠在线性深色底上，为页面建立有方向的空间。"
+        },
+        {
+          "id": "surface",
+          "anchor": [
+            26,
+            60
+          ],
+          "elbow": [
+            18,
+            52
+          ],
+          "end": [
+            10,
+            52
+          ],
+          "detailSide": "right",
+          "summary": "表面只微亮",
+          "detail": "低透明 surface 与 border 让卡片浮现，但不破坏深空整体。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把 token 簇按背景、表面、文本和强调色分组。",
+      "eyebrow": "TOKENS BEFORE ORNAMENT",
+      "title": "亮度层级先于蓝紫配色",
+      "body": "两处径向光场决定方向，surface/border 决定层次，标题渐变负责最高视觉权重。",
+      "code": {
+        "file": "src/themes/cosmos.css",
+        "locator": "--bg-decor:",
+        "snippet": "  --bg-decor:\n    radial-gradient(60% 45% at 75% 8%, rgba(192,132,252,.1), transparent 70%),\n    radial-gradient(55% 40% at 15% 85%, rgba(125,211,252,.09), transparent 70%),\n    linear-gradient(180deg, #060a1a 0%, #0b1030 100%);\n  --h1-grad: linear-gradient(120deg, #e7ebff 30%, #7dd3fc 70%, #c084fc);\n  --h1-clip: text; --h1-fill: transparent;",
+        "sourceDigest": "sha256:0a58451cf00e2aefde7c1c8785d3a9edd48fba1efb07b1d1f13def02a1686d92",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "先改饱和度，再改单独的对比度，比较身份与可读性。",
+      "eyebrow": "SEPARATE COLOR FROM DEPTH",
+      "title": "拿走部分颜色，空间还在吗",
+      "body": "如果亮度结构成立，低饱和状态仍有深空感；过低对比会让文字、边框和表面融合。",
+      "experiments": [
+        {
+          "id": "desaturate",
+          "label": "降低饱和度",
+          "initial": {
+            "hue": 0,
+            "saturation": 100,
+            "contrast": 100
+          },
+          "controls": {
+            "hue": 25,
+            "saturation": 55
+          },
+          "expected": "配色明显变化，但背景光场与卡片层级仍可辨。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "flatten",
+          "label": "压低对比度",
+          "initial": {
+            "hue": 0,
+            "saturation": 100,
+            "contrast": 100
+          },
+          "controls": {
+            "contrast": 78
+          },
+          "expected": "正文、细边框和半透明表面开始融合，可读性下降。",
+          "reset": "恢复 contrast=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "选择能解释因果的答案。",
+      "eyebrow": "PROVE THE HIERARCHY",
+      "title": "深空不是颜色标签",
+      "body": "三题检查亮度、光场和标题层级。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "只保留一种机制时，哪项最能维持纵深？",
+          "options": [
+            "背景/表面/文字的亮度层级",
+            "所有元素统一紫色",
+            "删除边框和表面差"
+          ],
+          "correct": 0,
+          "explanation": "色相可变，亮度层级必须保留。"
+        },
+        {
+          "id": "q2",
+          "question": "两处径向渐变放在相反角落的作用是？",
+          "options": [
+            "替代正文颜色",
+            "制造有方向的光场",
+            "改变 DOM 顺序"
+          ],
+          "correct": 1,
+          "explanation": "偏心光场让背景从均匀色块变为空间。"
+        },
+        {
+          "id": "q3",
+          "question": "标题渐变为什么处于最高层级？",
+          "options": [
+            "它串联正文白、青和紫强调色",
+            "它隐藏标题文字",
+            "它控制卡片列数"
+          ],
+          "correct": 0,
+          "explanation": "标题承担最强明度与色彩对比。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把太空感简化成蓝紫色相。",
+    "提高所有表面亮度导致深度消失。",
+    "在未检查正文和边框时极端降低对比度。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成饱和度和对比度实验。",
+      "能从展品中指出至少三层亮度关系。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

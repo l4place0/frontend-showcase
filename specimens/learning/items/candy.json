@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "candy",
+  "title": "用云朵留白和四色轮换经营甜度",
+  "summary": "四团白色椭圆光漂在粉色纸面，粉蓝标题与胶囊按钮建立主味，标签和技能条再按粉、蓝、黄、绿循环分配配料色。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "pastel palette",
+    "elliptical cloud field",
+    "cyclic color assignment",
+    "pill geometry"
+  ],
+  "objectives": [
+    "指出四团椭圆光的不同尺寸与位置",
+    "解释四色 nth-child 轮换如何避免单色腻感",
+    "验证圆角与饱和度对糖果语气的影响"
+  ],
+  "prerequisites": [
+    "radial-gradient",
+    "nth-child selectors",
+    "gradient fills"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先在指定场景同时核对两处可见证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从展品现场读取构图决定",
+      "body": "四团白色椭圆光漂在粉色纸面，粉蓝标题与胶囊按钮建立主味，标签和技能条再按粉、蓝、黄、绿循环分配配料色。",
+      "annotations": [
+        {
+          "id": "sugar-clouds",
+          "anchor": [
+            76,
+            18
+          ],
+          "elbow": [
+            86,
+            28
+          ],
+          "end": [
+            94,
+            28
+          ],
+          "detailSide": "left",
+          "summary": "白色椭圆光像糖霜云",
+          "detail": "四团 150–200px 椭圆分布在不同角落，只有透明边缘没有硬框。"
+        },
+        {
+          "id": "pink-blue-actions",
+          "anchor": [
+            29,
+            59
+          ],
+          "elbow": [
+            18,
+            67
+          ],
+          "end": [
+            8,
+            67
+          ],
+          "detailSide": "right",
+          "summary": "粉主按钮与蓝描边按钮配对",
+          "detail": "两种胶囊行动色延续标题粉与副标题蓝，而不是随机追加颜色。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见证据连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "主味用粉蓝，配料按四项循环",
+      "body": "背景四团椭圆光把粉纸面提亮；组件以 99px 胶囊保持糖果轮廓，标签和数据条再通过 nth-child 按粉、蓝、黄、绿轮换。",
+      "code": {
+        "file": "src/themes/candy.css",
+        "locator": "body.t-candy .bg-fx",
+        "snippet": "body.t-candy .bg-fx {\n  background:\n    radial-gradient(ellipse 160px 60px at 20% 16%, rgba(255,255,255,.95), transparent 70%),\n    radial-gradient(ellipse 200px 70px at 75% 10%, rgba(255,255,255,.9), transparent 70%),\n    radial-gradient(ellipse 180px 60px at 55% 88%, rgba(255,255,255,.85), transparent 70%),\n    radial-gradient(ellipse 150px 55px at 90% 70%, rgba(255,255,255,.8), transparent 70%);\n}\nbody.t-candy .hero h1 { color: #ff8fb3; }\nbody.t-candy .tagline { color: #8fc7ff; font-weight: 700; }\nbody.t-candy .section-title { color: #5c4a5a; }\nbody.t-candy .section-tag { background: #fff; border-color: rgba(255,143,179,.4); color: #ff8fb3; font-weight: 700; }\nbody.t-candy .card { border-color: rgba(255,143,179,.25); }\nbody.t-candy .card:nth-child(3n+2) { border-color: rgba(143,199,255,.35); }\nbody.t-candy .card:nth-child(3n) { border-color: rgba(255,209,102,.45); }\nbody.t-candy .card.featured { border-color: #ff8fb3; border-width: 2px; }\nbody.t-candy .card.featured::before { background: linear-gradient(90deg, #ff8fb3, #8fc7ff); }\nbody.t-candy .btn { border-radius: 99px; font-weight: 700; }\nbody.t-candy .btn-primary { background: linear-gradient(90deg, #ff8fb3, #ffa8c6); color: #fff; }\nbody.t-candy .btn-ghost { background: #fff; border-color: rgba(143,199,255,.5); }\nbody.t-candy .btn-ghost:hover { border-color: #8fc7ff; color: #8fc7ff; }\nbody.t-candy .lang { background: #ffeef5; border-color: rgba(255,143,179,.3); color: #b0788f; }\nbody.t-candy .lang:nth-child(even) { background: #e8f3ff; border-color: rgba(143,199,255,.35); color: #6a94c4; }\nbody.t-candy .tag { background: #fff; border-width: 1.5px; }\nbody.t-candy .tag:nth-child(4n+1) { border-color: rgba(255,143,179,.5); color: #ff8fb3; }\nbody.t-candy .tag:nth-child(4n+2) { border-color: rgba(143,199,255,.55); color: #6aa8e0; }\nbody.t-candy .tag:nth-child(4n+3) { border-color: rgba(255,209,102,.6); color: #d9a520; }\nbody.t-candy .tag:nth-child(4n) { border-color: rgba(168,230,183,.7); color: #5da86f; }\nbody.t-candy .bar-track { background: #ffeef5; height: 12px; }\nbody.t-candy .bar-fill { background: linear-gradient(90deg, #ff8fb3, #8fc7ff); }\nbody.t-candy .bar-row:nth-child(2) .bar-fill { background: linear-gradient(90deg, #8fc7ff, #a8e6b7); }\nbody.t-candy .bar-row:nth-child(3) .bar-fill { background: linear-gradient(90deg, #ffd166, #ff8fb3); }\nbody.t-candy .bar-row:nth-child(4) .bar-fill { background: linear-gradient(90deg, #c3aef0, #8fc7ff); }",
+        "sourceDigest": "sha256:cd5fccb0288fa448b8c869e83503ba210cdcc10c779b74cded0c888e4856a857",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用该 manifest 声明的真实控件。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "降低糖度，再拆掉胶囊轮廓",
+      "body": "先降低 saturation 看四色编码是否仍可分，再压低 radius 检查轮廓对甜点语气的贡献。",
+      "experiments": [
+        {
+          "id": "reduce-sugar",
+          "label": "降低马卡龙饱和度",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 28,
+            "saturation": 55
+          },
+          "expected": "粉蓝黄绿整体变淡并迁移，但四项轮换与白云位置不变。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "square-the-candy",
+          "label": "压缩圆角与增大字号",
+          "initial": {
+            "radius": 100,
+            "font": 100
+          },
+          "controls": {
+            "radius": 10,
+            "font": 112
+          },
+          "expected": "依赖变量的卡片明显变方，显式胶囊仍圆；甜点铺的软糯感下降。",
+          "reset": "恢复 radius=100、font=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和实验结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "判断甜度来自色谱还是结构",
+      "body": "用白云、四色循环和胶囊实验共同回答。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "背景云朵为何比白色实心圆更柔软？",
+          "options": [
+            "椭圆径向渐变在 70% 前淡出",
+            "使用了虚线边框",
+            "它们是图片"
+          ],
+          "correct": 0,
+          "explanation": "透明渐变边缘让白光融进粉色纸面。"
+        },
+        {
+          "id": "q2",
+          "question": "标签为何按四种颜色重复？",
+          "options": [
+            "nth-child(4n+1…4n) 形成稳定轮换",
+            "浏览器随机选色",
+            "每次滚动重排"
+          ],
+          "correct": 0,
+          "explanation": "选择器周期把多色变成可预测系统。"
+        },
+        {
+          "id": "q3",
+          "question": "降低 saturation 后哪项仍直接可验证？",
+          "options": [
+            "四色的原始鲜艳度",
+            "云朵与胶囊的几何位置",
+            "粉色一定最醒目"
+          ],
+          "correct": 1,
+          "explanation": "滤镜改变色彩强度，不改变几何。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "所有组件只用同一粉色，造成层级黏成一团。",
+    "把白云画成硬边圆形，像贴纸而非糖霜光。",
+    "随机分配多色而不设周期，破坏甜点陈列的秩序。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能在初始画面指出云朵与粉蓝行动区。",
+      "完成低饱和与低圆角实验。",
+      "能解释四色 nth-child 轮换的规则。"
+    ]
+  },
+  "contentRevision": 1
+}

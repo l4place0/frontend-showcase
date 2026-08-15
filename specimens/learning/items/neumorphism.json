@@ -1,0 +1,205 @@
+{
+  "learningVersion": 1,
+  "itemId": "neumorphism",
+  "title": "同色表面如何长出浮雕",
+  "summary": "通过一明一暗的外阴影与内阴影，理解新拟态如何在几乎没有边框的同色表面上表达凸起和凹陷。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "paired shadows",
+    "inset depth",
+    "low-contrast affordance",
+    "surface continuity"
+  ],
+  "objectives": [
+    "区分凸起组件与凹陷轨道的阴影方向",
+    "解释表面与背景同色为何仍可分层",
+    "判断对比度极端变化时的可用性风险"
+  ],
+  "prerequisites": [
+    "box-shadow 与 inset",
+    "CSS 自定义属性"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先比较主按钮、幽灵按钮、头像与技能条轨道的光向。",
+      "eyebrow": "READ LIGHT DIRECTION",
+      "title": "凸起和凹陷使用相反的深度信号",
+      "body": "卡片与按钮右下偏暗、左上偏亮，像从底面抬起；技能条轨道把同一对颜色改成 inset，像压进表面。",
+      "annotations": [
+        {
+          "id": "raised-cta",
+          "anchor": [
+            32,
+            57
+          ],
+          "elbow": [
+            21,
+            48
+          ],
+          "end": [
+            10,
+            48
+          ],
+          "detailSide": "right",
+          "summary": "双向阴影抬起按钮",
+          "detail": "深色阴影落在右下、白色阴影落在左上，模拟统一左上光源。"
+        },
+        {
+          "id": "avatar-no-glow",
+          "anchor": [
+            75,
+            43
+          ],
+          "elbow": [
+            84,
+            34
+          ],
+          "end": [
+            93,
+            34
+          ],
+          "detailSide": "left",
+          "summary": "体积来自边缘，不靠光晕",
+          "detail": "avatar glow 被关闭，避免与浮雕阴影争夺深度解释。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把外阴影、内阴影和透明边框当成一套光照模型。",
+      "eyebrow": "ONE LIGHT MODEL",
+      "title": "同色连续性 + 成对阴影 = 可见体积",
+      "body": "背景和 surface 使用同色，让边界来自光影；普通组件用成对外阴影凸起，bar-track 与语言标签用同色的 inset 阴影凹下。",
+      "code": {
+        "file": "src/themes/neumorphism.css",
+        "locator": "--shadow:",
+        "snippet": "  --shadow: 9px 9px 18px #b8bec7, -9px -9px 18px #ffffff;\n  --shadow-hover: 4px 4px 10px #b8bec7, -4px -4px 10px #ffffff;\n  --card-hover-tf: none;\n  --btn-hover-tf: none;\n  --tag-hover-tf: none;\n  --post-hover-tf: none;\n  --avatar-glow: none;\n  --bar-radius: 99px;\n}\nbody.t-neumorphism .card,\nbody.t-neumorphism .post,\nbody.t-neumorphism .fact,\nbody.t-neumorphism .contact-card,\nbody.t-neumorphism .tag,\nbody.t-neumorphism .btn,\nbody.t-neumorphism .hero-badge,\nbody.t-neumorphism .section-tag,\nbody.t-neumorphism .contact-ico,\nbody.t-neumorphism .gallery-link { border: 1px solid rgba(255,255,255,.45); }\nbody.t-neumorphism .btn-primary { color: #fff; text-shadow: 0 1px 2px rgba(61,72,89,.3); }\nbody.t-neumorphism .bar-track { box-shadow: inset 3px 3px 7px #b8bec7, inset -3px -3px 7px #ffffff; background: #d3dae6; }\nbody.t-neumorphism .bar-fill { background: linear-gradient(90deg, #5b7fff, #9d6bff); box-shadow: 2px 2px 5px #b8bec7; }\nbody.t-neumorphism .lang { box-shadow: inset 2px 2px 5px #b8bec7, inset -2px -2px 5px #ffffff; border-color: transparent; }",
+        "sourceDigest": "sha256:4e19b996667afc3b5c9d5568a77943d6ce7e767868db7c4ffd0ea7ec5b7c8534",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "分别挤压亮度对比和圆角，检查深度与可用性。",
+      "eyebrow": "PRESSURE THE RELIEF",
+      "title": "浮雕最先坏在对比度，而不是色相",
+      "body": "低对比会让边缘消失，高对比会把柔和浮雕变成硬塑料；小圆角则改变触感但不改变光向。",
+      "experiments": [
+        {
+          "id": "flatten-depth",
+          "label": "压低对比度，观察凸凹边界",
+          "initial": {
+            "contrast": 100,
+            "radius": 100
+          },
+          "controls": {
+            "contrast": 76
+          },
+          "expected": "按钮与卡片边缘更难从同色背景中辨认，凹陷轨道也变浅。",
+          "reset": "恢复 contrast=100。"
+        },
+        {
+          "id": "harden-depth",
+          "label": "提高对比并压低圆角",
+          "initial": {
+            "contrast": 100,
+            "radius": 100
+          },
+          "controls": {
+            "contrast": 130,
+            "radius": 25
+          },
+          "expected": "明暗阴影更硬、组件更方，仍能辨认统一左上光源，但柔软触感明显减弱。",
+          "reset": "恢复 contrast=100、radius=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要同时匹配画面和阴影代码。",
+      "eyebrow": "EXPLAIN THE DEPTH",
+      "title": "判断凸起、凹陷与风险",
+      "body": "三题的正确位置刻意不同。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "技能条轨道看起来凹下的直接原因是？",
+          "options": [
+            "透明边框",
+            "成对 inset 阴影",
+            "改变 DOM 顺序"
+          ],
+          "correct": 1,
+          "explanation": "轨道把深浅两色阴影放进内部，方向与凸起组件相反。"
+        },
+        {
+          "id": "q2",
+          "question": "将 contrast 降到 76 后最先暴露的设计风险是？",
+          "options": [
+            "卡片自动变成三列",
+            "文本切换字体",
+            "交互表面与背景难以区分"
+          ],
+          "correct": 2,
+          "explanation": "同色 surface 依赖细微光影；对比不足会伤害 affordance。"
+        },
+        {
+          "id": "q3",
+          "question": "为什么主题关闭 card/button 的 hover 位移？",
+          "options": [
+            "让深度主要由一致光照而非跳动解释",
+            "启用代码雨",
+            "让轨道变成外阴影"
+          ],
+          "correct": 0,
+          "explanation": "稳定位置让浮雕光向成为唯一、连续的深度模型。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只加一个右下阴影，缺失左上高光。",
+    "所有组件都用外阴影，失去凸起与凹陷差别。",
+    "为了柔和把对比压到无法识别可点击区域。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能在展品中指出一个凸起组件和一个凹陷组件。",
+      "完成两组对比度实验并说明可用性边界。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

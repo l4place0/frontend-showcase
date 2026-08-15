@@ -1,0 +1,205 @@
+{
+  "learningVersion": 1,
+  "itemId": "artdeco",
+  "title": "用对称与线性装饰建立 Art Deco",
+  "summary": "黑金只是入口；真正的装饰艺术身份来自中轴、硬边、重复几何和克制的金色层级。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "symmetry",
+    "geometric ornament",
+    "layered gradients",
+    "counter-rotation"
+  ],
+  "objectives": [
+    "解释中轴对称如何贯穿页面",
+    "拆解标题下方双线装饰",
+    "说明圆角与悬浮位移为何被关闭"
+  ],
+  "prerequisites": [
+    "CSS 伪元素",
+    "渐变与变换"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "从主标题向下寻找重复的直线、菱形和内描边。",
+      "eyebrow": "FOLLOW THE AXIS",
+      "title": "沿中轴读装饰",
+      "body": "标题双线、栏目两侧菱形、卡片内描边和菱形图标组成统一几何语法。",
+      "annotations": [
+        {
+          "id": "hero-ornament",
+          "anchor": [
+            50,
+            35
+          ],
+          "elbow": [
+            63,
+            27
+          ],
+          "end": [
+            78,
+            27
+          ],
+          "detailSide": "left",
+          "summary": "标题下双线",
+          "detail": "两个线性渐变叠加为粗细不同的中轴饰带。"
+        },
+        {
+          "id": "inset-outline",
+          "anchor": [
+            27,
+            67
+          ],
+          "elbow": [
+            17,
+            59
+          ],
+          "end": [
+            8,
+            59
+          ],
+          "detailSide": "right",
+          "summary": "内描边镶边",
+          "detail": "outline 与负 outline-offset 在卡片内部再画一层几何边框。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "黑金是表层，硬边、静止和重复几何才构成秩序。",
+      "eyebrow": "GEOMETRY BEFORE COLOR",
+      "title": "从 token 到几何语法",
+      "body": "圆角归零、hover 位移关闭；伪元素和 counter-rotation 让菱形贯穿标题、徽点与图标。",
+      "code": {
+        "file": "src/themes/artdeco.css",
+        "locator": "body.t-artdeco .hero h1",
+        "snippet": "body.t-artdeco .hero h1 { text-transform: uppercase; font-weight: 400; }\nbody.t-artdeco .hero h1::after {\n  content: \"\"; display: block; width: 180px; height: 12px; margin: 18px auto 0;\n  background:\n    linear-gradient(90deg, transparent 0 38%, var(--accent) 38% 62%, transparent 62%),\n    linear-gradient(90deg, var(--accent), var(--accent));\n  background-size: 100% 2px, 100% 1px; background-position: 0 8px, 0 3px; background-repeat: no-repeat;\n}",
+        "sourceDigest": "sha256:67bcdab617727456c24556773143571030474da95d30c1f288a3a4c12f6fc7b9",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "改变饱和度与对比度，检验几何身份能否独立存在。",
+      "eyebrow": "TEST FORMALITY",
+      "title": "拿走部分金色，秩序还在吗",
+      "body": "主题自身把组件圆角压为零；参数实验重点观察色彩减弱后中轴和几何是否仍成立。",
+      "experiments": [
+        {
+          "id": "desaturate",
+          "label": "削弱金色",
+          "initial": {
+            "saturation": 100,
+            "contrast": 100,
+            "radius": 100
+          },
+          "controls": {
+            "saturation": 55,
+            "contrast": 120
+          },
+          "expected": "金色减弱但中轴、菱形、硬边和内描边仍保持 Art Deco 秩序。",
+          "reset": "恢复 saturation=100、contrast=100。"
+        },
+        {
+          "id": "radius-pressure",
+          "label": "施加圆角参数",
+          "initial": {
+            "radius": 100
+          },
+          "controls": {
+            "radius": 220
+          },
+          "expected": "主题的零圆角 token 继续约束主要组件，显示 item 级身份优先于通用参数。",
+          "reset": "恢复 radius=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "回答几何因果。",
+      "eyebrow": "PROVE THE ORDER",
+      "title": "不止黑金",
+      "body": "三题检查对称、渐变饰带和反向旋转。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "哪一项比黑金配色更能定义本展品？",
+          "options": [
+            "中轴对称、硬边和重复菱形",
+            "随机圆角和弹跳",
+            "无层级纯黑"
+          ],
+          "correct": 0,
+          "explanation": "几何秩序是可跨配色保留的身份。"
+        },
+        {
+          "id": "q2",
+          "question": "contact 图标为何外层旋转、SVG 再反向旋转？",
+          "options": [
+            "隐藏 SVG",
+            "得到菱形容器但保持图标正向",
+            "改变网格列数"
+          ],
+          "correct": 1,
+          "explanation": "counter-rotation 分离容器形状和内容方向。"
+        },
+        {
+          "id": "q3",
+          "question": "标题下双线如何绘制？",
+          "options": [
+            "叠加两个 linear-gradient",
+            "远程图片",
+            "Canvas"
+          ],
+          "correct": 0,
+          "explanation": "两个渐变分别承担不同粗细和位置的线。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把 Art Deco 简化成黑金配色。",
+    "加入大圆角和弹跳 hover 破坏庄重秩序。",
+    "旋转容器后忘记反向旋转内部图标。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成饱和度与圆角压力实验。",
+      "能指出三种重复几何机制。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

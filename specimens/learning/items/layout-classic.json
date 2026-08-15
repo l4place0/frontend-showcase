@@ -1,0 +1,204 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-classic",
+  "title": "用垂直节奏建立可靠基线",
+  "summary": "经典单栏不靠特殊排列取胜，而是用首屏、区段和页尾间距建立可预测的阅读流。",
+  "difficulty": "beginner",
+  "durationMinutes": 9,
+  "concepts": [
+    "vertical rhythm",
+    "reading flow",
+    "viewport height",
+    "baseline layout"
+  ],
+  "objectives": [
+    "识别单栏的连续阅读顺序",
+    "解释 hero 与 section 间距的职责",
+    "用空间参数判断何时阅读流断裂"
+  ],
+  "prerequisites": [
+    "CSS block flow",
+    "margin 与 padding"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "从 hero 滚到项目、技能和页尾，记录每次停顿。",
+      "eyebrow": "READ TOP TO BOTTOM",
+      "title": "没有重排，节奏就是结构",
+      "body": "所有区段遵循源顺序；92vh hero 建立开场，110px 区段顶距提供稳定停顿。",
+      "annotations": [
+        {
+          "id": "hero-fold",
+          "anchor": [
+            50,
+            78
+          ],
+          "elbow": [
+            64,
+            70
+          ],
+          "end": [
+            79,
+            70
+          ],
+          "detailSide": "left",
+          "summary": "首屏留出下文暗示",
+          "detail": "92vh 而非整整 100vh，让下一段更容易进入视野。"
+        },
+        {
+          "id": "section-gap",
+          "anchor": [
+            20,
+            54
+          ],
+          "elbow": [
+            13,
+            45
+          ],
+          "end": [
+            7,
+            45
+          ],
+          "detailSide": "right",
+          "summary": "统一区段停顿",
+          "detail": "每个 section 的顶距一致，形成可靠纵向节拍。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "基线布局只改四条规则，重点是它们各自的语义。",
+      "eyebrow": "SMALL CSS, CLEAR FLOW",
+      "title": "用最少覆盖校准共享版式",
+      "body": "经典单栏保留基础布局，只校准 section、标题、hero 与 footer 的垂直距离。",
+      "code": {
+        "file": "src/layouts/classic.css",
+        "locator": "body.l-classic section",
+        "snippet": "body.l-classic section { padding-top: 110px; }\nbody.l-classic .section-title { margin-bottom: 14px; }\nbody.l-classic .hero { min-height: 92vh; }\nbody.l-classic footer { margin-top: 80px; }",
+        "sourceDigest": "sha256:66e07f3cc5a047734d72812f981fc9a49c0586c2d46ef347905410ccc339c7b7",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "只调节纵向节奏，再改变内容宽度。",
+      "eyebrow": "CALIBRATE THE BASELINE",
+      "title": "节奏和行长是两套控制",
+      "body": "space 改区段停顿，width 改阅读行长；两者共同决定单栏是否从容。",
+      "experiments": [
+        {
+          "id": "tight-space",
+          "label": "压缩区段节奏",
+          "initial": {
+            "space": 100,
+            "width": 1080
+          },
+          "controls": {
+            "space": 60
+          },
+          "expected": "区段更快接续，单栏仍保持源顺序但呼吸感减少。",
+          "reset": "恢复 space=100。"
+        },
+        {
+          "id": "narrow-measure",
+          "label": "收窄内容宽度",
+          "initial": {
+            "space": 100,
+            "width": 1080
+          },
+          "controls": {
+            "width": 760
+          },
+          "expected": "阅读带更集中、换行增多，垂直总长度增加。",
+          "reset": "恢复 width=1080。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "回答节奏与顺序。",
+      "eyebrow": "PROVE THE FLOW",
+      "title": "基线不是没有设计",
+      "body": "三题检查首屏、区段和参数职责。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "hero 使用 92vh 的主要意义？",
+          "options": [
+            "保留沉浸感同时暗示下方内容",
+            "隐藏全部下文",
+            "改变 DOM 顺序"
+          ],
+          "correct": 0,
+          "explanation": "略低于满屏能维持开场又减少封闭感。"
+        },
+        {
+          "id": "q2",
+          "question": "space 参数主要改变什么？",
+          "options": [
+            "内容最大宽度",
+            "区段纵向节奏",
+            "主题色相"
+          ],
+          "correct": 1,
+          "explanation": "space 控制纵向间距比例。"
+        },
+        {
+          "id": "q3",
+          "question": "经典单栏的阅读顺序由什么保证？",
+          "options": [
+            "保持语义源顺序和普通文档流",
+            "绝对定位全部区段",
+            "随机网格 placement"
+          ],
+          "correct": 0,
+          "explanation": "它没有进行视觉重排。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把简单误解为没有节奏设计。",
+    "同时极端收窄宽度和加大间距导致页面过长。",
+    "用绝对定位破坏普通文档流。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成空间与宽度两个实验。",
+      "能解释 92vh、110px 与 80px 的不同职责。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

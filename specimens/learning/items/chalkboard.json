@@ -1,0 +1,205 @@
+{
+  "learningVersion": 1,
+  "itemId": "chalkboard",
+  "title": "用断续笔触模拟粉笔板书",
+  "summary": "7px 板面粉尘、虚线边框、模糊字迹和多色斜向粉笔条，让组件像被手写在深绿黑板上。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "chalk dust",
+    "dashed strokes",
+    "imperfect rotation",
+    "striped chalk fill"
+  ],
+  "objectives": [
+    "解释板面粉尘与虚线笔触的尺度差",
+    "比较 hover 微旋和边色变化",
+    "验证对比度与饱和度对粉笔质感的影响"
+  ],
+  "prerequisites": [
+    "radial-gradient",
+    "dashed borders",
+    "repeating gradients"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先观察初始 Hero 构图中的标注，再向下验证相同机制。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先从黑板粉笔的初始画面取证",
+      "body": "7px 板面粉尘、虚线边框、模糊字迹和多色斜向粉笔条，让组件像被手写在深绿黑板上。",
+      "annotations": [
+        {
+          "id": "chalk-dust",
+          "anchor": [
+            78,
+            28
+          ],
+          "elbow": [
+            69,
+            20
+          ],
+          "end": [
+            57,
+            20
+          ],
+          "detailSide": "left",
+          "summary": "7px 周期粉尘",
+          "detail": "1px 低透明白点稀疏覆盖深绿板面。"
+        },
+        {
+          "id": "chalk-title",
+          "anchor": [
+            31,
+            34
+          ],
+          "elbow": [
+            20,
+            26
+          ],
+          "end": [
+            9,
+            26
+          ],
+          "detailSide": "right",
+          "summary": "双层微光像粉笔粉",
+          "detail": "2px 模糊与轻微偏移让字边不完全锐利。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见效果连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "粉笔感来自断线、粉尘与轻微手抖",
+      "body": "多数容器统一虚线；标题下划线按 14px 笔段 + 6px 空隙重复；hover 仅旋转不足两度，并换成黄色粉笔。",
+      "code": {
+        "file": "src/themes/chalkboard.css",
+        "locator": "body.t-chalkboard .bg-fx",
+        "snippet": "body.t-chalkboard .bg-fx {\n  background-image: radial-gradient(rgba(240,237,228,.05) 1px, transparent 1px);\n  background-size: 7px 7px;\n}\nbody.t-chalkboard .card, body.t-chalkboard .post, body.t-chalkboard .fact, body.t-chalkboard .contact-card,\nbody.t-chalkboard .tag, body.t-chalkboard .hero-badge, body.t-chalkboard .section-tag, body.t-chalkboard .btn-ghost {\n  border-style: dashed;\n}\nbody.t-chalkboard .hero h1 { color: #f0ede4; text-shadow: 0 0 2px rgba(240,237,228,.6), 2px 2px 0 rgba(240,237,228,.12); letter-spacing: 2px; }\nbody.t-chalkboard .tagline { color: var(--accent); }\nbody.t-chalkboard .tagline::before { content: \"★ \"; }\nbody.t-chalkboard .section-title { color: #f0ede4; text-shadow: 0 0 2px rgba(240,237,228,.5); }\nbody.t-chalkboard .section-title::after { content: \"\"; display: block; height: 6px; margin-top: 8px; background: repeating-linear-gradient(90deg, var(--border) 0 14px, transparent 14px 20px); opacity: .7; }\nbody.t-chalkboard .section-tag { background: transparent; color: var(--accent-2); }\nbody.t-chalkboard .card:hover { border-color: var(--accent); }\nbody.t-chalkboard .card.featured { border-color: var(--accent); }\nbody.t-chalkboard .card.featured::before { content: \"★ 重点\"; background: var(--accent); color: #22332d; font-weight: 700; }\nbody.t-chalkboard .btn-primary { background: var(--accent); color: #22332d; border: 2px dashed rgba(34,51,45,.7); font-weight: 700; }\nbody.t-chalkboard .btn-primary:hover { box-shadow: 0 0 22px rgba(255,209,102,.3); }\nbody.t-chalkboard .bar-track { border: 2px dashed var(--border); background: transparent; height: 12px; }\nbody.t-chalkboard .bar-fill { background: repeating-linear-gradient(-45deg, #f0ede4 0 5px, rgba(240,237,228,.35) 5px 9px); }\nbody.t-chalkboard .bar-row:first-child .bar-fill { background: repeating-linear-gradient(-45deg, var(--accent) 0 5px, rgba(255,209,102,.4) 5px 9px); }\nbody.t-chalkboard .bar-row:nth-child(2) .bar-fill { background: repeating-linear-gradient(-45deg, var(--accent-2) 0 5px, rgba(142,202,230,.4) 5px 9px); }\nbody.t-chalkboard .bar-row:nth-child(3) .bar-fill { background: repeating-linear-gradient(-45deg, #ff8fa3 0 5px, rgba(255,143,163,.4) 5px 9px); }",
+        "sourceDigest": "sha256:897b4676bacfe7afe9857838c8dc124e0ea66052efab1edb9a9df5be46195a40",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用真实 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "调节粉尘强度与黑板反差",
+      "body": "分别改变对比度和色相，确认断续线、细颗粒与轻微旋转是否仍能制造手写表面。",
+      "experiments": [
+        {
+          "id": "dust-fade",
+          "label": "压低对比观察粉尘消失",
+          "initial": {
+            "contrast": 100
+          },
+          "controls": {
+            "contrast": 76
+          },
+          "expected": "低透明粉尘和虚线先弱化，主文字仍可读。",
+          "reset": "恢复 contrast=100。"
+        },
+        {
+          "id": "chalk-box",
+          "label": "降低饱和并偏移色相",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 28,
+            "saturation": 58
+          },
+          "expected": "黄/蓝/粉粉笔色退淡迁移，但断续笔触、斜纹和微旋仍保留。",
+          "reset": "恢复 hue=0、saturation=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合标注、源码和实验。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "从痕迹判断粉笔材质",
+      "body": "根据虚线边缘、粉尘密度和微旋转回答，而不是把任何白字深底都叫黑板。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "标题下断续线的节奏？",
+          "options": [
+            "14px 实线 + 6px 空隙",
+            "7px 点阵",
+            "连续实线"
+          ],
+          "correct": 0,
+          "explanation": "repeating gradient 明确规定笔段。"
+        },
+        {
+          "id": "q2",
+          "question": "低对比实验中最先难辨？",
+          "options": [
+            "主标题",
+            "低透明粉尘与虚线",
+            "DOM"
+          ],
+          "correct": 1,
+          "explanation": "轻微表面痕迹对对比最敏感。"
+        },
+        {
+          "id": "q3",
+          "question": "hover 的手写不稳定感来自？",
+          "options": [
+            "大幅缩放",
+            "圆角",
+            "不足两度的 rotate 与边色变化"
+          ],
+          "correct": 2,
+          "explanation": "小角度足以模拟手写而不伤阅读。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "使用均匀实线边框。",
+    "旋转角度过大导致内容晃动。",
+    "粉尘对比过强像数字点阵。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成至少两组 manifest control 实验并比较基准状态。",
+      "能从初始画面指出两个标注机制。",
+      "三道测验全部答对并解释源码因果。"
+    ]
+  },
+  "contentRevision": 1
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://frontend-showcase.local/specimen.schema.json",
+  "title": "Specimen Protocol v1 manifest",
+  "type": "object",
+  "required": [
+    "specimenVersion",
+    "id",
+    "title",
+    "description",
+    "category",
+    "tags",
+    "technology",
+    "renderer",
+    "entry",
+    "runtime",
+    "controls",
+    "ai"
+  ],
+  "properties": {
+    "specimenVersion": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "title": {
+      "type": "object",
+      "required": ["zh", "en"],
+      "properties": {
+        "zh": { "type": "string", "minLength": 1 },
+        "en": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "description": { "type": "string", "minLength": 1 },
+    "category": { "type": "string", "minLength": 1 },
+    "tags": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true },
+    "technology": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "renderer": { "type": "string", "minLength": 1 },
+    "entry": { "type": "string", "pattern": "^(?:items/.+/)?index\\.html$" },
+    "runtime": {
+      "type": "object",
+      "required": ["scripts", "webgl", "audio", "fullscreen", "pointerLock"],
+      "additionalProperties": { "type": "boolean" }
+    },
+    "controls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "label", "type", "default"],
+        "properties": {
+          "key": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 },
+          "type": { "enum": ["range", "number", "color", "boolean", "select", "text", "button", "vector2"] }
+        },
+        "additionalProperties": true
+      }
+    },
+    "ai": {
+      "type": "object",
+      "required": ["prompt", "context", "source"],
+      "properties": {
+        "prompt": { "type": "string" },
+        "context": { "type": "string" },
+        "source": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "learning": {
+      "type": "object",
+      "required": ["resource"],
+      "properties": {
+        "resource": { "type": "string", "minLength": 1 },
+        "contentRevision": { "type": "integer", "minimum": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "difficulty": { "type": "string", "minLength": 1 },
+        "durationMinutes": { "type": "integer", "minimum": 1 },
+        "concepts": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

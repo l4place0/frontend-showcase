@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "monochrome",
+  "title": "用灰阶而非色彩建立摄影集层级",
+  "summary": "标题、标签和技能条只依赖从 #171717 到 #d4d4d4 的明度序列，字距与边框粗细承担原本由颜色负责的分组。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "achromatic hierarchy",
+    "weight and tracking",
+    "grayscale data encoding",
+    "border emphasis"
+  ],
+  "objectives": [
+    "指出标题与宽字距副标题如何形成两级节奏",
+    "解释六档灰阶技能条为何仍可比较",
+    "验证色相实验对无彩色结构的有限影响"
+  ],
+  "prerequisites": [
+    "CSS custom properties",
+    "typographic hierarchy",
+    "relative luminance"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先在指定场景同时核对两处可见证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从展品现场读取构图决定",
+      "body": "标题、标签和技能条只依赖从 #171717 到 #d4d4d4 的明度序列，字距与边框粗细承担原本由颜色负责的分组。",
+      "annotations": [
+        {
+          "id": "heavy-title",
+          "anchor": [
+            31,
+            36
+          ],
+          "elbow": [
+            19,
+            29
+          ],
+          "end": [
+            8,
+            29
+          ],
+          "detailSide": "right",
+          "summary": "紧标题与宽副标题对冲",
+          "detail": "标题 -3px 字距形成密实黑块，副标题 6px 字距把同一灰阶拉成空气层。"
+        },
+        {
+          "id": "binary-actions",
+          "anchor": [
+            30,
+            59
+          ],
+          "elbow": [
+            18,
+            66
+          ],
+          "end": [
+            8,
+            66
+          ],
+          "detailSide": "right",
+          "summary": "主次按钮只靠黑白反转",
+          "detail": "主按钮用近黑实底，次按钮留白；没有第三种强调色。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见证据连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "颜色退出后，密度接管排序",
+      "body": "主标题以 800 字重和负字距压成视觉锚点，section tag 以黑底白字建立章节标记；技能条再用六档连续灰度表达量级，而非借助不同色相。",
+      "code": {
+        "file": "src/themes/monochrome.css",
+        "locator": "body.t-monochrome .hero h1",
+        "snippet": ".t-monochrome {\n  --bg: #fafafa; --bg2: #f0f0f0;\n  --surface: #ffffff; --surface-2: #f0f0f0;\n  --border: #d4d4d4; --border-hover: #171717;\n  --text: #171717; --text-2: #737373;\n  --accent: #262626; --accent-2: #a3a3a3;\n  --nav-bg: rgba(250,250,250,.88);\n  --font-body: \"Inter\", -apple-system, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;\n  --font-head: \"Helvetica Neue\", Helvetica, Arial, \"PingFang SC\", sans-serif;\n  --radius: 2px; --radius-sm: 2px; --bar-radius: 2px;\n  --bg-decor: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%);\n  --shadow: none;\n  --shadow-hover: 0 14px 34px rgba(0,0,0,.1);\n  --avatar-glow: none;\n  --title-ls: -0.5px; --title-size: 38px;\n}\nbody.t-monochrome ::selection { background: #171717; color: #fafafa; }\nbody.t-monochrome .hero h1 { font-weight: 800; letter-spacing: -3px; }\nbody.t-monochrome .tagline { font-weight: 400; letter-spacing: 6px; text-transform: uppercase; font-size: 15px; }\nbody.t-monochrome .section-tag { background: #171717; color: #fafafa; border-color: #171717; letter-spacing: 4px; }\nbody.t-monochrome .card { border-color: #e5e5e5; }\nbody.t-monochrome .card:hover { border-color: #171717; }\nbody.t-monochrome .card.featured { border-color: #171717; border-width: 2px; }\nbody.t-monochrome .card.featured::before { background: #171717; }\nbody.t-monochrome .btn { border-radius: 2px; font-weight: 600; }\nbody.t-monochrome .btn-primary { background: #171717; color: #fafafa; }\nbody.t-monochrome .btn-primary:hover { background: #404040; }\nbody.t-monochrome .btn-ghost:hover { border-color: #171717; }\nbody.t-monochrome .bar-track { background: #e5e5e5; height: 10px; }\nbody.t-monochrome .bar-fill { background: #171717; }\nbody.t-monochrome .bar-row:nth-child(2) .bar-fill { background: #525252; }\nbody.t-monochrome .bar-row:nth-child(3) .bar-fill { background: #737373; }\nbody.t-monochrome .bar-row:nth-child(4) .bar-fill { background: #a3a3a3; }\nbody.t-monochrome .bar-row:nth-child(5) .bar-fill { background: #c4c4c4; }\nbody.t-monochrome .bar-row:nth-child(6) .bar-fill { background: #d4d4d4; }\nbody.t-monochrome .tag:hover { background: #171717; color: #fafafa; }\nbody.t-monochrome .stat b { color: #171717; font-weight: 800; }\nbody.t-monochrome .hero-badge i { background: #171717; animation: none; }\nbody.t-monochrome .fact { border-left: 3px solid #171717; }",
+        "sourceDigest": "sha256:db5eb8b4ae819dfab670910ec24fecb65201475153563c49279f26bfee843e46",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用该 manifest 声明的真实控件。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "先旋转色相，再挤压灰阶",
+      "body": "无彩色值对 hue 旋转应近乎免疫；提高 contrast 后，近黑与浅灰才会明显拉开。",
+      "experiments": [
+        {
+          "id": "rotate-no-chroma",
+          "label": "旋转无彩色调色盘",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 45,
+            "saturation": 50
+          },
+          "expected": "标题、边框和灰阶条几乎不改色，证明身份主要来自明度与排版。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "stretch-gray-scale",
+          "label": "拉开灰阶对比",
+          "initial": {
+            "contrast": 100,
+            "font": 100
+          },
+          "controls": {
+            "contrast": 132,
+            "font": 112
+          },
+          "expected": "黑白反转更强，浅灰条更淡；字号变大后标题密度增加但灰阶顺序不变。",
+          "reset": "恢复 contrast=100、font=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和实验结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "不用颜色也能指出焦点",
+      "body": "结合标题字距、黑白反转和六档灰阶回答。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "色相偏移实验为何几乎不改变展品身份？",
+          "options": [
+            "滤镜被禁用",
+            "主要颜色本身接近零彩度",
+            "DOM 没有重绘"
+          ],
+          "correct": 1,
+          "explanation": "灰阶颜色缺少可供 hue-rotate 改变的色相。"
+        },
+        {
+          "id": "q2",
+          "question": "副标题与主标题的节奏差异来自什么？",
+          "options": [
+            "副标题 6px 字距，标题 -3px 字距",
+            "两者使用不同图片",
+            "副标题拥有彩色渐变"
+          ],
+          "correct": 0,
+          "explanation": "相反方向的 tracking 形成疏密对照。"
+        },
+        {
+          "id": "q3",
+          "question": "技能条如何在无色相时表达六个量级？",
+          "options": [
+            "改变圆角",
+            "从近黑到浅灰排列",
+            "随机透明"
+          ],
+          "correct": 1,
+          "explanation": "连续明度序列保留可比较顺序。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把 monochrome 等同于把页面截图去色，忽略字重和字距的重新编排。",
+    "让所有灰色过于接近，导致次级信息与边框消失。",
+    "为每个技能条偷偷加入彩色，破坏无彩色编码的一致性。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能在初始 Hero 指出密标题与宽副标题的对照。",
+      "完成色相免疫与对比拉伸两组实验。",
+      "能解释六档灰阶如何替代类别色。"
+    ]
+  },
+  "contentRevision": 1
+}

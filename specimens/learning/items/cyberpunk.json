@@ -1,0 +1,203 @@
+{
+  "learningVersion": 1,
+  "itemId": "cyberpunk",
+  "title": "用色差错位和切角制造故障界面",
+  "summary": "拆解扫描线、双向霓虹 text-shadow、稀疏 glitch 关键帧、多边形切角与 reduced-motion 收束。",
+  "difficulty": "advanced",
+  "durationMinutes": 14,
+  "concepts": [
+    "chromatic offset",
+    "glitch keyframes",
+    "scanlines",
+    "clip-path",
+    "motion accessibility"
+  ],
+  "objectives": [
+    "解释标题色差如何模拟通道错位",
+    "读懂 glitch 只在 92–93% 爆发的节奏",
+    "验证 reduced-motion 会停止主题 glitch"
+  ],
+  "prerequisites": [
+    "keyframes",
+    "text-shadow",
+    "clip-path",
+    "reduced motion"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "盯住标题数秒，区分持续色差与偶发横向跳动。",
+      "eyebrow": "WAIT FOR THE GLITCH",
+      "title": "故障不是持续抖动，而是稀疏破帧",
+      "body": "青/粉阴影始终向相反方向偏移；大部分时间标题稳定，只在周期的 92–93% 交换色差并左右跳动。",
+      "annotations": [
+        {
+          "id": "glitch-title",
+          "anchor": [
+            32,
+            34
+          ],
+          "elbow": [
+            21,
+            26
+          ],
+          "end": [
+            9,
+            26
+          ],
+          "detailSide": "right",
+          "summary": "持续色差，偶发跳帧",
+          "detail": "text-shadow 常驻，transform 只在两个相邻关键帧出现。"
+        },
+        {
+          "id": "scanline-field",
+          "anchor": [
+            78,
+            28
+          ],
+          "elbow": [
+            69,
+            20
+          ],
+          "end": [
+            57,
+            20
+          ],
+          "detailSide": "right",
+          "summary": "4px 周期扫描线",
+          "detail": "透明 3px + 暗线 1px 重复，覆盖整张夜色背景。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "分开读扫描纹理、标题运动和切角组件。",
+      "eyebrow": "OFFSET, BURST, CUT",
+      "title": "三种数字损伤建立同一语言",
+      "body": "扫描线提供屏幕材质；双向 text-shadow 提供通道错位；polygon clip-path 把卡片和按钮切成机械硬角。",
+      "code": {
+        "file": "src/themes/cyberpunk.css",
+        "locator": "@keyframes glitch",
+        "snippet": "body.t-cyberpunk .bg-fx {\n  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.16) 3px 4px);\n  opacity: .8;\n}\nbody.t-cyberpunk .hero h1 {\n  text-shadow: 3px 0 var(--accent-2), -3px 0 var(--accent);\n  animation: glitch 3.2s infinite;\n}\n@keyframes glitch {\n  0%, 91%, 94%, 100% { text-shadow: 3px 0 var(--accent-2), -3px 0 var(--accent); transform: none; }\n  92% { text-shadow: -4px 0 var(--accent-2), 4px 0 var(--accent); transform: translateX(2px); }\n  93% { text-shadow: 4px 0 var(--accent-2), -4px 0 var(--accent); transform: translateX(-2px); }\n}\nbody.t-cyberpunk .section-title { text-shadow: 0 0 22px color-mix(in srgb, var(--accent) 55%, transparent); }\nbody.t-cyberpunk .card { clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px)); }\nbody.t-cyberpunk .card:hover { box-shadow: 0 0 28px rgba(255,46,136,.25), inset 0 0 22px rgba(0,229,255,.06); }\nbody.t-cyberpunk .card.featured::before { border-radius: 0; padding: 3px 12px; }\nbody.t-cyberpunk .btn { clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px)); border-radius: 0; }",
+        "sourceDigest": "sha256:5e3b60993b6625cecba16b31660be97bce36675a62d174abb97095463ea7ea94",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "调色验证色差结构，再原生观察 reduced motion。",
+      "eyebrow": "STRESS THE SIGNAL",
+      "title": "故障结构可跨色相，运动偏好必须审计",
+      "body": "色相改变不会移除相反方向的双影和切角；系统减少动态时，共享 reveal 与主题 glitch 都会停止，只保留静态双影。",
+      "experiments": [
+        {
+          "id": "channel-shift",
+          "label": "偏移霓虹通道色相",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 38,
+            "saturation": 72
+          },
+          "expected": "青粉色变换，但双向色差、稀疏跳帧与切角保持。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "reduced-audit",
+          "label": "原生观察：启用系统减少动态并重新打开展品",
+          "initial": {},
+          "controls": {},
+          "expected": "滚动 reveal、头像动画与 cyberpunk glitch 均停止；静态色差、扫描线和切角继续保留。",
+          "reset": "恢复系统动态偏好并重新加载。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要等待完整 glitch 周期。",
+      "eyebrow": "AUDIT THE GLITCH",
+      "title": "判断色差、节奏与降级",
+      "body": "正确项为 C、A、B。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "标题为何大部分时间稳定？",
+          "options": [
+            "动画被暂停",
+            "clip-path 禁止移动",
+            "只有 92% 和 93% 两帧发生 transform"
+          ],
+          "correct": 2,
+          "explanation": "稀疏爆发避免持续抖动。"
+        },
+        {
+          "id": "q2",
+          "question": "启用减少动态后，什么仍然保留？",
+          "options": [
+            "静态双向色差、扫描线和切角",
+            "92–93% 的水平跳动",
+            "持续滚动 reveal"
+          ],
+          "correct": 0,
+          "explanation": "主题 media query 只停止动画，不移除用于辨识风格的静态造型。"
+        },
+        {
+          "id": "q3",
+          "question": "扫描线由什么形成？",
+          "options": [
+            "远程图片",
+            "3px 透明 + 1px 暗线的 repeating gradient",
+            "box-shadow"
+          ],
+          "correct": 1,
+          "explanation": "4px 周期纹理提供屏幕材质。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "让 glitch 每帧抖动，造成持续干扰。",
+    "只做霓虹 glow，不做色差与切角。",
+    "只停止共享动画，却忘记主题自身的 keyframes。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "观察到一次 92–93% glitch 爆发。",
+      "完成色相实验并验证 reduced-motion 会停止主题 glitch。",
+      "三题全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

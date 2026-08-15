@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-timeline",
+  "title": "用一条母线串联所有内容节点",
+  "summary": "880px 主栏左侧画出从 top:60px 到 bottom:40px 的竖线，每个 section 在 106px 处放置描边圆点，并自动递增章节编号。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "timeline spine",
+    "section markers",
+    "CSS counters",
+    "scroll scene anchoring"
+  ],
+  "objectives": [
+    "解释母线与节点为何使用不同伪元素",
+    "指出 section padding-left 如何给时间线让位",
+    "验证纵向节奏和网格间距对时间轴密度的影响"
+  ],
+  "prerequisites": [
+    "pseudo-elements",
+    "CSS counters",
+    "positioned layout"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先在指定场景同时核对两处可见证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从展品现场读取构图决定",
+      "body": "880px 主栏左侧画出从 top:60px 到 bottom:40px 的竖线，每个 section 在 106px 处放置描边圆点，并自动递增章节编号。",
+      "annotations": [
+        {
+          "id": "timeline-spine",
+          "anchor": [
+            10,
+            50
+          ],
+          "elbow": [
+            20,
+            42
+          ],
+          "end": [
+            29,
+            42
+          ],
+          "detailSide": "right",
+          "summary": "2px 母线贯穿正文主栏",
+          "detail": "main::before 从顶部 60px 延伸到末尾 40px，所有章节共享同一根轴。"
+        },
+        {
+          "id": "section-marker",
+          "anchor": [
+            10,
+            28
+          ],
+          "elbow": [
+            20,
+            20
+          ],
+          "end": [
+            30,
+            20
+          ],
+          "detailSide": "right",
+          "summary": "15px 空心节点钉在章节旁",
+          "detail": "section::before 位于 left:28px、top:106px，背景色挖空中心，强调色描边标记事件。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 641
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 760
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见证据连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "母线属于 main，节点属于 section",
+      "body": "main::before 只画一根连续竖线；每个 section::before 各画一个 15px 圆点。92px 左内边距给轴和节点留出专属列，section tag 再用 counter 自动编号。",
+      "code": {
+        "file": "src/layouts/timeline.css",
+        "locator": "body.l-timeline main",
+        "snippet": "/* 布局·时间线 —— 竖线串珠，节点标记 */\nbody.l-timeline main { position: relative; max-width: 880px; margin: 0 auto; counter-reset: secno; }\nbody.l-timeline main::before {\n  content: \"\"; position: absolute; left: 36px; top: 60px; bottom: 40px;\n  width: 2px; background: var(--border);\n}\nbody.l-timeline main section { position: relative; padding-left: 92px; padding-right: 0; }\nbody.l-timeline main section::before {\n  content: \"\"; position: absolute; left: 28px; top: 106px;\n  width: 15px; height: 15px; border-radius: 50%;\n  background: var(--bg); border: 2.5px solid var(--accent);\n}\nbody.l-timeline .section-tag::before {\n  counter-increment: secno; content: counter(secno, decimal-leading-zero) \" · \";\n  color: var(--text-2);\n}\nbody.l-timeline .hero { max-width: 880px; }\n@media (max-width: 640px) {\n  body.l-timeline main::before { left: 20px; }\n  body.l-timeline main section { padding-left: 56px; }\n  body.l-timeline main section::before { left: 12px; }\n}",
+        "sourceDigest": "sha256:aacb4056eff67882be36855c6a8184f303b29c9fc5b35e695d17b1646e68bd12",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用该 manifest 声明的真实控件。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "拉伸事件距离，再改变节点内容密度",
+      "body": "space 直接改变 section 的纵向 padding，gap 改变章节内部网格；在滚动场景中比较母线连续性与事件密度。",
+      "experiments": [
+        {
+          "id": "compress-events",
+          "label": "压缩时间轴事件间距",
+          "initial": {
+            "space": 100,
+            "gap": 100
+          },
+          "controls": {
+            "space": 60,
+            "gap": 78
+          },
+          "expected": "章节顶端更接近，节点沿同一母线变密；内部双栏间距也收紧。",
+          "reset": "恢复 space=100、gap=100。"
+        },
+        {
+          "id": "expand-events",
+          "label": "拉开时间轴事件间距",
+          "initial": {
+            "space": 100,
+            "gap": 100
+          },
+          "controls": {
+            "space": 150,
+            "gap": 170
+          },
+          "expected": "节点纵向距离增大，章节内部列距更松；2px 母线仍连续。",
+          "reset": "恢复 space=100、gap=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和实验结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "沿母线辨认节点、留位和编号",
+      "body": "答案必须对应滚动后的时间线场景与源码定位。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "为什么母线不会为每个 section 重画一段？",
+          "options": [
+            "它属于 main::before",
+            "它是背景图片",
+            "每个节点覆盖上一段"
+          ],
+          "correct": 0,
+          "explanation": "母线由 main 的单个伪元素贯穿。"
+        },
+        {
+          "id": "q2",
+          "question": "圆点中心为何看起来是空的？",
+          "options": [
+            "background 使用页面 --bg，外圈用 accent border",
+            "opacity:0",
+            "内部放了白色 SVG"
+          ],
+          "correct": 0,
+          "explanation": "节点背景与页面一致，相当于在线上挖孔。"
+        },
+        {
+          "id": "q3",
+          "question": "章节编号如何自动递增？",
+          "options": [
+            "JavaScript 数组",
+            "counter-reset 与 counter-increment",
+            "URL hash"
+          ],
+          "correct": 1,
+          "explanation": "CSS counter 在 main 初始化并由 section tag 递增。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "给每个 section 单独画短线，接缝会在间距变化时暴露。",
+    "忘记 92px 左内边距，让正文压住节点列。",
+    "把标注放在初始 Hero 顶部，实际看不到时间线主体。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在 scroll.y=760 的场景同时指出母线和节点。",
+      "完成压缩与扩张两组 space/gap 实验。",
+      "能解释 main 与 section 两级伪元素的分工。"
+    ]
+  },
+  "contentRevision": 1
+}

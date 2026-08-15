@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-side-nav",
+  "title": "把导航变成左侧固定阅读轨",
+  "summary": "901px 以上导航从顶部横条转成 210px 纵向轨道，Hero、正文和页脚统一左移，让长页像文档站而非营销首页。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "persistent side rail",
+    "content offset",
+    "vertical navigation",
+    "desktop breakpoint"
+  ],
+  "objectives": [
+    "指出 210px 导航轨与正文左移的对应关系",
+    "解释 gallery link 如何沉到轨道底部",
+    "验证 Hero 比例和纵向节奏在右侧内容带中的变化"
+  ],
+  "prerequisites": [
+    "fixed positioning",
+    "media queries",
+    "flex-direction"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先在指定场景同时核对两处可见证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从展品现场读取构图决定",
+      "body": "901px 以上导航从顶部横条转成 210px 纵向轨道，Hero、正文和页脚统一左移，让长页像文档站而非营销首页。",
+      "annotations": [
+        {
+          "id": "side-rail",
+          "anchor": [
+            9,
+            49
+          ],
+          "elbow": [
+            18,
+            42
+          ],
+          "end": [
+            25,
+            42
+          ],
+          "detailSide": "left",
+          "summary": "210px 左轨贯穿桌面高度",
+          "detail": "导航在 901px 以上改为 left/top/bottom 固定盒，右边框成为内容起点。"
+        },
+        {
+          "id": "offset-hero",
+          "anchor": [
+            48,
+            38
+          ],
+          "elbow": [
+            61,
+            30
+          ],
+          "end": [
+            75,
+            30
+          ],
+          "detailSide": "left",
+          "summary": "Hero 整体避让侧轨",
+          "detail": "Hero、section、footer 都 margin-left:210px，标题不是靠内部 padding 假装右移。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 901
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见证据连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "轨道宽度与内容偏移必须成对",
+      "body": "nav 固定为 210px 宽并把 nav-inner 改成纵列；Hero、所有 section 与 footer 同时左移 210px。gallery link 通过 margin-top:auto 占据轨道尾端。",
+      "code": {
+        "file": "src/layouts/side-nav.css",
+        "locator": "body.l-side-nav nav",
+        "snippet": "/* 布局·侧边导航 —— 左轨右文，文档式 */\n@media (min-width: 901px) {\n  body.l-side-nav nav {\n    left: 0; top: 38px; bottom: 0; right: auto; width: 210px;\n    border-bottom: none; border-right: 1.5px solid var(--border);\n  }\n  body.l-side-nav .nav-inner {\n    flex-direction: column; align-items: flex-start;\n    padding: 30px 24px; height: 100%; gap: 26px; max-width: none;\n  }\n  body.l-side-nav .nav-links {\n    flex-direction: column; margin-left: 0; margin-top: 24px; gap: 18px;\n  }\n  body.l-side-nav .nav-links a { font-size: 15px; }\n  body.l-side-nav .gallery-link { margin-left: 0; margin-top: auto; }\n  body.l-side-nav .hero,\n  body.l-side-nav section,\n  body.l-side-nav footer { margin-left: 210px; max-width: 860px; }\n  body.l-side-nav .hero { min-height: 92vh; }\n  body.l-side-nav footer { margin-right: auto; }\n}",
+        "sourceDigest": "sha256:d71a1624a542a2c5f32848f98cffba4fd4d47428b46bfe866810d2f10a64e4db",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用该 manifest 声明的真实控件。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "在右侧内容带里重分 Hero",
+      "body": "改变 heroShare 验证标题与头像的分配，再调 space 检查纵向节奏；左轨宽度和内容偏移必须保持咬合。",
+      "experiments": [
+        {
+          "id": "rebalance-right-hero",
+          "label": "压缩 Hero 文字占比",
+          "initial": {
+            "heroShare": 68,
+            "space": 100
+          },
+          "controls": {
+            "heroShare": 40,
+            "space": 82
+          },
+          "expected": "右侧内容带中头像获得更多宽度，左轨仍为 210px，正文起点不漂移。",
+          "reset": "恢复 heroShare=68、space=100。"
+        },
+        {
+          "id": "open-document-rhythm",
+          "label": "拉开文档纵向节奏",
+          "initial": {
+            "space": 100,
+            "heroShare": 68
+          },
+          "controls": {
+            "space": 148,
+            "heroShare": 78
+          },
+          "expected": "Hero 内部间距和后续 section padding 增大，侧轨仍连续贯穿视口。",
+          "reset": "恢复 space=100、heroShare=68。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和实验结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "检验左轨与正文是否真正解耦",
+      "body": "答案需覆盖断点、等宽偏移和轨道内部对齐。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "桌面端正文为何不会被 210px 导航盖住？",
+          "options": [
+            "Hero、section、footer 同步 margin-left:210px",
+            "导航透明",
+            "正文 z-index 更高"
+          ],
+          "correct": 0,
+          "explanation": "内容偏移与轨道宽度显式配对。"
+        },
+        {
+          "id": "q2",
+          "question": "gallery link 如何停在轨道底部？",
+          "options": [
+            "absolute bottom",
+            "纵向 flex 中 margin-top:auto",
+            "页面滚动到末尾"
+          ],
+          "correct": 1,
+          "explanation": "auto margin 吸收剩余纵向空间。"
+        },
+        {
+          "id": "q3",
+          "question": "侧轨布局在哪个条件下启用？",
+          "options": [
+            "min-width:901px",
+            "max-width:640px",
+            "任何宽度"
+          ],
+          "correct": 0,
+          "explanation": "规则被桌面 media query 包裹。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只把 nav 固定到左侧，却忘记同步偏移正文。",
+    "用绝对定位逐项摆放链接，失去纵向 flex 的可伸缩性。",
+    "在窄屏仍强制 210px 轨道，挤掉主要内容。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能在 1100px 场景指出左轨和正文共同边界。",
+      "完成 heroShare 与 space 两组真实控件实验。",
+      "能解释为何 margin-left 数值必须匹配轨道宽度。"
+    ]
+  },
+  "contentRevision": 1
+}

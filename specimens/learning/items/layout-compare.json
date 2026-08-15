@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-compare",
+  "title": "让项目与技能、关于与文章成对互文",
+  "summary": "main 建立等宽双列，projects/skills 同处第一行，about/blog 同处第二行；每段顶部双线建立共同基线，contact 最后横跨两列收束。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "paired section grid",
+    "explicit row pairing",
+    "shared baselines",
+    "full-width conclusion"
+  ],
+  "objectives": [
+    "复述四个章节的成对 grid 坐标",
+    "解释双线为何帮助左右内容建立共同起点",
+    "验证段内密度变化时外层配对仍保持"
+  ],
+  "prerequisites": [
+    "explicit CSS Grid placement",
+    "grid line spans",
+    "responsive flattening"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定断点和滚动位置同时核对两处布局证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从行动顺序与成对位置读取布局",
+      "body": "main 建立等宽双列，projects/skills 同处第一行，about/blog 同处第二行；每段顶部双线建立共同基线，contact 最后横跨两列收束。",
+      "annotations": [
+        {
+          "id": "projects-left",
+          "anchor": [
+            27,
+            31
+          ],
+          "elbow": [
+            16,
+            23
+          ],
+          "end": [
+            7,
+            23
+          ],
+          "detailSide": "right",
+          "summary": "项目占据第一行左列",
+          "detail": "projects 明确位于 column 1 / row 1，不依赖内容高度自动排位。"
+        },
+        {
+          "id": "skills-right",
+          "anchor": [
+            73,
+            31
+          ],
+          "elbow": [
+            84,
+            23
+          ],
+          "end": [
+            93,
+            23
+          ],
+          "detailSide": "left",
+          "summary": "技能与项目共享上边基线",
+          "detail": "skills 位于 column 2 / row 1，两段顶部都用 3px 双线建立可比较起点。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 721
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 760
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见顺序连接到作者源中的显式规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "对照关系由显式行号锁定",
+      "body": "projects 与 skills 共用 row 1，about 与 blog 共用 row 2；contact 跨越 column 1/-1。外层 48px 列距分隔两组内容，section 顶部双线提供水平比较基线。",
+      "code": {
+        "file": "src/layouts/compare.css",
+        "locator": "body.l-compare main",
+        "snippet": "/* 布局·双列对照 —— 两两并置，左右互文 */\nbody.l-compare main {\n  display: grid; grid-template-columns: 1fr 1fr; gap: 30px 48px;\n  max-width: 1080px; margin: 0 auto; padding: 50px 24px 24px;\n}\nbody.l-compare main section { padding: 34px 0 20px; margin: 0; max-width: none; border-top: 3px double var(--border); }\nbody.l-compare #projects { grid-column: 1; grid-row: 1; }\nbody.l-compare #skills { grid-column: 2; grid-row: 1; }\nbody.l-compare #about { grid-column: 1; grid-row: 2; }\nbody.l-compare #blog { grid-column: 2; grid-row: 2; }\nbody.l-compare #contact { grid-column: 1 / -1; }\nbody.l-compare .projects-grid { grid-template-columns: 1fr; }\nbody.l-compare .skills-wrap, body.l-compare .about-wrap { grid-template-columns: 1fr; gap: 24px; }\nbody.l-compare .post { flex-direction: column; align-items: flex-start; gap: 6px; }\nbody.l-compare .post-arrow { display: none; }\nbody.l-compare .contact-grid { grid-template-columns: 1fr 1fr; }\n@media (max-width: 720px) {\n  body.l-compare main { grid-template-columns: 1fr; }\n  body.l-compare #projects, body.l-compare #skills, body.l-compare #about,\n  body.l-compare #blog, body.l-compare #contact { grid-column: 1; grid-row: auto; }\n}",
+        "sourceDigest": "sha256:72d5cf7a4fd97207a424370cee6a2b61d2dfd7ef73a8efd8e6f74156235a99c5",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "只使用未被专属 CSS 覆盖的真实 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "改变列内内容密度，检查成对基线",
+      "body": "外层 30×48px gap 与 1080px 宽度被专属 CSS 固定；使用内层 gap 和 cardPad 加压项目/联系卡，显式行列配对不应漂移。",
+      "experiments": [
+        {
+          "id": "tight-paired-content",
+          "label": "压缩两列内部内容",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 52,
+            "cardPad": 14
+          },
+          "expected": "项目卡和联系卡内部更紧，左右第一行仍从同一双线基线开始。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        },
+        {
+          "id": "loose-paired-content",
+          "label": "放大两列内部内容",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 178,
+            "cardPad": 42
+          },
+          "expected": "列内卡片变松并可能拉高对应行，projects/skills 仍被锁在 row 1。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和控件结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "逐对说出左右互文关系",
+      "body": "需同时说明两组成对章节、跨栏结尾和移动端展平。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "第一行哪两个章节被并置？",
+          "options": [
+            "projects 与 skills",
+            "projects 与 about",
+            "skills 与 contact"
+          ],
+          "correct": 0,
+          "explanation": "两者分别占 row 1 的左右列。"
+        },
+        {
+          "id": "q2",
+          "question": "contact 为什么能作为整行结尾？",
+          "options": [
+            "grid-column:1/-1",
+            "width:200%",
+            "position:fixed"
+          ],
+          "correct": 0,
+          "explanation": "它从第一条网格线跨到最后一条。"
+        },
+        {
+          "id": "q3",
+          "question": "720px 以下如何保持可读性？",
+          "options": [
+            "继续双列并缩小字体",
+            "所有章节回到 column 1、row auto",
+            "隐藏右列"
+          ],
+          "correct": 1,
+          "explanation": "媒体查询将外层变为单列并释放显式行号。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只设置两列，让浏览器自动流入；内容增删后配对关系会改变。",
+    "没有共同顶线，左右章节因标题高度不同失去比较基线。",
+    "把外层固定 48px 列距描述为 gap 控件可变。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在 1200px 正文场景同时指出第一行左右配对。",
+      "完成 gap/cardPad 两组真实实验。",
+      "能列出 row 1、row 2 与跨栏 contact 的坐标。"
+    ]
+  },
+  "contentRevision": 1
+}

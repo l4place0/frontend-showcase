@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-index-page",
+  "title": "把左轨改造成带编号的长页索引",
+  "summary": "桌面端 250px 左轨为每个锚点自动编号并加下划线，右侧 800px 正文的每个章节头也用横线封口，形成目录—正文映射。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "numbered navigation",
+    "persistent index rail",
+    "content offset",
+    "section header rules"
+  ],
+  "objectives": [
+    "解释 nav counter 如何生成 01、02…",
+    "指出 250px 轨道与正文 margin-left 的配对",
+    "验证正文节奏和卡片内距不影响索引映射"
+  ],
+  "prerequisites": [
+    "CSS counters",
+    "desktop media query",
+    "flex auto margins"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定断点和滚动位置同时核对两处布局证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从真实滚动场景读取布局",
+      "body": "桌面端 250px 左轨为每个锚点自动编号并加下划线，右侧 800px 正文的每个章节头也用横线封口，形成目录—正文映射。",
+      "annotations": [
+        {
+          "id": "numbered-index",
+          "anchor": [
+            10,
+            38
+          ],
+          "elbow": [
+            19,
+            30
+          ],
+          "end": [
+            28,
+            30
+          ],
+          "detailSide": "left",
+          "summary": "左轨链接自动带 01、02…",
+          "detail": "nav-links 重置计数器，每个 a 递增，并由 ::before 输出两位编号。"
+        },
+        {
+          "id": "ruled-section-head",
+          "anchor": [
+            56,
+            28
+          ],
+          "elbow": [
+            69,
+            20
+          ],
+          "end": [
+            81,
+            20
+          ],
+          "detailSide": "left",
+          "summary": "右侧章节头以下划线收口",
+          "detail": "每个 main section 的首个 reveal 具有 1.5px 下边线，与左轨逐项横线呼应。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 901
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 760
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "将可见位置关系连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "索引编号与正文偏移共用一条桌面契约",
+      "body": "901px 以上 nav 固定 250px，正文同步 margin-left:250px；链接使用 counter 自动编号，章节首部用横线建立可扫描的正文索引点。",
+      "code": {
+        "file": "src/layouts/index-page.css",
+        "locator": "body.l-index-page nav",
+        "snippet": "/* 布局·索引长页 —— 左目录右正文，编号导览 */\n@media (min-width: 901px) {\n  body.l-index-page nav { width: 250px; left: 0; right: auto; top: 38px; bottom: 0; border-bottom: none; border-right: 1.5px solid var(--border); }\n  body.l-index-page .nav-inner { flex-direction: column; align-items: flex-start; padding: 34px 26px; height: 100%; max-width: none; gap: 20px; }\n  body.l-index-page .nav-links { flex-direction: column; margin-left: 0; margin-top: 30px; gap: 4px; counter-reset: navno; width: 100%; }\n  body.l-index-page .nav-links a {\n    counter-increment: navno; font-size: 15px; padding: 10px 0;\n    border-bottom: 1px solid var(--border); display: block; width: 100%;\n  }\n  body.l-index-page .nav-links a::before {\n    content: \"0\" counter(navno); color: var(--accent); font-size: 12px;\n    margin-right: 12px; font-family: Georgia, serif;\n  }\n  body.l-index-page .gallery-link { margin-left: 0; margin-top: auto; }\n  body.l-index-page .hero, body.l-index-page main section, body.l-index-page footer { margin-left: 250px; max-width: 800px; }\n  body.l-index-page .hero { min-height: 84vh; }\n  body.l-index-page main section > .reveal:first-child { border-bottom: 1.5px solid var(--border); padding-bottom: 14px; margin-bottom: 30px; }\n  body.l-index-page .section-desc { margin-bottom: 26px; }\n}",
+        "sourceDigest": "sha256:371d00b952628f6f9d56acddf82f65134ef73c42661ee6056c6dfabde2f9b7c8",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "仅使用未被该布局专属 CSS 架空的 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "调整正文密度，保持目录编号稳定",
+      "body": "800px 正文宽度与 250px 轨道均为固定契约；用 space 和 cardPad 改变长页密度，观察编号与章节头映射不变。",
+      "experiments": [
+        {
+          "id": "compact-index-page",
+          "label": "压缩长页段落",
+          "initial": {
+            "space": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "space": 62,
+            "cardPad": 14
+          },
+          "expected": "章节上下留白和卡内距减小，更多索引目标进入同一滚动距离；左轨编号顺序不变。",
+          "reset": "恢复 space=100、cardPad=26。"
+        },
+        {
+          "id": "expand-index-page",
+          "label": "拉开长页段落",
+          "initial": {
+            "space": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "space": 148,
+            "cardPad": 42
+          },
+          "expected": "章节变长、卡片更松，左轨仍固定并保持 01…编号与横线。",
+          "reset": "恢复 space=100、cardPad=26。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和控件结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "把目录项与右侧章节逐一对应",
+      "body": "答案需覆盖计数器、等宽偏移和桌面断点。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "导航编号从哪里来？",
+          "options": [
+            "HTML 手写",
+            "counter-reset/increment 与 ::before",
+            "JavaScript localStorage"
+          ],
+          "correct": 1,
+          "explanation": "CSS counter 根据链接顺序生成。"
+        },
+        {
+          "id": "q2",
+          "question": "正文为何不会滑到 250px 左轨下方？",
+          "options": [
+            "Hero、section、footer 同步 margin-left:250px",
+            "nav 使用 opacity",
+            "正文 width:250px"
+          ],
+          "correct": 0,
+          "explanation": "轨道宽度与内容偏移数值相同。"
+        },
+        {
+          "id": "q3",
+          "question": "这一索引布局何时启用？",
+          "options": [
+            "min-width:901px",
+            "max-width:1080px",
+            "所有屏幕"
+          ],
+          "correct": 0,
+          "explanation": "整组规则位于桌面 media query。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "手写编号，增删链接后目录序号失真。",
+    "只固定 250px nav，没有同步正文 margin-left。",
+    "把 width 控件实验写成能改变固定 800px 正文。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在 scroll.y=760 同时指出编号左轨和右侧章节横线。",
+      "完成 space/cardPad 两组真实实验。",
+      "能解释计数器与 901px 断点。"
+    ]
+  },
+  "contentRevision": 1
+}

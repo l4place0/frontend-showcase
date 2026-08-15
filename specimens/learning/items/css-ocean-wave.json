@@ -1,0 +1,225 @@
+{
+  "learningVersion": 1,
+  "itemId": "css-ocean-wave",
+  "title": "从状态变量到海浪视差",
+  "summary": "在同一片海面上观察昼夜、激活状态和三层波浪如何由互相正交的变量共同驱动。",
+  "difficulty": "intermediate",
+  "durationMinutes": 14,
+  "concepts": [
+    "CSS custom properties",
+    "state machine",
+    "parallax motion",
+    "data attributes"
+  ],
+  "objectives": [
+    "区分昼夜主题状态与动画强度状态",
+    "解释三层波浪为何产生视差",
+    "验证浪高和海面基准线不是同一变量"
+  ],
+  "prerequisites": [
+    "CSS 自定义属性",
+    "data 属性",
+    "keyframes 基础"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先不操作，沿天体、地平线、远中近三层海浪读画面。",
+      "eyebrow": "READ THE DEPTH",
+      "title": "先看共享结构，再看独立相位",
+      "body": "日月共用一个天体节点；三层波浪共享形态语言，却用不同深度、速度和相位制造视差。",
+      "annotations": [
+        {
+          "id": "celestial",
+          "anchor": [
+            61,
+            25
+          ],
+          "elbow": [
+            72,
+            18
+          ],
+          "end": [
+            83,
+            18
+          ],
+          "detailSide": "left",
+          "summary": "日月共用节点",
+          "detail": "月相来自同一圆形内部遮罩的位移，而不是复制一套夜景 DOM。"
+        },
+        {
+          "id": "wave-layers",
+          "anchor": [
+            48,
+            70
+          ],
+          "elbow": [
+            63,
+            61
+          ],
+          "end": [
+            79,
+            61
+          ],
+          "detailSide": "left",
+          "summary": "三层速度错开",
+          "detail": "远、中、近浪分别调整周期、负延迟与方向，避免同步摆动造成纸片感。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "对照根属性与波浪规则，分清主题、空间和时间三个因果量。",
+      "eyebrow": "STATE WITHOUT DUPLICATION",
+      "title": "两条状态轴互不覆盖",
+      "body": "nightMode 只替换场景 token；animationState 同时改变海面基准线和运动周期；waveHeight 只改变浪形高度。",
+      "code": {
+        "file": "specimens/items/css-ocean-wave/styles.css",
+        "locator": ".sea",
+        "snippet": ".sea { position: absolute; z-index: 5; top: var(--sea-top); right: 0; bottom: 0; left: 0; overflow: visible; background: transparent; transition: top 1.35s var(--wave-state-ease); }\n.wave { position: absolute; left: -12%; width: 124%; height: calc(48% * var(--wave-height)); border-radius: 46% 54% 0 0 / 22% 25% 0 0; background: var(--foam); transform-origin: 50% 100%; transition: background 1.8s var(--ease-scene); animation: wave-swell var(--wave-speed) ease-in-out infinite alternate var(--specimen-play-state); }\n.wave i { position: absolute; inset: 9px 0 0; border-radius: inherit; background: repeating-radial-gradient(ellipse at 50% 0,transparent 0 38px,rgba(255,255,255,.16) 40px 41px,transparent 43px 82px),linear-gradient(var(--wave-color),var(--wave-color)); transition: background 1.8s var(--ease-scene); }\n.wave-far { --wave-color: var(--far-sea); z-index: 1; top: -7%; animation-duration: calc(var(--wave-speed) * .82); }\n.wave-mid { --wave-color: var(--mid-sea); z-index: 2; top: 28%; left: -18%; width: 136%; animation-delay: calc(var(--wave-speed) * -.4); animation-direction: alternate-reverse; }\n.wave-near { --wave-color: var(--near-sea); z-index: 3; top: 58%; height: 56%; animation-duration: calc(var(--wave-speed) * 1.18); }\n:root[data-foam=\"false\"] .wave { background: transparent; }\n@keyframes wave-swell { 0%{transform:translateX(-2%) rotate(-1deg) scaleY(.94)} 50%{border-radius:54% 46% 0 0 / 29% 18% 0 0} 100%{transform:translateX(3%) rotate(1deg) scaleY(1.08)} }",
+        "sourceDigest": "sha256:f221987a9098e013468e0e02b5eab510f0aa7b8e4ac3b402244987e4c2967c36",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每次只改变一类状态，先预测再观察。",
+      "eyebrow": "CHANGE ONE CAUSE",
+      "title": "拆开颜色、速度与高度",
+      "body": "三个预设依次验证：昼夜不重建结构，激活态会上移海面并加速，浪高不会改变海面基准线。",
+      "experiments": [
+        {
+          "id": "night-only",
+          "label": "只切换昼夜",
+          "initial": {
+            "nightMode": false,
+            "animationState": "idle",
+            "waveHeight": 110,
+            "foam": true
+          },
+          "controls": {
+            "nightMode": true
+          },
+          "expected": "色彩、星层与月相变化；海面基准线和运动周期保持 idle。",
+          "reset": "恢复 nightMode=false。"
+        },
+        {
+          "id": "activate",
+          "label": "只激活动画",
+          "initial": {
+            "nightMode": true,
+            "animationState": "idle",
+            "waveHeight": 110,
+            "foam": true
+          },
+          "controls": {
+            "animationState": "active"
+          },
+          "expected": "海面由 58% 上移到 44%，各层周期缩短，夜间配色不变。",
+          "reset": "恢复 animationState=idle。"
+        },
+        {
+          "id": "height-only",
+          "label": "只提高浪形",
+          "initial": {
+            "nightMode": false,
+            "animationState": "idle",
+            "waveHeight": 110,
+            "foam": true
+          },
+          "controls": {
+            "waveHeight": 165,
+            "foam": false
+          },
+          "expected": "浪形变高且白色浪冠消失；海面顶线和速度不变。",
+          "reset": "恢复 waveHeight=110、foam=true。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "用因果解释，而不是凭记忆选择。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "证明你读懂了这片海",
+      "body": "三题分别检查共享结构、正交状态和视差周期。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "从日间切到夜间时，哪一项应保持不变？",
+          "options": [
+            "三层波浪的 DOM 结构",
+            "天空与海水颜色",
+            "星层透明度"
+          ],
+          "correct": 0,
+          "explanation": "夜间通过根 token 和显隐状态实现，不复制波浪结构。"
+        },
+        {
+          "id": "q2",
+          "question": "只提高 waveHeight 且保持 idle，最准确的结果是？",
+          "options": [
+            "海面上移且速度变快",
+            "浪形变高但基准线与周期不变",
+            "昼夜主题同时变化"
+          ],
+          "correct": 1,
+          "explanation": "waveHeight、sea-top 和 wave-speed 是三个独立因果量。"
+        },
+        {
+          "id": "q3",
+          "question": "为什么三层浪不应使用完全相同的周期和相位？",
+          "options": [
+            "会失去远近视差并像整体平移",
+            "会自动关闭夜间模式",
+            "会改变 HTML 语义"
+          ],
+          "correct": 0,
+          "explanation": "周期、方向和相位差是分层运动产生空间感的关键。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把夜间实现成第二套重复 DOM，而不是共享结构与 token。",
+    "把 waveHeight 当作海面整体升降控制。",
+    "让所有波层使用同一周期、相位和方向。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成三个实验并能预测每次只有哪些因果量变化。",
+      "三道测验全部答对。",
+      "能指出昼夜、激活态和浪高分别对应的源码位置。"
+    ]
+  },
+  "contentRevision": 1
+}

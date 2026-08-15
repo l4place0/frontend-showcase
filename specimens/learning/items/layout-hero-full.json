@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-hero-full",
+  "title": "让 Hero 占满一屏并留下滚动承诺",
+  "summary": "Hero 取消内容最大宽度、使用 100vh 与 11vw 巨型标题，底部动画提示把沉浸首屏连接到下一段内容。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "viewport-sized hero",
+    "fluid display type",
+    "scroll affordance",
+    "reduced motion"
+  ],
+  "objectives": [
+    "解释 max-width:none 与 100vh 的协作",
+    "指出底部提示为何必须依附 Hero 定位",
+    "验证 Hero 比例和间距如何改变首屏张力"
+  ],
+  "prerequisites": [
+    "viewport units",
+    "clamp()",
+    "pseudo-elements"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先在指定场景同时核对两处可见证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从展品现场读取构图决定",
+      "body": "Hero 取消内容最大宽度、使用 100vh 与 11vw 巨型标题，底部动画提示把沉浸首屏连接到下一段内容。",
+      "annotations": [
+        {
+          "id": "display-headline",
+          "anchor": [
+            34,
+            38
+          ],
+          "elbow": [
+            20,
+            30
+          ],
+          "end": [
+            8,
+            30
+          ],
+          "detailSide": "right",
+          "summary": "11vw 标题占据首屏主面积",
+          "detail": "clamp 把标题限制在 62–126px，宽屏仍保持戏剧尺度。"
+        },
+        {
+          "id": "scroll-promise",
+          "anchor": [
+            50,
+            91
+          ],
+          "elbow": [
+            63,
+            83
+          ],
+          "end": [
+            76,
+            83
+          ],
+          "detailSide": "left",
+          "summary": "底部提示承诺还有下一屏",
+          "detail": "::after 固定在 Hero 底部 34px，并以 9px 上下位移呼吸。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见证据连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "一屏沉浸需要尺度，也需要出口",
+      "body": "Hero 用 min-height:100vh 和横向 8vw padding 扩张，标题以 clamp(62px,11vw,126px) 适配；底部 ::after 提供明确滚动方向，并在 reduced-motion 下停动。",
+      "code": {
+        "file": "src/layouts/hero-full.css",
+        "locator": "body.l-hero-full .hero",
+        "snippet": "/* 布局·沉浸首屏 —— 超大标题占满第一屏 */\nbody.l-hero-full .hero {\n  max-width: none; padding-left: 8vw; padding-right: 8vw;\n  position: relative; min-height: 100vh;\n}\nbody.l-hero-full .hero h1 { font-size: clamp(62px, 11vw, 126px); letter-spacing: -1px; }\nbody.l-hero-full .tagline { font-size: clamp(21px, 3vw, 30px); }\nbody.l-hero-full .hero-desc { font-size: 18px; max-width: 600px; }\nbody.l-hero-full .hero::after {\n  content: \"向下滚动 ↓\"; position: absolute; bottom: 34px; left: 50%;\n  transform: translateX(-50%); font-size: 12px; letter-spacing: 5px;\n  color: var(--text-2); animation: herofullhint 2.2s ease-in-out infinite;\n}\n@keyframes herofullhint {\n  0%, 100% { transform: translate(-50%, 0); opacity: .55; }\n  50% { transform: translate(-50%, 9px); opacity: 1; }\n}\nbody.l-hero-full .hero-stats { gap: 48px; }\nbody.l-hero-full .stat b { font-size: 32px; }\n@media (prefers-reduced-motion: reduce) {\n  body.l-hero-full .hero::after { animation: none; }\n}",
+        "sourceDigest": "sha256:776e53de5ccba170051cb8f42172378185a702ef4d72dd934f93f416eccbafa4",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用该 manifest 声明的真实控件。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "重新分配首屏重量与呼吸",
+      "body": "heroShare 改变标题与头像占比，space 改变 Hero 两列间隙；两者都会改变首屏张力但不取消 100vh。",
+      "experiments": [
+        {
+          "id": "headline-dominance",
+          "label": "让文字占据更多首屏",
+          "initial": {
+            "heroShare": 68,
+            "space": 100
+          },
+          "controls": {
+            "heroShare": 80,
+            "space": 72
+          },
+          "expected": "标题侧获得更大份额，两列更紧；底部滚动提示仍贴近首屏下缘。",
+          "reset": "恢复 heroShare=68、space=100。"
+        },
+        {
+          "id": "open-hero-gap",
+          "label": "扩大首屏两列距离",
+          "initial": {
+            "space": 100,
+            "heroShare": 68
+          },
+          "controls": {
+            "space": 150,
+            "heroShare": 45
+          },
+          "expected": "两列间隙增大且头像侧变宽，100vh 高度和巨型标题尺度规则仍在。",
+          "reset": "恢复 space=100、heroShare=68。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和实验结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "证明首屏既沉浸又可继续",
+      "body": "结合视口高度、流体字号和滚动提示回答。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "标题为何不会在超宽屏无限增长？",
+          "options": [
+            "clamp 的 126px 上限",
+            "max-width:1080px",
+            "文字是图片"
+          ],
+          "correct": 0,
+          "explanation": "流体中值 11vw 仍受最大值约束。"
+        },
+        {
+          "id": "q2",
+          "question": "滚动提示为何能贴在首屏底部？",
+          "options": [
+            "Hero position:relative，::after absolute bottom:34px",
+            "footer 固定",
+            "nav 提供 margin"
+          ],
+          "correct": 0,
+          "explanation": "伪元素以 Hero 为定位上下文。"
+        },
+        {
+          "id": "q3",
+          "question": "reduced-motion 下提示如何变化？",
+          "options": [
+            "移除文字",
+            "保留提示但停止动画",
+            "加速到 1 秒"
+          ],
+          "correct": 1,
+          "explanation": "媒体查询只关闭动画，仍保留方向信息。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只放大标题却不设置 100vh，首屏高度仍随内容漂移。",
+    "把滚动提示固定到 viewport，离开 Hero 后仍悬浮。",
+    "为动画提示忽略 reduced-motion，造成不必要的往返运动。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能在同一首屏指出巨型标题和底部提示。",
+      "完成两组 heroShare/space 实验。",
+      "能说明 reduced-motion 保留信息但取消运动。"
+    ]
+  },
+  "contentRevision": 1
+}

@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-bands",
+  "title": "用满宽交替色带切分长页章节",
+  "summary": "main section 取消最大宽度并铺满视口，正文通过 calc(50% - 516px) 保持中央对齐；偶数段换 surface-2，形成连续的明暗带。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "full-bleed bands",
+    "centered inner alignment",
+    "alternating surfaces",
+    "responsive band padding"
+  ],
+  "objectives": [
+    "解释满宽背景与中央内容如何同时成立",
+    "指出偶数色带由 nth-of-type 产生",
+    "验证段内网格密度不改变色带边界"
+  ],
+  "prerequisites": [
+    "full-bleed sections",
+    "calculated padding",
+    "nth-of-type"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定断点和滚动位置同时核对两处布局证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从真实滚动场景读取布局",
+      "body": "main section 取消最大宽度并铺满视口，正文通过 calc(50% - 516px) 保持中央对齐；偶数段换 surface-2，形成连续的明暗带。",
+      "annotations": [
+        {
+          "id": "full-bleed-edge",
+          "anchor": [
+            3,
+            34
+          ],
+          "elbow": [
+            14,
+            26
+          ],
+          "end": [
+            25,
+            26
+          ],
+          "detailSide": "right",
+          "summary": "色带从视口左缘开始",
+          "detail": "section max-width:none 且 margin:0，背景不被 1080px 内容带截断。"
+        },
+        {
+          "id": "alternating-band",
+          "anchor": [
+            50,
+            73
+          ],
+          "elbow": [
+            64,
+            65
+          ],
+          "end": [
+            77,
+            65
+          ],
+          "detailSide": "left",
+          "summary": "下一段切换 surface-2",
+          "detail": "偶数 section 单独换底色，边界横贯全屏；文字仍与上一段中央起点对齐。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 1320
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "将可见位置关系连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "背景铺满视口，内容靠 padding 回到中线",
+      "body": "section 取消 max-width 后，以左右 calc(50% - 516px) 内距模拟 1032px 内容带；偶数段使用 surface-2，1080px 以下则退回固定 24px 内距。",
+      "code": {
+        "file": "src/layouts/bands.css",
+        "locator": "body.l-bands main section",
+        "snippet": "/* 布局·全宽色带 —— 区块通栏，底色交替 */\nbody.l-bands main section {\n  max-width: none; margin: 0;\n  padding: 72px calc(50% - 516px) 52px;\n}\nbody.l-bands main section:nth-of-type(even) { background: var(--surface-2); }\nbody.l-bands .hero { border-bottom: 1.5px solid var(--border); }\nbody.l-bands #contact { border-top: 1.5px solid var(--border); }\n@media (max-width: 1080px) {\n  body.l-bands main section { padding-left: 24px; padding-right: 24px; }\n}",
+        "sourceDigest": "sha256:959db1f31c53e78b0e83164dac8cbf5a10a6eb58d3b4088a51430d91754a8d54",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "仅使用未被该布局专属 CSS 架空的 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "改变色带内部密度，守住全宽边界",
+      "body": "色带 padding 和 1032px 对齐由专属 CSS 固定，使用内部 gap 与 cardPad 改变内容密度；全宽背景与交替顺序不应漂移。",
+      "experiments": [
+        {
+          "id": "compact-band-content",
+          "label": "压缩色带内网格",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 52,
+            "cardPad": 14
+          },
+          "expected": "卡片间距与内部留白收紧，色带横向边界和中央内容起点保持。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        },
+        {
+          "id": "expand-band-content",
+          "label": "放大色带内网格",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 178,
+            "cardPad": 42
+          },
+          "expected": "段内卡片更松并撑高色带，偶数 surface-2 仍按章节顺序交替。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和控件结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "同时解释满宽底色与窄内容带",
+      "body": "两层宽度模型和移动端退化都需对应源码。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "为什么背景能铺满而文字仍居中？",
+          "options": [
+            "section 满宽，左右 padding 用 calc 对齐 1032px 内容带",
+            "文字 position:fixed",
+            "section 宽度为516px"
+          ],
+          "correct": 0,
+          "explanation": "满宽盒与计算内距承担不同层次。"
+        },
+        {
+          "id": "q2",
+          "question": "哪些章节使用 surface-2？",
+          "options": [
+            "所有章节",
+            "偶数 nth-of-type 章节",
+            "只有 contact"
+          ],
+          "correct": 1,
+          "explanation": "交替底色由偶数选择器产生。"
+        },
+        {
+          "id": "q3",
+          "question": "1080px 以下左右内距如何变化？",
+          "options": [
+            "仍可能为负 calc",
+            "固定为24px",
+            "归零"
+          ],
+          "correct": 1,
+          "explanation": "媒体查询避免窄屏计算内距失效。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "给中央内容容器换底色，而不是让 section 本身满宽。",
+    "用固定 516px padding，窄屏会没有正文空间。",
+    "把 space 控件写成会改变专属固定 72/52px 色带 padding。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在跨章节场景同时指出满宽边缘和下一条交替底色。",
+      "完成 gap/cardPad 两组真实实验。",
+      "能解释 calc(50%-516px) 与 1080px 断点。"
+    ]
+  },
+  "contentRevision": 1
+}
