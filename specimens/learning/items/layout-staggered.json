@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-staggered",
+  "title": "让章节标题沿左右阶梯交替推进",
+  "summary": "每个 section 限宽 860px，奇数段靠左 5%、偶数段靠右 5%；标题线也从左边切到右边，形成可追踪的阶梯节拍。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "alternating section offsets",
+    "edge accents",
+    "odd-even rhythm",
+    "mobile recentering"
+  ],
+  "objectives": [
+    "解释 5% 外边距如何制造左右递进",
+    "指出奇偶标题强调线为何换边",
+    "验证纵向与内部网格密度不破坏交替"
+  ],
+  "prerequisites": [
+    "nth-of-type",
+    "auto margins",
+    "responsive normalization"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定断点和滚动位置同时核对两处布局证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从真实滚动场景读取布局",
+      "body": "每个 section 限宽 860px，奇数段靠左 5%、偶数段靠右 5%；标题线也从左边切到右边，形成可追踪的阶梯节拍。",
+      "annotations": [
+        {
+          "id": "odd-left-step",
+          "anchor": [
+            29,
+            25
+          ],
+          "elbow": [
+            17,
+            18
+          ],
+          "end": [
+            8,
+            18
+          ],
+          "detailSide": "right",
+          "summary": "奇数章节向左踏一步",
+          "detail": "margin-left:5% 且 margin-right:auto，标题用左侧 3px 强调线。"
+        },
+        {
+          "id": "even-right-step",
+          "anchor": [
+            71,
+            73
+          ],
+          "elbow": [
+            83,
+            65
+          ],
+          "end": [
+            92,
+            65
+          ],
+          "detailSide": "left",
+          "summary": "偶数章节向右踏下一步",
+          "detail": "相反的 auto/5% 外边距配右侧强调线，阅读视线横向换边。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 721
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 1320
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "将可见位置关系连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "位移方向与标题线方向必须同步翻转",
+      "body": "860px 限宽让 5% 偏移可见；奇数段靠左并用左线，偶数段靠右、标题右对齐并用右线。720px 以下两侧 margin 都回到 auto。",
+      "code": {
+        "file": "src/layouts/staggered.css",
+        "locator": "body.l-staggered main section",
+        "snippet": "/* 布局·阶梯错位 —— 区块左右交替递进 */\nbody.l-staggered main section { max-width: 860px; }\nbody.l-staggered main section:nth-of-type(odd) { margin-right: auto; margin-left: 5%; }\nbody.l-staggered main section:nth-of-type(even) { margin-left: auto; margin-right: 5%; }\nbody.l-staggered main section:nth-of-type(odd) > .reveal:first-child { border-left: 3px solid var(--accent); padding-left: 20px; }\nbody.l-staggered main section:nth-of-type(even) > .reveal:first-child { border-right: 3px solid var(--accent); padding-right: 20px; text-align: right; }\nbody.l-staggered main section:nth-of-type(even) .section-desc { margin-left: auto; }\n@media (max-width: 720px) {\n  body.l-staggered main section:nth-of-type(odd),\n  body.l-staggered main section:nth-of-type(even) { margin-left: auto; margin-right: auto; }\n}",
+        "sourceDigest": "sha256:fe5ecd90df3d48ddea976c31946bf5a250219e1bf261c7a12688961da1dea439",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "仅使用未被该布局专属 CSS 架空的 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "改变阶梯的纵向步幅与段内密度",
+      "body": "左右 5% 偏移被专属 CSS 固定；用 space 改变阶梯纵距、gap 改变段内网格，观察奇偶方向不变。",
+      "experiments": [
+        {
+          "id": "short-steps",
+          "label": "缩短阶梯纵距",
+          "initial": {
+            "space": 100,
+            "gap": 100
+          },
+          "controls": {
+            "space": 60,
+            "gap": 58
+          },
+          "expected": "相邻章节更快交替，段内卡片更紧；左右 5% 位移和强调线方向保持。",
+          "reset": "恢复 space=100、gap=100。"
+        },
+        {
+          "id": "long-steps",
+          "label": "拉长阶梯纵距",
+          "initial": {
+            "space": 100,
+            "gap": 100
+          },
+          "controls": {
+            "space": 150,
+            "gap": 175
+          },
+          "expected": "左右章节之间留出更长下降距离，内部网格也更松；阶梯节拍仍交替。",
+          "reset": "恢复 space=100、gap=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和控件结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "从边距与边线读出奇偶步序",
+      "body": "不仅要看到错位，还要解释两个方向如何绑定。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "奇数章节如何靠左？",
+          "options": [
+            "margin-left:5%，margin-right:auto",
+            "margin-left:auto，margin-right:5%",
+            "transform:-50%"
+          ],
+          "correct": 0,
+          "explanation": "固定一侧 5%，另一侧 auto。"
+        },
+        {
+          "id": "q2",
+          "question": "偶数章节标题为何右对齐？",
+          "options": [
+            "与右侧强调线和靠右段落形成同一方向",
+            "为了改变 DOM",
+            "因为字体是 RTL"
+          ],
+          "correct": 0,
+          "explanation": "标题线与段落位移同步翻转。"
+        },
+        {
+          "id": "q3",
+          "question": "720px 以下如何处理阶梯？",
+          "options": [
+            "继续左右偏移",
+            "两侧 margin 归 auto，章节居中",
+            "隐藏偶数段"
+          ],
+          "correct": 1,
+          "explanation": "移动端取消横向错位以保留宽度。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只交替 margin，却让所有标题都保留左边线。",
+    "section 没有限宽，5% 位移在满宽背景上几乎不可见。",
+    "用 transform 平移导致内容溢出而非正常流错位。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在跨章节滚动场景同时辨认奇数左步和偶数右步。",
+      "完成 space/gap 两组实验。",
+      "能写出奇偶 margin 与标题线的对应表。"
+    ]
+  },
+  "contentRevision": 1
+}

@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-axis",
+  "title": "让章节沿中轴左右对望",
+  "summary": "一根 2px 中线贯穿 main，奇数章节靠左并右对齐，偶数章节靠右；每个章节用偏移 47px 的空心节点与中线相接。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "central axis",
+    "alternating alignment",
+    "axis markers",
+    "mobile axis removal"
+  ],
+  "objectives": [
+    "解释 50%-52px 如何给中轴留沟槽",
+    "指出奇偶章节节点的相反偏移",
+    "验证内容密度变化时轴与节点仍吻合"
+  ],
+  "prerequisites": [
+    "nth-of-type",
+    "positioned pseudo-elements",
+    "calc()"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定断点和滚动位置同时核对两处布局证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从真实滚动场景读取布局",
+      "body": "一根 2px 中线贯穿 main，奇数章节靠左并右对齐，偶数章节靠右；每个章节用偏移 47px 的空心节点与中线相接。",
+      "annotations": [
+        {
+          "id": "central-spine",
+          "anchor": [
+            50,
+            49
+          ],
+          "elbow": [
+            62,
+            40
+          ],
+          "end": [
+            74,
+            40
+          ],
+          "detailSide": "left",
+          "summary": "2px 中轴贯穿 main",
+          "detail": "main::before 固定在 left:50%，从 top:40px 延伸到 bottom:60px。"
+        },
+        {
+          "id": "odd-marker",
+          "anchor": [
+            46,
+            25
+          ],
+          "elbow": [
+            34,
+            17
+          ],
+          "end": [
+            22,
+            17
+          ],
+          "detailSide": "right",
+          "summary": "左侧章节节点向右探到轴上",
+          "detail": "奇数 section 的圆点放在 right:-47px，中心正好落到沟槽。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 721
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 760
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "将可见位置关系连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "章节宽度先让出沟槽，节点再跨过去",
+      "body": "每段宽度为 calc(50% - 52px)，因此轴两侧留出 104px；奇数段靠左、偶数段靠右，节点分别用 right/left:-47px 触达中线。",
+      "code": {
+        "file": "src/layouts/axis.css",
+        "locator": "body.l-axis main",
+        "snippet": "/* 布局·中轴对称 —— 中线两侧，左右对望 */\nbody.l-axis main { position: relative; max-width: 1080px; margin: 0 auto; }\nbody.l-axis main::before {\n  content: \"\"; position: absolute; left: 50%; top: 40px; bottom: 60px;\n  width: 2px; background: var(--border); transform: translateX(-50%);\n}\nbody.l-axis main section { width: calc(50% - 52px); padding: 60px 0 24px; position: relative; }\nbody.l-axis main section:nth-of-type(odd) { margin-right: auto; text-align: right; }\nbody.l-axis main section:nth-of-type(even) { margin-left: auto; }\nbody.l-axis main section::before {\n  content: \"\"; position: absolute; top: 74px; width: 12px; height: 12px;\n  border-radius: 50%; background: var(--bg); border: 2.5px solid var(--accent);\n}\nbody.l-axis main section:nth-of-type(odd)::before { right: -47px; }\nbody.l-axis main section:nth-of-type(even)::before { left: -47px; }\nbody.l-axis main section:nth-of-type(odd) .section-desc { margin-left: auto; }\nbody.l-axis .projects-grid { grid-template-columns: 1fr; }\nbody.l-axis .skills-wrap, body.l-axis .about-wrap { grid-template-columns: 1fr; gap: 24px; }\nbody.l-axis .contact-grid { grid-template-columns: 1fr; }\nbody.l-axis .post { flex-direction: column; align-items: flex-start; gap: 6px; }\nbody.l-axis .post-arrow { display: none; }\n@media (max-width: 720px) {\n  body.l-axis main::before { display: none; }\n  body.l-axis main section { width: 100%; text-align: left !important; }\n  body.l-axis main section::before { display: none; }\n}",
+        "sourceDigest": "sha256:1f270d0595c5fda4425e6df30765d72f5c5158d38ffe141fb228105e0cfb103b",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "仅使用未被该布局专属 CSS 架空的 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "改变两侧内容密度，检查节点仍贴轴",
+      "body": "中轴位置、章节宽度和 60px 上内距都被专属 CSS 固定；用内部 gap 与 cardPad 对内容施压，验证轴几何不受影响。",
+      "experiments": [
+        {
+          "id": "tight-axis-content",
+          "label": "压缩轴侧卡片",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 52,
+            "cardPad": 14
+          },
+          "expected": "章节内部卡片更密，但 52px 沟槽、50% 中线和 -47px 节点偏移保持。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        },
+        {
+          "id": "loose-axis-content",
+          "label": "放大轴侧卡片",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 176,
+            "cardPad": 42
+          },
+          "expected": "两侧章节被内容撑高，节点间纵距增大；节点仍落在同一中轴。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和控件结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "用三组数值校验中轴咬合",
+      "body": "50%、52px 与 47px 共同决定对望关系。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "每个 section 为什么不是刚好 50% 宽？",
+          "options": [
+            "减去 52px 为中轴留沟槽",
+            "避免文字换行",
+            "配合 footer"
+          ],
+          "correct": 0,
+          "explanation": "两侧各退 52px 形成轴周围空带。"
+        },
+        {
+          "id": "q2",
+          "question": "奇数章节的节点从哪一侧跨向中轴？",
+          "options": [
+            "right:-47px",
+            "left:-47px",
+            "left:50%"
+          ],
+          "correct": 0,
+          "explanation": "左侧章节需从右边缘伸向中线。"
+        },
+        {
+          "id": "q3",
+          "question": "720px 以下如何避免窄双栏？",
+          "options": [
+            "缩小节点",
+            "隐藏中轴和节点，section 回到 100%",
+            "保持对望并横滚"
+          ],
+          "correct": 1,
+          "explanation": "移动端直接移除轴系统并左对齐。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "画了中线却让 section 各占 50%，内容紧贴轴。",
+    "奇偶节点都使用同一个 left 偏移，只有一侧能咬合。",
+    "内部内容变高后为每段另画短轴，产生断裂。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在正文场景同时指出中轴和左侧节点。",
+      "完成 gap/cardPad 压力实验。",
+      "能用 50%-52px 与 ±47px 解释对齐。"
+    ]
+  },
+  "contentRevision": 1
+}

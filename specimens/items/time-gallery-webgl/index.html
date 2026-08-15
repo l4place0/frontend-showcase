@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>时光画廊 · 西方艺术史漫游</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./app.bundle.js"></script>
+</head>
+<body>
+  <main id="app">
+    <section class="screen welcome is-active" data-screen="welcome" aria-labelledby="welcome-title">
+      <div class="scribble scribble-a" aria-hidden="true"></div>
+      <div class="scribble scribble-b" aria-hidden="true"></div>
+      <svg class="thread-lines" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M-40 205 C250 55 380 420 670 190 S1140 28 1640 238"/>
+        <path d="M80 720 C325 520 545 810 790 574 S1270 400 1580 620"/>
+        <path d="M110 90 C480 310 770 45 1020 250 S1430 510 1630 360"/>
+      </svg>
+      <div class="welcome-copy">
+        <p class="eyebrow">A WALK THROUGH WESTERN ART</p>
+        <h1 id="welcome-title"><span>时光</span>画廊</h1>
+        <p class="welcome-subtitle">沿着九个时代的枝桠，走进光与颜料构成的记忆宫殿。</p>
+        <button class="primary-button" data-action="start">开启旅程 <span aria-hidden="true">↗</span></button>
+      </div>
+      <div class="arch-illustration" aria-label="蓝色拱门插画">
+        <div class="arch-sky"><i></i><i></i><i></i></div>
+        <div class="arch-shadow"></div>
+      </div>
+      <div class="welcome-index" aria-hidden="true"><span>1300</span><i></i><span>1905</span></div>
+    </section>
+
+    <section class="screen timeline" data-screen="timeline" aria-labelledby="timeline-title">
+      <header class="timeline-header">
+        <button class="icon-button" data-action="home" aria-label="返回欢迎页">←</button>
+        <div>
+          <p class="eyebrow">CHRONOLOGY · 01—09</p>
+          <h2 id="timeline-title">西方艺术史的枝桠</h2>
+        </div>
+        <p class="timeline-instruction">悬停阅读 · 点击时期进入画廊</p>
+      </header>
+      <p class="timeline-note">从人文主义的曙光，到现代视觉的裂变</p>
+      <div class="timeline-stage" id="timeline-stage">
+        <svg class="tree-lines" id="tree-lines" aria-hidden="true"></svg>
+        <div class="period-nodes" id="period-nodes"></div>
+      </div>
+      <aside class="period-preview" id="period-preview" aria-hidden="true">
+        <div class="preview-image-wrap"><img id="preview-image" alt=""></div>
+        <div class="preview-copy">
+          <span id="preview-count"></span>
+          <h3 id="preview-title"></h3>
+          <p class="preview-years" id="preview-years"></p>
+          <p id="preview-description"></p>
+          <strong id="preview-artwork"></strong>
+        </div>
+      </aside>
+      <div class="timeline-legend"><i></i><span>时期节点</span><b>画家分支仅作导览</b></div>
+    </section>
+
+    <section class="screen gallery" data-screen="gallery" aria-label="第一人称 3D 画廊">
+      <div id="webgl-root"></div>
+      <div class="gallery-vignette" aria-hidden="true"></div>
+      <header class="gallery-hud">
+        <button class="glass-button" data-action="back-timeline">← 时间轴</button>
+        <div class="period-mark">
+          <span id="gallery-index">01</span>
+          <div><strong id="gallery-period">早期文艺复兴</strong><small id="gallery-years"></small></div>
+        </div>
+        <button class="glass-button" data-action="toggle-help">漫游指南</button>
+      </header>
+      <div class="gallery-help" id="gallery-help">
+        <div><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>移动</span></div>
+        <div><kbd>←</kbd><kbd>→</kbd><span>横移 / 转向</span></div>
+        <div><kbd>E</kbd><span>查看作品</span></div>
+        <p id="look-mode">点击空白处锁定鼠标 · 或按住左键拖动转向</p>
+      </div>
+      <div class="aim" aria-hidden="true"><i></i></div>
+      <button class="art-prompt" id="art-prompt" data-action="inspect" hidden>
+        <span>按 E 查看</span><strong id="prompt-title"></strong>
+      </button>
+      <div class="loading-card" id="loading-card">
+        <div class="loading-orbit"><i></i></div>
+        <strong>正在点亮圆厅</strong><span id="loading-copy">准备画作与光线</span>
+      </div>
+      <div class="webgl-fallback" id="webgl-fallback" hidden>
+        <span>WEBGL UNAVAILABLE</span><h2>这扇门暂时无法开启</h2>
+        <p>当前浏览器未能创建 WebGL 场景。你仍可以返回时间轴继续阅读。</p>
+        <button class="primary-button" data-action="back-timeline">返回时间轴</button>
+      </div>
+    </section>
+
+    <section class="art-detail" id="art-detail" role="dialog" aria-modal="true" aria-labelledby="detail-title" aria-hidden="true">
+      <button class="detail-close" data-action="close-detail" aria-label="关闭画作详情">×</button>
+      <div class="detail-image-column"><img id="detail-image" alt=""><span id="detail-sequence"></span></div>
+      <article class="detail-copy">
+        <p class="eyebrow" id="detail-period"></p>
+        <h2 id="detail-title"></h2>
+        <p class="detail-title-en" id="detail-title-en"></p>
+        <div class="detail-artist"><strong id="detail-artist"></strong><span id="detail-artist-en"></span><small id="detail-life"></small></div>
+        <dl>
+          <div><dt>年代</dt><dd id="detail-date"></dd></div>
+          <div><dt>媒材</dt><dd id="detail-medium"></dd></div>
+          <div><dt>时期</dt><dd id="detail-period-name"></dd></div>
+        </dl>
+        <p class="detail-intro" id="detail-intro"></p>
+        <footer>
+          <div><span>馆藏来源</span><a id="detail-source" target="_blank" rel="noreferrer"></a></div>
+          <div><span>授权</span><strong id="detail-license"></strong></div>
+          <small id="detail-accession"></small>
+        </footer>
+      </article>
+    </section>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </main>
+</body>
+</html>

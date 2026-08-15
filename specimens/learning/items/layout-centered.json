@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-centered",
+  "title": "把作品集收进 720px 的单一阅读轴",
+  "summary": "Hero 改成纵向居中，头像提前到标题上方；所有 section 固定在 720px 阅读带，双栏内容与项目网格统一折叠为单列。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "narrow reading measure",
+    "single-axis composition",
+    "visual reordering",
+    "column collapse"
+  ],
+  "objectives": [
+    "指出头像通过 order:-1 提前而非改写 DOM",
+    "解释 720px section 与 760px Hero 的宽度差",
+    "验证纵向节奏和卡片内边距对窄栏密度的影响"
+  ],
+  "prerequisites": [
+    "flex order",
+    "max-width",
+    "single-column grid"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先在指定场景同时核对两处可见证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从展品现场读取构图决定",
+      "body": "Hero 改成纵向居中，头像提前到标题上方；所有 section 固定在 720px 阅读带，双栏内容与项目网格统一折叠为单列。",
+      "annotations": [
+        {
+          "id": "avatar-first",
+          "anchor": [
+            50,
+            27
+          ],
+          "elbow": [
+            65,
+            20
+          ],
+          "end": [
+            78,
+            20
+          ],
+          "detailSide": "left",
+          "summary": "头像被视觉提前到标题上方",
+          "detail": "hero-right 使用 order:-1；DOM 语义顺序不必为视觉构图改写。"
+        },
+        {
+          "id": "single-reading-axis",
+          "anchor": [
+            50,
+            54
+          ],
+          "elbow": [
+            65,
+            62
+          ],
+          "end": [
+            78,
+            62
+          ],
+          "detailSide": "left",
+          "summary": "标题、按钮和数据共用中轴",
+          "detail": "Hero 改为 column，CTA 与 stats 显式 justify-content:center。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 900
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见证据连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "先重排 Hero，再把所有正文折成一列",
+      "body": "Hero 以 column 和 text-align:center 建立单轴，hero-right 通过 order:-1 提前；section 限制为 720px，skills/about/projects 则全部改成单列。",
+      "code": {
+        "file": "src/layouts/centered.css",
+        "locator": "body.l-centered .hero",
+        "snippet": "/* 布局·居中窄栏 —— 720px 阅读带 */\nbody.l-centered .hero {\n  flex-direction: column; justify-content: center; text-align: center; gap: 40px;\n  max-width: 760px;\n}\nbody.l-centered .hero-right { order: -1; }\nbody.l-centered .hero-cta, body.l-centered .hero-stats { justify-content: center; }\nbody.l-centered section { max-width: 720px; }\nbody.l-centered .skills-wrap, body.l-centered .about-wrap { grid-template-columns: 1fr; gap: 34px; }\nbody.l-centered .projects-grid { grid-template-columns: 1fr; }\nbody.l-centered .section-desc { margin-left: auto; margin-right: auto; text-align: center; }\nbody.l-centered .reveal > .section-tag { display: inline-block; }\nbody.l-centered section > .reveal:first-child { text-align: center; }\nbody.l-centered .post { flex-direction: column; align-items: flex-start; gap: 8px; }\nbody.l-centered .post-arrow { display: none; }\nbody.l-centered footer { justify-content: center; text-align: center; }",
+        "sourceDigest": "sha256:ea05657c0c3e753656a530fb618889bd45461368afb88c083e61a69e0dc1df4a",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用该 manifest 声明的真实控件。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "改变窄栏的垂直密度与卡片内压",
+      "body": "space 调节沿中轴的段落呼吸，cardPad 改变单列卡片内部留白；固定 720px 阅读带不会被 width 控件伪装改变。",
+      "experiments": [
+        {
+          "id": "tighten-reading-axis",
+          "label": "压缩纵向阅读节奏",
+          "initial": {
+            "space": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "space": 60,
+            "cardPad": 16
+          },
+          "expected": "后续 section 的上下 padding 收紧，单列卡片内容靠近边缘；Hero 固定 40px 间隙、中轴和 720px 限宽不变。",
+          "reset": "恢复 space=100、cardPad=26。"
+        },
+        {
+          "id": "open-reading-axis",
+          "label": "放大纵向留白与卡片内距",
+          "initial": {
+            "space": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "space": 148,
+            "cardPad": 40
+          },
+          "expected": "章节沿中轴拉开，单列卡片内部更宽松；页面仍不会恢复双栏。",
+          "reset": "恢复 space=100、cardPad=26。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和实验结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "证明居中不是简单 text-align",
+      "body": "从视觉重排、限宽和网格折叠三个层面回答。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "头像为何出现在标题之前？",
+          "options": [
+            "DOM 被复制",
+            "hero-right 使用 order:-1",
+            "position:fixed"
+          ],
+          "correct": 1,
+          "explanation": "flex order 只改变视觉排列。"
+        },
+        {
+          "id": "q2",
+          "question": "正文阅读带的最大宽度是多少？",
+          "options": [
+            "1080px",
+            "760px",
+            "720px"
+          ],
+          "correct": 2,
+          "explanation": "Hero 是 760px，section 单独限制为 720px。"
+        },
+        {
+          "id": "q3",
+          "question": "项目为何保持单列？",
+          "options": [
+            "projects-grid 显式 grid-template-columns:1fr",
+            "cardMin 自动变大",
+            "浏览器宽度不足"
+          ],
+          "correct": 0,
+          "explanation": "布局规则直接覆盖自动填充网格。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只设置 text-align:center，却保留 Hero 横向两列。",
+    "把 width 控件变化误判为 720px 固定阅读带变化。",
+    "只折叠项目卡片，忘记 skills 与 about 也需单列。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能在 900px 初始场景指出头像提前和共同中轴。",
+      "完成 space/cardPad 的压缩与扩张实验。",
+      "能区分 760px Hero 和 720px section 的职责。"
+    ]
+  },
+  "contentRevision": 1
+}

@@ -1,0 +1,201 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-floating",
+  "title": "让移动端纸片也能被扶正并恢复",
+  "summary": "桌面用交替微旋、负间距和递增 z-index 叠纸；≤640px 保留缩小后的 ±0.35° 姿态，并保留原生横向导航。点击/Enter 选择区段后由 :target 扶正上移，切换目标或回到 #top 即恢复。",
+  "difficulty": "intermediate",
+  "durationMinutes": 14,
+  "concepts": [
+    "reversible posture",
+    "focus-within on touch",
+    "mobile micro-rotation",
+    "layered paper stack"
+  ],
+  "objectives": [
+    "解释移动端为何保留轻微姿态而不横向溢出",
+    "验证触控点击和 Tab+Enter 会扶正目标纸片",
+    "说明切换锚点或回到 #top 如何恢复原角度"
+  ],
+  "prerequisites": [
+    "focus-within",
+    "responsive transforms",
+    "stacking context"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定场景核对两处可见状态或顺序证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先执行，再解释可见机制",
+      "body": "桌面用交替微旋、负间距和递增 z-index 叠纸；≤640px 保留缩小后的 ±0.35° 姿态，并保留原生横向导航。点击/Enter 选择区段后由 :target 扶正上移，切换目标或回到 #top 即恢复。",
+      "annotations": [
+        {
+          "id": "mobile-tabs",
+          "anchor": [
+            68,
+            11
+          ],
+          "elbow": [
+            57,
+            19
+          ],
+          "end": [
+            45,
+            19
+          ],
+          "detailSide": "right",
+          "summary": "移动导航是姿态控制器",
+          "detail": "≤640px 保留横向可滚的 44px 锚点；点击或 Enter 会把对应 section 设为 :target。"
+        },
+        {
+          "id": "focus-pose",
+          "anchor": [
+            50,
+            82
+          ],
+          "elbow": [
+            63,
+            73
+          ],
+          "end": [
+            77,
+            73
+          ],
+          "detailSide": "left",
+          "summary": "焦点进入后纸片扶正上移",
+          "detail": "section:target 或 :focus-within 将 transform 复位为 0°、上移 4px并恢复 scale(1)。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 700
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可执行状态和顺序连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "移动端减少位移，不取消可执行姿态",
+      "body": "窄屏先把左右 margin 归中，再给奇偶区段 ±.35deg；移动导航锚点让目标 section 持久扶正。切换目标后上一片恢复，#top 清除所有 section target。",
+      "code": {
+        "file": "src/layouts/floating.css",
+        "locator": "body.l-floating nav .nav-links",
+        "snippet": "/* 布局·悬浮错落 —— 卡片微旋，层叠漂浮 */\nbody.l-floating main section {\n  max-width: 980px; background: var(--surface);\n  border: 1.5px solid var(--border); padding: 44px 48px 36px;\n  position: relative; margin-bottom: -14px;\n  box-shadow: 0 10px 30px rgba(43,43,43,.06);\n}\nbody.l-floating main section:nth-of-type(1) { transform: rotate(-.5deg); z-index: 2; }\nbody.l-floating main section:nth-of-type(2) { transform: rotate(.45deg); z-index: 3; margin-left: auto; margin-right: 4%; }\nbody.l-floating main section:nth-of-type(3) { transform: rotate(-.35deg); z-index: 4; margin-left: 6%; }\nbody.l-floating main section:nth-of-type(4) { transform: rotate(.5deg); z-index: 5; margin-right: 8%; margin-left: auto; }\nbody.l-floating main section:nth-of-type(5) { transform: rotate(-.4deg); z-index: 6; margin-left: 10%; }\nbody.l-floating main section:hover,\nbody.l-floating main section:focus-within { transform: rotate(0) translateY(-4px); transition: transform .35s ease; }\nbody.l-floating .hero { min-height: 86vh; }\nbody.l-floating footer { margin-top: 70px; }\n@media (max-width: 640px) {\n  body.l-floating nav .nav-inner { gap: 10px; }\n  body.l-floating nav .nav-links {\n    display: flex; min-width: 0; margin-left: 0; gap: 8px;\n    overflow-x: auto; scrollbar-width: thin;\n  }\n  body.l-floating nav .nav-links a {\n    flex: 0 0 auto; min-height: 44px; padding: 10px 12px;\n    display: inline-flex; align-items: center; white-space: nowrap;\n  }\n  body.l-floating nav .gallery-link { display: none; }\n  body.l-floating main section {\n    width: calc(100% - 16px); max-width: calc(100% - 16px);\n    margin-left: auto !important; margin-right: auto !important;\n    transition: transform .28s ease;\n  }\n  body.l-floating main section:nth-of-type(odd) { transform: rotate(-.35deg) scale(.985) !important; }\n  body.l-floating main section:nth-of-type(even) { transform: rotate(.35deg) scale(.985) !important; }\n  body.l-floating main section:hover,\n  body.l-floating main section:focus-within,\n  body.l-floating main section:target { transform: rotate(0) translateY(-4px) scale(1) !important; }\n}",
+        "sourceDigest": "sha256:ed6679114a2ac641e974e4b525bcd9b4e30bd6cc0df0688a566642bbe4b3f17d",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "原生动作使用空 controls；参数实验只使用 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "在移动端执行锚点扶正—恢复循环",
+      "body": "原生导航动作使用空 controls；gap/cardMin 只改变纸片内部项目网格，用来确认外层 :target 姿态独立。",
+      "experiments": [
+        {
+          "id": "mobile-pose-cycle",
+          "label": "≤640px：选择“项目”，再选择“技能”，最后回到顶部",
+          "initial": {},
+          "controls": {},
+          "expected": "目标纸片扶正并上移；切换后上一片恢复 ±.35° 和 .985 缩放；#top 让所有纸片恢复。",
+          "reset": "点击顶部 logo，fragment 变为 #top。"
+        },
+        {
+          "id": "dense-inside",
+          "label": "压缩纸片内部项目网格",
+          "initial": {
+            "cardMin": 310,
+            "gap": 100
+          },
+          "controls": {
+            "cardMin": 240,
+            "gap": 55
+          },
+          "expected": "内部卡片更密，但移动端奇偶姿态与 focus-within 扶正循环保持。",
+          "reset": "恢复 cardMin=310、gap=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案必须对应触控、键盘和源码证据。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "区分静态归零与可复位交互",
+      "body": "必须说明初始姿态、执行状态与复位条件。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "移动端初始纸片为何不再全部 transform:none？",
+          "options": [
+            "需要保留可观察、可执行的姿态基准",
+            "为了制造横向溢出",
+            "让 DOM 倒序"
+          ],
+          "correct": 0,
+          "explanation": "轻旋与缩放提供交互前状态。"
+        },
+        {
+          "id": "q2",
+          "question": "触控点击“技能”为何能扶正对应纸片？",
+          "options": [
+            "hover 永久存在",
+            "锚点使 #skills 匹配 section:target",
+            "JavaScript 改写 style"
+          ],
+          "correct": 1,
+          "explanation": "URL fragment 是持久、可切换的姿态状态。"
+        },
+        {
+          "id": "q3",
+          "question": "如何让全部纸片恢复初始微旋？",
+          "options": [
+            "点击 logo 回到 #top",
+            "必须刷新页面",
+            "把 z-index 设零"
+          ],
+          "correct": 0,
+          "explanation": "#top 不匹配任何 main section:target。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "窄屏把所有 transform 永久清零，交互只剩静态取消。",
+    "保留姿态却隐藏导航，使触控没有可发现的执行入口。",
+    "只依赖会跳出页面的外链焦点作为触控控制。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在 ≤640px 用触控依次选择两个区段并观察扶正/恢复。",
+      "用 Tab+Enter 重复相同状态循环，再通过 #top 复位。",
+      "能区分负间距层叠与移动端 :target 姿态。"
+    ]
+  },
+  "contentRevision": 4
+}

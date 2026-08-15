@@ -1,0 +1,204 @@
+{
+  "learningVersion": 1,
+  "itemId": "zen",
+  "title": "用留白、细线与朱砂建立静态节奏",
+  "summary": "12px 字距、52px 垂直墨线、消失的 section tag 与一处朱砂短线，让页面在删减中建立东方秩序。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "whitespace rhythm",
+    "hairline hierarchy",
+    "vermilion accent",
+    "subtractive design"
+  ],
+  "objectives": [
+    "解释隐藏 section tag 后如何保留栏目定位",
+    "比较墨线、朱砂线与 2px 技能线的权重",
+    "验证行高和对比度对留白节奏的影响"
+  ],
+  "prerequisites": [
+    "pseudo-elements",
+    "typographic spacing",
+    "hairline borders"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先观察初始 Hero 构图中的标注，再向下验证相同机制。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先从禅意东方的初始画面取证",
+      "body": "12px 字距、52px 垂直墨线、消失的 section tag 与一处朱砂短线，让页面在删减中建立东方秩序。",
+      "annotations": [
+        {
+          "id": "vertical-ink",
+          "anchor": [
+            31,
+            50
+          ],
+          "elbow": [
+            20,
+            42
+          ],
+          "end": [
+            9,
+            42
+          ],
+          "detailSide": "right",
+          "summary": "标题下垂直墨线",
+          "detail": "1×52px 线把视线从大字引向下方留白。"
+        },
+        {
+          "id": "vermilion-mark",
+          "anchor": [
+            25,
+            28
+          ],
+          "elbow": [
+            36,
+            20
+          ],
+          "end": [
+            49,
+            20
+          ],
+          "detailSide": "right",
+          "summary": "朱砂只作细小标记",
+          "detail": "tagline 括号和 Hero badge 左线复用红色，不铺满页面。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见效果连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "删去标签容器，用线和字距接管导航",
+      "body": "section tag 完全隐藏；栏目标题用 8px 字距和 34×2 朱砂短线重新定位。卡片退化为透明表面与一条顶线。",
+      "code": {
+        "file": "src/themes/zen.css",
+        "locator": "body.t-zen section",
+        "snippet": "body.t-zen section { padding-top: 110px; }\nbody.t-zen .hero h1 { font-weight: 400; letter-spacing: 12px; }\nbody.t-zen .hero h1::after { content: \"\"; display: block; width: 1px; height: 52px; background: var(--text); margin-top: 22px; opacity: .5; }\nbody.t-zen .tagline { color: var(--accent); font-weight: 400; letter-spacing: 6px; }\nbody.t-zen .tagline::before { content: \"【\"; color: var(--accent-2); }\nbody.t-zen .tagline::after { content: \"】\"; color: var(--accent-2); }\nbody.t-zen .hero-badge { background: transparent; border: none; border-left: 2px solid var(--accent-2); border-radius: 0; padding: 4px 12px; }\nbody.t-zen .hero-badge i { background: var(--accent-2); border-radius: 0; width: 6px; height: 6px; animation: none; }\nbody.t-zen .section-title { font-weight: 400; letter-spacing: 8px; }\nbody.t-zen .section-title::before { content: \"\"; display: block; width: 34px; height: 2px; background: var(--accent-2); margin-bottom: 18px; }\nbody.t-zen .section-tag { display: none; }\nbody.t-zen .card { border: none; border-top: 1px solid var(--border); padding: 26px 2px 20px; background: transparent; }\nbody.t-zen .card:hover { border-top-color: var(--text); box-shadow: none; }\nbody.t-zen .card.featured { border-top: 2px solid var(--accent-2); }\nbody.t-zen .card.featured::before { content: \"特\"; background: var(--accent-2); border-radius: 0; padding: 3px 9px; }",
+        "sourceDigest": "sha256:69bde65c5273e3fb40b13ded3036032d5e7a061dbeb53d8298fa60cd038f9e8b",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用真实 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "用留白与细线调节呼吸",
+      "body": "拉开行距并压低对比度，观察朱砂标记仍在时，页面如何从清寂滑向松散或模糊。",
+      "experiments": [
+        {
+          "id": "open-leading",
+          "label": "扩大阅读行高",
+          "initial": {
+            "line": 170,
+            "font": 100
+          },
+          "controls": {
+            "line": 205
+          },
+          "expected": "正文留白增加，细线和朱砂标记位置不变，整体节奏更缓。",
+          "reset": "恢复 line=170。"
+        },
+        {
+          "id": "ink-fade",
+          "label": "压低对比观察细线极限",
+          "initial": {
+            "contrast": 100
+          },
+          "controls": {
+            "contrast": 76
+          },
+          "expected": "1px 墨线、卡片顶线和次文字先变弱，朱砂仍提供定位。",
+          "reset": "恢复 contrast=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合标注、源码和实验。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "辨别克制与信息不足",
+      "body": "从无容器导航、发丝线和朱砂焦点中判断禅意层级是否仍可读。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "section tag 隐藏后栏目靠什么定位？",
+          "options": [
+            "阴影",
+            "8px 标题字距与朱砂短线",
+            "背景图片"
+          ],
+          "correct": 1,
+          "explanation": "标题自身承担栏目入口。"
+        },
+        {
+          "id": "q2",
+          "question": "52px 垂直线的作用？",
+          "options": [
+            "从 Hero 标题引导到留白区",
+            "改变 DOM",
+            "显示进度"
+          ],
+          "correct": 0,
+          "explanation": "它是空间节奏标记。"
+        },
+        {
+          "id": "q3",
+          "question": "低对比实验最先威胁？",
+          "options": [
+            "大圆角",
+            "动画",
+            "1px 细线与次级文字可辨性"
+          ],
+          "correct": 2,
+          "explanation": "最轻的层级最先消失。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "用大量红色填充破坏朱砂稀缺性。",
+    "保留胶囊 section tag，与删减语言冲突。",
+    "把所有细线加粗，失去层级。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成至少两组 manifest control 实验并比较基准状态。",
+      "能从初始画面指出两个标注机制。",
+      "三道测验全部答对并解释源码因果。"
+    ]
+  },
+  "contentRevision": 1
+}

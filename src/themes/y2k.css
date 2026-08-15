@@ -28,6 +28,9 @@ body.t-y2k .bg-fx {
   animation: y2ksparkle 3.2s ease-in-out infinite;
 }
 @keyframes y2ksparkle { 0%,100% { opacity: .35 } 50% { opacity: .9 } }
+@media (prefers-reduced-motion: reduce) {
+  body.t-y2k .bg-fx { animation: none; }
+}
 body.t-y2k .hero h1 {
   background: linear-gradient(120deg, #7f9cf5 20%, #f687b3 80%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;

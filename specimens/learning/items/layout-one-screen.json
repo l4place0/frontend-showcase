@@ -1,0 +1,204 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-one-screen",
+  "title": "一屏尽览是一套内容预算",
+  "summary": "不是简单缩小页面：通过保留主推描述、删除普通摘要、裁剪关于段落和隐藏第三篇文章，学习信息密度的选择性压缩。",
+  "difficulty": "intermediate",
+  "durationMinutes": 14,
+  "concepts": [
+    "content budgeting",
+    "selective omission",
+    "density hierarchy",
+    "fixed grid"
+  ],
+  "objectives": [
+    "列出一屏模式保留与隐藏的信息",
+    "解释主推项目为何例外保留描述",
+    "验证通用卡片参数被布局硬预算覆盖"
+  ],
+  "prerequisites": [
+    "CSS Grid",
+    "结构伪类",
+    "响应式密度"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "从压缩 Hero 向下看项目区：比较主推卡和普通卡是否都显示描述。",
+      "eyebrow": "COUNT WHAT SURVIVES",
+      "title": "密度来自取舍，不是等比缩放",
+      "body": "Hero、头像和区段间距被压缩；项目固定三列。普通卡隐藏描述，主推卡例外保留；关于只留前两段，博客隐藏摘要和第三篇。",
+      "annotations": [
+        {
+          "id": "compact-hero",
+          "anchor": [
+            52,
+            39
+          ],
+          "elbow": [
+            64,
+            31
+          ],
+          "end": [
+            78,
+            31
+          ],
+          "detailSide": "left",
+          "summary": "Hero 主动缩短",
+          "detail": "min-height:auto、较小标题与 140px 头像共同回收首屏空间。"
+        },
+        {
+          "id": "featured-exception",
+          "anchor": [
+            27,
+            75
+          ],
+          "elbow": [
+            17,
+            66
+          ],
+          "end": [
+            8,
+            66
+          ],
+          "detailSide": "right",
+          "summary": "主推描述例外保留",
+          "detail": "所有 card .desc 先隐藏，再只为 featured 恢复，表达明确内容预算。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 721
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 420
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把压缩规则分成几何缩小与内容删减。",
+      "eyebrow": "SIZE LESS, SHOW LESS",
+      "title": "空间预算和信息预算同时执行",
+      "body": "字号、间距、头像和 padding 负责几何压缩；display:none 与 nth-of-type 负责信息优先级。固定三列与窄屏两列保持整体扫描效率。",
+      "code": {
+        "file": "src/layouts/one-screen.css",
+        "locator": "body.l-one-screen",
+        "snippet": "/* 布局·一屏尽览 —— 全站压缩进一屏（密度实验） */\nbody.l-one-screen { font-size: 14px; }\nbody.l-one-screen .hero { min-height: auto; padding-top: 130px; padding-bottom: 24px; gap: 32px; }\nbody.l-one-screen .hero h1 { font-size: clamp(36px, 5vw, 52px); }\nbody.l-one-screen .hero-desc { margin-bottom: 18px; }\nbody.l-one-screen .hero-stats { margin-top: 26px; gap: 26px; }\nbody.l-one-screen .avatar-wrap { width: min(140px, 30vw); }\nbody.l-one-screen section { padding-top: 40px; padding-bottom: 8px; }\nbody.l-one-screen .section-desc, body.l-one-screen .skills-note { display: none; }\nbody.l-one-screen .section-title { font-size: 24px; margin-bottom: 4px; }\nbody.l-one-screen .section-tag { margin-bottom: 8px; padding: 2px 10px; font-size: 11.5px; }\nbody.l-one-screen .projects-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }\nbody.l-one-screen .card { padding: 16px; gap: 8px; }\nbody.l-one-screen .card .desc { display: none; }\nbody.l-one-screen .card.featured .desc { display: block; font-size: 13px; }\nbody.l-one-screen .skills-wrap { gap: 26px; }\nbody.l-one-screen .bar-row { margin-bottom: 10px; }\nbody.l-one-screen .tag-block { margin-bottom: 12px; }\nbody.l-one-screen .about-wrap { gap: 26px; }\nbody.l-one-screen .about-text p:nth-of-type(n+3) { display: none; }\nbody.l-one-screen .about-text p { margin-bottom: 10px; }\nbody.l-one-screen .fact { padding: 10px 14px; }\nbody.l-one-screen .post { padding: 14px 18px; }\nbody.l-one-screen .post-body p { display: none; }\nbody.l-one-screen .post:nth-of-type(3) { display: none; }\nbody.l-one-screen .contact-card { padding: 16px; }\nbody.l-one-screen footer { margin-top: 20px; padding-bottom: 20px; }\n@media (max-width: 720px) {\n  body.l-one-screen .projects-grid { grid-template-columns: 1fr 1fr; }\n}",
+        "sourceDigest": "sha256:23c98c225f5250f7a65c361004a8effaadf8b7952ce56dedf835e17dd575195b",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "收窄整体宽度，再施加通用卡片 padding，检查硬预算。",
+      "eyebrow": "PRESSURE THE BUDGET",
+      "title": "硬编码密度规则会抵抗通用参数",
+      "body": "width 会压缩三列内容并增加换行；cardPad 不会覆盖 `.card { padding:16px }`，证明一屏模式刻意锁定卡片预算。",
+      "experiments": [
+        {
+          "id": "narrow-budget",
+          "label": "把内容宽度收窄到 760",
+          "initial": {
+            "width": 1080,
+            "gap": 100
+          },
+          "controls": {
+            "width": 760
+          },
+          "expected": "三列仍保持，卡片更窄、标题换行增多；普通描述仍隐藏，主推描述仍保留。",
+          "reset": "恢复 width=1080。"
+        },
+        {
+          "id": "padding-lock",
+          "label": "把通用 cardPad 推到 42",
+          "initial": {
+            "cardPad": 26
+          },
+          "controls": {
+            "cardPad": 42
+          },
+          "expected": "一屏规则明确写死 16px padding，因此项目卡内边距基本不变，显示布局预算优先。",
+          "reset": "恢复 cardPad=26。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案来自保留/隐藏清单与实验。",
+      "eyebrow": "AUDIT THE BUDGET",
+      "title": "判断内容优先级",
+      "body": "正确项依次为 B、A、C。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "为什么 featured 卡仍显示描述？",
+          "options": [
+            "因为它排在偶数位",
+            "它被定义为高优先级例外，普通卡描述已统一隐藏",
+            "因为 cardPad 更大"
+          ],
+          "correct": 1,
+          "explanation": "先全局隐藏，再为主推恢复，是明确的信息预算。"
+        },
+        {
+          "id": "q2",
+          "question": "cardPad 调到 42 后为何卡片 padding 基本不变？",
+          "options": [
+            "布局明确覆盖为 16px",
+            "浏览器不支持 padding",
+            "三列网格删除了 control"
+          ],
+          "correct": 0,
+          "explanation": "实验验证 item 级硬预算覆盖通用变量消费位置。"
+        },
+        {
+          "id": "q3",
+          "question": "以下哪项是内容删减而非几何压缩？",
+          "options": [
+            "头像宽度降到 140px",
+            "Hero 标题变小",
+            "隐藏第三篇文章和普通卡描述"
+          ],
+          "correct": 2,
+          "explanation": "前两项只改变尺寸，第三项改变可见信息集合。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把所有内容等比缩小，导致文字不可读。",
+    "无差别隐藏所有描述，丢失主推层级。",
+    "只看首屏而忽略整页总高度与移动端两列压力。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "列出至少三项几何压缩和三项内容删减。",
+      "完成 width 与 cardPad 硬预算实验。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

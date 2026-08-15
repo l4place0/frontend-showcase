@@ -1,0 +1,195 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-collage",
+  "title": "六列骨架上的受控拼贴",
+  "summary": "自由感并非随机：项目占四列、技能占两列跨两行，三个小区段仅做不足一度旋转；900px 以下全部回归单列。",
+  "difficulty": "advanced",
+  "durationMinutes": 13,
+  "concepts": [
+    "explicit placement",
+    "controlled rotation",
+    "information compression",
+    "responsive normalization"
+  ],
+  "objectives": [
+    "画出五个区段在六列网格中的占位",
+    "解释技能跨两行如何平衡项目区",
+    "验证窄屏会同时取消 placement 与旋转"
+  ],
+  "prerequisites": [
+    "CSS Grid line placement",
+    "transform",
+    "媒体查询"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "越过 Hero 后，先找最大项目块，再沿右侧技能长块和底部三个轻旋块读版面。",
+      "eyebrow": "MAP THE SCRAPS",
+      "title": "看似随手，实则每块都有网格地址",
+      "body": "项目占 1–5，技能占 5–7 且跨两行；关于、博客、联系分布在底部并用 ±0.7° 以内旋转制造手贴误差。",
+      "annotations": [
+        {
+          "id": "projects-sheet",
+          "anchor": [
+            32,
+            79
+          ],
+          "elbow": [
+            21,
+            70
+          ],
+          "end": [
+            9,
+            70
+          ],
+          "detailSide": "right",
+          "summary": "项目纸片占四列",
+          "detail": "最大内容块固定在六列网格的 1–5 线之间。"
+        },
+        {
+          "id": "skills-strip",
+          "anchor": [
+            82,
+            78
+          ],
+          "elbow": [
+            72,
+            69
+          ],
+          "end": [
+            60,
+            69
+          ],
+          "detailSide": "right",
+          "summary": "技能窄条跨两行",
+          "detail": "右侧纵向重量抵消左侧宽项目块。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 901
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 700
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "区分结构性 placement 与装饰性 rotate。",
+      "eyebrow": "GRID FIRST, TILT SECOND",
+      "title": "网格保证秩序，微旋只制造表面松动",
+      "body": "六列 placement 决定信息重量；旋转仅作用于三个小区段且不到一度。窄屏同时清除 grid 地址、跨行和旋转。",
+      "code": {
+        "file": "src/layouts/collage.css",
+        "locator": "body.l-collage main",
+        "snippet": "body.l-collage main {\n  display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px;\n  max-width: 1080px; margin: 0 auto; padding: 50px 24px 24px;\n}\nbody.l-collage main section {\n  padding: 28px; margin: 0; max-width: none;\n  border: 1.5px solid var(--border); background: var(--surface);\n}\nbody.l-collage #projects { grid-column: 1 / 5; }\nbody.l-collage #skills { grid-column: 5 / 7; grid-row: span 2; }\nbody.l-collage #about { grid-column: 1 / 3; transform: rotate(-.7deg); }\nbody.l-collage #blog { grid-column: 3 / 5; transform: rotate(.5deg); }\nbody.l-collage #contact { grid-column: 5 / 7; transform: rotate(-.4deg); }",
+        "sourceDigest": "sha256:f0b7c8c437ae14119d0e194de9935ed6909a1f1f79cf138fc7be995c8433ec14",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "核心 placement 没有 Protocol 参数，用真实视口状态直接验证断点。",
+      "eyebrow": "NORMALIZE THE COLLAGE",
+      "title": "窄屏必须撤销手工摆放",
+      "body": "两个原生视口观察不伪装成 manifest control：先确认宽屏六列地图，再跨过 900px 观察所有区段顺序归一。",
+      "experiments": [
+        {
+          "id": "wide-map",
+          "label": "原生观察：在 1100px 以上沿五个区段画出六列占位",
+          "initial": {},
+          "controls": {},
+          "expected": "项目四列、技能两列跨两行，关于/博客/联系各两列且微旋。",
+          "reset": "保持桌面视口。"
+        },
+        {
+          "id": "single-column",
+          "label": "原生操作：把展品窗口缩到 880px",
+          "initial": {},
+          "controls": {},
+          "expected": "main 变一列；所有 section 跨满列、grid-row 自动、transform:none，源顺序恢复。",
+          "reset": "恢复 1100px 以上。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需比较两个视口。",
+      "eyebrow": "EXPLAIN THE SCRAPS",
+      "title": "判断秩序与松动",
+      "body": "正确项为 C、A、B。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "技能区为什么显得像右侧长条？",
+          "options": [
+            "字体更大",
+            "使用 fixed",
+            "占第 5–7 列并跨两行"
+          ],
+          "correct": 2,
+          "explanation": "显式 placement 决定其纵向重量。"
+        },
+        {
+          "id": "q2",
+          "question": "880px 时旋转为何消失？",
+          "options": [
+            "媒体查询显式设置 transform:none",
+            "浏览器不支持 rotate",
+            "gap 变为 0"
+          ],
+          "correct": 0,
+          "explanation": "窄屏归一化同时撤销装饰姿态。"
+        },
+        {
+          "id": "q3",
+          "question": "为何旋转控制在不足一度？",
+          "options": [
+            "让文字不可读",
+            "制造手贴误差但不破坏网格阅读",
+            "触发新列"
+          ],
+          "correct": 1,
+          "explanation": "拼贴感建立在可控偏差上。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "随机 absolute 定位导致内容重叠。",
+    "每块大角度旋转损害阅读。",
+    "窄屏只改单列却忘记清除 grid-row 与 transform。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "画出桌面六列占位图。",
+      "验证 880px 的 placement/rotation 同时归一。",
+      "三题全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

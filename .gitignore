@@ -1,11 +1,15 @@
 # Build output
 dist/
+.generated/
 
 # Local development
 node_modules/
 server.log
 server-error.log
 *.log
+*.tsbuildinfo
+playwright-report/
+test-results/
 
 # Local agent/workspace state
 .workbuddy/

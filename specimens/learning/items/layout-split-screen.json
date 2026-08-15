@@ -1,0 +1,201 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-split-screen",
+  "title": "固定身份面板与滚动内容流",
+  "summary": "理解 42% 固定 hero 如何与右侧导航、正文和页尾共享同一分割轴，并在窄屏解除固定。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "fixed positioning",
+    "content offset",
+    "shared layout axis",
+    "responsive unpinning"
+  ],
+  "objectives": [
+    "指出左右分割轴影响的四个区域",
+    "解释固定面板为何需要右侧 offset",
+    "预测 900px 以下恢复普通流的结果"
+  ],
+  "prerequisites": [
+    "fixed 定位",
+    "媒体查询",
+    "文档流"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "滚动右侧内容，同时确认左侧 hero、右侧导航和页尾的边界。",
+      "eyebrow": "FOLLOW THE 42% AXIS",
+      "title": "一条分割轴约束四个区域",
+      "body": "hero 固定在左 42%；main、nav 和 footer 都从同一 42% 位置开始，避免互相覆盖。",
+      "annotations": [
+        {
+          "id": "fixed-hero",
+          "anchor": [
+            28,
+            51
+          ],
+          "elbow": [
+            17,
+            43
+          ],
+          "end": [
+            8,
+            43
+          ],
+          "detailSide": "right",
+          "summary": "左侧固定身份",
+          "detail": "hero 从 museum bar 下方固定到底部，滚动时保持人物介绍可见。"
+        },
+        {
+          "id": "shared-axis",
+          "anchor": [
+            42,
+            24
+          ],
+          "elbow": [
+            54,
+            16
+          ],
+          "end": [
+            68,
+            16
+          ],
+          "detailSide": "left",
+          "summary": "42% 共享分割轴",
+          "detail": "main margin-left、nav left 与 footer margin-left 必须同步。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 901
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "fixed 脱离文档流后，右侧消费者必须显式避让。",
+      "eyebrow": "PIN AND OFFSET",
+      "title": "固定不是独立规则，而是一组约束",
+      "body": "桌面媒体查询内固定 hero，并让 main/nav/footer 使用相同 42% offset；窄屏不应用这组规则。",
+      "code": {
+        "file": "src/layouts/split-screen.css",
+        "locator": "@media (min-width: 901px)",
+        "snippet": "/* 布局·左右分屏 —— 左固定简介，右滚内容 */\n@media (min-width: 901px) {\n  body.l-split-screen .hero {\n    position: fixed; left: 0; top: 38px; bottom: 0; width: 42%;\n    flex-direction: column; justify-content: center; align-items: flex-start;\n    padding: 90px 44px 40px; gap: 30px; z-index: 5;\n    background: var(--bg); border-right: 1.5px solid var(--border);\n    min-height: 0; max-width: none;\n  }\n  body.l-split-screen .hero-left { flex: none; }\n  body.l-split-screen .hero-right { flex: none; }\n  body.l-split-screen .avatar-wrap { width: min(150px, 30vw); }\n  body.l-split-screen .hero-stats { flex-direction: column; gap: 14px; margin-top: 30px; }\n  body.l-split-screen main { margin-left: 42%; }\n  body.l-split-screen main section { max-width: 760px; padding-left: 48px; padding-right: 40px; margin: 0; }\n  body.l-split-screen nav { left: 42%; }\n  body.l-split-screen footer { margin-left: 42%; max-width: 760px; }\n}",
+        "sourceDigest": "sha256:7c9b7b96b3c740cb4a72b23293067c2bc3e0ed6bde208230f245eff1b3f5c450",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "先改变 hero 内容占比，再跨过 901px 断点。",
+      "eyebrow": "TEST THE AXIS",
+      "title": "固定布局必须知道何时解除",
+      "body": "桌面可调整 hero 内部权重；真正的结构降级由视口断点触发。",
+      "experiments": [
+        {
+          "id": "hero-balance",
+          "label": "改变 hero 文字占比",
+          "initial": {
+            "heroShare": 68,
+            "space": 100
+          },
+          "controls": {
+            "heroShare": 80,
+            "space": 75
+          },
+          "expected": "左侧文字权重上升、内部节奏压缩，42% 外部轴保持不变。",
+          "reset": "恢复 heroShare=68、space=100。"
+        },
+        {
+          "id": "unpin",
+          "label": "视口操作：把展品窗口缩到 880px，跨过桌面断点",
+          "initial": {},
+          "controls": {},
+          "expected": "固定与 42% offsets 全部解除，hero、nav、main、footer 恢复普通响应式流。",
+          "reset": "把展品窗口恢复到桌面宽度。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "回答固定、避让与降级。",
+      "eyebrow": "PROVE THE CONSTRAINT",
+      "title": "一条轴，四个消费者",
+      "body": "三题检查分屏约束是否完整。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "hero fixed 后 main 为什么要 margin-left: 42%？",
+          "options": [
+            "为脱离文档流的左面板留出空间",
+            "改变主题色",
+            "隐藏导航"
+          ],
+          "correct": 0,
+          "explanation": "fixed 不再占据普通流，右侧内容必须显式避让。"
+        },
+        {
+          "id": "q2",
+          "question": "nav 的 left 为什么也要 42%？",
+          "options": [
+            "让导航居中于整个视口",
+            "让导航与右侧内容共享分割轴",
+            "触发动画"
+          ],
+          "correct": 1,
+          "explanation": "导航是右侧流的一个消费者。"
+        },
+        {
+          "id": "q3",
+          "question": "900px 以下最合理的行为？",
+          "options": [
+            "解除 fixed 和 offsets，恢复普通流",
+            "继续固定 42%",
+            "隐藏 main"
+          ],
+          "correct": 0,
+          "explanation": "窄屏没有足够宽度维持双面板。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只固定 hero 却忘记 main/nav/footer 避让。",
+    "不同区域使用不一致的分割百分比。",
+    "窄屏仍保留 fixed 导致内容被遮挡。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成 hero 权重与 880px 解除固定实验。",
+      "能指出四个共享 42% 轴的区域。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

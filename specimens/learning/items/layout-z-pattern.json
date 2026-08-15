@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-z-pattern",
+  "title": "用真实 DOM 顺序走完右上→左下→右下",
+  "summary": "生成 DOM 按 projects→about→contact→skills→blog 排列，CSS 将前三段放到右上、左下、右下，再让 skills/blog 横跨收尾；视觉自上而下与读屏、Tab 完全一致。",
+  "difficulty": "intermediate",
+  "durationMinutes": 14,
+  "concepts": [
+    "order-preserving grid",
+    "alternating columns",
+    "directional borders",
+    "responsive flattening"
+  ],
+  "objectives": [
+    "验证生成 HTML 的 section 顺序与 grid row 一致",
+    "复述 projects/about/contact 的右—左—右坐标",
+    "解释移动端如何保持同一 DOM 顺序展平"
+  ],
+  "prerequisites": [
+    "explicit grid placement",
+    "document order",
+    "responsive CSS Grid"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定场景核对两处可见状态或顺序证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "Z 的前三笔也是 DOM 的前三段",
+      "body": "生成 DOM 按 projects→about→contact→skills→blog 排列，CSS 将前三段放到右上、左下、右下，再让 skills/blog 横跨收尾；视觉自上而下与读屏、Tab 完全一致。",
+      "annotations": [
+        {
+          "id": "right-projects",
+          "anchor": [
+            73,
+            27
+          ],
+          "elbow": [
+            84,
+            20
+          ],
+          "end": [
+            93,
+            20
+          ],
+          "detailSide": "left",
+          "summary": "projects 位于右上 row1",
+          "detail": "它也是生成 main 的第一个 section，视觉起点与语义起点一致。"
+        },
+        {
+          "id": "left-about",
+          "anchor": [
+            28,
+            72
+          ],
+          "elbow": [
+            17,
+            64
+          ],
+          "end": [
+            8,
+            64
+          ],
+          "detailSide": "right",
+          "summary": "about 折返左下 row2",
+          "detail": "它是生成 main 的第二个 section，随后 contact 在右侧 row3 完成 Z。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 721
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 760
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可执行状态和顺序连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "DOM 先按几何路径生成，Grid 再固定坐标",
+      "body": "sectionOrder=[projects,about,contact,skills,blog] 与 row1→5 同序；CSS 只决定右、左、右、跨栏、跨栏的位置，不把后面的 DOM 节点提到更早视觉行。",
+      "code": {
+        "file": "src/layouts/z-pattern.css",
+        "locator": "body.l-z-pattern #about",
+        "snippet": "/* 布局·Z 字动线 —— 视线折线引导（右上→左下→右下） */\nbody.l-z-pattern main {\n  display: grid; grid-template-columns: 1fr 1fr; gap: 40px 56px;\n  max-width: 1080px; margin: 0 auto; padding: 60px 24px 24px;\n}\nbody.l-z-pattern main section { padding: 0; margin: 0; max-width: none; }\nbody.l-z-pattern #projects { grid-column: 2; grid-row: 1; }\nbody.l-z-pattern #about { grid-column: 1; grid-row: 2; }\nbody.l-z-pattern #contact { grid-column: 2; grid-row: 3; }\nbody.l-z-pattern #skills { grid-column: 1 / -1; grid-row: 4; }\nbody.l-z-pattern #blog { grid-column: 1 / -1; grid-row: 5; }\nbody.l-z-pattern .projects-grid { grid-template-columns: 1fr; }\nbody.l-z-pattern .about-wrap { grid-template-columns: 1fr; }\nbody.l-z-pattern .contact-grid { grid-template-columns: 1fr; }\nbody.l-z-pattern #about { border-left: 3px solid var(--accent); padding-left: 28px; }\nbody.l-z-pattern #projects { border-right: 3px solid var(--accent); padding-right: 28px; }\nbody.l-z-pattern #projects > .reveal:first-child { text-align: right; }\nbody.l-z-pattern #projects .section-desc { margin-left: auto; }\n@media (max-width: 720px) {\n  body.l-z-pattern main { grid-template-columns: 1fr; }\n  body.l-z-pattern #projects, body.l-z-pattern #about, body.l-z-pattern #contact,\n  body.l-z-pattern #skills, body.l-z-pattern #blog { grid-column: 1; grid-row: auto; }\n  body.l-z-pattern #projects > .reveal:first-child { text-align: left; }\n}",
+        "sourceDigest": "sha256:654abbdfd48756b56fd58619e121ca5e435fce4a9ef485cb55a6b224493fc8b0",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "原生动作使用空 controls；参数实验只使用 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "加压段内内容，检查 Z 与 DOM 同步",
+      "body": "gap/cardPad 改变项目内部高度，显式 row 与生成 section 顺序仍保持。",
+      "experiments": [
+        {
+          "id": "tight-z-content",
+          "label": "压缩右上项目卡片",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 52,
+            "cardPad": 14
+          },
+          "expected": "项目内部更密，视觉仍依次 projects→about→contact→skills→blog。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        },
+        {
+          "id": "loose-z-content",
+          "label": "放大右上项目卡片",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 178,
+            "cardPad": 40
+          },
+          "expected": "row1 被内容撑高，后续行向下移动，但 DOM、Tab、读屏顺序不变。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案必须对应触控、键盘和源码证据。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "逐项核对生成 DOM 与五行网格",
+      "body": "前三段完成 Z，后两段横跨收尾，顺序必须完全一致。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "生成 HTML 的前三个 main section 是什么？",
+          "options": [
+            "projects→about→contact",
+            "projects→skills→about",
+            "contact→about→projects"
+          ],
+          "correct": 0,
+          "explanation": "它与 Z 的 row1→3 对应。"
+        },
+        {
+          "id": "q2",
+          "question": "skills 在桌面占据哪里？",
+          "options": [
+            "column1/-1,row4",
+            "column1,row2",
+            "column2,row1"
+          ],
+          "correct": 0,
+          "explanation": "前三笔完成后，skills 横跨双列。"
+        },
+        {
+          "id": "q3",
+          "question": "为什么 Tab/读屏不再与视觉冲突？",
+          "options": [
+            "使用正数 tabindex",
+            "生成 DOM 顺序与 grid row 顺序一致",
+            "CSS Grid 自动改读屏顺序"
+          ],
+          "correct": 1,
+          "explanation": "关键是构建期真实节点顺序匹配几何。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只改 grid-row，不同步生成 DOM 顺序。",
+    "复制 section 内容到视觉位置。",
+    "用正数 tabindex 尝试覆盖读屏顺序。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "检查生成 HTML 顺序为 projects→about→contact→skills→blog。",
+      "核对桌面 row1→5 与同一顺序一致。",
+      "完成 gap/cardPad 实验并验证 720px 以下按原 DOM 单列。"
+    ]
+  },
+  "contentRevision": 3
+}

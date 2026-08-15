@@ -1,0 +1,226 @@
+{
+  "learningVersion": 1,
+  "itemId": "time-gallery-webgl",
+  "title": "让艺术史数据成为可漫游空间",
+  "summary": "沿欢迎页、时间树、3D 圆厅和单例详情四态，理解内容数据如何贯穿 DOM 与 WebGL。",
+  "difficulty": "advanced",
+  "durationMinutes": 22,
+  "concepts": [
+    "screen state",
+    "data-driven UI",
+    "Three.js scene graph",
+    "raycasting",
+    "progressive input fallback"
+  ],
+  "objectives": [
+    "画出四个互斥界面的状态转移",
+    "解释同一份数据如何生成时间轴和 3D 画框",
+    "说明 Pointer Lock 被拒绝时为何仍能漫游"
+  ],
+  "prerequisites": [
+    "JavaScript 状态管理",
+    "Three.js 场景图",
+    "键盘与指针事件"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先走完整条体验链：欢迎页 → 时间树 → 圆厅 → 详情。",
+      "eyebrow": "FOLLOW THE CONTENT",
+      "title": "一份作品数据，三种可见表达",
+      "body": "时期节点负责导航，画家分支只提供语境；进入圆厅后，准星射线把相机中心映射为画作目标，详情始终复用同一个 dialog。",
+      "annotations": [
+        {
+          "id": "timeline-node",
+          "anchor": [
+            31,
+            48
+          ],
+          "elbow": [
+            22,
+            37
+          ],
+          "end": [
+            13,
+            37
+          ],
+          "detailSide": "right",
+          "summary": "时期才是入口",
+          "detail": "画家名是不可点击的装饰枝叶，避免把内容层级误写成交互层级。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "timeline",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "先读 screen 状态，再读时间树生成；不要从渲染器细节倒推产品流程。",
+      "eyebrow": "DATA TO SPACE",
+      "title": "状态机把 DOM 与 WebGL 串成一条线",
+      "body": "showScreen 保证互斥界面，并在 timeline/gallery 间暂停或恢复渲染；buildTimeline 由时期数据生成路径、节点和只读艺术家分支。",
+      "annotations": [
+        {
+          "id": "crosshair",
+          "anchor": [
+            50,
+            50
+          ],
+          "elbow": [
+            63,
+            42
+          ],
+          "end": [
+            78,
+            42
+          ],
+          "detailSide": "left",
+          "summary": "中心射线选画",
+          "detail": "Raycaster 从相机中心寻找最近的可交互画框，E 键和点击共享检查动作。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "gallery",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "code": {
+        "file": "specimens/items/time-gallery-webgl/app.js",
+        "locator": "function showScreen(name)",
+        "snippet": "const state = { data: null, screen: \"welcome\", period: null, gallery: null, detailOpen: false, toastTimer: 0 };\n\nfunction showScreen(name) {\n  state.screen = name;\n  $$(\".screen\").forEach((screen) => screen.classList.toggle(\"is-active\", screen.dataset.screen === name));\n  if (name === \"timeline\") {\n    requestAnimationFrame(() => $(\".timeline\").classList.add(\"is-grown\"));\n    state.gallery?.pause();\n  }\n  if (name === \"gallery\") state.gallery?.resume();\n}",
+        "sourceDigest": "sha256:980d5c5e40d8aab55b4735736c46b650903e3e56f7b51c86af5408625a444784",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "验证同一目标能否通过键盘、指针锁或拖动降级完成。",
+      "eyebrow": "PERMISSION IS OPTIONAL",
+      "title": "输入权限失败，主任务仍要成立",
+      "body": "本展品没有 Catalog 控件；实验通过 item 内原生动作完成，reset 都返回时间轴或欢迎页。",
+      "experiments": [
+        {
+          "id": "keyboard-timeline",
+          "label": "原生操作：从欢迎页点击开始，用 Tab 聚焦时期节点并按 Enter",
+          "initial": {},
+          "controls": {},
+          "expected": "聚焦时出现与 hover 相同的时期预览，Enter 进入对应圆厅。",
+          "reset": "点击画廊 HUD 的返回时间轴按钮。"
+        },
+        {
+          "id": "inspect-artwork",
+          "label": "原生操作：在圆厅用 WASD 靠近画作，准星命中后按 E",
+          "initial": {},
+          "controls": {},
+          "expected": "打开唯一详情 dialog，显示该作品元数据与授权信息；重复 E 不叠加面板。",
+          "reset": "按 Escape 关闭详情。"
+        },
+        {
+          "id": "drag-fallback",
+          "label": "原生操作：未获得 Pointer Lock 时按住左键拖动",
+          "initial": {},
+          "controls": {},
+          "expected": "视角随拖动变化，仍能瞄准并检查画作。",
+          "reset": "松开指针并点击返回时间轴。"
+        },
+        {
+          "id": "reduced-idle-render",
+          "label": "原生观察：启用减少动态后进入圆厅并保持静止",
+          "initial": {},
+          "controls": {},
+          "expected": "首帧布展完成后，空闲圆厅不再连续重绘；键盘或拖动仍可按用户输入更新视角。",
+          "reset": "恢复系统动态偏好并重载。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "回答内容层级、渲染比例与输入降级三个问题。",
+      "eyebrow": "EXPLAIN THE PIPELINE",
+      "title": "从数据到交互闭环",
+      "body": "能走通不等于理解；需要说明每一层为何这样连接。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "为什么画家名称分支不做成链接？",
+          "options": [
+            "它们只提供时期语境，真正入口是时期节点",
+            "span 比 button 渲染更快",
+            "Three.js 不支持链接"
+          ],
+          "correct": 0,
+          "explanation": "时间树是普通 DOM；交互层级必须反映内容层级。"
+        },
+        {
+          "id": "q2",
+          "question": "画框几何为什么必须读取作品宽高比？",
+          "options": [
+            "保持原作构图，不把横画压进统一竖框",
+            "减少时期数量",
+            "避免生成详情文本"
+          ],
+          "correct": 0,
+          "explanation": "纹理和几何比例共同决定作品是否被忠实呈现。"
+        },
+        {
+          "id": "q3",
+          "question": "宿主拒绝 Pointer Lock 时，哪个设计保证任务仍可完成？",
+          "options": [
+            "自动退出画廊",
+            "按住左键拖动转向",
+            "隐藏所有画作"
+          ],
+          "correct": 1,
+          "explanation": "拖动转向是权限失败时的等价输入路径。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "先讲 Three.js 材质而忽略四态产品流程。",
+    "减少动态时仍让空闲 WebGL 场景持续重绘，混淆用户输入与自动运动。",
+    "假设 iframe 一定允许 Pointer Lock。",
+    "把所有作品纹理塞进统一比例画框。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "用键盘进入一个时期并在圆厅打开一幅画的详情。",
+      "完成键盘检查、拖动 fallback 与 reduced-motion 空闲渲染实验。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

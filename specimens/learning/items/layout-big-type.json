@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-big-type",
+  "title": "用巨号标题把长页变成大字报",
+  "summary": "Hero 标题最高 122px，章节标题最高 80px；项目与技能都折成单列，让大字号拥有完整横向画布而不与多栏竞争。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "display typography",
+    "fluid type scale",
+    "single-column support",
+    "wide reading canvas"
+  ],
+  "objectives": [
+    "区分 Hero 与章节标题的两级 clamp",
+    "解释项目单列为何服务巨号排版",
+    "验证区块节奏和单列卡间距对大字密度的影响"
+  ],
+  "prerequisites": [
+    "clamp()",
+    "single-column grid",
+    "typographic scale"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定断点和滚动位置同时核对两处布局证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从真实滚动场景读取布局",
+      "body": "Hero 标题最高 122px，章节标题最高 80px；项目与技能都折成单列，让大字号拥有完整横向画布而不与多栏竞争。",
+      "annotations": [
+        {
+          "id": "section-billboard",
+          "anchor": [
+            34,
+            25
+          ],
+          "elbow": [
+            20,
+            18
+          ],
+          "end": [
+            8,
+            18
+          ],
+          "detailSide": "right",
+          "summary": "章节标题像一张横幅",
+          "detail": "section-title 使用 7.5vw，并以 80px 封顶，滚入正文仍保持海报级声音。"
+        },
+        {
+          "id": "single-wide-card",
+          "anchor": [
+            50,
+            65
+          ],
+          "elbow": [
+            65,
+            56
+          ],
+          "end": [
+            79,
+            56
+          ],
+          "detailSide": "left",
+          "summary": "项目卡独占整行",
+          "detail": "projects-grid 固定 1fr，38×42px 内距给大字和描述留出长行。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 760
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "将可见位置关系连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "字号放大后，栏数必须主动减少",
+      "body": "Hero 与 section title 各有独立 clamp 范围；项目、技能都改为一列，卡片内距和正文尺寸同步放大，避免巨字落入窄栏后频繁断行。",
+      "code": {
+        "file": "src/layouts/big-type.css",
+        "locator": "body.l-big-type .hero h1",
+        "snippet": "/* 布局·大字报 —— 巨号标题，气场全开 */\nbody.l-big-type { font-size: 17px; }\nbody.l-big-type .hero h1 { font-size: clamp(64px, 11vw, 122px); letter-spacing: -2px; }\nbody.l-big-type .tagline { font-size: clamp(22px, 3vw, 30px); }\nbody.l-big-type .section-title { font-size: clamp(46px, 7.5vw, 80px); letter-spacing: -1px; margin-bottom: 16px; }\nbody.l-big-type .section-tag { font-size: 14px; }\nbody.l-big-type .section-desc { font-size: 18px; max-width: 640px; }\nbody.l-big-type .projects-grid { grid-template-columns: 1fr; }\nbody.l-big-type .card { padding: 38px 42px; }\nbody.l-big-type .card h3 { font-size: 25px; }\nbody.l-big-type .card .desc { font-size: 16.5px; }\nbody.l-big-type .skills-wrap { grid-template-columns: 1fr; gap: 50px; }\nbody.l-big-type .bar-row { margin-bottom: 24px; }\nbody.l-big-type .bar-label { font-size: 15.5px; }\nbody.l-big-type .about-text p { font-size: 18px; }\nbody.l-big-type .post { padding: 30px 34px; }\nbody.l-big-type .post-body h3 { font-size: 21px; }\nbody.l-big-type .hero { max-width: 1180px; }\nbody.l-big-type section { max-width: 1180px; }",
+        "sourceDigest": "sha256:79945183ae273fe037bedf0c33d583c0c6df789ba9e33a355e19c2382f98b768",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "仅使用未被该布局专属 CSS 架空的 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "拉开大字报段落，而不假装改变固定字号",
+      "body": "专属卡片 padding 和 1180px 宽度是固定值；用仍生效的 space 调整章节呼吸、gap 调整单列卡片之间的距离。",
+      "experiments": [
+        {
+          "id": "compress-poster-flow",
+          "label": "压缩海报段落",
+          "initial": {
+            "space": 100,
+            "gap": 100
+          },
+          "controls": {
+            "space": 62,
+            "gap": 55
+          },
+          "expected": "章节前后留白与单列卡间距收紧，大标题尺寸和 1180px 画布不变。",
+          "reset": "恢复 space=100、gap=100。"
+        },
+        {
+          "id": "expand-poster-flow",
+          "label": "扩大海报段落",
+          "initial": {
+            "space": 100,
+            "gap": 100
+          },
+          "controls": {
+            "space": 148,
+            "gap": 175
+          },
+          "expected": "章节进入更慢，单列卡之间出现更大停顿；大字仍独占横向空间。",
+          "reset": "恢复 space=100、gap=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和控件结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "证明大字不是简单放大页面缩放",
+      "body": "从两级 clamp、单列支撑和固定卡片内距判断。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "Hero 标题和章节标题的上限分别是多少？",
+          "options": [
+            "122px 与 80px",
+            "80px 与 122px",
+            "都为 104px"
+          ],
+          "correct": 0,
+          "explanation": "两个 clamp 为不同信息等级设置上限。"
+        },
+        {
+          "id": "q2",
+          "question": "项目为何强制单列？",
+          "options": [
+            "为巨号标题与较大卡内文字保留横向空间",
+            "因为只有一个项目",
+            "避免滚动"
+          ],
+          "correct": 0,
+          "explanation": "减少并列竞争是大字报机制的一部分。"
+        },
+        {
+          "id": "q3",
+          "question": "gap 实验会直接改变什么？",
+          "options": [
+            "122px 标题上限",
+            "单列项目卡之间的距离",
+            "固定 42px 横向内距"
+          ],
+          "correct": 1,
+          "explanation": "网格 gap 仍由基础变量驱动。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只放大 Hero，正文仍保持小标题和密集多栏。",
+    "把 font 控件当作专属 clamp 上限的替代说明。",
+    "忽略单列后的纵向节奏，造成连续巨块压迫。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在正文场景同时指出巨型章节标题与整行卡片。",
+      "完成 space/gap 密度实验。",
+      "能说明为什么固定卡内距不受 cardPad 控件影响。"
+    ]
+  },
+  "contentRevision": 1
+}

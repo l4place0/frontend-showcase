@@ -1,0 +1,206 @@
+{
+  "learningVersion": 1,
+  "itemId": "blueprint",
+  "title": "双尺度网格与工程标注语言",
+  "summary": "用 120px 主网格、24px 次网格、虚线构件和 FIG.01 标注，把同一页面转译成可测量的蓝图。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "multi-scale grid",
+    "technical annotation",
+    "dashed construction lines",
+    "hatching"
+  ],
+  "objectives": [
+    "解释双尺度网格如何叠加",
+    "区分构造线与选中实线",
+    "识别重复斜纹作为材料填充"
+  ],
+  "prerequisites": [
+    "multiple backgrounds",
+    "repeating gradients",
+    "pseudo-elements"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "比较背景粗细网格、栏目方括号、标题刻度线和卡片虚线。",
+      "eyebrow": "READ THE DRAWING",
+      "title": "蓝图把组件变成可标注构件",
+      "body": "120px 与 24px 网格提供两级尺度；普通卡片用虚线像施工辅助线，主推卡改实线并标 FIG.01。",
+      "annotations": [
+        {
+          "id": "major-grid",
+          "anchor": [
+            72,
+            28
+          ],
+          "elbow": [
+            63,
+            20
+          ],
+          "end": [
+            51,
+            20
+          ],
+          "detailSide": "right",
+          "summary": "120px 主网格",
+          "detail": "粗网格与 24px 细网格叠加，形成图纸测量尺度。"
+        },
+        {
+          "id": "figure-label",
+          "anchor": [
+            31,
+            76
+          ],
+          "elbow": [
+            20,
+            67
+          ],
+          "end": [
+            9,
+            67
+          ],
+          "detailSide": "right",
+          "summary": "主推标为 FIG.01",
+          "detail": "featured 从虚线构造态提升为黄色实线成品态。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "从网格尺度、线型语义和填充纹理三层阅读。",
+      "eyebrow": "SCALE, LINE, HATCH",
+      "title": "工程感来自线型的语义分工",
+      "body": "四个线性渐变组成粗细正交网格；虚线表达待定构件，hover/featured 变实线；技能条斜纹像剖面填充。",
+      "code": {
+        "file": "src/themes/blueprint.css",
+        "locator": "body.t-blueprint .bg-fx",
+        "snippet": "body.t-blueprint .bg-fx {\n  background-image:\n    linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),\n    linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px),\n    linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),\n    linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);\n  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;\n}\nbody.t-blueprint .section-tag { background: transparent; border-style: dashed; }\nbody.t-blueprint .section-tag::before { content: \"[ \"; color: var(--text-2); }\nbody.t-blueprint .section-tag::after { content: \" ]\"; color: var(--text-2); }\nbody.t-blueprint .section-title { font-weight: 400; letter-spacing: 1px; }\nbody.t-blueprint .section-title::after { content: \"\"; display: block; height: 1px; margin-top: 12px; background: repeating-linear-gradient(90deg, var(--border) 0 10px, transparent 10px 16px); }\nbody.t-blueprint .card, body.t-blueprint .post, body.t-blueprint .fact, body.t-blueprint .contact-card { border-style: dashed; border-width: 1px; }\nbody.t-blueprint .card:hover, body.t-blueprint .post:hover, body.t-blueprint .contact-card:hover { border-style: solid; border-color: var(--accent); }\nbody.t-blueprint .card.featured { border-style: solid; border-color: var(--accent); }\nbody.t-blueprint .card.featured::before { content: \"FIG.01 ★\"; background: var(--accent); color: #16324f; border-radius: 0; font-weight: 700; }\nbody.t-blueprint .hero h1 { font-weight: 400; }\nbody.t-blueprint .hero h1::after { content: \"\"; display: block; width: 220px; height: 10px; margin-top: 14px; background: repeating-linear-gradient(90deg, var(--accent) 0 2px, transparent 2px 12px); }\nbody.t-blueprint .btn { border: 1px solid var(--border); font-weight: 400; letter-spacing: 1px; }\nbody.t-blueprint .btn-primary { background: var(--accent); color: #16324f; border-color: var(--accent); font-weight: 700; }\nbody.t-blueprint .btn-primary:hover { box-shadow: 0 0 0 3px rgba(255,209,102,.3); }\nbody.t-blueprint .bar-track { border: 1px solid var(--border); background: transparent; height: 12px; }\nbody.t-blueprint .bar-fill { background: repeating-linear-gradient(-45deg, var(--accent-2) 0 6px, transparent 6px 9px); }\nbody.t-blueprint .bar-row:first-child .bar-fill { background: repeating-linear-gradient(-45deg, var(--accent) 0 6px, transparent 6px 9px); }",
+        "sourceDigest": "sha256:01b8b68de2b6aa89a472664a18b42e367248c82ea2d5aa6b075683e766dd2159",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "改变线条可见度与色相，检查线型语义是否保留。",
+      "eyebrow": "TEST THE DRAWING",
+      "title": "颜色可换，粗细与虚实不可混",
+      "body": "降低对比会先丢失细网格和虚线；色相偏移改变蓝图纸色，但双尺度和 FIG.01 层级仍应成立。",
+      "experiments": [
+        {
+          "id": "fade-construction",
+          "label": "压低对比观察细线消失顺序",
+          "initial": {
+            "contrast": 100,
+            "hue": 0
+          },
+          "controls": {
+            "contrast": 76
+          },
+          "expected": "24px 次网格与普通卡片虚线先变弱，黄色实线与主要文字仍较清晰。",
+          "reset": "恢复 contrast=100。"
+        },
+        {
+          "id": "alternate-paper",
+          "label": "偏移蓝图纸色相",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 34,
+            "saturation": 75
+          },
+          "expected": "纸色改变，但 120/24 双尺度、虚线/实线和斜纹填充关系不变。",
+          "reset": "恢复 hue=0、saturation=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需观察线条衰减顺序。",
+      "eyebrow": "READ THE SPEC",
+      "title": "判断尺度与线型",
+      "body": "正确项为 C、B、A。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "双尺度网格由什么参数区分？",
+          "options": [
+            "字体大小",
+            "卡片 padding",
+            "120px 与 24px 的 background-size"
+          ],
+          "correct": 2,
+          "explanation": "四个正交渐变按两组周期重复。"
+        },
+        {
+          "id": "q2",
+          "question": "低对比实验中哪类线最先难辨？",
+          "options": [
+            "黄色 featured 实线",
+            "低透明 24px 次网格与虚线构造线",
+            "主标题"
+          ],
+          "correct": 1,
+          "explanation": "它们本来就承担次级构造信息。"
+        },
+        {
+          "id": "q3",
+          "question": "普通卡 hover 从虚线变实线表达什么？",
+          "options": [
+            "从构造态提升为当前检查对象",
+            "删除卡片",
+            "切换网格尺度"
+          ],
+          "correct": 0,
+          "explanation": "线型变化承担工程图的状态语义。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只使用单一网格尺度，画面像普通方格纸。",
+    "所有边框都用实线，失去构造/成品层级。",
+    "网格对比过强干扰正文。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "指出主/次网格和虚/实线各一例。",
+      "完成对比与色相实验。",
+      "三题全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

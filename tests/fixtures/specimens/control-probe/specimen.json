@@ -1,0 +1,16 @@
+{
+  "specimenVersion": 1,
+  "id": "control-probe",
+  "title": { "zh": "控制探针", "en": "Control probe" },
+  "description": "A deterministic fixture for the Specimen Protocol.",
+  "category": "test-fixture",
+  "tags": ["test"],
+  "technology": ["html", "javascript"],
+  "renderer": "static",
+  "entry": "index.html",
+  "runtime": { "scripts": true, "webgl": false, "audio": false, "fullscreen": false, "pointerLock": false },
+  "controls": [
+    { "key": "speed", "label": "Speed", "type": "range", "min": 0, "max": 3, "step": 0.1, "default": 1 }
+  ],
+  "ai": { "prompt": "AI.md", "context": "ai-context.json", "source": "." }
+}

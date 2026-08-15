@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-album-rows",
+  "title": "把项目与文章变成可吸附的横向唱片架",
+  "summary": "项目网格和文章列表都改为横向滚动轨，固定最小卡宽保证下一张露出，scroll-snap 让每次滑动停在卡片起点。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "horizontal overflow rail",
+    "scroll snap",
+    "peek affordance",
+    "viewport-aligned inset"
+  ],
+  "objectives": [
+    "解释卡片最小宽度如何制造横向溢出",
+    "指出宽屏左内边距为何对齐 1032px 内容带",
+    "验证内边距与纵向节奏如何改变图条密度"
+  ],
+  "prerequisites": [
+    "flex overflow",
+    "scroll-snap",
+    "calc()"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定断点和滚动位置同时核对两处布局证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从真实滚动场景读取布局",
+      "body": "项目网格和文章列表都改为横向滚动轨，固定最小卡宽保证下一张露出，scroll-snap 让每次滑动停在卡片起点。",
+      "annotations": [
+        {
+          "id": "project-rail",
+          "anchor": [
+            54,
+            55
+          ],
+          "elbow": [
+            67,
+            46
+          ],
+          "end": [
+            80,
+            46
+          ],
+          "detailSide": "left",
+          "summary": "项目卡横向排成单轨",
+          "detail": "projects-grid 从 grid 改为 flex，overflow-x:auto 允许轨道独立滚动。"
+        },
+        {
+          "id": "next-card-peek",
+          "anchor": [
+            91,
+            55
+          ],
+          "elbow": [
+            84,
+            66
+          ],
+          "end": [
+            76,
+            66
+          ],
+          "detailSide": "right",
+          "summary": "右缘露出下一张卡",
+          "detail": "320px min-width 与不收缩卡片制造可继续横滑的视觉提示。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 760
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "将可见位置关系连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "溢出不是裁切，而是带停靠点的轨道",
+      "body": "项目卡最小宽度 320px 并按 start 吸附；项目区取消 max-width，宽屏用 calc(50% - 516px) 将轨道起点与中央内容带对齐，尾部保持开放。",
+      "code": {
+        "file": "src/layouts/album-rows.css",
+        "locator": "body.l-album-rows .projects-grid",
+        "snippet": "/* 布局·横向图条 —— 卡片横向滑动条 */\nbody.l-album-rows .projects-grid {\n  display: flex; overflow-x: auto; gap: 18px; padding-bottom: 14px;\n  scroll-snap-type: x mandatory; scrollbar-width: thin;\n}\nbody.l-album-rows .card { min-width: 320px; scroll-snap-align: start; }\nbody.l-album-rows #projects { max-width: none; padding-left: calc(50% - 516px); padding-right: 0; }\nbody.l-album-rows #projects .section-desc, body.l-album-rows #projects > .reveal:first-child { padding-right: 24px; }\nbody.l-album-rows .blog-list {\n  display: flex; overflow-x: auto; gap: 16px; padding-bottom: 14px;\n}\nbody.l-album-rows .post { min-width: 400px; flex-shrink: 0; }\nbody.l-album-rows #blog { max-width: none; padding-left: calc(50% - 516px); padding-right: 0; }\nbody.l-album-rows #blog > .reveal:first-child { padding-right: 24px; }\n@media (max-width: 1080px) {\n  body.l-album-rows #projects, body.l-album-rows #blog { padding-left: 24px; }\n}",
+        "sourceDigest": "sha256:a30ee153ab945f6371da1fdc8c22592b3f3e6da117dcffb40892e739b32c1d45",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "仅使用未被该布局专属 CSS 架空的 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "改变唱片套内距与轨道上方呼吸",
+      "body": "专属 CSS 固定了 18px 轨间距和 320px 卡宽，因此实验选用仍生效的 cardPad 与 space，观察内容密度而不伪称改变吸附规则。",
+      "experiments": [
+        {
+          "id": "tight-sleeves",
+          "label": "压缩卡片套内距",
+          "initial": {
+            "cardPad": 26,
+            "space": 100
+          },
+          "controls": {
+            "cardPad": 14,
+            "space": 72
+          },
+          "expected": "卡片文字更靠边，轨道上方 section 留白收紧；320px 卡宽和 snap 起点不变。",
+          "reset": "恢复 cardPad=26、space=100。"
+        },
+        {
+          "id": "roomy-sleeves",
+          "label": "放大卡片套内距",
+          "initial": {
+            "cardPad": 26,
+            "space": 100
+          },
+          "controls": {
+            "cardPad": 42,
+            "space": 148
+          },
+          "expected": "每张卡内部更宽松，轨道整体向下获得更多前置留白；横向溢出仍成立。",
+          "reset": "恢复 cardPad=26、space=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和控件结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "判断它是图条而非被挤坏的网格",
+      "body": "答案需覆盖 flex 轨、下一张预告和吸附起点。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "卡片为何不会缩成一排小块？",
+          "options": [
+            "card 设置 min-width:320px",
+            "父级 max-width:320px",
+            "图片固定宽度"
+          ],
+          "correct": 0,
+          "explanation": "固定最小宽度迫使轨道产生横向溢出。"
+        },
+        {
+          "id": "q2",
+          "question": "scroll-snap-align:start 的作用是什么？",
+          "options": [
+            "让卡片透明",
+            "让停止位置对齐卡片起点",
+            "让滚动变成纵向"
+          ],
+          "correct": 1,
+          "explanation": "每张卡都提供一个起点吸附位置。"
+        },
+        {
+          "id": "q3",
+          "question": "宽屏 padding-left:calc(50% - 516px) 在对齐什么？",
+          "options": [
+            "1032px 中央内容带的左缘",
+            "浏览器右缘",
+            "第一张图片中心"
+          ],
+          "correct": 0,
+          "explanation": "516px 是 1032px 内容半宽。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只设 overflow-x:auto，却允许卡片无限收缩，轨道不会形成。",
+    "把整个页面做横向滚动，而不是只让项目与文章轨独立滚动。",
+    "把 gap 控件实验写成会改变 18px 专属轨距，实际被源 CSS 覆盖。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在 scroll.y=760 场景指出横轨和下一张卡预告。",
+      "完成 cardPad/space 两组真实实验。",
+      "能解释 snap 与固定最小卡宽的分工。"
+    ]
+  },
+  "contentRevision": 1
+}

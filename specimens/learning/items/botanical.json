@@ -1,0 +1,206 @@
+{
+  "learningVersion": 1,
+  "itemId": "botanical",
+  "title": "用叶片缺口建立有机形态语法",
+  "summary": "观察三圆一尖的非对称圆角如何在卡片、按钮、标签与图标中反复变体，并用鼠尾草绿/麦金控制自然层级。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "asymmetric radii",
+    "motif repetition",
+    "organic hierarchy",
+    "controlled alternation"
+  ],
+  "objectives": [
+    "识别叶片轮廓的尖角位置",
+    "比较奇偶卡片如何镜像缺口",
+    "解释绿色与麦金在技能条中的层级"
+  ],
+  "prerequisites": [
+    "多值 border-radius",
+    "nth-child",
+    "linear-gradient"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "比较 Hero 徽章、两个按钮和头像旁的小圆点，寻找唯一尖角。",
+      "eyebrow": "FIND THE LEAF TIP",
+      "title": "有机感来自可重复的非对称轮廓",
+      "body": "大多数组件使用三处大圆角和一处小角；偶数卡把小角从左下镜像到右下，像不同朝向的叶片。",
+      "annotations": [
+        {
+          "id": "leaf-button",
+          "anchor": [
+            32,
+            57
+          ],
+          "elbow": [
+            21,
+            49
+          ],
+          "end": [
+            9,
+            49
+          ],
+          "detailSide": "right",
+          "summary": "按钮保留左下叶尖",
+          "detail": "99px 99px 99px 12px 让胶囊的一角收紧。"
+        },
+        {
+          "id": "leaf-dot",
+          "anchor": [
+            25,
+            28
+          ],
+          "elbow": [
+            36,
+            20
+          ],
+          "end": [
+            49,
+            20
+          ],
+          "detailSide": "left",
+          "summary": "徽点是微型叶片",
+          "detail": "50% 50% 50% 0 把普通圆点改为叶滴形。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "追踪同一尖角语法在不同尺度的变体。",
+      "eyebrow": "REPEAT WITH DIRECTION",
+      "title": "轮廓重复建立家族，镜像避免机械",
+      "body": "section tag、card、button、lang、fact 和 contact 都保留单一收紧角；偶数卡镜像方向，❧ 叶饰提供显式植物符号。",
+      "code": {
+        "file": "src/themes/botanical.css",
+        "locator": "body.t-botanical .card",
+        "snippet": "body.t-botanical .hero h1 { color: #2e3b2f; }\nbody.t-botanical .tagline { color: #5f7f5a; font-style: italic; }\nbody.t-botanical .section-tag { background: #eef1e5; border-color: rgba(95,127,90,.3); border-radius: 99px 99px 99px 4px; }\nbody.t-botanical .section-title::after { content: \"❧\"; color: var(--accent); font-size: .6em; margin-left: 12px; opacity: .7; }\nbody.t-botanical .card { border-radius: 28px 28px 28px 8px; border-color: rgba(95,127,90,.22); }\nbody.t-botanical .card:nth-child(even) { border-radius: 28px 28px 8px 28px; }\nbody.t-botanical .card.featured { border-color: #5f7f5a; border-width: 2px; }\nbody.t-botanical .card.featured::before { background: #5f7f5a; }\nbody.t-botanical .btn { border-radius: 99px 99px 99px 12px; }\nbody.t-botanical .btn-primary { background: #5f7f5a; color: #f4f5ef; }\nbody.t-botanical .btn-primary:hover { background: #4d6a49; }\nbody.t-botanical .btn-ghost { border-color: rgba(95,127,90,.35); }\nbody.t-botanical .btn-ghost:hover { border-color: #5f7f5a; }\nbody.t-botanical .lang { border-radius: 99px 99px 99px 6px; }\nbody.t-botanical .tag { border-radius: 99px 99px 99px 8px; border-color: rgba(95,127,90,.3); }\nbody.t-botanical .tag:hover { background: #5f7f5a; color: #f4f5ef; border-color: #5f7f5a; }\nbody.t-botanical .bar-track { background: #e2e7d6; height: 10px; }\nbody.t-botanical .bar-fill { background: linear-gradient(90deg, #5f7f5a, #8faa87); }\nbody.t-botanical .bar-row:nth-child(2) .bar-fill { background: linear-gradient(90deg, #c9a86a, #dcc48f); }\nbody.t-botanical .hero-badge { border-color: rgba(95,127,90,.35); border-radius: 99px 99px 99px 8px; }\nbody.t-botanical .hero-badge i { background: #5f7f5a; border-radius: 50% 50% 50% 0; animation: none; }",
+        "sourceDigest": "sha256:1d56cc62f59bec1c2a6da2de52ecd2924838805d130d6c1578e7d50e7ee49f5b",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "改变通用圆角比例与色相，观察显式轮廓的稳定性。",
+      "eyebrow": "PRESSURE THE LEAF",
+      "title": "植物身份既有几何也有层级色",
+      "body": "radius control 会影响共享轮廓，但主题大量显式多值圆角仍保留叶尖；hue 会移动自然配色而不改变镜像方向。",
+      "experiments": [
+        {
+          "id": "trim-leaves",
+          "label": "压低通用圆角比例",
+          "initial": {
+            "radius": 100,
+            "contrast": 100
+          },
+          "controls": {
+            "radius": 20
+          },
+          "expected": "部分共享组件更硬，但显式 card/button/hero-badge 仍保留三圆一尖家族。",
+          "reset": "恢复 radius=100。"
+        },
+        {
+          "id": "season-shift",
+          "label": "偏移季节色相",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 32,
+            "saturation": 72
+          },
+          "expected": "鼠尾草绿与麦金整体迁移，叶尖轮廓和奇偶镜像不变。",
+          "reset": "恢复 hue=0、saturation=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需比较两个相邻卡片。",
+      "eyebrow": "EXPLAIN THE GROWTH",
+      "title": "判断轮廓家族与镜像",
+      "body": "正确项为 B、C、A。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "偶数卡与奇数卡的关键轮廓差异？",
+          "options": [
+            "全部变成圆形",
+            "小圆角从左下镜像到右下",
+            "删除边框"
+          ],
+          "correct": 1,
+          "explanation": "nth-child(even) 改变叶片朝向。"
+        },
+        {
+          "id": "q2",
+          "question": "radius 降到 20 后为何仍能看到叶片家族？",
+          "options": [
+            "control 被删除",
+            "色相生成圆角",
+            "多个组件有显式多值 border-radius"
+          ],
+          "correct": 2,
+          "explanation": "item 规则直接定义轮廓。"
+        },
+        {
+          "id": "q3",
+          "question": "第二条技能条用麦金色的作用？",
+          "options": [
+            "在自然绿体系中提供次级材料层次",
+            "触发动画",
+            "改变 DOM 顺序"
+          ],
+          "correct": 0,
+          "explanation": "它扩展自然配色而不增加高饱和杂色。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "所有组件使用完全相同方向的缺口。",
+    "只使用绿色，忽略轮廓家族。",
+    "大幅增加饱和度导致自然层级变成糖果色。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "指出三种尺度的叶尖轮廓。",
+      "完成圆角与季节色实验。",
+      "三题全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

@@ -37,3 +37,6 @@ body.t-cyberpunk .btn { clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 
 body.t-cyberpunk .btn-primary { background: var(--accent-2); color: #fff; }
 body.t-cyberpunk .tagline { color: var(--accent-2); text-transform: uppercase; letter-spacing: 3px; }
 body.t-cyberpunk .hero-badge i { border-radius: 0; }
+@media (prefers-reduced-motion: reduce) {
+  body.t-cyberpunk .hero h1 { animation: none; transform: none; }
+}

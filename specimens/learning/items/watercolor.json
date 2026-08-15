@@ -1,0 +1,208 @@
+{
+  "learningVersion": 1,
+  "itemId": "watercolor",
+  "title": "用模糊色斑和不规则边缘模拟水彩",
+  "summary": "不依赖位图纸纹，观察四处低透明色斑、交替圆角和轻微旋转如何共同制造手绘的不确定性。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "layered washes",
+    "asymmetric radii",
+    "controlled irregularity",
+    "soft edges"
+  ],
+  "objectives": [
+    "解释四处模糊色斑如何像纸上晕染",
+    "比较奇偶卡片边缘方向",
+    "判断饱和度和对比度对水彩透明感的影响"
+  ],
+  "prerequisites": [
+    "radial-gradient",
+    "border-radius 多值语法",
+    "filter"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先看背景四角的淡色斑，再比较相邻两张项目卡的轮廓。",
+      "eyebrow": "FOLLOW THE WASH",
+      "title": "不规则来自重复中的微差",
+      "body": "蓝、珊瑚、绿与黄的模糊光斑散落纸面；相邻卡片交换圆角方向和边框色，避免机械复制。",
+      "annotations": [
+        {
+          "id": "blue-wash",
+          "anchor": [
+            14,
+            24
+          ],
+          "elbow": [
+            25,
+            17
+          ],
+          "end": [
+            38,
+            17
+          ],
+          "detailSide": "left",
+          "summary": "左上蓝色晕染",
+          "detail": "低透明椭圆径向渐变再整体 blur，形成无硬边色斑。"
+        },
+        {
+          "id": "coral-wash",
+          "anchor": [
+            84,
+            30
+          ],
+          "elbow": [
+            74,
+            23
+          ],
+          "end": [
+            62,
+            23
+          ],
+          "detailSide": "right",
+          "summary": "右上珊瑚色斑",
+          "detail": "四处色斑尺寸和位置不同，模拟水分扩散的不均匀。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把背景晕染和组件不规则视为两个尺度。",
+      "eyebrow": "IRREGULAR AT TWO SCALES",
+      "title": "大尺度色斑，小尺度边缘偏差",
+      "body": "背景用四个椭圆光斑和 28px 模糊制造湿画法；卡片用奇偶交替的非对称圆角与蓝/珊瑚边框制造手绘笔触。",
+      "code": {
+        "file": "src/themes/watercolor.css",
+        "locator": "body.t-watercolor .bg-fx",
+        "snippet": "body.t-watercolor .bg-fx {\n  background:\n    radial-gradient(ellipse 340px 260px at 12% 18%, rgba(91,142,196,.13), transparent 70%),\n    radial-gradient(ellipse 400px 300px at 88% 30%, rgba(212,132,124,.11), transparent 70%),\n    radial-gradient(ellipse 380px 280px at 20% 82%, rgba(168,184,122,.12), transparent 70%),\n    radial-gradient(ellipse 320px 260px at 78% 78%, rgba(220,190,120,.12), transparent 70%);\n  filter: blur(28px);\n}\nbody.t-watercolor .hero h1 { font-style: italic; letter-spacing: -1px; color: #3c3a36; }\nbody.t-watercolor .tagline { font-style: italic; }\nbody.t-watercolor .section-title { font-style: italic; }\nbody.t-watercolor .section-title::after { content: \"\"; display: block; width: 130px; height: 7px; margin-top: 8px; background: linear-gradient(90deg, rgba(91,142,196,.5), rgba(212,132,124,.3), transparent); border-radius: 99px; filter: blur(1px); }\nbody.t-watercolor .section-tag { border: 2px solid rgba(91,142,196,.35); background: rgba(255,254,250,.7); border-radius: 14px 4px 16px 6px; }\nbody.t-watercolor .card { border: 2px solid rgba(91,142,196,.3); border-radius: 22px 8px 24px 10px; }\nbody.t-watercolor .card:nth-child(even) { border-radius: 10px 24px 8px 22px; border-color: rgba(212,132,124,.3); }\nbody.t-watercolor .card:nth-child(even):hover { border-color: #d4847c; }\nbody.t-watercolor .card.featured { border-color: #5b8ec4; border-width: 2.5px; }\nbody.t-watercolor .card.featured::before { background: #d4847c; border-radius: 99px 0 0 99px; }",
+        "sourceDigest": "sha256:efca65f4f8c640b4e8ac8cc9b4822085637b394d948f3c80e9e2b77c56cd4ea6",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "分别改变颜料浓度和纸面明暗。",
+      "eyebrow": "CHANGE THE PIGMENT",
+      "title": "色斑需要透明，而不是艳丽",
+      "body": "降低饱和度会让色斑更像淡洗；提高对比度则会让边框和斑块变硬，暴露水彩柔软边界。",
+      "experiments": [
+        {
+          "id": "dilute",
+          "label": "降低饱和度，模拟加水",
+          "initial": {
+            "saturation": 100,
+            "contrast": 100,
+            "hue": 0
+          },
+          "controls": {
+            "saturation": 55
+          },
+          "expected": "四处色斑退淡，但不规则轮廓和蓝/珊瑚交替仍保留手绘身份。",
+          "reset": "恢复 saturation=100。"
+        },
+        {
+          "id": "over-ink",
+          "label": "提高对比并偏移色相",
+          "initial": {
+            "saturation": 100,
+            "contrast": 100,
+            "hue": 0
+          },
+          "controls": {
+            "contrast": 130,
+            "hue": 28
+          },
+          "expected": "色斑与边框更硬、更像数字渐变；交替圆角仍可见，但透明水彩感减弱。",
+          "reset": "恢复 contrast=100、hue=0。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要比较奇偶卡片和调参结果。",
+      "eyebrow": "EXPLAIN THE WASH",
+      "title": "判断晕染与手绘边缘",
+      "body": "三题的正确项分布为 B、C、A。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "背景色斑没有硬边的直接原因是？",
+          "options": [
+            "卡片使用 grid",
+            "径向渐变透明衰减后再 blur(28px)",
+            "标题使用斜体"
+          ],
+          "correct": 1,
+          "explanation": "透明径向渐变负责衰减，模糊负责消除残余边界。"
+        },
+        {
+          "id": "q2",
+          "question": "相邻卡片看起来不是复制品，代码做了什么？",
+          "options": [
+            "删除偶数卡片",
+            "只改变文字",
+            "偶数卡交换圆角方向并改用珊瑚边框"
+          ],
+          "correct": 2,
+          "explanation": "nth-child(even) 同时改变轮廓和色彩。"
+        },
+        {
+          "id": "q3",
+          "question": "对比度提高到 130 后，哪种变化最符合实验？",
+          "options": [
+            "边缘变硬，透明晕染感减弱",
+            "所有卡片变成圆形",
+            "色斑位置交换"
+          ],
+          "correct": 0,
+          "explanation": "滤镜强化明暗边界，但不改变几何位置。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "用一张水彩纹理覆盖整个页面，失去可调层次。",
+    "所有卡片使用完全相同的圆角。",
+    "提高饱和度来追求水彩感，结果更像霓虹渐变。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能指出至少两处背景晕染和两种卡片轮廓。",
+      "完成稀释与过度着墨实验。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

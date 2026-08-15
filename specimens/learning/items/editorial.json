@@ -1,0 +1,205 @@
+{
+  "learningVersion": 1,
+  "itemId": "editorial",
+  "title": "用栏线和字级把页面编辑成杂志",
+  "summary": "粗衬线标题、上下规则线、双线特稿卡与透明表面，让内容层级像编辑版面而非卡片系统。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "editorial rules",
+    "serif hierarchy",
+    "double-rule emphasis",
+    "transparent surfaces"
+  ],
+  "objectives": [
+    "区分栏目栏线、普通稿双线与特稿实线",
+    "解释透明 surface 如何弱化卡片容器",
+    "验证字体比例和行高对编辑节奏的影响"
+  ],
+  "prerequisites": [
+    "typographic hierarchy",
+    "border styles",
+    "line height"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先观察初始 Hero 构图中的标注，再向下验证相同机制。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先从杂志编辑的初始画面取证",
+      "body": "粗衬线标题、上下规则线、双线特稿卡与透明表面，让内容层级像编辑版面而非卡片系统。",
+      "annotations": [
+        {
+          "id": "masthead",
+          "anchor": [
+            31,
+            34
+          ],
+          "elbow": [
+            20,
+            26
+          ],
+          "end": [
+            9,
+            26
+          ],
+          "detailSide": "right",
+          "summary": "粗斜体像杂志刊头",
+          "detail": "Hero 标题用 900 字重与斜体建立首要标题。"
+        },
+        {
+          "id": "tag-rules",
+          "anchor": [
+            26,
+            28
+          ],
+          "elbow": [
+            37,
+            20
+          ],
+          "end": [
+            50,
+            20
+          ],
+          "detailSide": "right",
+          "summary": "标语由长破折号夹住",
+          "detail": "不是胶囊徽章，而是编辑栏目标记。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见效果连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "线型就是稿件等级",
+      "body": "section title 用单底线，普通卡用 3px double 顶线，featured 换酒红 3px solid 并标“特稿”；表面透明且无阴影。",
+      "code": {
+        "file": "src/themes/editorial.css",
+        "locator": "body.t-editorial",
+        "snippet": "body.t-editorial { font-size: 17px; }\nbody.t-editorial .hero h1 { font-style: italic; font-weight: 900; }\nbody.t-editorial .tagline { font-style: normal; letter-spacing: 4px; text-transform: uppercase; font-size: 15px; }\nbody.t-editorial .tagline::before, body.t-editorial .tagline::after { content: \"—\"; color: var(--text-2); margin: 0 10px; }\nbody.t-editorial .section-title { border-bottom: 1px solid var(--text); padding-bottom: 14px; }\nbody.t-editorial .section-tag { background: transparent; border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; letter-spacing: 4px; padding: 5px 2px; }\nbody.t-editorial .card { border: none; border-top: 3px double var(--border); padding: 22px 4px 18px; }\nbody.t-editorial .card:hover { border-top-color: var(--accent); box-shadow: none; }\nbody.t-editorial .card.featured { border-top: 3px solid var(--accent); }\nbody.t-editorial .card.featured::before { content: \"★ 特稿\"; background: var(--accent); border-radius: 0; }\nbody.t-editorial .card h3 { font-size: 22px; }\nbody.t-editorial .card .desc { font-size: 15px; }\nbody.t-editorial .lang { background: transparent; border: 1px solid var(--border); border-radius: 0; font-style: italic; }\nbody.t-editorial .btn { border: 1px solid var(--text); font-style: normal; letter-spacing: 1px; }\nbody.t-editorial .btn-primary { background: var(--text); color: var(--bg); }\nbody.t-editorial .btn-primary:hover { background: var(--accent); border-color: var(--accent); }\nbody.t-editorial .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }\nbody.t-editorial .post { border: none; border-top: 1px solid var(--border); padding: 20px 4px; }\nbody.t-editorial .post:last-child { border-bottom: 1px solid var(--border); }\nbody.t-editorial .post:hover { box-shadow: none; background: rgba(28,25,23,.03); }\nbody.t-editorial .post-meta em { font-style: italic; }\nbody.t-editorial .fact { border: none; border-left: 1px solid var(--text); background: transparent; padding: 8px 16px; }\nbody.t-editorial .bar-track { background: transparent; border: 1px solid var(--border); height: 10px; }\nbody.t-editorial .bar-fill { background: repeating-linear-gradient(-45deg, var(--text) 0 4px, transparent 4px 7px); }",
+        "sourceDigest": "sha256:af51bff5a91739863498d0769e3fd4c0b8f32c17a7c262f05bd28f2f22ed5c48",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用真实 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "让字号与栏线各自说话",
+      "body": "放大排版尺度并加重分隔线，核对杂志感究竟来自字体本身，还是稿件等级的组合编码。",
+      "experiments": [
+        {
+          "id": "headline-scale",
+          "label": "提高字体比例并保持行距",
+          "initial": {
+            "font": 100,
+            "line": 170
+          },
+          "controls": {
+            "font": 120
+          },
+          "expected": "刊头、稿件标题与正文同步放大，栏线不变，层级更强但换行增多。",
+          "reset": "恢复 font=100。"
+        },
+        {
+          "id": "reading-rhythm",
+          "label": "拉开正文行高",
+          "initial": {
+            "font": 100,
+            "line": 170
+          },
+          "controls": {
+            "line": 205
+          },
+          "expected": "正文更舒展，稿件块高度增加；双线/实线等级不改变。",
+          "reset": "恢复 line=170。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合标注、源码和实验。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "像编辑一样判断稿件等级",
+      "body": "根据刊头、双线和 featured 实线的差异，判断每条规则服务的内容层级。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "普通卡与特稿卡线型差异？",
+          "options": [
+            "普通双线、特稿酒红实线",
+            "普通无边、特稿虚线",
+            "都相同"
+          ],
+          "correct": 0,
+          "explanation": "边框线型表达稿件等级。"
+        },
+        {
+          "id": "q2",
+          "question": "line=205 后哪项不变？",
+          "options": [
+            "稿件高度",
+            "正文行距",
+            "普通/特稿的线型语义"
+          ],
+          "correct": 2,
+          "explanation": "control 只改阅读节奏。"
+        },
+        {
+          "id": "q3",
+          "question": "为什么 surface 设为 transparent？",
+          "options": [
+            "让栏线与文字主导而非浮动卡片",
+            "开启 WebGL",
+            "隐藏内容"
+          ],
+          "correct": 0,
+          "explanation": "编辑版面依赖分隔线而非容器体积。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "为所有稿件加圆角阴影，变回通用卡片。",
+    "普通稿和特稿使用同一线型。",
+    "只放大标题而不检查正文行高。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成至少两组 manifest control 实验并比较基准状态。",
+      "能从初始画面指出两个标注机制。",
+      "三道测验全部答对并解释源码因果。"
+    ]
+  },
+  "contentRevision": 1
+}

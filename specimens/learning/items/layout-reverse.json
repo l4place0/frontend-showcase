@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-reverse",
+  "title": "让生成 DOM 与倒序几何一起翻转",
+  "summary": "构建器按开放 sectionOrder 生成 contact→blog→about→skills→projects 的真实 DOM；CSS 使用正常 column 并叠加 05→01 倒计时，因此视觉、Tab 与读屏都从联系走向项目压轴。",
+  "difficulty": "intermediate",
+  "durationMinutes": 14,
+  "concepts": [
+    "descending CSS counters",
+    "order-safe layout",
+    "visual numbering",
+    "semantic sequence"
+  ],
+  "objectives": [
+    "验证生成 HTML 的 section 顺序与页面几何一致",
+    "解释正常 flex column 如何避免视觉/焦点分叉",
+    "说明 05→01 counter 如何加强倒序叙事"
+  ],
+  "prerequisites": [
+    "CSS counters",
+    "document order",
+    "pseudo-elements"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定场景核对两处可见状态或顺序证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "联系既是视觉第一段，也是 DOM 第一段",
+      "body": "构建器按开放 sectionOrder 生成 contact→blog→about→skills→projects 的真实 DOM；CSS 使用正常 column 并叠加 05→01 倒计时，因此视觉、Tab 与读屏都从联系走向项目压轴。",
+      "annotations": [
+        {
+          "id": "contact-first",
+          "anchor": [
+            50,
+            27
+          ],
+          "elbow": [
+            64,
+            19
+          ],
+          "end": [
+            77,
+            19
+          ],
+          "detailSide": "left",
+          "summary": "联系区是生成 DOM 的首个 section",
+          "detail": "sectionOrder 在构建期移动真实节点，不复制内容；视觉、Tab 与读屏都从 #contact 开始。"
+        },
+        {
+          "id": "countdown-tag",
+          "anchor": [
+            25,
+            20
+          ],
+          "elbow": [
+            14,
+            12
+          ],
+          "end": [
+            7,
+            12
+          ],
+          "detailSide": "right",
+          "summary": "首段标签从 05 开始倒计时",
+          "detail": "CSS counter 沿真实 DOM 逐段递减，最后的 projects 标记为 01。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 650
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可执行状态和顺序连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "先生成正确 DOM，再使用正常文档流",
+      "body": "sectionOrder=[contact,blog,about,skills,projects] 在构建时重排真实 section；布局 CSS 明确使用 flex-direction:column，不再依赖 column-reverse。counter 只补充 05→01 编号。",
+      "code": {
+        "file": "src/layouts/reverse.css",
+        "locator": "body.l-reverse main",
+        "snippet": "/* 布局·倒序 —— DOM 顺序不变，以 05→01 倒计时索引制造回溯感 */\nbody.l-reverse main { display: flex; flex-direction: column; counter-reset: reverse-step 6; }\nbody.l-reverse main section { padding-top: 70px; counter-increment: reverse-step -1; }\nbody.l-reverse main section .section-tag::before {\n  content: \"0\" counter(reverse-step) \" · \"; color: var(--accent); font-weight: 700;\n}\nbody.l-reverse .hero { min-height: 82vh; }",
+        "sourceDigest": "sha256:c891c5af3e25de7b721e103f314736d5ebe3c23e28e34da95f034cd2210572b6",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "原生动作使用空 controls；参数实验只使用 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "改变倒序内容密度，核对顺序仍一致",
+      "body": "gap/cardPad 只改变首段联系卡与末段项目卡密度；真实 DOM 顺序、视觉顺序和倒计时方向保持。",
+      "experiments": [
+        {
+          "id": "compact-sequence",
+          "label": "压缩倒序两端卡片",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 52,
+            "cardPad": 14
+          },
+          "expected": "联系卡更紧凑，仍是第一个 DOM/视觉 section；项目仍在最后标 01。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        },
+        {
+          "id": "expand-sequence",
+          "label": "放大倒序两端卡片",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 176,
+            "cardPad": 42
+          },
+          "expected": "区段被内容撑长，但 Tab 与读屏仍按 contact→blog→about→skills→projects。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案必须对应触控、键盘和源码证据。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "核对生成顺序、几何顺序与焦点顺序",
+      "body": "三种顺序必须逐项相同，不能用正数 tabindex 补偿。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "生成 HTML 的第一个 main section 是什么？",
+          "options": [
+            "projects",
+            "contact",
+            "skills"
+          ],
+          "correct": 1,
+          "explanation": "sectionOrder 在构建期把真实 #contact 放到第一位。"
+        },
+        {
+          "id": "q2",
+          "question": "CSS 为什么使用正常 column？",
+          "options": [
+            "DOM 已与目标几何顺序一致",
+            "为了隐藏 contact",
+            "配合正数 tabindex"
+          ],
+          "correct": 0,
+          "explanation": "无需再做视觉重排。"
+        },
+        {
+          "id": "q3",
+          "question": "05→01 编号会改变读屏或 Tab 顺序吗？",
+          "options": [
+            "会把焦点倒置",
+            "不会；它只是伪元素编号",
+            "只在移动端会"
+          ],
+          "correct": 1,
+          "explanation": "真实节点顺序已经由生成 HTML 决定。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "保留 column-reverse，重新制造视觉与 DOM 顺序冲突。",
+    "复制一份联系内容到伪元素或隐藏副本。",
+    "使用正数 tabindex 修补错误的几何顺序。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "检查生成 HTML 的 section id 顺序为 contact→blog→about→skills→projects。",
+      "沿页面与 Tab 核对同一顺序。",
+      "完成两组密度实验并解释 05→01 counter。"
+    ]
+  },
+  "contentRevision": 3
+}

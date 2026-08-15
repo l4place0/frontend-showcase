@@ -1,0 +1,213 @@
+{
+  "learningVersion": 1,
+  "itemId": "memphis",
+  "title": "用多周期几何铺出孟菲斯背景",
+  "summary": "四层不同周期的圆环、圆点和斜杠，与交替卡片圆角及撞色硬影共同建立可控的 80s 玩乐感。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "multi-period pattern",
+    "shape vocabulary",
+    "alternating radii",
+    "color-coded repetition"
+  ],
+  "objectives": [
+    "区分背景四种几何层的周期",
+    "解释卡片三项循环与标签三项循环",
+    "验证调色后几何语法是否仍成立"
+  ],
+  "prerequisites": [
+    "multiple backgrounds",
+    "nth-child cycles",
+    "hard shadows"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先观察初始 Hero 构图中的标注，再向下验证相同机制。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先从孟菲斯的初始画面取证",
+      "body": "四层不同周期的圆环、圆点和斜杠，与交替卡片圆角及撞色硬影共同建立可控的 80s 玩乐感。",
+      "annotations": [
+        {
+          "id": "shape-field",
+          "anchor": [
+            80,
+            28
+          ],
+          "elbow": [
+            70,
+            20
+          ],
+          "end": [
+            58,
+            20
+          ],
+          "detailSide": "left",
+          "summary": "四层几何不同周期",
+          "detail": "260/90/120/200px 周期避免图案同步成单一网格。"
+        },
+        {
+          "id": "diamond-dot",
+          "anchor": [
+            25,
+            28
+          ],
+          "elbow": [
+            36,
+            20
+          ],
+          "end": [
+            49,
+            20
+          ],
+          "detailSide": "right",
+          "summary": "徽点旋转成菱形",
+          "detail": "方形点旋转 45°，复用背景斜向几何。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见效果连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "玩乐感来自异步重复，不是随机堆放",
+      "body": "背景四层各有尺寸与偏移；卡片按 3n 交换斜对角圆角，tag 也按三项轮换粉、青、黄表面。",
+      "code": {
+        "file": "src/themes/memphis.css",
+        "locator": "body.t-memphis .bg-fx",
+        "snippet": "body.t-memphis .bg-fx {\n  background-image:\n    radial-gradient(circle at 8% 20%, transparent 8px, #f6416c 8px 10px, transparent 10px),\n    radial-gradient(#00b8a9 2.5px, transparent 3px),\n    radial-gradient(#ffd23f 2.5px, transparent 3px),\n    linear-gradient(45deg, transparent 46%, #7b61ff 46% 54%, transparent 54%);\n  background-size: 260px 260px, 90px 90px, 120px 120px, 200px 200px;\n  background-position: 0 0, 30px 60px, 80px 20px, 140px 100px;\n  opacity: .5;\n}\nbody.t-memphis .hero h1 { color: #12121a; }\nbody.t-memphis .hero h1::first-letter { color: #f6416c; }\nbody.t-memphis .tagline { color: #00b8a9; font-weight: 800; }\nbody.t-memphis .section-title { color: #12121a; }\nbody.t-memphis .section-title::after { content: \"\"; display: inline-block; width: 44px; height: 10px; margin-left: 14px; background: repeating-linear-gradient(-45deg, #ffd23f 0 6px, transparent 6px 11px); }\nbody.t-memphis .section-tag { background: #ffd23f; color: #12121a; border-color: #12121a; font-weight: 800; }\nbody.t-memphis .card { border-color: #12121a; }\nbody.t-memphis .card:nth-child(3n+1) { border-radius: 22px 6px 22px 6px; }\nbody.t-memphis .card:nth-child(3n+2) { border-radius: 6px 22px 6px 22px; }\nbody.t-memphis .card.featured { background: #ffe9f0; border-color: #f6416c; border-width: 3px; }\nbody.t-memphis .card.featured::before { background: #00b8a9; color: #fff; border: 2px solid #12121a; border-radius: 99px 0 0 99px; }\nbody.t-memphis .card .star { color: #f6416c; font-weight: 800; }\nbody.t-memphis .btn { border: 2.5px solid #12121a; font-weight: 800; border-radius: 99px; }\nbody.t-memphis .btn-primary { background: #f6416c; color: #fff; box-shadow: 4px 4px 0 #12121a; }\nbody.t-memphis .btn-primary:hover { box-shadow: 7px 7px 0 #00b8a9; }",
+        "sourceDigest": "sha256:c86fff608f7b1f2fe25458d1b83bd61a10d5b7b703232efb6896994ec5eaf093",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用真实 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "扰动色彩，追踪异步重复",
+      "body": "迁移色谱、提高对比并关闭非必要运动；检查多周期图案和三项循环是否仍能避免机械齐步。",
+      "experiments": [
+        {
+          "id": "party-hue",
+          "label": "偏移整套撞色色相",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 40,
+            "saturation": 72
+          },
+          "expected": "粉青黄紫迁移，但四层周期、菱形点和三项循环不变。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "outline-pressure",
+          "label": "提高黑线对比",
+          "initial": {
+            "contrast": 100
+          },
+          "controls": {
+            "contrast": 130
+          },
+          "expected": "黑框与硬影更强，几何图案和卡片轮廓更像剪纸。",
+          "reset": "恢复 contrast=100。"
+        },
+        {
+          "id": "reduced-float",
+          "label": "原生观察：启用系统减少动态",
+          "initial": {},
+          "controls": {},
+          "expected": "共享规则停止 avatar 4s float，背景几何保持静态可读。",
+          "reset": "恢复动态偏好。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合标注、源码和实验。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "识别有规则的玩乐感",
+      "body": "从重复周期、形状序列和浮动节拍中判断构图为何活泼却不随机。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "背景四层为何不显得同步？",
+          "options": [
+            "都用 100px",
+            "使用不同 background-size 和 position",
+            "随机 JS"
+          ],
+          "correct": 1,
+          "explanation": "不同周期和偏移制造异步重复。"
+        },
+        {
+          "id": "q2",
+          "question": "第二类卡片圆角方向？",
+          "options": [
+            "22px 6px 22px 6px",
+            "全圆",
+            "6px 22px 6px 22px"
+          ],
+          "correct": 2,
+          "explanation": "3n+2 使用相反斜对角。"
+        },
+        {
+          "id": "q3",
+          "question": "reduced motion 后应发生？",
+          "options": [
+            "头像停止 float，几何图案保留",
+            "所有图案隐藏",
+            "标签变色"
+          ],
+          "correct": 0,
+          "explanation": "只移除持续运动。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把所有背景层设成相同周期。",
+    "随机颜色而不维持三项循环。",
+    "大幅旋转组件破坏内容。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成至少两组 manifest control 实验并比较基准状态。",
+      "能从初始画面指出两个标注机制。",
+      "三道测验全部答对并解释源码因果。"
+    ]
+  },
+  "contentRevision": 1
+}

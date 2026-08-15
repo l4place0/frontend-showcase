@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-newspaper",
+  "title": "用跨栏头条与三栏网格排出报摊头版",
+  "summary": "Hero 隐去头像并居中成刊头，双线和期号组成报眉；项目区用三栏排版，featured 稿件横跨全部栏位成为头条。",
+  "difficulty": "intermediate",
+  "durationMinutes": 13,
+  "concepts": [
+    "masthead composition",
+    "featured span",
+    "three-column news grid",
+    "mobile column collapse"
+  ],
+  "objectives": [
+    "指出刊头双线与期号的来源",
+    "解释 featured 如何跨越三栏",
+    "验证栏间距和稿件内距如何改变报纸密度"
+  ],
+  "prerequisites": [
+    "grid column spans",
+    "pseudo-elements",
+    "responsive grids"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定断点和滚动位置同时核对两处布局证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从真实滚动场景读取布局",
+      "body": "Hero 隐去头像并居中成刊头，双线和期号组成报眉；项目区用三栏排版，featured 稿件横跨全部栏位成为头条。",
+      "annotations": [
+        {
+          "id": "section-masthead",
+          "anchor": [
+            50,
+            24
+          ],
+          "elbow": [
+            64,
+            17
+          ],
+          "end": [
+            77,
+            17
+          ],
+          "detailSide": "left",
+          "summary": "项目标题居中成为版面栏题",
+          "detail": "section 首部居中，为下方三栏建立共同报栏标题。"
+        },
+        {
+          "id": "featured-headline",
+          "anchor": [
+            50,
+            62
+          ],
+          "elbow": [
+            65,
+            54
+          ],
+          "end": [
+            79,
+            54
+          ],
+          "detailSide": "left",
+          "summary": "featured 稿件横跨三栏",
+          "detail": "grid-column:1/-1 让头条先占满整版，普通稿件随后进入三列。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 721
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 760
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "将可见位置关系连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "先用横跨头条定调，再让普通稿件分栏",
+      "body": "Hero 以双线、巨型居中标题和期号模拟刊头；projects-grid 固定三列，featured 卡跨 1/-1 并放大标题与摘要，720px 以下降为单列。",
+      "code": {
+        "file": "src/layouts/newspaper.css",
+        "locator": "body.l-newspaper .hero",
+        "snippet": "/* 布局·报摊头版 —— 刊头居中大标题，三栏新闻格 */\nbody.l-newspaper .hero {\n  flex-direction: column; text-align: center; justify-content: center;\n  border-bottom: 3px double var(--border); padding-bottom: 50px; gap: 30px;\n}\nbody.l-newspaper .hero-right { display: none; }\nbody.l-newspaper .hero h1 { font-size: clamp(58px, 9vw, 104px); letter-spacing: -1px; }\nbody.l-newspaper .hero-left { display: flex; flex-direction: column; align-items: center; }\nbody.l-newspaper .hero-stats { justify-content: center; border-top: 1px solid var(--border); padding-top: 24px; margin-top: 14px; }\nbody.l-newspaper .hero::after {\n  content: \"STYLE GAZETTE · 风格公报 · 第 30 期\"; margin-top: 18px;\n  font-size: 12px; letter-spacing: 4px; color: var(--text-2);\n}\nbody.l-newspaper .projects-grid { grid-template-columns: repeat(3, 1fr); }\nbody.l-newspaper .card.featured { grid-column: 1 / -1; }\nbody.l-newspaper .card.featured h3 { font-size: 26px; }\nbody.l-newspaper .card.featured .desc { font-size: 16px; max-width: 620px; }\nbody.l-newspaper .skills-wrap { grid-template-columns: 1fr 1fr; }\nbody.l-newspaper section > .reveal:first-child { text-align: center; }\nbody.l-newspaper .section-desc { margin-left: auto; margin-right: auto; }\n@media (max-width: 720px) {\n  body.l-newspaper .projects-grid { grid-template-columns: 1fr; }\n}",
+        "sourceDigest": "sha256:42b7bca767502da997b675c1960b8d91d986b0c951e903a68d5f38973bead535",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "仅使用未被该布局专属 CSS 架空的 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "调节报栏缝与稿件内距",
+      "body": "三栏列数被专属 CSS 固定，但基础 gap 与 cardPad 仍控制栏缝和稿件密度，可真实检验报纸是紧凑还是杂志化。",
+      "experiments": [
+        {
+          "id": "tight-news-desk",
+          "label": "压缩栏缝与稿件内距",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 52,
+            "cardPad": 14
+          },
+          "expected": "三栏更紧、稿件文字靠近边缘，featured 仍横跨整版。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        },
+        {
+          "id": "airy-news-desk",
+          "label": "放大栏缝与稿件内距",
+          "initial": {
+            "gap": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "gap": 178,
+            "cardPad": 42
+          },
+          "expected": "栏间空白和卡内距增大，版面更像周刊；三栏与头条跨栏关系不变。",
+          "reset": "恢复 gap=100、cardPad=26。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和控件结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "从刊头、头条和普通栏识别头版",
+      "body": "三个层级需要在同一报纸模型中解释。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "featured 稿件如何跨满三栏？",
+          "options": [
+            "grid-column:1/-1",
+            "width:300%",
+            "position:absolute"
+          ],
+          "correct": 0,
+          "explanation": "网格线跨度让头条占据所有列。"
+        },
+        {
+          "id": "q2",
+          "question": "Hero 的期号从哪里生成？",
+          "options": [
+            "hero::after content",
+            "外部图片",
+            "footer 克隆"
+          ],
+          "correct": 0,
+          "explanation": "伪元素附加固定报眉文字。"
+        },
+        {
+          "id": "q3",
+          "question": "720px 以下项目区如何变化？",
+          "options": [
+            "保持三栏横滚",
+            "变为一列",
+            "隐藏 featured"
+          ],
+          "correct": 1,
+          "explanation": "媒体查询将 grid-template-columns 改为 1fr。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只有三列，没有跨栏头条，缺少头版优先级。",
+    "保留右侧头像，使刊头无法建立中央对称。",
+    "把 gap 控件误解为会改变三栏数量。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在项目场景指出居中栏题与跨栏 featured。",
+      "完成 gap/cardPad 两组密度实验。",
+      "能解释桌面三栏到移动单列的降级。"
+    ]
+  },
+  "contentRevision": 1
+}
