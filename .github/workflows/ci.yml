@@ -61,8 +61,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install Chromium for deterministic thumbnails
+        run: npx playwright install --with-deps chromium
+
       - name: Build and validate once
         run: npm run build
+
+      - name: Upload thumbnail generation report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: thumbnail-report-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: |
+            .generated/reports/thumbnail-report.json
+            .generated/thumbnail-diagnostics/
+          if-no-files-found: warn
+          retention-days: 30
 
       - name: Create immutable site artifact
         id: create-artifact

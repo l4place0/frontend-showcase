@@ -13,6 +13,8 @@
     "technology",
     "renderer",
     "entry",
+    "thumbnail",
+    "preview",
     "runtime",
     "controls",
     "ai"
@@ -35,6 +37,17 @@
     "technology": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
     "renderer": { "type": "string", "minLength": 1 },
     "entry": { "type": "string", "pattern": "^(?:items/.+/)?index\\.html$" },
+    "thumbnail": { "type": "string", "pattern": "^(?!.*\\.\\.)[a-zA-Z0-9][a-zA-Z0-9._/-]*$" },
+    "preview": {
+      "type": "object",
+      "required": ["strategy"],
+      "properties": {
+        "strategy": { "type": "string", "minLength": 1 },
+        "source": { "type": "string", "minLength": 1 },
+        "anchor": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
     "runtime": {
       "type": "object",
       "required": ["scripts", "webgl", "audio", "fullscreen", "pointerLock"],
