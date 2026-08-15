@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "parchment",
+  "title": "用纸边暗化与红泥印章制造手稿",
+  "summary": "两层错位纸斑叠在边缘暗化的羊皮底上，Georgia 排版、红泥章和首字下沉把作品集转译成古籍页面。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "paper patina",
+    "edge vignette",
+    "seal-like labels",
+    "drop cap"
+  ],
+  "objectives": [
+    "解释双层纸斑尺寸为何避免机械纹理",
+    "识别红泥章与棕墨文字的角色分工",
+    "验证色相与对比度怎样影响旧纸可信度"
+  ],
+  "prerequisites": [
+    "multiple backgrounds",
+    "radial-gradient",
+    "pseudo-elements"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先在指定场景同时核对两处可见证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从展品现场读取构图决定",
+      "body": "两层错位纸斑叠在边缘暗化的羊皮底上，Georgia 排版、红泥章和首字下沉把作品集转译成古籍页面。",
+      "annotations": [
+        {
+          "id": "paper-specks",
+          "anchor": [
+            77,
+            24
+          ],
+          "elbow": [
+            85,
+            34
+          ],
+          "end": [
+            92,
+            34
+          ],
+          "detailSide": "left",
+          "summary": "两套纸斑错位叠加",
+          "detail": "90px 与 53px 周期从不同原点开始，避免斑点排成明显方格。"
+        },
+        {
+          "id": "manuscript-title",
+          "anchor": [
+            30,
+            38
+          ],
+          "elbow": [
+            18,
+            31
+          ],
+          "end": [
+            8,
+            31
+          ],
+          "detailSide": "right",
+          "summary": "衬线标题落在棕墨纸面",
+          "detail": "同一 Georgia 字体贯穿正文与标题，红色只留给印章式强调。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见证据连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "先做不均匀纸面，再盖一枚红章",
+      "body": "径向边缘暗化建立旧纸厚度，两套细斑点以互质感尺寸错位；章节标签旋转 -2deg 并加暗红阴影，像后盖上去的泥印。",
+      "code": {
+        "file": "src/themes/parchment.css",
+        "locator": "body.t-parchment .bg-fx",
+        "snippet": "body.t-parchment .bg-fx {\n  background-image:\n    radial-gradient(rgba(120,90,40,.1) 1px, transparent 1.5px),\n    radial-gradient(rgba(120,90,40,.07) 1px, transparent 1.5px);\n  background-size: 90px 90px, 53px 53px;\n  background-position: 0 0, 26px 40px;\n}\nbody.t-parchment .hero h1 { font-size: clamp(46px, 7.4vw, 76px); letter-spacing: 2px; }\nbody.t-parchment .tagline { letter-spacing: 8px; font-size: clamp(14px, 2vw, 18px); }\nbody.t-parchment .section-tag {\n  background: #8b2323; color: #f2e8d5; border: 1px solid #6d1a1a;\n  transform: rotate(-2deg); font-weight: 700; letter-spacing: 4px;\n  box-shadow: 1px 2px 6px rgba(90,30,30,.35);\n}\nbody.t-parchment .section-title::after { content: \"\"; display: block; height: 2px; margin-top: 12px; background: linear-gradient(90deg, var(--border) 60%, transparent); }\nbody.t-parchment .card { outline: 1px solid rgba(61,47,29,.18); outline-offset: -5px; }\nbody.t-parchment .card.featured { border-color: #8b2323; border-width: 2px; }\nbody.t-parchment .card.featured::before { content: \"藏\"; background: #8b2323; border-radius: 0; font-size: 14px; padding: 4px 10px; letter-spacing: 0; }\nbody.t-parchment .btn { border: 1.5px solid var(--border); font-family: var(--font-head); }\nbody.t-parchment .btn-primary { background: #8b2323; color: #f2e8d5; border-color: #6d1a1a; }\nbody.t-parchment .btn-primary:hover { background: #6d1a1a; }\nbody.t-parchment .btn-ghost:hover { border-color: #8b2323; color: #8b2323; }\nbody.t-parchment .bar-track { border: 1px solid var(--border); background: rgba(255,250,236,.5); height: 12px; }\nbody.t-parchment .bar-fill { background: linear-gradient(90deg, #8b2323, #b8860b); opacity: .88; }\nbody.t-parchment .hero-badge { border: 1.5px solid var(--border); background: var(--surface); }\nbody.t-parchment .hero-badge i { background: #8b2323; animation: none; }\nbody.t-parchment .stat b { color: #8b2323; font-size: 30px; }\nbody.t-parchment .about-text > p:first-of-type::first-letter {\n  font-size: 3.1em; float: left; line-height: .9; padding: 4px 10px 0 0;\n  color: #8b2323; font-weight: 700;\n}",
+        "sourceDigest": "sha256:6a081549aa68940683bbd8a0bf005bd6c9f9a9e684267826e6d94d4a0c865f07",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用该 manifest 声明的真实控件。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "让纸张变色，再检查墨迹层级",
+      "body": "色相偏移会同时影响纸面与红章，增强对比则会加深棕墨和边缘暗化；纹理周期本身不应移动。",
+      "experiments": [
+        {
+          "id": "age-paper-tone",
+          "label": "偏移旧纸色温",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": -28,
+            "saturation": 68
+          },
+          "expected": "纸面从暖黄转向更冷的旧纸，红章也迁移，但双周期斑点仍固定。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "deepen-ink",
+          "label": "加深墨迹与纸边",
+          "initial": {
+            "contrast": 100,
+            "line": 170
+          },
+          "controls": {
+            "contrast": 132,
+            "line": 195
+          },
+          "expected": "棕墨、红章与边缘暗化更分明；长行距让手稿阅读更舒展。",
+          "reset": "恢复 contrast=100、line=170。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和实验结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "从纸纹、墨色和印章还原手稿感",
+      "body": "答案需区分背景老化、排版传统与强调标记三个层次。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "两套斑点为何使用 90px 与 53px 的不同周期？",
+          "options": [
+            "让图案更快加载",
+            "降低重复网格被察觉的机会",
+            "改变文字行高"
+          ],
+          "correct": 1,
+          "explanation": "错位周期比单一规则网格更像自然纸斑。"
+        },
+        {
+          "id": "q2",
+          "question": "章节标签最像后盖印章的证据是什么？",
+          "options": [
+            "-2deg 旋转、暗红底和局部阴影",
+            "99px 圆角",
+            "蓝色描边"
+          ],
+          "correct": 0,
+          "explanation": "轻微歪斜与泥红阴影共同制造盖印痕迹。"
+        },
+        {
+          "id": "q3",
+          "question": "增强 contrast 后哪项不会改变？",
+          "options": [
+            "墨与纸的分离",
+            "纸斑的 90/53px 空间周期",
+            "边缘暗化可见度"
+          ],
+          "correct": 1,
+          "explanation": "滤镜改变明暗关系，不改背景尺寸。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只换成米黄色背景，却没有边缘暗化与错位纸斑。",
+    "把所有装饰都染成红色，使印章失去稀缺性。",
+    "使用现代无衬线标题，破坏手稿的连续书写语气。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能指出两套纸斑的尺寸与错位原点。",
+      "完成纸色迁移与墨迹增强实验。",
+      "能解释红泥章为什么不是普通胶囊标签。"
+    ]
+  },
+  "contentRevision": 1
+}

@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "terminal",
+  "title": "把终端语义写进界面语言",
+  "summary": "从等宽字体、提示符伪元素与 steps 闪烁理解：风格身份来自一致的语言系统。",
+  "difficulty": "beginner",
+  "durationMinutes": 11,
+  "concepts": [
+    "pseudo-elements",
+    "monospace rhythm",
+    "stepped animation",
+    "visual metaphor"
+  ],
+  "objectives": [
+    "区分配色与语义装饰的作用",
+    "解释 steps 动画为何适合光标",
+    "检验降低饱和度后身份是否仍存在"
+  ],
+  "prerequisites": [
+    "CSS 伪元素",
+    "animation 基础"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "依次查看 tagline、栏目标题、标签和 logo。",
+      "eyebrow": "READ THE PROMPT",
+      "title": "界面借用了四种终端符号",
+      "body": "$、#、~/ 与块光标散布在不同组件，但共享一套命令行隐喻。",
+      "annotations": [
+        {
+          "id": "prompt",
+          "anchor": [
+            31,
+            34
+          ],
+          "elbow": [
+            22,
+            26
+          ],
+          "end": [
+            11,
+            26
+          ],
+          "detailSide": "right",
+          "summary": "$ whoami",
+          "detail": "tagline 被改写成一条命令及其输出。"
+        },
+        {
+          "id": "cursor",
+          "anchor": [
+            16,
+            12
+          ],
+          "elbow": [
+            26,
+            18
+          ],
+          "end": [
+            39,
+            18
+          ],
+          "detailSide": "left",
+          "summary": "块状光标",
+          "detail": "logo 末尾的 ▊ 使用两步闪烁，产生明确开/关状态。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "只改绿色并不足以形成终端身份。",
+      "eyebrow": "ONE VISUAL LANGUAGE",
+      "title": "字体、符号与运动必须一致",
+      "body": "正文和标题共享等宽字体，伪元素注入命令行词汇，steps(2) 拒绝柔和呼吸感。",
+      "code": {
+        "file": "src/themes/terminal.css",
+        "locator": "body.t-terminal .tagline::before",
+        "snippet": "body.t-terminal .tagline::before { content: \"$ whoami → \"; color: var(--text-2); font-weight: 400; }\nbody.t-terminal .section-title::before { content: \"# \"; color: var(--text-2); }\nbody.t-terminal .section-tag::before { content: \"~/\"; color: var(--text-2); }\nbody.t-terminal .hero-badge i { border-radius: 0; animation: blink 1.1s steps(2) infinite; }\n@keyframes blink { 50% { opacity: .15; box-shadow: none; } }\nbody.t-terminal .card.featured::before { content: \"$ TOP\"; font-family: var(--font-body); }\nbody.t-terminal .logo::after { content: \"▊\"; color: var(--accent); animation: blink 1.1s steps(2) infinite; margin-left: 4px; }",
+        "sourceDigest": "sha256:77a7e8c3f8aa9942f8082a79aced5fa33e6b6f66d598867810d3fb918a5939c6",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "拿走部分绿色，观察语言系统是否仍成立。",
+      "eyebrow": "REMOVE THE COLOR",
+      "title": "终端身份不等于磷光绿",
+      "body": "色相和饱和度可变；等宽节奏、提示符和离散闪烁仍应维持身份。",
+      "experiments": [
+        {
+          "id": "desaturate",
+          "label": "削弱绿色",
+          "initial": {
+            "hue": 0,
+            "saturation": 100,
+            "font": 100
+          },
+          "controls": {
+            "hue": 35,
+            "saturation": 50
+          },
+          "expected": "绿色减弱，但等宽字体、提示符和光标仍让界面像终端。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "density",
+          "label": "提高终端密度",
+          "initial": {
+            "font": 100,
+            "line": 170
+          },
+          "controls": {
+            "font": 118,
+            "line": 155
+          },
+          "expected": "文字更大且行距更紧，等宽栅格更明显，同时需检查拥挤。",
+          "reset": "恢复 font=100、line=170。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "选择能解释一致语言系统的答案。",
+      "eyebrow": "PROVE THE METAPHOR",
+      "title": "颜色之外的终端",
+      "body": "三题检查字体、符号与离散运动。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "降低绿色饱和度后，哪个组合最能保留终端身份？",
+          "options": [
+            "等宽字体、命令提示符和块光标",
+            "大圆角与柔和阴影",
+            "衬线标题"
+          ],
+          "correct": 0,
+          "explanation": "视觉隐喻由多种一致线索共同形成。"
+        },
+        {
+          "id": "q2",
+          "question": "为什么 blink 使用 steps(2)？",
+          "options": [
+            "让颜色连续渐变",
+            "产生清晰的开/关状态",
+            "改变 DOM 顺序"
+          ],
+          "correct": 1,
+          "explanation": "steps 产生离散而非连续插值。"
+        },
+        {
+          "id": "q3",
+          "question": "~/ 出现在 section tag 前代表什么？",
+          "options": [
+            "把栏目标签隐喻成路径",
+            "触发网络请求",
+            "改变响应式断点"
+          ],
+          "correct": 0,
+          "explanation": "它是语义化装饰，不改变行为。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把终端风格等同于绿色。",
+    "使用柔和呼吸动画替代离散光标。",
+    "不同组件混用不相关的装饰语言。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成低饱和与密度实验。",
+      "能指出四种终端语义线索。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

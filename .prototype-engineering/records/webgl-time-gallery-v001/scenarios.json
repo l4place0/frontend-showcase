@@ -1,0 +1,29 @@
+{
+  "scenarios": [
+    {
+      "id": "normal-catalog",
+      "description": "在 Catalog 隔离 iframe 内完成欢迎、时间轴、进入画廊、打开/关闭详情和返回时间轴；验证 8+/20+/50+、本地请求、比例和单例面板",
+      "fixture": "specimens/items/time-gallery-webgl/assets/artworks.json 与本地 JPEG；Chromium WebGL 软件/硬件实现"
+    },
+    {
+      "id": "standalone",
+      "description": "直接由静态服务器打开生成后的 item/index.html，不存在 Catalog DOM 或 React context 时仍可完成主流程",
+      "fixture": ".generated/public/items/time-gallery-webgl"
+    },
+    {
+      "id": "missing-image",
+      "description": "单张本地画作纹理加载失败时使用带标题的画布占位，不中断场景和详情面板，也不发起远程回退请求",
+      "fixture": "TextureLoader error callback 与 deterministic canvas fallback"
+    },
+    {
+      "id": "pointer-lock-denied",
+      "description": "用户或 iframe 拒绝 Pointer Lock 时仍可用方向键转向/移动、点击画作和界面按钮完成流程",
+      "fixture": "不授予 pointerlock 的浏览器上下文"
+    },
+    {
+      "id": "webgl-unavailable",
+      "description": "WebGL 初始化失败时展示中文能力提示与返回时间轴入口，不出现空白或黑屏",
+      "fixture": "构造 WebGLRenderer 失败路径"
+    }
+  ]
+}

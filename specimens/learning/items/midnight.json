@@ -1,0 +1,205 @@
+{
+  "learningVersion": 1,
+  "itemId": "midnight",
+  "title": "在近黑层级中只留一束电蓝",
+  "summary": "用 2.8% 与 6% 白色表面、12% 边框和一处电蓝 hover 建立暗黑极简，重点是细微层级而非“全部纯黑”。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "near-black hierarchy",
+    "single accent economy",
+    "low-alpha surfaces",
+    "interaction-only glow"
+  ],
+  "objectives": [
+    "区分背景、surface、surface-2 与 border 的亮度",
+    "解释蓝色为何主要留给行动和 hover",
+    "验证对比度过低或饱和度降低的影响"
+  ],
+  "prerequisites": [
+    "alpha colors",
+    "dark mode contrast",
+    "interaction states"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先观察初始 Hero 构图中的标注，再向下验证相同机制。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先从暗黑极简的初始画面取证",
+      "body": "用 2.8% 与 6% 白色表面、12% 边框和一处电蓝 hover 建立暗黑极简，重点是细微层级而非“全部纯黑”。",
+      "annotations": [
+        {
+          "id": "near-black-surface",
+          "anchor": [
+            76,
+            62
+          ],
+          "elbow": [
+            66,
+            54
+          ],
+          "end": [
+            54,
+            54
+          ],
+          "detailSide": "left",
+          "summary": "卡片仅比黑底亮 2.8%",
+          "detail": "极低 alpha 让表面存在但不形成灰色大块。"
+        },
+        {
+          "id": "blue-action",
+          "anchor": [
+            34,
+            58
+          ],
+          "elbow": [
+            23,
+            50
+          ],
+          "end": [
+            10,
+            50
+          ],
+          "detailSide": "right",
+          "summary": "电蓝集中在行动处",
+          "detail": "主按钮与 featured 边框使用蓝色，普通内容保持黑白。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见效果连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "极简不是无层级，而是压缩层级振幅",
+      "body": "surface 从 2.8% 到 6%，border 12%；hover 卡片只加 4% 蓝色，主按钮 hover 才出现 32px 蓝光。",
+      "code": {
+        "file": "src/themes/midnight.css",
+        "locator": "body.t-midnight .hero h1",
+        "snippet": "body.t-midnight .hero h1 { font-weight: 800; letter-spacing: -2px; }\nbody.t-midnight .section-title { letter-spacing: -1px; }\nbody.t-midnight .section-tag { border: none; background: var(--surface); letter-spacing: 4px; font-size: 11.5px; }\nbody.t-midnight .card:hover { background: rgba(59,130,246,.04); }\nbody.t-midnight .card.featured { border-color: rgba(59,130,246,.45); }\nbody.t-midnight .btn-primary:hover { box-shadow: 0 0 32px rgba(59,130,246,.4); }\nbody.t-midnight .bar-fill { background: var(--accent); }\nbody.t-midnight .hero-badge i { animation: none; }\nbody.t-midnight .stat b { font-weight: 800; }\nbody.t-midnight .contact-ico svg { fill: var(--text); }",
+        "sourceDigest": "sha256:2a58f00b653f6af0320164eeac812b7f899b0123d032595e4872bef781f86a5e",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用真实 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "压缩暗部，再追踪唯一的蓝",
+      "body": "提高对比度并迁移色相，观察近黑层级和稀缺强调色如何分别承担结构与行动焦点。",
+      "experiments": [
+        {
+          "id": "crush-blacks",
+          "label": "压低暗部对比",
+          "initial": {
+            "contrast": 100
+          },
+          "controls": {
+            "contrast": 76
+          },
+          "expected": "2.8% surface 与 12% border 更接近纯黑，卡片边界最先丢失。",
+          "reset": "恢复 contrast=100。"
+        },
+        {
+          "id": "cool-accent",
+          "label": "降低饱和并偏移电蓝",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 32,
+            "saturation": 55
+          },
+          "expected": "强调色迁移并变灰，但近黑层级不变；行动焦点的辨识度下降。",
+          "reset": "恢复 hue=0、saturation=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合标注、源码和实验。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "在近黑画面中读出层级",
+      "body": "通过 alpha 差异、标题亮度和蓝色焦点回答，避免把极简误解成没有信息排序。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "卡片为什么不是不可见纯黑？",
+          "options": [
+            "有 2.8% 白色 surface 和 12% 边框",
+            "使用图片",
+            "有大阴影"
+          ],
+          "correct": 0,
+          "explanation": "微小 alpha 建立暗部层级。"
+        },
+        {
+          "id": "q2",
+          "question": "主按钮 hover 才出现强蓝光的目的？",
+          "options": [
+            "让所有内容发光",
+            "把高能量强调留给交互反馈",
+            "改变布局"
+          ],
+          "correct": 1,
+          "explanation": "稀缺 glow 保持克制。"
+        },
+        {
+          "id": "q3",
+          "question": "contrast=76 最先损害？",
+          "options": [
+            "圆角",
+            "字体族",
+            "卡片边界与次级文字分离"
+          ],
+          "correct": 2,
+          "explanation": "最低振幅层级最敏感。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把所有 surface 设为同一纯黑。",
+    "让每个组件都使用蓝色 glow。",
+    "次文字对比过低却没有检查可读性。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成至少两组 manifest control 实验并比较基准状态。",
+      "能从初始画面指出两个标注机制。",
+      "三道测验全部答对并解释源码因果。"
+    ]
+  },
+  "contentRevision": 1
+}

@@ -1,0 +1,205 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-panes",
+  "title": "用伪元素标题栏包装语义区段",
+  "summary": "每个 section 保留原 id 和内容，只用 ::before 生成带路径的 tmux 窗格标题；统一内边距规则让不同内容共享同一终端框架。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "generated chrome",
+    "attr()",
+    "child padding contract",
+    "pane consistency"
+  ],
+  "objectives": [
+    "解释标题栏如何从 section id 派生路径",
+    "区分窗格 chrome 与内容 padding",
+    "验证内部网格参数不会改变标题栏"
+  ],
+  "prerequisites": [
+    "pseudo-elements",
+    "attr()",
+    "child selectors"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "越过 Hero 后比较 projects 与 skills 两个窗格的标题栏路径。",
+      "eyebrow": "READ THE WINDOW CHROME",
+      "title": "同一标题栏模板读取不同 id",
+      "body": "每个区段顶部显示 ● ● ●、~/l4place/<id> 和 zsh；框架一致，路径随 projects、skills 等 id 改变。",
+      "annotations": [
+        {
+          "id": "pane-title",
+          "anchor": [
+            50,
+            79
+          ],
+          "elbow": [
+            62,
+            70
+          ],
+          "end": [
+            76,
+            70
+          ],
+          "detailSide": "left",
+          "summary": "路径来自 section id",
+          "detail": "::before 使用 attr(id)，无需为五个窗格复制标题 DOM。"
+        },
+        {
+          "id": "pane-border",
+          "anchor": [
+            14,
+            82
+          ],
+          "elbow": [
+            7,
+            73
+          ],
+          "end": [
+            2,
+            73
+          ],
+          "detailSide": "right",
+          "summary": "chrome 与内容分层",
+          "detail": "section 自身画外框，标题栏画底边，子元素获得左右 padding。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 700
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "识别容器 chrome、标题生成和子内容契约。",
+      "eyebrow": "FRAME, TITLE, CONTENT",
+      "title": "窗格外壳与业务内容保持解耦",
+      "body": "section 只定义边框和表面；::before 读取 id 生成标题；直接子元素统一获得 26px 内边距，首尾再补上下空间。",
+      "code": {
+        "file": "src/layouts/panes.css",
+        "locator": "body.l-panes main section",
+        "snippet": "body.l-panes main section {\n  border: 1.5px solid var(--border); margin: 0 auto 26px; padding: 0;\n  max-width: 1032px; background: var(--surface);\n}\nbody.l-panes main section::before {\n  content: \"● ● ●   ~/l4place/\" attr(id) \" — zsh\";\n  display: block; padding: 8px 16px;\n  border-bottom: 1.5px solid var(--border);\n  font-family: \"JetBrains Mono\", Consolas, monospace;\n  font-size: 12px; letter-spacing: 1px; color: var(--text-2);\n  background: var(--surface-2);\n}\nbody.l-panes main section > * { padding-left: 26px; padding-right: 26px; }\nbody.l-panes main section > .reveal:first-child { padding-top: 24px; }\nbody.l-panes main section > :last-child { padding-bottom: 26px; }\nbody.l-panes main section > div:last-child { padding-bottom: 26px; }\nbody.l-panes .projects-grid, body.l-panes .skills-wrap, body.l-panes .about-wrap,\nbody.l-panes .blog-list, body.l-panes .contact-grid { padding-bottom: 26px; }",
+        "sourceDigest": "sha256:32593b0e09c04011d5e34c92da6204c8050621f4c5e8342411e2b38623325641",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "改变窗格内部网格密度，确认 chrome 不动。",
+      "eyebrow": "CHANGE INSIDE THE PANE",
+      "title": "内容参数不能污染标题栏契约",
+      "body": "cardMin/gap 与 cardPad 作用于 projects 内容；::before 的路径、8×16 padding 和标题底边不消费这些变量。",
+      "experiments": [
+        {
+          "id": "pane-grid",
+          "label": "增大项目卡最小宽度和间距",
+          "initial": {
+            "cardMin": 310,
+            "gap": 100
+          },
+          "controls": {
+            "cardMin": 410,
+            "gap": 140
+          },
+          "expected": "projects 窗格内部列数减少、间距增加；标题栏路径和窗格外框不变。",
+          "reset": "恢复 cardMin=310、gap=100。"
+        },
+        {
+          "id": "pane-content",
+          "label": "增大卡片内边距",
+          "initial": {
+            "cardPad": 26
+          },
+          "controls": {
+            "cardPad": 42
+          },
+          "expected": "项目卡内部更松，section 直接子元素的 26px 左右 padding 与标题栏 16px padding不变。",
+          "reset": "恢复 cardPad=26。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需比较两个窗格路径。",
+      "eyebrow": "EXPLAIN THE CHROME",
+      "title": "判断生成标题与内容契约",
+      "body": "正确项为 C、A、B。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "skills 窗格标题中的 skills 从哪里来？",
+          "options": [
+            "远程数据",
+            "React context",
+            "section 的 id 经 attr(id) 注入"
+          ],
+          "correct": 2,
+          "explanation": "标题栏是 CSS 生成内容。"
+        },
+        {
+          "id": "q2",
+          "question": "为什么 section 自身 padding 为 0？",
+          "options": [
+            "让标题栏贴边，再由直接子元素统一提供内容 padding",
+            "隐藏内容",
+            "取消边框"
+          ],
+          "correct": 0,
+          "explanation": "chrome 与内容间距分开控制。"
+        },
+        {
+          "id": "q3",
+          "question": "cardMin 改变后哪项保持？",
+          "options": [
+            "内部卡片列数",
+            "窗格标题路径与外框",
+            "卡片宽度"
+          ],
+          "correct": 1,
+          "explanation": "内部布局变量不被 chrome 消费。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "为每个区段复制真实标题栏 DOM。",
+    "section 和子内容同时加 padding，导致标题栏缩进。",
+    "用展示路径替代原本可访问的 section 标题。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "解释 attr(id) 的标题生成链。",
+      "完成两组内部密度实验并确认 chrome 不变。",
+      "三题全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

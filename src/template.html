@@ -439,7 +439,7 @@ if (getComputedStyle(cv).display !== 'none') {
     resizeM(); addEventListener('resize', resizeM);
     let last = 0;
     (function rain(t) {
-      if (t - last > 52) {
+      if (document.documentElement.dataset.specimenPaused !== 'true' && t - last > 52) {
         last = t;
         ctx.fillStyle = 'rgba(0,0,0,.08)'; ctx.fillRect(0, 0, W, H);
         ctx.font = '14px monospace';
@@ -463,14 +463,16 @@ if (getComputedStyle(cv).display !== 'none') {
     }
     resize(); addEventListener('resize', resize);
     (function draw() {
-      ctx.clearRect(0, 0, W, H);
-      for (const st of stars) {
-        st.p += st.d;
-        ctx.globalAlpha = st.s * (.45 + .55 * Math.sin(st.p)) / 2.6 + .12;
-        ctx.fillStyle = '#cfe4ff';
-        ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, 7); ctx.fill();
+      if (document.documentElement.dataset.specimenPaused !== 'true') {
+        ctx.clearRect(0, 0, W, H);
+        for (const st of stars) {
+          st.p += st.d;
+          ctx.globalAlpha = st.s * (.45 + .55 * Math.sin(st.p)) / 2.6 + .12;
+          ctx.fillStyle = '#cfe4ff';
+          ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, 7); ctx.fill();
+        }
+        ctx.globalAlpha = 1;
       }
-      ctx.globalAlpha = 1;
       if (!reduced) requestAnimationFrame(draw);
     })();
   }

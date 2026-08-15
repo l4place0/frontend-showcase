@@ -1,80 +1,88 @@
-# 前端风格博物馆
+# 前端样品博物馆
 
-同一份真实落地页内容，分别放进 **30 种视觉风格**与 **30 种布局排版**中观察。项目最终交付为 63 个零外部依赖的静态 HTML 页面，可以部署到任意静态托管。
+一个面向人类与 AI 的前端样品平台。React Catalog 负责浏览、搜索、控制和展示；每件 Specimen 都在沙箱 iframe 中独立运行，并携带可供 AI 直接参考的提示词与结构化上下文。
 
-在线展览：<https://l4place0.github.io/frontend-showcase/>
+当前馆藏包含 30 个视觉风格与 30 个布局样品。协议采用开放分类，后续可继续加入 CSS 组件、CSS 动画、Canvas、WebGL、Shader 和其他前端实验。
 
-## 快速开始
+## 开发
 
-环境要求：
-
-- Node.js 20+
-- Python 3.10+
+环境要求：Node.js 20+。
 
 ```bash
+npm install
 npm run dev
 ```
 
-打开 <http://127.0.0.1:8081/>。开发服务器会监听 `src/` 与 `build.py`，保存后自动重新生成并刷新浏览器。
-
-如果 Python 不在系统 PATH，可显式指定：
-
-```powershell
-$env:MUSEUM_PYTHON = "C:\path\to\python.exe"
-npm run dev
-```
-
-## 工程命令
+常用命令：
 
 | 命令 | 用途 |
 | --- | --- |
-| `npm run generate` | 从 `src/` 生成根目录 63 个 HTML |
-| `npm run check` | 检查页面数量、结构、链接、参数柜和生成时效 |
-| `npm run build` | 生成、校验，并输出可部署的 `dist/` |
-| `npm run dev` | 自动生成 + 文件监听 + 浏览器热刷新 |
-| `npm run preview` | 在 8082 端口预览 `dist/` 生产产物 |
+| `npm run build` | 校验源码、生成60件独立展品、构建 SPA 并验证产物 |
+| `npm run test:unit` | Vitest 逻辑测试 |
+| `npm run test:components` | Playwright React 组件测试 |
+| `npm run test:e2e` | Catalog、iframe、协议与 AI 资源测试 |
+| `npm run test:visual` | 代表性展品视觉回归 |
+| `npm run preview` | 预览 `dist/` |
 
-项目没有前端运行时依赖，所有工程脚本均使用 Node.js 标准库。
-
-## 目录结构
+## 架构
 
 ```text
-.
-├─ build.py                 # 页面目录与生成规则
-├─ src/
-│  ├─ template.html        # 60 个展品共享的内容结构与交互
-│  ├─ base.css             # 基础设计系统和参数系统
-│  ├─ themes/              # 30 套视觉主题
-│  ├─ layouts/             # 30 套布局实验
-│  ├─ portal.html          # 博物馆门户
-│  ├─ gallery.html         # 风格展览柜
-│  └─ layout-gallery.html  # 布局展览柜
-├─ scripts/                # 开发、校验、打包、预览工具
-├─ dist/                   # npm run build 生成，不提交
-└─ *.html                  # build.py 生成的可直接浏览页面
+React Catalog SPA
+  └─ Specimen Viewer
+       └─ sandboxed iframe
+            └─ independent Specimen Item
 ```
 
-## 维护原则
+- `src/`：React Catalog，以及现有 portfolio fixture 的模板和样式源码。
+- `specimens/catalog.mjs`：60件现有展品的源注册表。
+- `specimens/specimen.schema.json`：Specimen Protocol v1。
+- `scripts/`：目录生成、展品构建和产物校验。
+- `.generated/public/`：临时生成的 Vite publicDir，不提交。
+- `dist/`：GitHub Pages 部署产物，不提交。
 
-不要直接修改根目录 HTML，它们会在下一次生成时被覆盖。
+每件构建后的展品包含：
 
-- 内容或交互：修改 `src/template.html`
-- 通用设计与参数：修改 `src/base.css`
-- 视觉主题：修改 `src/themes/<slug>.css`
-- 布局实验：修改 `src/layouts/<slug>.css`
-- 展品目录：修改 `build.py` 中的 `THEMES` 或 `LAYOUTS`
+```text
+items/<id>/
+├─ index.html
+├─ specimen.json
+├─ AI.md
+└─ ai-context.json
+```
 
-提交前运行：
+站点根目录同时发布 `specimens.json` 和 `llms.txt`。将独立展品的 `index.html` URL 交给 AI，即可发现对应提示词、Manifest 和机器可读上下文。
+
+## 添加展品
+
+新展品必须：
+
+- 独立运行，不依赖 Catalog DOM 或 React Context；
+- 使用 Manifest 声明开放分类、标签、能力和控制参数；
+- 资源本地打包，不使用运行时 CDN；
+- 提供 `AI.md`；
+- 通过 MessageChannel 响应控制和生命周期消息；
+- 通过源码与产物校验，并补充相应 Playwright 测试。
+
+部署基址为 `/frontend-showcase/`，推送 `main` 后由 GitHub Actions 构建、执行浏览器测试并发布到 GitHub Pages。
+
+## 分支工作流
+
+- `main` 是生产分支，只接收已经在 `dev` 完成全量验证的版本。
+- `dev` 是唯一的开发集成分支；日常开发不直接提交到 `main`。
+- 功能开发从最新 `dev` 签出，命名为 `feature/<topic>`，完成并验证后合并回 `dev`。
+- `dev` 通过 `npm run build`、`npm run test:components`、`npm run test:e2e` 和 `npm run test:visual` 后，才允许合并到 `main`。
+- `.prototype-engineering/` 在 `dev` 与由其签出的开发分支中纳入版本控制，用于保存原型谱系、边界、证据与决策记录。
+
+标准流程：
 
 ```bash
-npm run build
+git switch dev
+git pull --ff-only
+git switch -c feature/my-change
+
+# 完成开发和验证后
+git switch dev
+git merge --no-ff feature/my-change
+
+# dev 全量验收通过后，再创建 dev → main 的生产合并
 ```
-
-推送到 `main` 后，`.github/workflows/pages.yml` 会运行同一构建流程，并将 `dist/` 自动发布到 GitHub Pages。
-
-## 设计实验
-
-- 风格展品提供可拖动的「视觉调色台」。
-- 布局展品提供可拖动的「布局实验台」。
-- 门户每 10 秒随机切换主题，使用新旧页面快照交叉渐变。
-- 展品内容来自 [l4place0](https://github.com/l4place0) 的公开项目数据，仅作为真实业务测试用例。

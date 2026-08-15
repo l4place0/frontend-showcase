@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "clay",
+  "title": "用双向内阴影捏出粘土体积",
+  "summary": "奶油表面以亮边、暗边和宽外影叠出软体厚度，珊瑚按钮再用相反方向的内高光与暖色投影制造可按压凸块。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "compound inset shadow",
+    "soft volume",
+    "warm material palette",
+    "rounded mass"
+  ],
+  "objectives": [
+    "区分亮内影、暗内影和外投影的空间职责",
+    "说明白色半透明描边为何像材料边缘",
+    "验证色彩和对比度如何改变粘土厚度"
+  ],
+  "prerequisites": [
+    "multiple box-shadow",
+    "inset shadow",
+    "surface lighting"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先在指定场景同时核对两处可见证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从展品现场读取构图决定",
+      "body": "奶油表面以亮边、暗边和宽外影叠出软体厚度，珊瑚按钮再用相反方向的内高光与暖色投影制造可按压凸块。",
+      "annotations": [
+        {
+          "id": "soft-heading",
+          "anchor": [
+            30,
+            38
+          ],
+          "elbow": [
+            18,
+            31
+          ],
+          "end": [
+            8,
+            31
+          ],
+          "detailSide": "right",
+          "summary": "低反差棕字嵌入奶油底",
+          "detail": "主标题不用纯黑，避免像硬印刷物贴在软材质上。"
+        },
+        {
+          "id": "clay-button",
+          "anchor": [
+            29,
+            60
+          ],
+          "elbow": [
+            18,
+            68
+          ],
+          "end": [
+            8,
+            68
+          ],
+          "detailSide": "right",
+          "summary": "珊瑚按钮同时有亮边与暗边",
+          "detail": "相反方向的 inset 阴影加暖色外影，形成软块被光照的厚度。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见证据连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "一块粘土需要三组方向光",
+      "body": "共享表面用左上亮 inset、右下暗 inset 和右下宽外影；主按钮换成珊瑚材质后仍保持同样光向，同时用半透明白描边勾出柔软边缘。",
+      "code": {
+        "file": "src/themes/clay.css",
+        "locator": "body.t-clay .card,",
+        "snippet": "body.t-clay .card,\nbody.t-clay .post,\nbody.t-clay .fact,\nbody.t-clay .contact-card,\nbody.t-clay .tag,\nbody.t-clay .btn,\nbody.t-clay .hero-badge,\nbody.t-clay .section-tag,\nbody.t-clay .contact-ico { border: 2px solid rgba(255,255,255,.6); }\nbody.t-clay .hero h1 { color: #4a4038; }\nbody.t-clay .tagline { color: #e07a5f; }\nbody.t-clay .section-tag { background: #f7f2ed; color: #e07a5f; font-weight: 700; }\nbody.t-clay .btn-primary {\n  background: #e07a5f; color: #fff; text-shadow: 0 1px 2px rgba(150,70,50,.35);\n  box-shadow:\n    inset -3px -3px 8px rgba(255,255,255,.3),\n    inset 3px 3px 8px rgba(150,70,50,.25),\n    10px 10px 22px rgba(224,122,95,.35);\n}\nbody.t-clay .btn-ghost { background: #f7f2ed; }\nbody.t-clay .btn-ghost:hover { color: #e07a5f; }\nbody.t-clay .card.featured { border-color: rgba(224,122,95,.5); }\nbody.t-clay .card.featured::before { background: #e07a5f; }\nbody.t-clay .card .star { color: #e07a5f; }\nbody.t-clay .lang { background: #efe6de; border: 1.5px solid rgba(255,255,255,.7); box-shadow: inset 2px 2px 5px rgba(74,64,56,.07); color: #94857a; }\nbody.t-clay .tag:hover { color: #e07a5f; }\nbody.t-clay .bar-track { background: #e8ded6; height: 14px; box-shadow: inset 4px 4px 9px rgba(74,64,56,.14), inset -3px -3px 7px rgba(255,255,255,.85); }\nbody.t-clay .bar-fill { background: linear-gradient(180deg, #eda287, #e07a5f); box-shadow: inset 0 2px 3px rgba(255,255,255,.5), 2px 2px 6px rgba(74,64,56,.12); }\nbody.t-clay .bar-row:nth-child(2) .bar-fill { background: linear-gradient(180deg, #9fc4b2, #81b29a); }",
+        "sourceDigest": "sha256:d3b8de7bd5b25fae231c38ab26a09504be813c79829c8093ce7bfc1110a3d13d",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用该 manifest 声明的真实控件。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "换材料颜色，再压缩软体反差",
+      "body": "迁移色相测试体积是否依赖珊瑚色；提高 contrast 则会让亮暗边界更硬，接近塑料而非粘土。",
+      "experiments": [
+        {
+          "id": "recolor-clay",
+          "label": "重配粘土材料色",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 34,
+            "saturation": 72
+          },
+          "expected": "珊瑚、鼠尾草等材料整体迁移，但亮左上、暗右下的体积方向保持。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "harden-soft-volume",
+          "label": "提高软体明暗反差",
+          "initial": {
+            "contrast": 100,
+            "radius": 100
+          },
+          "controls": {
+            "contrast": 133,
+            "radius": 150
+          },
+          "expected": "边缘高光和暗影更明显，轮廓更圆；材质从柔软粘土趋向抛光塑料。",
+          "reset": "恢复 contrast=100、radius=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和实验结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "从光向判断软块是否被捏出来",
+      "body": "答案需对应三层阴影、白边和圆胖轮廓。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "共享表面的三组阴影分别承担什么？",
+          "options": [
+            "两层内影塑造边缘，一层外影抬离背景",
+            "全部只改变颜色",
+            "用于文字描边"
+          ],
+          "correct": 0,
+          "explanation": "内外阴影共同建立局部曲率和离地高度。"
+        },
+        {
+          "id": "q2",
+          "question": "色相偏移后体积仍存在说明什么？",
+          "options": [
+            "珊瑚色是唯一机制",
+            "体积主要由稳定光向和阴影层建立",
+            "DOM 被替换"
+          ],
+          "correct": 1,
+          "explanation": "材质颜色可换，光向关系仍提供三维线索。"
+        },
+        {
+          "id": "q3",
+          "question": "过高 contrast 为什么可能更像塑料？",
+          "options": [
+            "亮暗边界变硬、反光更锐",
+            "圆角自动归零",
+            "按钮消失"
+          ],
+          "correct": 0,
+          "explanation": "粘土依赖柔和渐变式的明暗过渡。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只加一层外阴影，表面会像悬浮卡片而非软体块。",
+    "让每个组件的光向不同，破坏统一材料世界。",
+    "使用纯黑文字和锐利边框，切断奶油色低反差表面。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能在按钮上指出亮内影、暗内影和外投影。",
+      "完成换色与高反差实验。",
+      "能解释半透明白边如何补充材料厚度。"
+    ]
+  },
+  "contentRevision": 1
+}

@@ -1,0 +1,205 @@
+{
+  "learningVersion": 1,
+  "itemId": "sunset",
+  "title": "把落日藏在视口下方",
+  "summary": "两层同心径向光从页面底部 118% 位置向上渗出，配合橙粉标题渐变和胶囊按钮形成柔和余晖。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "off-canvas light source",
+    "layered radial glow",
+    "warm gradient hierarchy",
+    "soft geometry"
+  ],
+  "objectives": [
+    "解释 118% 光源位置为何只露出余晖",
+    "区分橙色近光与粉色远光的半径",
+    "验证色相和对比度如何改变暮色深度"
+  ],
+  "prerequisites": [
+    "radial-gradient",
+    "alpha color",
+    "CSS filters"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先观察初始 Hero 构图中的标注，再向下验证相同机制。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先从落日余晖的初始画面取证",
+      "body": "两层同心径向光从页面底部 118% 位置向上渗出，配合橙粉标题渐变和胶囊按钮形成柔和余晖。",
+      "annotations": [
+        {
+          "id": "horizon-glow",
+          "anchor": [
+            50,
+            82
+          ],
+          "elbow": [
+            62,
+            73
+          ],
+          "end": [
+            76,
+            73
+          ],
+          "detailSide": "left",
+          "summary": "底部光源位于视口外",
+          "detail": "两个圆心都在 50% 118%，只让光晕上缘进入画面。"
+        },
+        {
+          "id": "pill-cta",
+          "anchor": [
+            34,
+            58
+          ],
+          "elbow": [
+            23,
+            50
+          ],
+          "end": [
+            10,
+            50
+          ],
+          "detailSide": "right",
+          "summary": "胶囊按钮承接柔光",
+          "detail": "99px 圆角把行动区域变成柔和光点，而不是硬框。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见效果连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "近橙远粉叠成看不见的太阳",
+      "body": "第一层橙光透明终点在 52%，像近处热核；第二层粉光扩到 68%，形成更宽冷边。标题与主按钮重复同一橙粉方向。",
+      "code": {
+        "file": "src/themes/sunset.css",
+        "locator": "body.t-sunset .bg-fx",
+        "snippet": "body.t-sunset .bg-fx {\n  background:\n    radial-gradient(circle at 50% 118%, rgba(251,146,60,.32), transparent 52%),\n    radial-gradient(circle at 50% 118%, rgba(244,114,182,.2), transparent 68%);\n}\nbody.t-sunset .avatar-wrap::after { filter: blur(16px); }\nbody.t-sunset .btn { border-radius: 99px; }\nbody.t-sunset .btn-primary { background: linear-gradient(120deg, #fb923c, #f472b6); color: #2a1010; }\nbody.t-sunset .section-tag { border-radius: 99px; }",
+        "sourceDigest": "sha256:577cbca351c7df9967211b0c81b790b9b8852459e20fabedd10226012ae91774",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用真实 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "拆开晚霞的色相与明暗",
+      "body": "先迁移暖色谱，再压低对比度；比较太阳位置不动时，色彩和明暗各自承担了什么。",
+      "experiments": [
+        {
+          "id": "move-palette",
+          "label": "偏移整片落日的色相",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 32,
+            "saturation": 72
+          },
+          "expected": "暖橙粉移向另一组邻近色，但同心光源和近窄远宽关系不变。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "flatten-dusk",
+          "label": "压低对比观察余晖层次",
+          "initial": {
+            "contrast": 100
+          },
+          "controls": {
+            "contrast": 76
+          },
+          "expected": "近层和远层边界更难分辨，文字与半透明表面也更接近暗背景。",
+          "reset": "恢复 contrast=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合标注、源码和实验。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "辨认这轮落日为何仍成立",
+      "body": "答案必须同时对上光源位置、渐变层次和参数实验的结果。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "为什么光源圆心设置在 118%？",
+          "options": [
+            "让圆心完全显示",
+            "只让视口外光源的上缘形成地平线余晖",
+            "移动 DOM"
+          ],
+          "correct": 1,
+          "explanation": "离屏圆心让画面看到 glow 而不是完整圆盘。"
+        },
+        {
+          "id": "q2",
+          "question": "两层光晕哪个更宽？",
+          "options": [
+            "粉色层透明到 68%",
+            "橙色层透明到 52%",
+            "两者相同"
+          ],
+          "correct": 0,
+          "explanation": "远层粉光覆盖更大半径。"
+        },
+        {
+          "id": "q3",
+          "question": "低对比实验最先削弱什么？",
+          "options": [
+            "胶囊圆角",
+            "光晕与暗背景的层次分离",
+            "按钮 DOM"
+          ],
+          "correct": 1,
+          "explanation": "滤镜不改变几何或结构。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把完整太阳圆盘放进画面，失去余晖含蓄感。",
+    "两层光使用相同半径，无法形成热核与远光。",
+    "把主按钮改成与标题无关的第三套颜色。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成至少两组 manifest control 实验并比较基准状态。",
+      "能从初始画面指出两个标注机制。",
+      "三道测验全部答对并解释源码因果。"
+    ]
+  },
+  "contentRevision": 1
+}

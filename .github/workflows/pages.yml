@@ -25,16 +25,17 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-
       - name: Install project metadata
         run: npm ci
 
       - name: Generate and validate static site
         run: npm run build
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run browser tests
+        run: npm run test:browser
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

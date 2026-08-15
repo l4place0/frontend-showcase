@@ -1,0 +1,208 @@
+{
+  "learningVersion": 1,
+  "itemId": "glass",
+  "title": "毛玻璃必须有东西可以透",
+  "summary": "从背景流光、半透明表面和 backdrop-filter 理解玻璃拟态的完整因果链，而不是给卡片单独加模糊。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "backdrop blur",
+    "translucent surfaces",
+    "background light fields",
+    "edge luminance"
+  ],
+  "objectives": [
+    "解释背景光场为何是玻璃感的必要输入",
+    "区分透明度、模糊和亮边的职责",
+    "判断对比度与圆角如何影响玻璃边界"
+  ],
+  "prerequisites": [
+    "alpha color",
+    "backdrop-filter",
+    "radial-gradient"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "沿左上紫光、右上青光和 Hero 徽章边缘观察颜色如何穿过表面。",
+      "eyebrow": "LOOK THROUGH THE SURFACE",
+      "title": "先有流光，才看得见磨砂",
+      "body": "四处大面积彩色光场位于卡片背后；半透明表面保留光色，18px backdrop blur 消除细节，白色细边勾出玻璃厚度。",
+      "annotations": [
+        {
+          "id": "violet-field",
+          "anchor": [
+            18,
+            24
+          ],
+          "elbow": [
+            29,
+            17
+          ],
+          "end": [
+            42,
+            17
+          ],
+          "detailSide": "left",
+          "summary": "紫光是玻璃的背景输入",
+          "detail": "如果背后只有纯色，backdrop blur 几乎无可见内容可模糊。"
+        },
+        {
+          "id": "glass-badge",
+          "anchor": [
+            31,
+            42
+          ],
+          "elbow": [
+            20,
+            34
+          ],
+          "end": [
+            9,
+            34
+          ],
+          "detailSide": "right",
+          "summary": "徽章透光但有亮边",
+          "detail": "surface alpha 允许背景色进入，border alpha 保持轮廓。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "按背景输入、表面混合、模糊处理三步读代码。",
+      "eyebrow": "INPUT, MIX, BLUR",
+      "title": "玻璃是跨层效果，不是卡片纹理",
+      "body": "四个 radial gradient 先形成有空间差异的流光；card、post、fact 等共享 backdrop blur，让半透明 surface 采样并柔化背后颜色。",
+      "code": {
+        "file": "src/themes/glass.css",
+        "locator": "body.t-glass .bg-fx",
+        "snippet": "body.t-glass .bg-fx {\n  background:\n    radial-gradient(circle at 18% 22%, rgba(123,47,247,.55), transparent 42%),\n    radial-gradient(circle at 82% 18%, rgba(0,198,255,.45), transparent 40%),\n    radial-gradient(circle at 72% 82%, rgba(241,7,163,.42), transparent 46%),\n    radial-gradient(circle at 22% 85%, rgba(255,190,80,.3), transparent 40%);\n  filter: blur(50px);\n}\nbody.t-glass .card,\nbody.t-glass .post,\nbody.t-glass .fact,\nbody.t-glass .contact-card,\nbody.t-glass .hero-badge,\nbody.t-glass .section-tag,\nbody.t-glass .tag,\nbody.t-glass .btn-ghost {\n  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);\n}",
+        "sourceDigest": "sha256:0979f0a1573eb83b9fbc0807ee644dfca0936512589be0b4f7341cdd4e5cbd3f",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "分别改变玻璃后方的色能量和玻璃自身轮廓。",
+      "eyebrow": "PRESSURE THE GLASS",
+      "title": "透光与边界必须同时成立",
+      "body": "降低饱和度会削弱穿透色但保留磨砂层；提高对比并减小圆角会把柔和玻璃推向硬质面板。",
+      "experiments": [
+        {
+          "id": "drain-light",
+          "label": "降低流光饱和度",
+          "initial": {
+            "saturation": 100,
+            "contrast": 100,
+            "radius": 100
+          },
+          "controls": {
+            "saturation": 52
+          },
+          "expected": "穿过表面的彩色差异减弱，卡片仍有半透明亮边和模糊，但玻璃感更接近灰雾。",
+          "reset": "恢复 saturation=100。"
+        },
+        {
+          "id": "harden-pane",
+          "label": "提高对比并压小圆角",
+          "initial": {
+            "saturation": 100,
+            "contrast": 100,
+            "radius": 100
+          },
+          "controls": {
+            "contrast": 128,
+            "radius": 25
+          },
+          "expected": "边框、文字与背景光更硬，卡片轮廓更像玻璃面板而非柔软胶囊。",
+          "reset": "恢复 contrast=100、radius=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要理解跨层采样。",
+      "eyebrow": "EXPLAIN THE GLASS",
+      "title": "判断背景、透明与模糊的分工",
+      "body": "正确项依次为 B、C、A。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "为什么纯色背景会削弱本展品的玻璃感？",
+          "options": [
+            "因为圆角会失效",
+            "backdrop blur 缺少有差异的背景内容可柔化",
+            "因为文字会隐藏"
+          ],
+          "correct": 1,
+          "explanation": "毛玻璃需要背后存在可透过、可模糊的光色变化。"
+        },
+        {
+          "id": "q2",
+          "question": "将 saturation 降到 52 后，哪项仍直接证明表面是玻璃？",
+          "options": [
+            "彩色光更鲜艳",
+            "卡片变成不透明白色",
+            "半透明亮边与背后模糊仍存在"
+          ],
+          "correct": 2,
+          "explanation": "实验只削弱色能量，没有移除 alpha surface 和 backdrop filter。"
+        },
+        {
+          "id": "q3",
+          "question": "四个 radial gradient 与 18px backdrop blur 的关系是？",
+          "options": [
+            "前者提供背景信号，后者在组件背后采样并柔化它",
+            "两者都只改变字体",
+            "后者生成四个光斑"
+          ],
+          "correct": 0,
+          "explanation": "这是输入与滤镜的因果链。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只给卡片加 backdrop-filter，却让背景保持纯色。",
+    "把 surface 做成完全不透明，阻断背景光。",
+    "边框和正文对比不足，玻璃轮廓不可辨。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能口述背景输入→半透明混合→背景模糊的三步链。",
+      "完成去饱和与硬化面板实验。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

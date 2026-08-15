@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN" data-night-mode="false" data-animation-state="idle" data-foam="true">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>CSS 海浪动画 · 昼夜潮汐</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <main class="ocean" aria-label="可切换昼夜的 CSS 海浪动画">
+    <div class="sky" aria-hidden="true">
+      <div class="stars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="cloud cloud-a"></div><div class="cloud cloud-b"></div>
+      <div class="celestial"><span class="moon-shadow"></span></div>
+      <div class="light-path"></div>
+    </div>
+    <header class="scene-header">
+      <div><p class="kicker">CSS MOTION STUDY / 001</p><h1><span class="day-title">澄澈潮汐</span><span class="night-title">月下潮汐</span></h1></div>
+      <div class="scene-controls">
+        <button class="motion-switch" type="button" aria-pressed="false"><span aria-hidden="true">↗</span><b class="motion-state-label">闲置</b></button>
+        <button class="mode-switch" type="button" aria-pressed="false">
+          <span class="switch-track" aria-hidden="true"><i></i></span>
+          <span class="mode-label"><b class="day-label">日间</b><b class="night-label">黑夜</b>模式</span>
+        </button>
+      </div>
+    </header>
+    <div class="horizon-note" aria-hidden="true"><span>35.6762° N</span><i></i><span>139.6503° E</span></div>
+    <section class="sea" aria-hidden="true">
+      <div class="wave wave-far"><i></i></div><div class="wave wave-mid"><i></i></div><div class="wave wave-near"><i></i></div>
+    </section>
+    <footer class="scene-footer">
+      <p><span>一片海</span> · 两种光线 · 同一段呼吸</p>
+      <p class="state-copy"><span class="day-copy">DAYLIGHT / CLEAR</span><span class="night-copy">MOONLIGHT / QUIET</span></p>
+    </footer>
+  </main>
+</body>
+</html>

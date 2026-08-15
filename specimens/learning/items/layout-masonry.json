@@ -1,0 +1,206 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-masonry",
+  "title": "CSS Columns 如何让区段自然跌落",
+  "summary": "不是网格排砖：main 用两列排版流逐列填充，section 用 break-inside 避免被切断，内部复杂网格再主动改单列。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "multi-column layout",
+    "column fill order",
+    "break-inside",
+    "nested layout simplification"
+  ],
+  "objectives": [
+    "解释 CSS columns 的逐列阅读顺序",
+    "说明 section 为什么要 inline-block + break-inside",
+    "判断内部网格为何在列内退为一列"
+  ],
+  "prerequisites": [
+    "CSS multi-column",
+    "文档流",
+    "媒体查询"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "越过 Hero 后，沿左列向下读，再观察内容如何接到右列顶部。",
+      "eyebrow": "FOLLOW THE FALL",
+      "title": "列式流按内容高度自然接续",
+      "body": "顶层 section 是不可拆分的块，浏览器先填左列再流向右列；项目、技能和关于的内部网格都改单列以适应半宽容器。",
+      "annotations": [
+        {
+          "id": "left-column",
+          "anchor": [
+            25,
+            82
+          ],
+          "elbow": [
+            15,
+            73
+          ],
+          "end": [
+            7,
+            73
+          ],
+          "detailSide": "right",
+          "summary": "先填左列",
+          "detail": "CSS columns 的内容顺序按列向下，不是 CSS Grid 的逐行排列。"
+        },
+        {
+          "id": "right-column-preview",
+          "anchor": [
+            73,
+            82
+          ],
+          "elbow": [
+            83,
+            72
+          ],
+          "end": [
+            93,
+            72
+          ],
+          "detailSide": "left",
+          "summary": "完整区段跌到右列",
+          "detail": "break-inside:avoid 防止一个 section 在列底被切成两半。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 721
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 700
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "顶层用 columns，区段完整性和内部布局分别处理。",
+      "eyebrow": "FLOW, PROTECT, SIMPLIFY",
+      "title": "三层约束避免瀑布流碎裂",
+      "body": "main 建立两列流；section 以 inline-block + width:100% 成为完整列项并禁止内部断裂；内部 projects/skills/about 都退为单列。",
+      "code": {
+        "file": "src/layouts/masonry.css",
+        "locator": "body.l-masonry main",
+        "snippet": "/* 布局·瀑布流 —— 双列区块自然跌落 */\nbody.l-masonry main { columns: 2; column-gap: 28px; max-width: 1080px; margin: 0 auto; padding: 0 24px; }\nbody.l-masonry main section {\n  break-inside: avoid; display: inline-block; width: 100%;\n  padding-left: 0; padding-right: 0;\n}\nbody.l-masonry .projects-grid { grid-template-columns: 1fr; }\nbody.l-masonry .skills-wrap { grid-template-columns: 1fr; gap: 28px; }\nbody.l-masonry .about-wrap { grid-template-columns: 1fr; gap: 28px; }\nbody.l-masonry #skills { margin-top: 110px; }\n@media (max-width: 720px) {\n  body.l-masonry main { columns: 1; }\n  body.l-masonry #skills { margin-top: 0; }\n}",
+        "sourceDigest": "sha256:971fb654a5819272116b535ae16d869437afe6c607bfcb45784616a29419836b",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "改变区段纵向节奏与内部卡片 padding，观察列平衡。",
+      "eyebrow": "CHANGE ITEM HEIGHTS",
+      "title": "瀑布落点由内容高度决定",
+      "body": "space 会改变 section 高度，从而改变何处换列；cardPad 改变项目区总高，也可能把后续完整区段推到另一列。",
+      "experiments": [
+        {
+          "id": "stretch-sections",
+          "label": "增加区段纵向节奏",
+          "initial": {
+            "space": 100,
+            "cardPad": 26
+          },
+          "controls": {
+            "space": 145
+          },
+          "expected": "每个不可拆分 section 变高，左右列的落点发生变化，但单个 section 不应跨列断开。",
+          "reset": "恢复 space=100。"
+        },
+        {
+          "id": "inflate-cards",
+          "label": "增加项目卡内边距",
+          "initial": {
+            "cardPad": 26,
+            "gap": 100
+          },
+          "controls": {
+            "cardPad": 40,
+            "gap": 140
+          },
+          "expected": "左列项目区变高，后续完整区段可能更早流到右列；项目区内部仍为单列。",
+          "reset": "恢复 cardPad=26、gap=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案要区分 columns 与 grid。",
+      "eyebrow": "EXPLAIN THE FALL",
+      "title": "判断流向与完整性",
+      "body": "正确项依次为 C、B、A。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "两列瀑布的阅读顺序是什么？",
+          "options": [
+            "逐行左右交替",
+            "随机按高度排序",
+            "先沿左列向下，再流入右列"
+          ],
+          "correct": 2,
+          "explanation": "multi-column 使用列式排版流，不是网格行。"
+        },
+        {
+          "id": "q2",
+          "question": "section 同时使用 break-inside:avoid 和 inline-block 的目的？",
+          "options": [
+            "让内部恢复两列",
+            "把区段作为完整列项，避免在列底断开",
+            "固定到视口"
+          ],
+          "correct": 1,
+          "explanation": "两条规则共同提高跨浏览器的列项完整性。"
+        },
+        {
+          "id": "q3",
+          "question": "space 增大后为什么列落点会变化？",
+          "options": [
+            "不可拆分区段变高，浏览器更早把后续区段流入下一列",
+            "columns 自动变为三列",
+            "DOM 顺序改变"
+          ],
+          "correct": 0,
+          "explanation": "列式流根据实际项高度决定换列位置。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "把 CSS Columns 当作逐行 Masonry Grid。",
+    "忘记 break-inside，导致一个区段被上下切开。",
+    "在半宽列内仍保留多列项目网格，造成过度嵌套。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能沿正确顺序读完双列内容。",
+      "完成 space 与 cardPad 高度实验并解释落点变化。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

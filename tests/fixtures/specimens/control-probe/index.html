@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <body>
+    <output data-testid="probe-state">waiting</output>
+    <script>
+      const output = document.querySelector('[data-testid="probe-state"]');
+      addEventListener("message", (event) => {
+        if (event.data?.type !== "specimen:init" || !event.ports[0]) return;
+        const port = event.ports[0];
+        port.onmessage = ({ data }) => {
+          output.textContent = JSON.stringify(data);
+          if (data?.type === "specimen:set-controls") port.postMessage({ type: "specimen:controls-applied" });
+        };
+        port.postMessage({ type: "specimen:ready", specimenVersion: 1 });
+        port.start();
+      });
+    </script>
+  </body>
+</html>

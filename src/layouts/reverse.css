@@ -1,5 +1,7 @@
-/* 布局·倒序 —— 联系在前，项目压轴 */
-body.l-reverse main { display: flex; flex-direction: column-reverse; }
-body.l-reverse main section { padding-top: 70px; }
+/* 布局·倒序 —— DOM 顺序不变，以 05→01 倒计时索引制造回溯感 */
+body.l-reverse main { display: flex; flex-direction: column; counter-reset: reverse-step 6; }
+body.l-reverse main section { padding-top: 70px; counter-increment: reverse-step -1; }
+body.l-reverse main section .section-tag::before {
+  content: "0" counter(reverse-step) " · "; color: var(--accent); font-weight: 700;
+}
 body.l-reverse .hero { min-height: 82vh; }
-body.l-reverse .hero-cta .btn-primary { content: "立即联系"; }

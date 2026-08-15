@@ -1,0 +1,213 @@
+{
+  "learningVersion": 1,
+  "itemId": "pixel",
+  "title": "把连续界面量化成像素节奏",
+  "summary": "扫描线、硬偏移影、steps(2) 闪烁与 8/2 像素技能条共同建立 8-bit 游戏机的离散时间和空间。",
+  "difficulty": "intermediate",
+  "durationMinutes": 14,
+  "concepts": [
+    "scanline quantization",
+    "hard pixel shadow",
+    "stepped motion",
+    "discrete bars"
+  ],
+  "objectives": [
+    "解释 5px 扫描周期如何形成显示器纹理",
+    "比较 hover 位移与硬影增长",
+    "验证减少动态时像素光标的覆盖缺口"
+  ],
+  "prerequisites": [
+    "repeating gradients",
+    "steps easing",
+    "box-shadow"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先观察初始 Hero 构图中的标注，再向下验证相同机制。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先从复古像素的初始画面取证",
+      "body": "扫描线、硬偏移影、steps(2) 闪烁与 8/2 像素技能条共同建立 8-bit 游戏机的离散时间和空间。",
+      "annotations": [
+        {
+          "id": "pixel-title",
+          "anchor": [
+            31,
+            34
+          ],
+          "elbow": [
+            20,
+            26
+          ],
+          "end": [
+            9,
+            26
+          ],
+          "detailSide": "right",
+          "summary": "4px 硬影没有模糊",
+          "detail": "标题像像素字块复制到右下，而非霓虹 glow。"
+        },
+        {
+          "id": "pixel-cue",
+          "anchor": [
+            25,
+            28
+          ],
+          "elbow": [
+            36,
+            20
+          ],
+          "end": [
+            49,
+            20
+          ],
+          "detailSide": "right",
+          "summary": "方形徽点离散闪烁",
+          "detail": "steps(2) 只在开/关两态切换。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见效果连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "空间和时间都拒绝插值",
+      "body": "扫描线每 5px 重复；hover 让组件向左上移动、右下硬影变大；技能条按 8px 色块 + 2px 暗块重复。",
+      "code": {
+        "file": "src/themes/pixel.css",
+        "locator": "@keyframes pixblink",
+        "snippet": "/* 复古像素 Pixel —— 8-bit 游戏机美学 */\n.t-pixel {\n  --bg: #1a1c2c; --bg2: #14152b;\n  --surface: #262a44; --surface-2: #333860;\n  --border: #4a5080; --border-hover: #ffcd75;\n  --text: #f4f4f4; --text-2: #9ba0d0;\n  --accent: #ffcd75; --accent-2: #38b764;\n  --nav-bg: rgba(26,28,44,.95);\n  --font-body: \"Courier New\", \"Lucida Console\", monospace;\n  --font-head: \"Courier New\", \"Lucida Console\", monospace;\n  --radius: 0; --radius-sm: 0; --bar-radius: 0; --ribbon-radius: 0;\n  --bw: 3px;\n  --title-tt: uppercase; --title-ls: 2px; --title-size: 34px;\n  --btn-tt: uppercase;\n  --bg-decor:\n    repeating-linear-gradient(0deg, transparent 0 4px, rgba(0,0,0,.1) 4px 5px),\n    linear-gradient(180deg, #1a1c2c 0%, #14152b 100%);\n  --shadow: 5px 5px 0 #0a0b18;\n  --shadow-hover: 8px 8px 0 #0a0b18;\n  --card-hover-tf: translate(-3px,-3px);\n  --btn-hover-tf: translate(-2px,-2px);\n  --tag-hover-tf: translate(-2px,-2px);\n  --post-hover-tf: translate(-3px,-3px);\n  --avatar-glow: none;\n  --avatar-anim: none;\n  --h1-ls: 3px;\n}\nbody.t-pixel .hero h1 { color: var(--accent); text-shadow: 4px 4px 0 #0a0b18; }\nbody.t-pixel .tagline { color: var(--accent-2); text-transform: uppercase; letter-spacing: 2px; }\nbody.t-pixel .hero-badge i { border-radius: 0; animation: pixblink 1s steps(2) infinite; }\n@keyframes pixblink { 50% { opacity: .2; box-shadow: none; } }\n@media (prefers-reduced-motion: reduce) {\n  body.t-pixel .hero-badge i { animation: none; }\n}\nbody.t-pixel .btn { border-color: var(--border); border-width: 3px; font-weight: 700; letter-spacing: 1px; }\nbody.t-pixel .btn-primary { background: var(--accent); color: #1a1c2c; border-color: #0a0b18; }\nbody.t-pixel .btn-ghost { border-color: var(--border); }\nbody.t-pixel .section-tag { background: var(--accent-2); color: #0a0b18; border-color: #0a0b18; font-weight: 700; box-shadow: 4px 4px 0 #0a0b18; }\nbody.t-pixel .card.featured::before { background: var(--accent-2); color: #0a0b18; }\nbody.t-pixel .bar-track { border: 3px solid #0a0b18; height: 14px; }\nbody.t-pixel .bar-fill { background: repeating-linear-gradient(90deg, var(--accent) 0 8px, #e0a94f 8px 10px); }\nbody.t-pixel .bar-row:nth-child(2) .bar-fill { background: repeating-linear-gradient(90deg, var(--accent-2) 0 8px, #2a8a4c 8px 10px); }\nbody.t-pixel .logo { text-transform: uppercase; }\nbody.t-pixel .stat b { text-shadow: 2px 2px 0 #0a0b18; }\nbody.t-pixel .contact-ico svg { fill: var(--accent); }",
+        "sourceDigest": "sha256:7dcf117e26ebb4d1689c995cd60e60df23527674ce4306032127ba240fc461bd",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用真实 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "检验像素画的离散规则",
+      "body": "先改变调色强度，再切换减弱动态偏好；观察硬边空间与阶梯时间是否仍拒绝插值。",
+      "experiments": [
+        {
+          "id": "recolor-console",
+          "label": "偏移掌机调色板",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 38,
+            "saturation": 75
+          },
+          "expected": "黄绿调色改变，但扫描线、硬影、方形边与离散技能条仍在。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "crush-pixels",
+          "label": "提高对比度",
+          "initial": {
+            "contrast": 100
+          },
+          "controls": {
+            "contrast": 130
+          },
+          "expected": "深色硬影和 3px 边更强，像素块分界更锐利。",
+          "reset": "恢复 contrast=100。"
+        },
+        {
+          "id": "reduced-audit",
+          "label": "原生观察：启用系统减少动态并重载",
+          "initial": {},
+          "controls": {},
+          "expected": "共享头像与主题 pixblink 都停止；方形徽点、扫描线和硬边保持静态可读。",
+          "reset": "恢复系统动态偏好。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合标注、源码和实验。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "区分像素感与低清晰度",
+      "body": "从扫描线、硬阴影和 steps() 节拍中选出可复现的判断依据。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "技能条的离散节奏来自？",
+          "options": [
+            "8px 色块与 2px 次色循环",
+            "圆角",
+            "字体"
+          ],
+          "correct": 0,
+          "explanation": "repeating gradient 明确量化宽度。"
+        },
+        {
+          "id": "q2",
+          "question": "hover 为何像像素按钮弹起？",
+          "options": [
+            "阴影模糊",
+            "元素向左上移且硬影从 5px 增到 8px",
+            "背景变白"
+          ],
+          "correct": 1,
+          "explanation": "位移与硬影增量相反配对。"
+        },
+        {
+          "id": "q3",
+          "question": "reduced-motion 后什么仍保留？",
+          "options": [
+            "方形徽点、扫描线和硬边",
+            "pixblink 的 steps 闪烁",
+            "所有动画"
+          ],
+          "correct": 0,
+          "explanation": "主题 media query 停止 pixblink，但不移除静态像素造型。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "使用模糊阴影，破坏像素硬边。",
+    "只停止共享动画，却忘记主题自己的 pixblink。",
+    "技能条使用连续渐变。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "完成至少两组 manifest control 实验并比较基准状态。",
+      "能从初始画面指出两个标注机制。",
+      "三道测验全部答对，并验证 reduced-motion 停止 pixblink。"
+    ]
+  },
+  "contentRevision": 1
+}

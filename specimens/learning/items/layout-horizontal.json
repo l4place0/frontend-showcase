@@ -1,0 +1,205 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-horizontal",
+  "title": "把长页改写成横向章节轨道",
+  "summary": "理解桌面端如何用 82vw 面板、横向 overflow 与 mandatory scroll snap，把纵向区段变成有停靠感的章节序列。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "horizontal overflow",
+    "scroll snap",
+    "viewport panels",
+    "responsive fallback"
+  ],
+  "objectives": [
+    "解释 82vw 为什么同时露出下一章节",
+    "区分滚动容器与 snap 子项职责",
+    "判断内部卡片参数不会改变外层章节宽度"
+  ],
+  "prerequisites": [
+    "Flexbox",
+    "overflow",
+    "scroll-snap"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "Hero 下方先看第一章节占宽，再注意右边是否露出下一章节。",
+      "eyebrow": "READ SIDEWAYS",
+      "title": "82vw 留下一条继续向右的线索",
+      "body": "每个 section 不占满视口，而是保留约 18vw 的下一章节预告；标题箭头和导航提示共同说明滚动方向。",
+      "annotations": [
+        {
+          "id": "direction-hint",
+          "anchor": [
+            78,
+            13
+          ],
+          "elbow": [
+            68,
+            20
+          ],
+          "end": [
+            56,
+            20
+          ],
+          "detailSide": "right",
+          "summary": "导航声明横向浏览",
+          "detail": "桌面媒体查询向 nav-links 添加“横向浏览 →”，补充非原生滚动方向提示。"
+        },
+        {
+          "id": "next-panel-peek",
+          "anchor": [
+            84,
+            78
+          ],
+          "elbow": [
+            75,
+            69
+          ],
+          "end": [
+            63,
+            69
+          ],
+          "detailSide": "right",
+          "summary": "下一章节露出 18vw",
+          "detail": "section 的 min-width 为 82vw，因此停靠后仍能看到右侧还有内容。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 901
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 700
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "容器负责横向滚动，子项负责占宽和停靠。",
+      "eyebrow": "TRACK AND STOPS",
+      "title": "滚动轨道与章节停靠点分工",
+      "body": "main 用 flex + overflow-x 建立轨道并强制 snap；section 用 82vw 和 scroll-snap-align:start 声明每一个停靠点。901px 以下整组规则不生效。",
+      "code": {
+        "file": "src/layouts/horizontal.css",
+        "locator": "body.l-horizontal main",
+        "snippet": "/* 布局·横向卷轴 —— 区块横排，scroll-snap（桌面端实验） */\n@media (min-width: 901px) {\n  body.l-horizontal main {\n    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;\n    max-width: none; scrollbar-width: thin; scrollbar-color: var(--accent) transparent;\n  }\n  body.l-horizontal main section {\n    min-width: 82vw; max-width: none; scroll-snap-align: start;\n    padding: 130px 6vw 60px; margin: 0;\n  }\n  body.l-horizontal .hero { min-height: 88vh; }\n  body.l-horizontal .section-title::after { content: \" →\"; color: var(--accent); }\n  body.l-horizontal footer { border-top: 1px solid var(--border); }\n  body.l-horizontal .nav-links::after {\n    content: \"横向浏览 →\"; color: var(--text-2); font-size: 12px; align-self: center;\n  }\n}",
+        "sourceDigest": "sha256:d0240a69524d0c64d43e7127977e89bc78fdbe5c4f2778e94a23ac0ee627e96f",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "只压缩章节内部卡片，检查 82vw 外层停靠是否保持。",
+      "eyebrow": "CHANGE INSIDE, NOT THE TRACK",
+      "title": "内层密度不应改写外层轨道",
+      "body": "cardMin 与 gap 只改变项目章节内部网格；width 参数也不会覆盖 section 明确的 82vw。",
+      "experiments": [
+        {
+          "id": "dense-cards",
+          "label": "压缩章节内部卡片",
+          "initial": {
+            "cardMin": 310,
+            "gap": 100
+          },
+          "controls": {
+            "cardMin": 240,
+            "gap": 55
+          },
+          "expected": "项目章节内容更密，外层每个 section 仍为 82vw 并按左边缘 snap。",
+          "reset": "恢复 cardMin=310、gap=100。"
+        },
+        {
+          "id": "width-invariant",
+          "label": "把通用内容宽度降到 720",
+          "initial": {
+            "width": 1080
+          },
+          "controls": {
+            "width": 720
+          },
+          "expected": "普通内部内容可能收窄，但章节轨道仍由明确的 82vw/max-width:none 控制。",
+          "reset": "恢复 width=1080。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "回答轨道、停靠与视觉线索。",
+      "eyebrow": "EXPLAIN THE TRACK",
+      "title": "判断横向章节因果",
+      "body": "正确项依次为 B、C、A。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "mandatory snap 写在 main 上的职责是什么？",
+          "options": [
+            "决定卡片圆角",
+            "规定横向滚动结束时必须落到 snap 点",
+            "把 section 变成 82vw"
+          ],
+          "correct": 1,
+          "explanation": "section 声明停靠点，main 声明滚动轴与强制策略。"
+        },
+        {
+          "id": "q2",
+          "question": "cardMin 降到 240 后，哪个量应保持不变？",
+          "options": [
+            "章节内卡片数量",
+            "卡片间距",
+            "外层 section 的 82vw 宽度"
+          ],
+          "correct": 2,
+          "explanation": "实验只改变内部网格参数。"
+        },
+        {
+          "id": "q3",
+          "question": "82vw 而非 100vw 的产品意义是？",
+          "options": [
+            "露出下一章节，提示继续横向浏览",
+            "隐藏滚动条",
+            "改变 DOM 顺序"
+          ],
+          "correct": 0,
+          "explanation": "下一面板的可见边缘是重要方向提示。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只设置 overflow-x，未给子项声明 snap-align。",
+    "章节占满 100vw 且没有方向提示，用户误以为页面结束。",
+    "在窄屏继续强制横向章节轨道。"
+  ],
+  "furtherReading": [
+    {
+      "label": "AI reproduction guide",
+      "href": "./AI.md"
+    },
+    {
+      "label": "Structured specimen context",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能说明 main 与 section 在 snap 中的不同职责。",
+      "完成内部密度与 width 不变量实验。",
+      "三道测验全部答对。"
+    ]
+  },
+  "contentRevision": 1
+}

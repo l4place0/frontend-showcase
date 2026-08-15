@@ -1,10 +1,17 @@
-/* 布局·联系优先 —— CTA 提到最前，行动导向 */
+/* 布局·联系优先 —— 保持 DOM 顺序，以短 Hero 和持久联系入口缩短行动路径 */
 body.l-cta-first main { display: flex; flex-direction: column; }
-body.l-cta-first #contact { order: -1; padding-top: 40px; }
+body.l-cta-first #contact { padding-top: 40px; }
 body.l-cta-first #contact .contact-grid { grid-template-columns: repeat(2, 1fr); }
 body.l-cta-first #contact .contact-card { padding: 34px; border-width: 2px; }
 body.l-cta-first .hero { min-height: 70vh; }
 body.l-cta-first #projects { border-top: 1.5px solid var(--border); }
+body.l-cta-first nav .nav-links a[href="#contact"] {
+  color: var(--bg); background: var(--accent); border-radius: 99px;
+  padding: 8px 14px; font-weight: 700;
+}
+body.l-cta-first nav .nav-links a[href="#contact"]:focus-visible {
+  outline: 3px solid var(--accent-2); outline-offset: 3px;
+}
 @media (max-width: 640px) {
   body.l-cta-first #contact .contact-grid { grid-template-columns: 1fr; }
 }

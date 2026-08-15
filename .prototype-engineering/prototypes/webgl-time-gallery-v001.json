@@ -1,0 +1,98 @@
+{
+  "artifacts": {
+    "boundary": ".prototype-engineering/records/webgl-time-gallery-v001/boundary.json",
+    "brief": ".prototype-engineering/records/webgl-time-gallery-v001/brief.md",
+    "record": ".prototype-engineering/records/webgl-time-gallery-v001/record.md",
+    "repositoryMap": ".prototype-engineering/records/webgl-time-gallery-v001/repository-map.md",
+    "scenarios": ".prototype-engineering/records/webgl-time-gallery-v001/scenarios.json"
+  },
+  "boundaryVersion": 1,
+  "checks": [
+    {
+      "at": "2026-08-13T09:27:36+00:00",
+      "evidence": "dist/items/time-gallery-webgl/index.html",
+      "name": "build",
+      "status": "passed"
+    },
+    {
+      "at": "2026-08-13T09:27:36+00:00",
+      "name": "components",
+      "status": "passed"
+    },
+    {
+      "at": "2026-08-13T09:27:36+00:00",
+      "evidence": "tests/e2e/time-gallery.spec.ts",
+      "name": "e2e-offline-flow",
+      "status": "passed"
+    }
+  ],
+  "createdAt": "2026-08-13T08:37:21+00:00",
+  "decision": "productionize",
+  "evidence": [
+    "dist/items/time-gallery-webgl/index.html",
+    "tests/e2e/time-gallery.spec.ts",
+    ".prototype-engineering/evidence/webgl-time-gallery-v001/01-welcome.png",
+    ".prototype-engineering/evidence/webgl-time-gallery-v001/02-timeline.png",
+    ".prototype-engineering/evidence/webgl-time-gallery-v001/03-timeline-preview.png",
+    ".prototype-engineering/evidence/webgl-time-gallery-v001/04-gallery-final.png",
+    ".prototype-engineering/evidence/webgl-time-gallery-v001/05-detail-final.png"
+  ],
+  "git": {
+    "baseCommit": "bba84da7629e9ad3bb5a1e15fb9ce8265703c11d",
+    "verifiedCommit": "bba84da7629e9ad3bb5a1e15fb9ce8265703c11d"
+  },
+  "history": [
+    {
+      "at": "2026-08-13T08:37:21+00:00",
+      "from": null,
+      "to": "draft"
+    },
+    {
+      "at": "2026-08-13T08:38:20+00:00",
+      "from": "draft",
+      "to": "discovered"
+    },
+    {
+      "at": "2026-08-13T08:39:17+00:00",
+      "from": "discovered",
+      "to": "framed"
+    },
+    {
+      "at": "2026-08-13T08:39:17+00:00",
+      "from": "framed",
+      "to": "bounded"
+    },
+    {
+      "at": "2026-08-13T08:39:17+00:00",
+      "from": "bounded",
+      "to": "frozen"
+    },
+    {
+      "at": "2026-08-13T08:39:17+00:00",
+      "from": "frozen",
+      "to": "building"
+    },
+    {
+      "at": "2026-08-13T09:28:10+00:00",
+      "from": "building",
+      "to": "verified"
+    },
+    {
+      "at": "2026-08-13T09:28:11+00:00",
+      "from": "verified",
+      "to": "recorded"
+    },
+    {
+      "at": "2026-08-13T09:28:11+00:00",
+      "from": "recorded",
+      "to": "decided"
+    }
+  ],
+  "id": "webgl-time-gallery-v001",
+  "name": "webgl-time-gallery",
+  "parentId": null,
+  "phase": "decided",
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-13T09:28:11+00:00",
+  "version": 1
+}

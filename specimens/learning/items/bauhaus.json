@@ -1,0 +1,207 @@
+{
+  "learningVersion": 1,
+  "itemId": "bauhaus",
+  "title": "把三原色变成几何语法",
+  "summary": "红圆、黄斜线和蓝圆以不同尺度散布在纸色背景，标题半圆、章节圆点和三色卡顶把同一几何词汇扩展到内容层级。",
+  "difficulty": "intermediate",
+  "durationMinutes": 12,
+  "concepts": [
+    "primary-color system",
+    "geometric primitives",
+    "asymmetric balance",
+    "repeated shape grammar"
+  ],
+  "objectives": [
+    "指出背景四个几何层的尺度与位置",
+    "解释半圆和章节圆点如何重复视觉语法",
+    "验证换色后几何构成是否仍成立"
+  ],
+  "prerequisites": [
+    "layered gradients",
+    "background positioning",
+    "pseudo-elements"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "先在指定场景同时核对两处可见证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "从展品现场读取构图决定",
+      "body": "红圆、黄斜线和蓝圆以不同尺度散布在纸色背景，标题半圆、章节圆点和三色卡顶把同一几何词汇扩展到内容层级。",
+      "annotations": [
+        {
+          "id": "primary-geometry",
+          "anchor": [
+            82,
+            20
+          ],
+          "elbow": [
+            88,
+            31
+          ],
+          "end": [
+            94,
+            31
+          ],
+          "detailSide": "left",
+          "summary": "红圆与黄线不对称配重",
+          "detail": "背景几何分散在右上、左中和左下，不围绕中心镜像。"
+        },
+        {
+          "id": "title-semicircle",
+          "anchor": [
+            31,
+            47
+          ],
+          "elbow": [
+            18,
+            55
+          ],
+          "end": [
+            8,
+            55
+          ],
+          "detailSide": "right",
+          "summary": "标题下方追加黄色半圆",
+          "detail": "伪元素把背景中的圆形词汇带进正文，不是纯装饰贴纸。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可见证据连接到作者源中的连续规则。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "同一组圆、线、三原色跨层复用",
+      "body": "背景用四层 gradient 安排红圆、黄斜线、蓝圆和黄块；Hero 半圆、章节红点及卡片三色顶边继续复用这些原子，形成系统而非散点装饰。",
+      "code": {
+        "file": "src/themes/bauhaus.css",
+        "locator": "body.t-bauhaus .bg-fx",
+        "snippet": "body.t-bauhaus .bg-fx {\n  background:\n    radial-gradient(circle 150px at 88% 14%, #d64541 98%, transparent),\n    linear-gradient(45deg, transparent 49.7%, #f2b705 50%, transparent 50.3%),\n    radial-gradient(circle 90px at 6% 88%, #1f5fa8 98%, transparent),\n    linear-gradient(#f2b705, #f2b705);\n  background-size: 300px 300px, 180px 180px, 180px 180px, 90px 90px;\n  background-position: 88% 5%, 4% 30%, 3% 88%, 82% 80%;\n  background-repeat: no-repeat;\n  opacity: .9;\n}\nbody.t-bauhaus nav { border-bottom-width: 4px; }\nbody.t-bauhaus .logo span { background: #d64541; color: #f2ede4; padding: 0 6px; margin-left: 4px; border-radius: 50%; }\nbody.t-bauhaus .hero h1 { font-weight: 900; }\nbody.t-bauhaus .hero h1::after { content: \"\"; display: block; width: 90px; height: 45px; margin-top: 10px; background: #f2b705; border-radius: 90px 90px 0 0; }\nbody.t-bauhaus .tagline { color: #1f5fa8; text-transform: uppercase; letter-spacing: 3px; }\nbody.t-bauhaus .section-title::before { content: \"\"; display: inline-block; width: 20px; height: 20px; background: #d64541; border-radius: 50%; margin-right: 14px; vertical-align: baseline; }\nbody.t-bauhaus .section-tag { background: #141414; color: #f2ede4; border-color: #141414; font-weight: 700; letter-spacing: 3px; }\nbody.t-bauhaus .card { border-width: 2px; border-top-width: 10px; }\nbody.t-bauhaus .card:nth-child(3n+1) { border-top-color: #d64541; }\nbody.t-bauhaus .card:nth-child(3n+2) { border-top-color: #f2b705; }\nbody.t-bauhaus .card:nth-child(3n) { border-top-color: #1f5fa8; }\nbody.t-bauhaus .card:hover { border-color: #141414; box-shadow: 8px 8px 0 rgba(20,20,20,.12); }",
+        "sourceDigest": "sha256:da78fc187acafa8a0615181b5d55c9ed0dc092657d9e7cdf522c52c1b5476fd6",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "每轮先预测，再应用该 manifest 声明的真实控件。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "迁移三原色，保留几何句法",
+      "body": "先改变 hue 与 saturation，再提高 contrast；观察颜色身份变化后，圆线关系与三色轮换是否仍可读。",
+      "experiments": [
+        {
+          "id": "rotate-primaries",
+          "label": "旋转三原色色相",
+          "initial": {
+            "hue": 0,
+            "saturation": 100
+          },
+          "controls": {
+            "hue": 36,
+            "saturation": 150
+          },
+          "expected": "红黄蓝整体迁移且更浓，但红圆、黄线和蓝圆的空间角色保持。",
+          "reset": "恢复 hue=0、saturation=100。"
+        },
+        {
+          "id": "harden-composition",
+          "label": "强化纸面与几何反差",
+          "initial": {
+            "contrast": 100,
+            "font": 100
+          },
+          "controls": {
+            "contrast": 132,
+            "font": 110
+          },
+          "expected": "黑线和色块更硬，标题更大；不对称配重与卡顶轮换不变。",
+          "reset": "恢复 contrast=100、font=100。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案需要结合场景、源码和实验结果。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "判断它是系统几何还是彩色贴纸",
+      "body": "从背景分层、伪元素复用和三色轮换中作答。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "Hero 标题后的黄色形状如何生成？",
+          "options": [
+            "背景图片",
+            "h1::after 的半圆伪元素",
+            "SVG 外链"
+          ],
+          "correct": 1,
+          "explanation": "源码用 90×45 的伪元素和上半圆圆角。"
+        },
+        {
+          "id": "q2",
+          "question": "背景为何不显得中心对称？",
+          "options": [
+            "几何层被放在 88%/5%、4%/30% 等不同位置",
+            "所有图形同心",
+            "使用了 flex-start"
+          ],
+          "correct": 0,
+          "explanation": "不同尺度和锚点制造非对称平衡。"
+        },
+        {
+          "id": "q3",
+          "question": "换色后仍能证明包豪斯语法的证据是什么？",
+          "options": [
+            "仍有圆、线、块及跨层重复",
+            "标题仍是中文",
+            "页面仍可滚动"
+          ],
+          "correct": 0,
+          "explanation": "几何原子与复用方式比具体色值更基础。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只撒三原色圆点，没有让几何原子进入标题、章节和卡片。",
+    "把所有图形居中对称，丢失动态的不对称平衡。",
+    "加入柔软渐变和大阴影，削弱纸面与硬边构成。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "能在同一初始场景指出背景几何与标题半圆。",
+      "完成换色和反差实验并说明不变量。",
+      "能列出至少三个复用几何语法的组件。"
+    ]
+  },
+  "contentRevision": 1
+}

@@ -1,0 +1,201 @@
+{
+  "learningVersion": 1,
+  "itemId": "layout-accordion",
+  "title": "用锚点、焦点与高度窗口完成可触控披露",
+  "summary": "区段默认被 108px 高度窗口裁切；顶部原生锚点在触屏点击、键盘 Enter 后让 section 成为 :target，hover 与 focus-within 则提供桌面补充路径。",
+  "difficulty": "intermediate",
+  "durationMinutes": 14,
+  "concepts": [
+    "anchor-driven disclosure",
+    ":target state",
+    "focus-within",
+    "touch-accessible navigation"
+  ],
+  "objectives": [
+    "解释 max-height 与 overflow 如何折叠内容",
+    "验证触屏点击导航和键盘 Enter 都能展开目标区段",
+    "识别 :target、focus-within 与 hover 的状态优先级"
+  ],
+  "prerequisites": [
+    "URL fragments",
+    "CSS pseudo-classes",
+    "keyboard focus"
+  ],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在指定场景核对两处可见状态或顺序证据。",
+      "eyebrow": "OBSERVE THE SPECIMEN",
+      "title": "先执行，再解释可见机制",
+      "body": "区段默认被 108px 高度窗口裁切；顶部原生锚点在触屏点击、键盘 Enter 后让 section 成为 :target，hover 与 focus-within 则提供桌面补充路径。",
+      "annotations": [
+        {
+          "id": "touch-tab",
+          "anchor": [
+            68,
+            11
+          ],
+          "elbow": [
+            57,
+            19
+          ],
+          "end": [
+            45,
+            19
+          ],
+          "detailSide": "right",
+          "summary": "顶部导航是原生披露控制",
+          "detail": "≤900px 仍显示可横滚导航，链接具有 44px 触控高度；点击或 Enter 会设置 fragment。"
+        },
+        {
+          "id": "target-panel",
+          "anchor": [
+            50,
+            81
+          ],
+          "elbow": [
+            63,
+            72
+          ],
+          "end": [
+            77,
+            72
+          ],
+          "detailSide": "left",
+          "summary": "目标区段从 108px 展开",
+          "detail": "section:target 将上限提升至 2600px，并同步把 + 改成 −、清空操作提示。"
+        }
+      ],
+      "scene": {
+        "viewport": {
+          "minWidth": 640
+        },
+        "controls": {},
+        "screen": "initial",
+        "scroll": {
+          "x": 0,
+          "y": 700
+        }
+      }
+    },
+    {
+      "id": "principle",
+      "kind": "principle",
+      "label": "02 原理",
+      "hint": "把可执行状态和顺序连接到作者源。",
+      "eyebrow": "READ THE CAUSE",
+      "title": "让锚点成为触控和键盘共享的状态源",
+      "body": "折叠由 max-height:108px 与 overflow:hidden 完成；:target、focus-within、hover 任一路径都扩大高度。移动端覆盖基础导航隐藏规则，保留横向可滚的 44px 链接。",
+      "code": {
+        "file": "src/layouts/accordion.css",
+        "locator": "body.l-accordion main section:target",
+        "snippet": "/* 布局·手风琴 —— 默认折叠成标题条，悬停展开 */\nbody.l-accordion .hero { min-height: 82vh; }\nbody.l-accordion main section {\n  max-height: 108px; overflow: hidden; cursor: pointer;\n  border-top: 1.5px solid var(--border);\n  padding-top: 30px; padding-bottom: 30px;\n  transition: max-height .55s cubic-bezier(.2,.7,.2,1);\n}\nbody.l-accordion main section:hover,\nbody.l-accordion main section:focus-within,\nbody.l-accordion main section:target { max-height: 2600px; }\nbody.l-accordion main section:last-of-type { border-bottom: 1.5px solid var(--border); }\nbody.l-accordion .section-title::after {\n  content: \"+\"; float: right; color: var(--text-2); font-weight: 400;\n  transition: transform .3s;\n}\nbody.l-accordion main section:hover .section-title::after,\nbody.l-accordion main section:focus-within .section-title::after,\nbody.l-accordion main section:target .section-title::after { content: \"−\"; color: var(--accent); }\nbody.l-accordion .section-desc { margin-bottom: 26px; }\nbody.l-accordion .reveal { opacity: 1; transform: none; }\nbody.l-accordion main section::after {\n  content: \"导航 / 聚焦展开\"; position: absolute; margin-top: -52px; right: 24px;\n  font-size: 12px; color: var(--text-2); letter-spacing: 2px;\n}\nbody.l-accordion main section:hover::after,\nbody.l-accordion main section:focus-within::after,\nbody.l-accordion main section:target::after { content: \"\"; }\nbody.l-accordion main section { position: relative; }\n@media (max-width: 900px) {\n  body.l-accordion nav .nav-inner { gap: 10px; }\n  body.l-accordion nav .nav-links {\n    display: flex; min-width: 0; margin-left: 0; gap: 8px;\n    overflow-x: auto; scrollbar-width: thin;\n  }\n  body.l-accordion nav .nav-links a {\n    flex: 0 0 auto; min-height: 44px; padding: 10px 12px;\n    display: inline-flex; align-items: center; white-space: nowrap;\n  }\n  body.l-accordion nav .gallery-link { display: none; }\n}",
+        "sourceDigest": "sha256:cf26c1b4e3d8c4e2b8d14e7f4e847cead4725a3be8a4072b5c272c452e508dae",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "原生动作使用空 controls；参数实验只使用 manifest controls。",
+      "eyebrow": "CHANGE THE MECHANISM",
+      "title": "先用原生导航披露，再改变展开内容密度",
+      "body": "交互实验不借助 Protocol control；宽度和卡片最小宽度只压力测试展开内容，不替代 :target 状态。",
+      "experiments": [
+        {
+          "id": "tap-disclosure",
+          "label": "触控/键盘：选择“技能”，再选择“项目”",
+          "initial": {},
+          "controls": {},
+          "expected": "点击或聚焦导航后按 Enter，URL fragment 与展开区段同步；前一段回到 108px 折叠态。",
+          "reset": "点击“项目”或其他导航链接切换目标；点击顶部 logo 回到 #top，清除区段 target。"
+        },
+        {
+          "id": "narrow-panel",
+          "label": "收窄展开内容带",
+          "initial": {
+            "width": 1080,
+            "cardMin": 310
+          },
+          "controls": {
+            "width": 720,
+            "cardMin": 410
+          },
+          "expected": "目标区段仍由 :target 展开；内容换行增多、项目列数减少，但披露状态不丢失。",
+          "reset": "恢复 width=1080、cardMin=310。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "答案必须对应触控、键盘和源码证据。",
+      "eyebrow": "EXPLAIN TO COMPLETE",
+      "title": "证明披露不依赖 hover",
+      "body": "答案需覆盖触控、键盘和状态复位。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "触屏点击顶部“技能”后，哪个状态负责展开？",
+          "options": [
+            "section:hover",
+            "section:target",
+            "正数 tabindex"
+          ],
+          "correct": 1,
+          "explanation": ":target 来自原生 fragment 链接。"
+        },
+        {
+          "id": "q2",
+          "question": "键盘用户如何完成同一操作？",
+          "options": [
+            "Tab 聚焦导航链接并按 Enter",
+            "只能把鼠标移入",
+            "按住 Shift 不放"
+          ],
+          "correct": 0,
+          "explanation": "锚点链接原生支持 Tab 与 Enter。"
+        },
+        {
+          "id": "q3",
+          "question": "如何把当前区段复位为折叠？",
+          "options": [
+            "切换到另一锚点或回到 #top",
+            "把 max-height 控件设零",
+            "刷新 iframe 才能复位"
+          ],
+          "correct": 0,
+          "explanation": "目标离开后旧 section 不再匹配 :target。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "只写 hover，触屏没有稳定披露动作。",
+    "导航在 ≤900px 被基础样式隐藏，导致移动端没有控制器。",
+    "为 section 添加正数 tabindex 人工改写焦点顺序。"
+  ],
+  "furtherReading": [
+    {
+      "label": "展品作者说明",
+      "href": "./AI.md"
+    },
+    {
+      "label": "结构化展品上下文",
+      "href": "./ai-context.json"
+    }
+  ],
+  "completion": {
+    "criteria": [
+      "在触屏宽度点击两个导航项并观察唯一展开区段。",
+      "用 Tab+Enter 重复切换，并通过 #top 复位。",
+      "能解释 :target、focus-within、hover 三条路径。"
+    ]
+  },
+  "contentRevision": 2
+}
