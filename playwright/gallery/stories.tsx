@@ -50,6 +50,10 @@ function SpecimenCardStory() {
   return <MemoryRouter><SpecimenCard item={item} index={4} /></MemoryRouter>;
 }
 
+function SpecimenCardThumbnailStory() {
+  return <MemoryRouter><SpecimenCard item={{ ...item, thumbnail: "thumbnail.svg" }} index={4} /></MemoryRouter>;
+}
+
 function SpecimenViewerStory() {
   const [values, setValues] = useState<Record<string, unknown>>({ speed: 1 });
   return (
@@ -68,6 +72,7 @@ const builtInStories: Record<string, ComponentType> = {
   "ControlPanel#AllControls": ControlPanelStory,
   "ControlPanel#Empty": EmptyControlPanelStory,
   "SpecimenCard#Default": SpecimenCardStory,
+  "SpecimenCard#Thumbnail": SpecimenCardThumbnailStory,
   "SpecimenViewer#ProtocolProbe": SpecimenViewerStory,
   "AiReferencePanel#Default": AiReferencePanelStory,
 };

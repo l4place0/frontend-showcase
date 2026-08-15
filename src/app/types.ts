@@ -39,6 +39,7 @@ export interface Specimen {
   entry?: string;
   url?: string;
   thumbnail?: string;
+  preview?: { strategy?: string; source?: string; anchor?: string };
   runtime?: SpecimenRuntime;
   controls?: SpecimenControl[];
   ai?: { prompt?: string; context?: string; source?: string };
