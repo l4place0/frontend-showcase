@@ -1,6 +1,6 @@
 # CI/CD v1 实施计划与验收
 
-本文描述 v1 的实现顺序与验收清单。仓库内实现候选已完成本地验证；远端 PR 门禁、分支保护、Pages deployment 和 production smoke 尚须按本清单验收。
+本文描述 v1 的实现顺序与验收清单。首次生产验收已于 2026-08-15 完成，详细证据见 [07-acceptance-record.md](./07-acceptance-record.md)。未勾选项目属于明确留待后续演进的能力。
 
 ## 1. MVP 范围
 
@@ -94,56 +94,56 @@
 
 ### Build 与 Artifact
 
-- [ ] 单个 workflow run 中 `npm run build` 只出现一次。
-- [ ] Build 成功后立即上传 generic artifact。
-- [ ] Manifest 记录 SHA、run、attempt、Node、lockfile digest 和 dist digest。
-- [ ] 下载校验失败会阻止测试或部署。
-- [ ] Artifact 不包含 `.prototype-engineering/`、测试报告源目录或本地日志。
+- [x] 单个 workflow run 中 `npm run build` 只出现一次。
+- [x] Build 成功后立即上传 generic artifact。
+- [x] Manifest 记录 SHA、run、attempt、Node、lockfile digest 和 dist digest。
+- [x] 下载校验失败会阻止测试或部署。
+- [x] Artifact 不包含 `.prototype-engineering/`、测试报告源目录或本地日志。
 
 ### 测试
 
-- [ ] Component 7 个测试独立执行。
-- [ ] Ordinary E2E 预计 20 个测试独立执行。
-- [ ] WebGL 2 个测试在 1 worker、非 fully-parallel project 中执行。
-- [ ] Visual 4 个 case 每个 PR required。
-- [ ] E2E/WebGL/visual 使用同一 artifact digest。
-- [ ] Flaky 会使门禁失败。
-- [ ] 任一层失败时其他层仍能完成并上传报告。
+- [x] Component 7 个测试独立执行。
+- [x] Ordinary E2E 20 个测试独立执行。
+- [x] WebGL 2 个测试在 1 worker、非 fully-parallel project 中执行。
+- [x] Visual 4 个 case 每个 PR required。
+- [x] E2E/WebGL/visual 使用同一 artifact digest。
+- [x] Flaky 会使门禁失败。
+- [x] 任一层失败时其他层仍能完成并上传报告。
 
 ### 部署
 
-- [ ] Package job 不运行项目 build。
-- [ ] 任一 required layer 失败时 package/deploy 均不运行。
-- [ ] 只有 main production event 可以进入 Pages environment。
-- [ ] 只有 deploy job拥有 `pages: write` 和 `id-token: write`。
-- [ ] 部署内容 SHA/digest 与 manifest 一致。
-- [ ] Production smoke 验证首页、62 项 catalog、代表 item 和资源发现入口。
+- [x] Package job 不运行项目 build。
+- [x] 任一 required layer 失败时 package/deploy 均不运行。
+- [x] 只有 main production event 可以进入 Pages environment。
+- [x] 只有 deploy job拥有 `pages: write` 和 `id-token: write`。
+- [x] 部署内容 SHA/digest 与 manifest 一致。
+- [x] Production smoke 验证首页、62 项 catalog、代表 item 和资源发现入口。
 
 ### 分支治理
 
-- [ ] `dev/main` 必须走 PR。
-- [ ] `CI / quality-gate` 为 required。
-- [ ] Required approvals 为 0，符合单人维护状态。
-- [ ] Force push/deletion 被禁止。
-- [ ] feature → main 被 release-policy 拒绝。
-- [ ] dev → main 在完整门禁后可合并。
+- [x] `dev/main` 必须走 PR。
+- [x] `CI / quality-gate` 为 required。
+- [x] Required approvals 为 0，符合单人维护状态。
+- [x] Force push/deletion 被禁止。
+- [x] feature → main 被 release-policy 拒绝。
+- [x] dev → main 在完整门禁后可合并。
 
 ### 诊断与 Agentic
 
-- [ ] 失败 run 上传结构化 diagnostic bundle。
-- [ ] Bundle 能定位 suite、test、file、line、attempt、artifact 和附件。
-- [ ] `ci:diagnose -- --run <id>` 能下载、校验并输出复现命令。
-- [ ] 给 Agent 一个失败 run ID，无需手工浏览 UI 即可获取核心证据。
-- [ ] Agent 没有 protected branch 或 Pages 写权限。
-- [ ] 成本 telemetry 失败只告警，identity 校验失败强制阻断。
+- [x] 失败 run 上传结构化 diagnostic bundle。
+- [x] Bundle 能定位 suite、test、file、line、attempt、artifact 和附件。
+- [x] `ci:diagnose -- --run <id>` 能下载、校验并输出复现命令。
+- [x] 给 Agent 一个失败 run ID，无需手工浏览 UI 即可获取核心证据。
+- [x] Agent 没有 protected branch 或 Pages 写权限。
+- [x] 成本 telemetry 失败只告警，identity 校验失败强制阻断。
 
 ### 仓库回归
 
-- [ ] `npm run build` 通过。
-- [ ] `npm run test:components` 通过。
-- [ ] `npm run test:e2e` 通过。
-- [ ] `npm run test:visual` 通过或按预期审慎更新 baseline。
-- [ ] 62 件 Specimen 独立协议、MessageChannel 和默认拒绝 iframe 权限不变。
+- [x] `npm run build` 通过。
+- [x] `npm run test:components` 通过。
+- [x] `npm run test:e2e` 通过。
+- [x] `npm run test:visual` 通过，并按平台审慎建立 baseline。
+- [x] 62 件 Specimen 独立协议、MessageChannel 和默认拒绝 iframe 权限不变。
 
 ## 4. 主要风险与缓解
 

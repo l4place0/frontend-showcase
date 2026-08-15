@@ -39,6 +39,7 @@ jobs:
 
   build:
     name: CI / build
+    needs: release_policy
     runs-on: ubuntu-latest
     timeout-minutes: 15
     outputs:
@@ -90,6 +91,7 @@ jobs:
 
   component:
     name: CI / component
+    needs: release_policy
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
