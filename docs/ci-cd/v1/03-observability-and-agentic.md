@@ -42,9 +42,10 @@ ci-diagnostics-<SHA>-attempt-<N>/
 ├── artifact-manifest.json
 ├── failures.json
 ├── timings.json
-├── reproduction.json
-└── reports/                 # 内含 HTML/JSON report、screenshots、traces、videos
+└── reproduction.json
 ```
+
+深度附件保存在各层独立的 `*-report-*` artifact，避免 diagnostic finalizer 下载并重复上传大体积 trace/video。`ci:diagnose` 默认只取结构化核心证据和 site artifact；只有传入 `--with-reports` 才下载深度附件。
 
 ## 3. 建议的诊断 Schema
 

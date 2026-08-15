@@ -4,6 +4,7 @@ import path from "node:path";
 
 const marker = process.argv.indexOf("--run");
 const runId = marker >= 0 ? process.argv[marker + 1] : process.argv[2];
+const withReports = process.argv.includes("--with-reports");
 if (!/^\d+$/.test(runId || "")) {
   console.error("usage: npm run ci:diagnose -- --run <github-run-id>");
   process.exit(2);
@@ -52,8 +53,20 @@ if (summary.artifact?.name) {
   }
 }
 
+if (withReports && summary.evidenceArtifacts?.length) {
+  const reportsTarget = path.join(target, "reports");
+  await mkdir(reportsTarget, { recursive: true });
+  for (const artifactName of summary.evidenceArtifacts) {
+    const download = spawnSync("gh", ["run", "download", runId, "--name", artifactName, "--dir", path.join(reportsTarget, artifactName)], {
+      stdio: "inherit",
+    });
+    if (download.status !== 0) console.warn(`report artifact unavailable or expired: ${artifactName}`);
+  }
+}
+
 console.log(JSON.stringify(summary, null, 2));
 console.log(`\nDiagnostics downloaded to ${target}`);
 console.log(`Site artifact: ${artifactVerification}`);
 console.log("Reproduction commands:");
 for (const [scope, command] of Object.entries(summary.reproduction || {})) console.log(`  ${scope}: ${command}`);
+if (!withReports) console.log(`Deep reports were not downloaded; add --with-reports when trace/video inspection is needed.`);

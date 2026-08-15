@@ -79,7 +79,8 @@ Flaky 只是“首次失败、retry 后通过”的现象，不是根因类别�
 | PR build artifact | 7 天 |
 | dev candidate | 14 天 |
 | main verified artifact | 30–90 天 |
-| Playwright reports | 14 天 |
+| Playwright reports/trace/video | 14 天 |
+| 机器结果与 CI diagnostics | 30 天 |
 | trace/video/screenshots | 14 天 |
 | CI metrics | 30 天 |
 | Visual baseline | Git 历史永久保存 |

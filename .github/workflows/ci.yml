@@ -80,6 +80,14 @@ jobs:
           if-no-files-found: error
           retention-days: ${{ github.ref == 'refs/heads/main' && 90 || github.ref == 'refs/heads/dev' && 14 || 7 }}
 
+      - name: Upload artifact identity probe
+        uses: actions/upload-artifact@v7
+        with:
+          name: site-manifest-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/ci/site-artifact/artifact-manifest.json
+          if-no-files-found: error
+          retention-days: 30
+
   component:
     name: CI / component
     runs-on: ubuntu-latest
@@ -116,6 +124,15 @@ jobs:
             .generated/test-results/components/
           if-no-files-found: warn
           retention-days: ${{ env.REPORT_RETENTION_DAYS }}
+
+      - name: Upload component machine result
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: component-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/test-results/components/results.json
+          if-no-files-found: warn
+          retention-days: 30
 
   e2e:
     name: CI / e2e
@@ -165,6 +182,15 @@ jobs:
           if-no-files-found: warn
           retention-days: ${{ env.REPORT_RETENTION_DAYS }}
 
+      - name: Upload end-to-end machine result
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/test-results/e2e/results.json
+          if-no-files-found: warn
+          retention-days: 30
+
   webgl:
     name: CI / webgl
     needs: build
@@ -212,6 +238,15 @@ jobs:
             .generated/test-results/webgl/
           if-no-files-found: warn
           retention-days: ${{ env.REPORT_RETENTION_DAYS }}
+
+      - name: Upload WebGL machine result
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: webgl-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/test-results/webgl/results.json
+          if-no-files-found: warn
+          retention-days: 30
 
   visual:
     name: CI / visual
@@ -261,6 +296,15 @@ jobs:
           if-no-files-found: warn
           retention-days: ${{ env.REPORT_RETENTION_DAYS }}
 
+      - name: Upload visual machine result
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: visual-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: .generated/test-results/visual/results.json
+          if-no-files-found: warn
+          retention-days: 30
+
   quality_gate:
     name: CI / quality-gate
     if: ${{ always() }}
@@ -302,14 +346,14 @@ jobs:
         continue-on-error: true
         uses: actions/download-artifact@v8
         with:
-          name: ${{ env.SITE_ARTIFACT_NAME }}
+          name: site-manifest-${{ github.sha }}-attempt-${{ github.run_attempt }}
           path: .generated/diagnostic-input/site
 
-      - name: Download test reports
+      - name: Download machine-readable test results
         continue-on-error: true
         uses: actions/download-artifact@v8
         with:
-          pattern: '*-report-${{ github.sha }}-attempt-${{ github.run_attempt }}'
+          pattern: '*-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}'
           path: .generated/diagnostic-input/test-reports
 
       - name: Build machine-readable diagnostic bundle

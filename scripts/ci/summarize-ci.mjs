@@ -1,4 +1,4 @@
-import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const root = process.cwd();
@@ -79,6 +79,9 @@ const summary = {
     webgl: "npm run test:webgl",
     visual: "npm run test:visual",
   },
+  evidenceArtifacts: ["component", "e2e", "webgl", "visual"].map(
+    (scope) => `${scope}-report-${commit}-attempt-${runAttempt}`,
+  ),
 };
 
 const failures = [];
@@ -86,7 +89,11 @@ const testTimings = [];
 const reportSummaries = [];
 for (const reportFile of await findFiles(path.join(input, "test-reports"), "results.json")) {
   const report = JSON.parse(await readFile(reportFile, "utf8"));
-  const scope = path.basename(path.dirname(reportFile));
+  const machineDirectory = reportFile
+    .split(path.sep)
+    .find((segment) => /^(component|e2e|webgl|visual)-machine-/.test(segment));
+  const rawScope = machineDirectory?.split("-machine-")[0] || path.basename(path.dirname(reportFile));
+  const scope = rawScope === "components" ? "component" : rawScope;
   reportSummaries.push({
     scope,
     playwright: report.config?.version || null,
@@ -134,13 +141,6 @@ await writeFile(path.join(output, "failures.json"), `${JSON.stringify({ schemaVe
 await writeFile(path.join(output, "reproduction.json"), `${JSON.stringify(summary.reproduction, null, 2)}\n`);
 await writeFile(path.join(output, "timings.json"), `${JSON.stringify({ schemaVersion: 1, source: "Playwright JSON reports", reports: reportSummaries, tests: testTimings }, null, 2)}\n`);
 if (manifest) await writeFile(path.join(output, "artifact-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
-
-await rm(path.join(input, "site", "dist"), { recursive: true, force: true });
-try {
-  await cp(input, path.join(output, "reports"), { recursive: true });
-} catch (error) {
-  if (error.code !== "ENOENT") throw error;
-}
 
 const summaryFile = process.env.GITHUB_STEP_SUMMARY;
 if (summaryFile) {

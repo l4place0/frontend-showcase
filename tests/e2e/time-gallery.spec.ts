@@ -1,7 +1,9 @@
 import { test, expect } from "@playwright/test";
 
 test("time gallery completes the offline art-history flow", async ({ page }) => {
-  test.setTimeout(120_000);
+  // The isolated Linux runner uses software rendering; assertions stay unchanged,
+  // but the complete 54-artwork interaction path consistently needs >120 seconds.
+  test.setTimeout(180_000);
   const consoleErrors: string[] = [];
   const externalRequests: string[] = [];
   page.on("console", (message) => { if (message.type() === "error") consoleErrors.push(message.text()); });
