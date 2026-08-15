@@ -9,3 +9,6 @@
 - Run `npm run build`, `npm run test:components`, and `npm run test:e2e` after relevant changes.
 - Update the Playwright visual baseline deliberately when a representative visual change is intended.
 - Do not commit `dist/`, `.generated/`, local logs, Playwright reports, or TypeScript build-info files.
+- Treat `main` as the production branch and `dev` as the sole development integration branch.
+- Create development branches from `dev` using the `feature/<topic>` naming convention, and merge them back into `dev` before promoting tested work to `main`.
+- Keep `.prototype-engineering/` tracked on `dev` and development branches as the source of prototype lineage and evidence.

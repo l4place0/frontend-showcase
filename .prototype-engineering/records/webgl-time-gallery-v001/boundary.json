@@ -1,0 +1,41 @@
+{
+  "subject": "独立运行的《时光画廊》WebGL 艺术史科普 Specimen",
+  "inside": [
+    "欢迎页、树状时间轴、悬停时期卡与非线性转场",
+    "第一人称圆厅、键鼠控制、碰撞边界和画作拾取",
+    "真实灯光、PBR、阴影、反射、AO、泛光、色调映射与建筑几何",
+    "单例画作详情面板、键盘关闭与返回时间轴流程",
+    "8+ 时期、20+ 画家、50+ 画作的本地数据、图片比例和来源授权清单",
+    "Specimen Protocol v1 注册、独立构建、离线运行和自动化验收"
+  ],
+  "outside": [
+    {
+      "system": "Wikimedia Commons Open Access collection",
+      "contract": "开发时只接纳 LicenseShortName 为 Public domain 或 CC0、thumburl 非空的绘画条目；固化 description URL、图像 URL、尺寸和授权说明，运行时不得调用",
+      "adapter": "scripts/fetch-artworks.mjs 生成的本地 assets/artworks.json 与 JPEG 文件",
+      "scenarioIds": [
+        "normal-catalog",
+        "missing-image"
+      ]
+    },
+    {
+      "system": "浏览器 WebGL 与 Pointer Lock",
+      "contract": "若 WebGL 可用则呈现完整 3D；Pointer Lock 只在用户手势后请求并允许 Esc 释放；能力缺失时显示可理解的回退提示且页面仍可返回时间轴",
+      "adapter": "Three.js 本地模块、feature detection 和 GalleryApp 控制器",
+      "scenarioIds": [
+        "normal-catalog",
+        "pointer-lock-denied",
+        "webgl-unavailable"
+      ]
+    },
+    {
+      "system": "Catalog 宿主",
+      "contract": "Specimen 不读取宿主 DOM/context/CSS；仅通过注入的 MessageChannel bridge 接收暂停与控制生命周期消息",
+      "adapter": "构建脚本注入的 specimens/shared/portfolio/bridge.js",
+      "scenarioIds": [
+        "normal-catalog",
+        "standalone"
+      ]
+    }
+  ]
+}

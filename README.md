@@ -64,3 +64,25 @@ items/<id>/
 - 通过源码与产物校验，并补充相应 Playwright 测试。
 
 部署基址为 `/frontend-showcase/`，推送 `main` 后由 GitHub Actions 构建、执行浏览器测试并发布到 GitHub Pages。
+
+## 分支工作流
+
+- `main` 是生产分支，只接收已经在 `dev` 完成全量验证的版本。
+- `dev` 是唯一的开发集成分支；日常开发不直接提交到 `main`。
+- 功能开发从最新 `dev` 签出，命名为 `feature/<topic>`，完成并验证后合并回 `dev`。
+- `dev` 通过 `npm run build`、`npm run test:components`、`npm run test:e2e` 和 `npm run test:visual` 后，才允许合并到 `main`。
+- `.prototype-engineering/` 在 `dev` 与由其签出的开发分支中纳入版本控制，用于保存原型谱系、边界、证据与决策记录。
+
+标准流程：
+
+```bash
+git switch dev
+git pull --ff-only
+git switch -c feature/my-change
+
+# 完成开发和验证后
+git switch dev
+git merge --no-ff feature/my-change
+
+# dev 全量验收通过后，再创建 dev → main 的生产合并
+```
