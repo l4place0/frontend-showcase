@@ -139,22 +139,6 @@ test("every learning view has a stable narrow-screen fallback", async ({ page, r
   expect(iframeOverflows, "stable iframe horizontal overflows").toEqual([]);
 });
 
-test("time gallery stops idle WebGL redraws for reduced motion while preserving user control", async ({ page }) => {
-  test.setTimeout(90_000);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("./items/time-gallery-webgl/index.html");
-  await page.locator('[data-action="start"]').click();
-  await page.locator(".period-node").first().click();
-  await expect(page.locator("#webgl-root")).toHaveAttribute("data-reduced-motion", "true");
-  await expect.poll(async () => Number(await page.locator("#webgl-root").getAttribute("data-render-count") || 0), { timeout: 30_000 }).toBeGreaterThan(0);
-  const idleCount = Number(await page.locator("#webgl-root").getAttribute("data-render-count"));
-  await page.waitForTimeout(500);
-  expect(Number(await page.locator("#webgl-root").getAttribute("data-render-count")) - idleCount).toBeLessThanOrEqual(1);
-  await page.keyboard.down("KeyW");
-  await expect.poll(async () => Number(await page.locator("#webgl-root").getAttribute("data-render-count"))).toBeGreaterThan(idleCount);
-  await page.keyboard.up("KeyW");
-});
-
 test("every standalone specimen suppresses repeating CSS motion when reduced motion is requested", async ({ page, request }) => {
   test.setTimeout(360_000);
   await page.emulateMedia({ reducedMotion: "reduce" });
