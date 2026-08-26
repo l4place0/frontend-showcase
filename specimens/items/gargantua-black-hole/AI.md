@@ -110,7 +110,7 @@ Canvas、章节区和课程导航均有可读标签；章节按钮提供 `aria-c
 
 ## 自动化
 
-使用 `?capture=1&stage=5` 获取确定性最终画面。等待 `html[data-capture-ready="true"]`，然后调用：
+使用 `?capture=1&stage=5&time=1000` 获取确定性最终画面。`capture=1` 和缩略图使用的 `testMode=1` 会把 `uTime` 固定到 `time` 参数并在首帧后停止动画，避免 Software WebGL 截图被持续积分阻塞。等待 `html[data-capture-ready="true"]`，然后调用：
 
 ```js
 window.__GARGANTUA_CAPTURE__()

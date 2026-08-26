@@ -58,7 +58,7 @@ test("Schwarzschild lab teaches the raytracing pipeline in six steps", async ({ 
 });
 
 test("Schwarzschild lab animates particles only in the final stage", async ({ page }) => {
-  await page.goto("./items/gargantua-black-hole/index.html?capture=1&stage=4");
+  await page.goto("./items/gargantua-black-hole/index.html?stage=4");
   await expect(page.locator("html")).toHaveAttribute("data-capture-ready", "true", { timeout: 30_000 });
   const before = await page.evaluate(() => (window as typeof window & {
     __GARGANTUA_CAPTURE__: () => { state: { renderCount: number } };
@@ -73,6 +73,19 @@ test("Schwarzschild lab animates particles only in the final stage", async ({ pa
   await expect.poll(async () => page.evaluate(() => (window as typeof window & {
     __GARGANTUA_CAPTURE__: () => { state: { renderCount: number } };
   }).__GARGANTUA_CAPTURE__().state.renderCount)).toBeGreaterThan(before);
+});
+
+test("Schwarzschild capture mode freezes the final stage at a deterministic time", async ({ page }) => {
+  await page.goto("./items/gargantua-black-hole/index.html?capture=1&stage=5&time=1000");
+  await expect(page.locator("html")).toHaveAttribute("data-capture-ready", "true", { timeout: 30_000 });
+  const before = await page.evaluate(() => (window as typeof window & {
+    __GARGANTUA_CAPTURE__: () => { state: { renderCount: number } };
+  }).__GARGANTUA_CAPTURE__().state.renderCount);
+  await page.waitForTimeout(600);
+  const after = await page.evaluate(() => (window as typeof window & {
+    __GARGANTUA_CAPTURE__: () => { state: { renderCount: number } };
+  }).__GARGANTUA_CAPTURE__().state.renderCount);
+  expect(after).toBe(before);
 });
 
 test("Schwarzschild lab keeps the lesson readable on mobile", async ({ page }) => {

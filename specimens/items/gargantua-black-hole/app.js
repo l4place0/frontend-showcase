@@ -6,6 +6,8 @@ const canvas = document.querySelector("#viewport");
 const loading = document.querySelector("#loading");
 const failure = document.querySelector("#failure");
 const url = new URL(location.href);
+const captureMode = url.searchParams.has("capture") || url.searchParams.has("testMode");
+const captureTime = Number(url.searchParams.get("time") ?? 1000) * .001;
 const labels = [
   "拖动旋转 · 滚轮缩放 · 观察相机 C、成像平面与射线 d",
   "同一个相机位置 C · 不同像素 Pᵢⱼ · 形成不同方向 dᵢⱼ",
@@ -90,7 +92,7 @@ function updateCriticalGuides() {
 
 function draw(time = performance.now()) {
   raf = 0;
-  if (stage === 5 && time - lastAnimationFrame < 1000 / 24) {
+  if (stage === 5 && !captureMode && time - lastAnimationFrame < 1000 / 24) {
     raf = requestAnimationFrame(draw);
     return;
   }
@@ -104,7 +106,7 @@ function draw(time = performance.now()) {
   } else {
     renderer.setClearColor(0x060606, 1);
     updateCameraUniforms();
-    material.uniforms.uTime.value = time * .001;
+    material.uniforms.uTime.value = captureMode ? captureTime : time * .001;
     updateCriticalGuides();
     renderer.render(shaderScene, screenCamera);
     lessonLabels.forEach(({ element }) => { element.hidden = true; });
@@ -115,7 +117,7 @@ function draw(time = performance.now()) {
     window.__GARGANTUA_READY__ = true;
     document.documentElement.dataset.captureReady = "true";
   }
-  if (stage === 5) raf = requestAnimationFrame(draw);
+  if (stage === 5 && !captureMode) raf = requestAnimationFrame(draw);
 }
 
 function invalidate() {

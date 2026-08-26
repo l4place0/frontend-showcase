@@ -1,6 +1,6 @@
 {
   "learningVersion": 1,
-  "contentRevision": 23,
+  "contentRevision": 24,
   "itemId": "gargantua-black-hole",
   "title": "从一个像素推导 Schwarzschild 黑洞",
   "summary": "先在可旋转的三维场景中把一条射线推广为像素射线束，再用同一初始条件直接比较欧氏直线与 Schwarzschild 零测地线，最终理解全屏黑洞渲染器。",
@@ -47,7 +47,7 @@
         "file": "specimens/items/gargantua-black-hole/app.js",
         "locator": "function buildLessonScene()",
         "snippet": "function buildLessonScene() {\n  lessonScene = new THREE.Scene();\n  lessonScene.fog = new THREE.FogExp2(0x07090c, .018);",
-        "sourceDigest": "sha256:ea0c9eb56da7f6e30b98760dd7d5e57128ced80474cedd28b4f79bac33d23dff",
+        "sourceDigest": "sha256:b4cec97b9a424624d73b9062e52e66665ac7371faa497e7d4622dc1ba026ba3b",
         "sourceScope": "item",
         "sourceAvailability": "build-time-author-source"
       }
