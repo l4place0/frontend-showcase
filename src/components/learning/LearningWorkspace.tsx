@@ -12,6 +12,14 @@ function sceneControlMatches(expected: Record<string, unknown>, actual: Record<s
   return Object.entries(expected).every(([key, value]) => JSON.stringify(actual[key]) === JSON.stringify(value));
 }
 
+function canvasHintFontSize(text: string) {
+  const length = Array.from(text).length;
+  if (length <= 10) return 14;
+  if (length <= 22) return 13;
+  if (length <= 36) return 11;
+  return 9;
+}
+
 function AnnotationLayer({ step, visible }: { step: LearningStep; visible: boolean }) {
   const annotations = step.annotations || [];
   if (!annotations.length || !visible) return null;
@@ -136,6 +144,8 @@ export function LearningWorkspace({ item, values, learning, onChange, onReplaceV
     return () => observer.disconnect();
   }, [learning]);
   const step = resource?.steps[Math.min(stepIndex, resource.steps.length - 1)] || null;
+  const canvasHint = step?.hint || "载入教程";
+  const canvasHintStyle = { "--canvas-hint-size": `${canvasHintFontSize(canvasHint)}px` } as CSSProperties;
   const stepCount = resource?.steps.length || 4;
   const stepperStyle = { "--lesson-step-count": stepCount } as CSSProperties;
   const markExperimentComplete = (id: string) => setCompletedExperimentIds((current) => new Set([...current, id]));
@@ -153,7 +163,7 @@ export function LearningWorkspace({ item, values, learning, onChange, onReplaceV
     <div className={`integrated-exhibit-workspace${learning ? " is-learning" : ""}`} data-testid="integrated-exhibit-workspace">
       <section className="integrated-stage" aria-label={learning ? "持续展示的学习展品" : "展品舞台"}>
         <div className="canvas-context" aria-hidden={!learning}>
-          <div><span>{String(stepIndex + 1).padStart(2, "0")} / {step?.label || "学习"}</span><b>{step?.hint || "载入教程"}</b></div>
+          <div><span>{String(stepIndex + 1).padStart(2, "0")} / {step?.label || "学习"}</span><b className="canvas-context-hint" style={canvasHintStyle} title={canvasHint}>{canvasHint}</b></div>
           <p>{step?.body || "教程资源正在载入，展品保持可见且可操作。"}</p>
         </div>
         <div className="learning-specimen-stage" ref={stageRef}>

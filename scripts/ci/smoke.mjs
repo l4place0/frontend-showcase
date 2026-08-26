@@ -25,8 +25,8 @@ const homepage = await fetchRequired("./");
 if (!homepage.includes("<div id=\"root\"></div>")) throw new Error("deployed homepage is missing the React root");
 
 const catalog = await fetchRequired("./specimens.json", "json");
-if (catalog.specimenVersion !== 1 || catalog.items?.length !== 62) {
-  throw new Error(`deployed catalog expected Protocol v1 with 62 items, found ${catalog.items?.length ?? "invalid"}`);
+if (catalog.specimenVersion !== 1 || catalog.items?.length !== 63) {
+  throw new Error(`deployed catalog expected Protocol v1 with 63 items, found ${catalog.items?.length ?? "invalid"}`);
 }
 const missingThumbnails = catalog.items.filter((item) => item.thumbnail !== "thumbnail.webp");
 if (missingThumbnails.length) throw new Error(`deployed catalog has invalid thumbnail metadata: ${missingThumbnails.map(({ id }) => id).join(", ")}`);
@@ -43,8 +43,12 @@ for (const relative of [
   "./items/time-gallery-webgl/AI.md",
   "./items/time-gallery-webgl/ai-context.json",
   "./items/time-gallery-webgl/learning.json",
+  "./items/living-digital-organism/index.html",
+  "./items/living-digital-organism/AI.md",
+  "./items/living-digital-organism/ai-context.json",
+  "./items/living-digital-organism/learning.json",
 ]) {
   await fetchRequired(relative);
 }
 
-console.log(`[smoke] ${base} serves commit ${manifest.commit} (${manifest.distDigest}) with 62 Protocol v1 specimens and 62 thumbnails`);
+console.log(`[smoke] ${base} serves commit ${manifest.commit} (${manifest.distDigest}) with 63 Protocol v1 specimens and 63 thumbnails`);
