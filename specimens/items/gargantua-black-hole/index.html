@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#060606">
+  <title>Schwarzschild 光线实验室</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main id="app">
+    <canvas id="viewport" aria-label="从三维空间与相机射线到 Schwarzschild 零测地线的交互画面"></canvas>
+    <div id="space-labels" class="space-labels" aria-hidden="true">
+      <span id="label-origin"></span>
+      <span id="label-camera"></span>
+      <span id="label-plane"></span>
+      <span id="label-ray"></span>
+      <span id="label-horizon"></span>
+    </div>
+    <div id="capture-key" class="capture-key" hidden aria-label="像素积分结果">
+      <p>FRAGMENT OUTCOME</p>
+      <div><i class="captured"></i><span><b>CAPTURED</b><small>r ≤ rₛ → BLACK</small></span></div>
+      <div><i class="escaped"></i><span><b>ESCAPED</b><small>r → ∞ → SKY(d<sub>out</sub>)</small></span></div>
+    </div>
+    <div id="capture-crosshair" class="capture-crosshair" hidden aria-hidden="true"><span>中心像素<br>CAPTURED</span></div>
+    <div id="critical-key" class="critical-key" hidden aria-label="临界光线分类">
+      <p>IMPACT PARAMETER</p>
+      <div><i class="below"></i><span><b>b &lt; b<sub>c</sub></b><small>CAPTURED</small></span></div>
+      <div><i class="critical"></i><span><b>b ≈ b<sub>c</sub></b><small>DWELLS NEAR r<sub>ph</sub></small></span></div>
+      <div><i class="above"></i><span><b>b &gt; b<sub>c</sub></b><small>ESCAPED</small></span></div>
+    </div>
+    <div id="critical-guides" class="critical-guides" hidden aria-label="临界环辅助线">
+      <div class="coordinate-grid" aria-hidden="true">
+        <div class="coord-axis axis-x"><span>−x<sub>img</sub></span><span>+x<sub>img</sub></span></div>
+        <div class="coord-axis axis-y"><span>+y<sub>img</sub></span><span>−y<sub>img</sub></span></div>
+        <div class="impact-ring impact-half"><span>b = 0.5b<sub>c</sub></span></div>
+        <div class="impact-ring impact-outer"><span>b = 1.25b<sub>c</sub></span></div>
+        <i class="coord-tick tick-left"></i><i class="coord-tick tick-right"></i>
+        <i class="coord-tick tick-top"></i><i class="coord-tick tick-bottom"></i>
+      </div>
+      <div class="guide-ring"><span>屏幕临界方向<br><b>b = b<sub>c</sub></b></span></div>
+      <div class="guide-radius"><span>观察角 <b id="guide-angle">α<sub>c</sub></b></span></div>
+      <div class="guide-center"><span>画面中心<br>指向 r = 0</span></div>
+      <p class="guide-note"><b>不是实体圆</b><br>虚线标记观察方向边界；三维光子球位于 r = 1.5rₛ。<small id="guide-distance"></small></p>
+    </div>
+    <aside id="formation-key" class="formation-key" hidden aria-label="盘面穿越与像素成像步骤">
+      <p>SEGMENT / DISK TEST</p>
+      <svg viewBox="0 0 220 108" role="img" aria-label="相邻积分点跨过赤道面">
+        <line class="disk-plane" x1="10" y1="55" x2="210" y2="55"></line>
+        <path class="ray-segment" d="M24 19 C76 20 114 45 150 89"></path>
+        <circle class="sample" cx="53" cy="24" r="3"></circle>
+        <circle class="sample" cx="150" cy="89" r="3"></circle>
+        <circle class="hit" cx="119" cy="55" r="4"></circle>
+        <text x="28" y="14">yₙ &gt; 0</text>
+        <text x="153" y="101">yₙ₊₁ &lt; 0</text>
+        <text class="hit-label" x="126" y="49">DISK HIT</text>
+        <text x="12" y="69">equatorial plane · y = 0</text>
+      </svg>
+      <code>yₙ · yₙ₊₁ &lt; 0</code>
+      <div class="sky-grid-legend"><span><i class="equator"></i>红 · b = b<sub>c</sub></span><span><i class="ecliptic"></i>黄 · b = 1.15b<sub>c</sub></span></div>
+      <ol>
+        <li><b>CAPTURED</b><small>r ≤ rₛ → black</small></li>
+        <li><b>DISK HIT</b><small>C += T · g³D³L<sub>disk</sub></small></li>
+        <li><b>ESCAPED</b><small>C += T · L<sub>sky</sub></small></li>
+      </ol>
+      <footer>程序化粒子发射率 · 无贴图 · 无粒子几何体<br>同一光线可多次穿越 → 高阶盘面像</footer>
+    </aside>
+    <div id="formation-guides" class="formation-guides" hidden aria-label="第六步关键位置标注">
+      <div class="formation-near-ring"><span><b>NEAR CRITICAL</b><small>b = 1.15b<sub>c</sub> · 逃逸</small></span></div>
+      <div class="formation-shadow-ring"><span><b>APPARENT SHADOW</b><small>b ≈ b<sub>c</sub> · 捕获边界</small></span></div>
+      <div class="formation-origin"><i></i><span><b>O · 屏幕原点</b><small>相机视线指向 r = 0</small></span></div>
+      <div class="formation-critical"><i></i><span><b>临界方向 · b = b<sub>c</sub></b><small>对应 r<sub>min</sub> ≈ 1.5r<sub>s</sub></small></span></div>
+      <div class="formation-captured"><b>EVENT-HORIZON SHADOW</b><small>路径到达 r ≤ r<sub>s</sub><br>真实捕获像素 · 纯黑</small></div>
+    </div>
+
+    <header class="topbar">
+      <a class="brand" href="#lesson-0"><i></i><span>SCHWARZSCHILD<br><small>光线实验室</small></span></a>
+      <span class="promise">六步 · 从直线到测地线 · 零贴图</span>
+    </header>
+
+    <aside class="lesson" aria-label="学习章节">
+      <p class="kicker">从公式到像素</p>
+      <div class="lesson-pages">
+        <article class="lesson-page active" id="lesson-0" data-page="0">
+          <span>01 / THREE-DIMENSIONAL SPACE</span>
+          <h1>先建立一个<br>三维空间</h1>
+          <p>这里还没有黑洞。橙点是世界原点 <em>O</em>，白色线框是相机 <em>C</em>，蓝色网格是成像平面。光线从相机穿过平面上的一个像素，进入世界空间。</p>
+          <div class="equation">r(t) = C + t·d<br><small>d = normalize(P − C), &nbsp; t ≥ 0</small></div>
+          <code>Three.js · Scene → PerspectiveCamera → Ray</code>
+        </article>
+
+        <article class="lesson-page" id="lesson-1" data-page="1" hidden>
+          <span>02 / PIXELS TO RAYS</span>
+          <h1>每个像素<br>各有一条射线</h1>
+          <p>相机位置 <em>C</em> 不变，成像平面上的采样点 <em>Pᵢⱼ</em> 不同，于是产生一束不同方向的射线。它们共同覆盖相机的视野。</p>
+          <div class="equation">dᵢⱼ = normalize(Pᵢⱼ − C)<br><small>rᵢⱼ(t) = C + t·dᵢⱼ</small></div>
+          <code>Three.js · 7 × 5 个像素样本</code>
+        </article>
+
+        <article class="lesson-page" id="lesson-2" data-page="2" hidden>
+          <span>03 / ONE CURVED RAY</span>
+          <h1>直线如何变成<br>零测地线</h1>
+          <p>橙色虚线是假设空间平直时的路径；蓝线由 Schwarzschild Hamilton 方程逐步积分。两条线初始位置和方向相同，差异只来自度规。</p>
+          <div class="equation">H = ½ g<sup>μν</sup>p<sub>μ</sub>p<sub>ν</sub> = 0<br><small>dy/dλ = ∂H/∂p, &nbsp; dp/dλ = −∂H/∂y</small></div>
+          <code>JavaScript · RK4 · 与 Shader 同一组方程</code>
+        </article>
+
+        <article class="lesson-page" id="lesson-3" data-page="3" hidden>
+          <span>04 / ALL PIXELS</span>
+          <h1>阴影不是黑球<br>而是一组方向</h1>
+          <p>Fragment Shader 为每个像素独立积分。路径到达事件视界就写黑色；逃到远方则按最终方向采样天球。中央阴影是所有“被捕获方向”的屏幕集合。</p>
+          <div class="equation">ds² = 0, &nbsp; f(r) = 1 − rₛ/r<br><small>Sᵢⱼ = 1 ⇔ ∃λ : rᵢⱼ(λ) ≤ rₛ</small></div>
+          <code>shader · traceGeodesic() → captured</code>
+        </article>
+
+        <article class="lesson-page" id="lesson-4" data-page="4" hidden>
+          <span>05 / CRITICAL RAY</span>
+          <h1>阴影边缘为何<br>出现临界亮环</h1>
+          <p>径向运动等价于在有效势中运动。<em>b = |L|/E</em> 接近临界值时，光线会在不稳定光子球附近绕行很久；微小偏差便决定它最终逃逸还是被捕获。</p>
+          <div class="equation">r<sub>ph</sub> = 3M = 1.5rₛ<br><small>b<sub>c</sub> = 3√3M = 3√3rₛ/2 ≈ 2.598rₛ</small></div>
+          <code>shader · |L|/E → compare(b, b_c)</code>
+        </article>
+
+        <article class="lesson-page" id="lesson-5" data-page="5" hidden>
+          <span>06 / IMAGE FORMATION</span>
+          <h1>路径决定<br>最终像素</h1>
+          <p>落入视界的光线写黑色；逃逸光线采样程序化星空；跨过赤道面的光线只在离散发光粒子单元中累积盘面辐射。多次穿越自然形成粒子化高阶像。</p>
+          <div class="equation">C = Σ T · g³ · D³ · L<sub>disk</sub> + T · L<sub>sky</sub></div>
+          <code>shader · traceGeodesic()</code>
+        </article>
+      </div>
+
+      <nav class="steps" aria-label="课程进度">
+        <button class="active" data-step="0" aria-label="第一步：三维空间">01</button>
+        <button data-step="1" aria-label="第二步：像素射线束">02</button>
+        <button data-step="2" aria-label="第三步：单条弯曲光线">03</button>
+        <button data-step="3" aria-label="第四步：像素捕获与阴影">04</button>
+        <button data-step="4" aria-label="第五步：光子球与临界光线">05</button>
+        <button data-step="5" aria-label="第六步：像素成像">06</button>
+      </nav>
+      <div class="lesson-actions">
+        <button id="previous" type="button">← 上一步</button>
+        <button id="next" type="button">下一步 →</button>
+      </div>
+    </aside>
+
+    <div class="legend" aria-live="polite">
+      <span id="view-label">平直时空：背景方向不发生偏折</span>
+      <button id="reset-camera" type="button">重置观察</button>
+    </div>
+
+    <div class="loading" id="loading" role="status">正在建立三维坐标系…</div>
+    <div class="failure" id="failure" hidden role="alert"><b>WebGL2 初始化失败</b><p id="failure-message"></p><button id="retry">重新加载</button></div>
+  </main>
+  <script type="module" src="./app.js?v=22"></script>
+</body>
+</html>
