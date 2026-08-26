@@ -133,7 +133,11 @@ try {
           }, item.preview.anchor);
         }
         await activePage.waitForTimeout(100);
-        identity = await writeWebp(await activePage.screenshot({ animations: "disabled", caret: "hide" }), output, "fill");
+        identity = await writeWebp(await activePage.screenshot({
+          animations: "disabled",
+          caret: "hide",
+          timeout: item.runtime?.webgl ? 90_000 : 30_000,
+        }), output, "fill");
       } else {
         throw new Error(`unsupported preview strategy ${strategy}`);
       }
