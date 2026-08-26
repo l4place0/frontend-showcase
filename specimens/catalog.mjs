@@ -119,6 +119,27 @@ export const layoutControls = [
 // The builder copies it verbatim, then injects protocol and AI discovery data.
 export const staticItems = [
   {
+    id: "living-digital-organism",
+    slug: "living-digital-organism",
+    title: { zh: "共生体", en: "Living Digital Organism" },
+    description: "由一万五千颗可受力粒子构成、在点击冲击、光标引力、滚动进化与频谱中持续重组的实时 WebGL 数字生命体。",
+    category: "webgl",
+    tags: ["webgl", "glsl", "generative", "spatial-type", "adaptive-audio"],
+    technology: ["html", "css", "javascript", "three.js", "webgl", "web-audio"],
+    runtime: { scripts: true, webgl: true, audio: true, fullscreen: false, pointerLock: false },
+    controls: [
+      { key: "intensity", label: "生命强度", type: "range", min: 50, max: 170, step: 5, default: 100, unit: "%", target: { kind: "css-variable", name: "--organism-intensity", transform: "percent-scale" } },
+      { key: "turbulence", label: "粒子扰动", type: "range", min: 20, max: 130, step: 5, default: 72, unit: "%", target: { kind: "css-variable", name: "--organism-turbulence", transform: "percent-scale" } },
+      { key: "audioLowGain", label: "低频形变增益", type: "range", min: 0, max: 35, step: .5, default: 7.5, unit: "%", target: { kind: "css-variable", name: "--organism-audio-low-gain", transform: "percent-scale" } },
+      { key: "audioMidGain", label: "中频速度增益", type: "range", min: 0, max: 250, step: 5, default: 50, unit: "%", target: { kind: "css-variable", name: "--organism-audio-mid-gain", transform: "percent-scale" } },
+      { key: "audioHighGain", label: "高频粒径增益", type: "range", min: 0, max: 400, step: 5, default: 85, unit: "%", target: { kind: "css-variable", name: "--organism-audio-high-gain", transform: "percent-scale" } },
+    ],
+    sourceDir: "specimens/items/living-digital-organism",
+    bundle: { source: "app.js", output: "app.bundle.js" },
+    preview: { strategy: "capture", anchor: "viewport" },
+    sourceFiles: ["index.html", "app.bundle.js", "styles.css"],
+  },
+  {
     id: "css-ocean-wave",
     slug: "css-ocean-wave",
     title: { zh: "CSS 海浪动画", en: "CSS Ocean Wave" },

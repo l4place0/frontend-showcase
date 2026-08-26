@@ -38,7 +38,7 @@ test("catalog supports its stable navigation routes", async ({ page, request }) 
 
 test("every production specimen publishes a loadable local thumbnail", async ({ page, request }) => {
   const items = await readCatalog(request);
-  expect(items).toHaveLength(62);
+  expect(items).toHaveLength(63);
 
   for (const item of items) {
     expect(item.thumbnail, `${item.id} is missing thumbnail metadata`).toBe("thumbnail.webp");
