@@ -80,6 +80,10 @@ await Promise.all([
 
 const server = await startServer();
 const browser = await chromium.launch({ headless: true });
+const webglBrowser = await chromium.launch({
+  headless: true,
+  args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
+});
 const context = await browser.newContext({
   viewport: { width, height },
   deviceScaleFactor: 1,
@@ -87,11 +91,19 @@ const context = await browser.newContext({
   reducedMotion: "reduce",
 });
 const page = await context.newPage();
+const webglContext = await webglBrowser.newContext({
+  viewport: { width, height },
+  deviceScaleFactor: 1,
+  colorScheme: "dark",
+  reducedMotion: "reduce",
+});
+const webglPage = await webglContext.newPage();
 const results = [];
 let failed = false;
 
 try {
   for (const item of catalog) {
+    const activePage = item.runtime?.webgl ? webglPage : page;
     const startedAt = performance.now();
     const itemDir = path.join(publicRoot, "items", item.id);
     const output = path.join(itemDir, item.thumbnail);
@@ -105,23 +117,27 @@ try {
         identity = await writeWebp(source, output, "cover", 74);
       } else if (strategy === "capture") {
         const url = `${serverOrigin(server)}/items/${encodeURIComponent(item.id)}/index.html?testMode=1&seed=42&time=1000`;
-        const response = await page.goto(url, { waitUntil: "load", timeout: 30_000 });
+        const response = await activePage.goto(url, { waitUntil: "load", timeout: 30_000 });
         if (!response?.ok()) throw new Error(`preview returned ${response?.status() || "no response"}`);
-        await page.evaluate(async () => {
+        await activePage.evaluate(async () => {
           await document.fonts.ready;
           window.scrollTo(0, 0);
         });
-        await page.addStyleTag({ content: "*,*::before,*::after{animation-delay:0s!important;animation-duration:0s!important;transition:none!important;caret-color:transparent!important}html{scroll-behavior:auto!important}" });
+        await activePage.addStyleTag({ content: "*,*::before,*::after{animation-delay:0s!important;animation-duration:0s!important;transition:none!important;caret-color:transparent!important}html{scroll-behavior:auto!important}" });
         if (item.preview?.anchor && item.preview.anchor !== "viewport") {
-          await page.locator(item.preview.anchor).waitFor({ state: "visible" });
-          await page.evaluate((selector) => {
+          await activePage.locator(item.preview.anchor).waitFor({ state: "visible" });
+          await activePage.evaluate((selector) => {
             const anchor = document.querySelector(selector);
             if (!anchor) throw new Error(`preview anchor not found: ${selector}`);
             window.scrollTo(0, anchor.getBoundingClientRect().top + window.scrollY);
           }, item.preview.anchor);
         }
-        await page.waitForTimeout(100);
-        identity = await writeWebp(await page.screenshot({ animations: "disabled", caret: "hide" }), output, "fill");
+        await activePage.waitForTimeout(100);
+        identity = await writeWebp(await activePage.screenshot({
+          animations: "disabled",
+          caret: "hide",
+          timeout: item.runtime?.webgl ? 90_000 : 30_000,
+        }), output, "fill");
       } else {
         throw new Error(`unsupported preview strategy ${strategy}`);
       }
@@ -139,13 +155,15 @@ try {
       failed = true;
       const message = error instanceof Error ? error.message : String(error);
       results.push({ id: item.id, strategy, status: "failed", cacheHit: false, durationMs: Math.round(performance.now() - startedAt), error: message });
-      try { await page.screenshot({ path: path.join(diagnosticsDir, `${item.id}.png`) }); } catch { /* Preserve the original failure. */ }
+      try { await activePage.screenshot({ path: path.join(diagnosticsDir, `${item.id}.png`) }); } catch { /* Preserve the original failure. */ }
       console.error(`[thumbnail] ${item.id} failed: ${message}`);
     }
   }
 } finally {
   await context.close();
+  await webglContext.close();
   await browser.close();
+  await webglBrowser.close();
   await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
 }
 

@@ -1,0 +1,165 @@
+{
+  "learningVersion": 1,
+  "contentRevision": 6,
+  "itemId": "living-digital-organism",
+  "title": "让一万五千颗粒子成为一个生命",
+  "summary": "观察带圆形碰撞体的粒子如何被扩张冲击壳层逐层命中，并在目标形态、弹簧回聚、指针引力与实时频谱之间持续重组。",
+  "difficulty": "advanced",
+  "durationMinutes": 22,
+  "concepts": ["BufferGeometry", "particle collider", "swept collision", "spring-damper integration", "radial impulse", "coordinate transform", "Web Audio analyser"],
+  "objectives": [
+    "解释确定性粒子分布如何形成可连续演化的生命轮廓",
+    "区分目标位置、当前位置、速度、外力和阻尼在粒子物理中的职责",
+    "说明扫掠冲击壳层如何在共生体外点击时延迟命中粒子并改变其速度",
+    "分别调节低、中、高频增益，并说明采样信号与视觉映射参数的职责边界",
+    "说明暂停与减少动态偏好为何必须停止或缩减物理积分"
+  ],
+  "prerequisites": ["JavaScript 动画循环", "向量与速度基础", "Three.js BufferGeometry", "GLSL 点精灵基础"],
+  "steps": [
+    {
+      "id": "observe",
+      "kind": "observe",
+      "label": "01 观察",
+      "hint": "在共生体外点击，观察波前接触外缘后逐层传力。",
+      "eyebrow": "SEE THE PARTICLES",
+      "title": "生命体就是这些粒子",
+      "body": "轮廓和内部密度由同一批动态点组成。每颗粒子拥有圆形碰撞体；点击产生的扩张壳层只有接触粒子后才写入速度。",
+      "scene": {
+        "viewport": { "minWidth": 720 },
+        "controls": { "intensity": 100, "turbulence": 72 },
+        "screen": "origin",
+        "scroll": { "x": 0, "y": 0 }
+      },
+      "annotations": [
+        {
+          "id": "particle-membrane",
+          "anchor": [61, 34],
+          "elbow": [74, 25],
+          "end": [89, 25],
+          "detailSide": "left",
+          "summary": "高密度粒子形成外膜",
+          "detail": "约 38% 的粒子被分配到轮廓带，剩余粒子填充内部；两者共享同一套位置与速度状态。"
+        },
+        {
+          "id": "impact-core",
+          "anchor": [57, 49],
+          "elbow": [73, 61],
+          "end": [89, 61],
+          "detailSide": "left",
+          "summary": "波前逐层碰撞粒子",
+          "detail": "冲击壳层保存前后帧半径并检测扫掠区间；外部点击会先命中近侧外缘，再穿过内部。"
+        }
+      ]
+    },
+    {
+      "id": "principle",
+      "kind": "explain",
+      "label": "02 原理",
+      "hint": "圆形粒子与扫掠壳层相交时才获得冲量。",
+      "eyebrow": "COLLIDE, THEN IMPULSE",
+      "title": "让波前真正撞上粒子",
+      "body": "每颗粒子拥有碰撞半径。扩张壳层用上一帧与当前帧半径构成扫掠区间，避免高速穿透；同一粒子对同一波只响应一次。",
+      "code": {
+        "file": "specimens/items/living-digital-organism/app.js",
+        "locator": "function collideParticleWithImpacts(index, positionOffset, velocityOffset, intensity)",
+        "snippet": "function collideParticleWithImpacts(index, positionOffset, velocityOffset, intensity) {\n  let collided = false;\n  const particleX = particlePositions[positionOffset];\n  const particleY = particlePositions[positionOffset + 1];\n  const collisionRadius = .006 + particleLayers[index] * .004;\n\n  activeImpacts.forEach((impact) => {\n    if (impact.hits[index]) return;\n    const deltaX = particleX - impact.x;\n    const deltaY = particleY - impact.y;\n    const distance = Math.hypot(deltaX, deltaY);\n    const sweptInner = Math.max(0, impact.previousRadius - impactShellThickness - collisionRadius);\n    const sweptOuter = impact.radius + impactShellThickness + collisionRadius;\n    if (distance < sweptInner || distance > sweptOuter) return;",
+        "sourceDigest": "sha256:87285b3f3b6c159ebc4560378cfe15e26aa8a443e70ebe95ad044df0506e66c5",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "experiment",
+      "kind": "experiment",
+      "label": "03 实验",
+      "hint": "一次只改一个参数，再点击同一位置。",
+      "eyebrow": "SEPARATE THE FORCES",
+      "title": "拆开聚合强度与微观扰动",
+      "body": "生命强度同时影响目标回聚和碰撞冲量；粒子扰动只改变目标位置附近的有机漂移。",
+      "experiments": [
+        {
+          "id": "soft-organism",
+          "label": "降低生命强度",
+          "initial": { "intensity": 100, "turbulence": 72 },
+          "controls": { "intensity": 50 },
+          "expected": "波前接触粒子后的爆散和回聚都更温和，但首次碰撞时机不变。",
+          "reset": "恢复 intensity=100。"
+        },
+        {
+          "id": "restless-particles",
+          "label": "提高粒子扰动",
+          "initial": { "intensity": 100, "turbulence": 72 },
+          "controls": { "turbulence": 130 },
+          "expected": "粒子在目标轮廓附近产生更强的微观漂移，但点击冲量的方向仍保持径向。",
+          "reset": "恢复 turbulence=72。"
+        },
+        {
+          "id": "audio-response-gains",
+          "label": "增强三段频谱响应",
+          "initial": { "audioLowGain": 7.5, "audioMidGain": 50, "audioHighGain": 85 },
+          "controls": { "audioLowGain": 18, "audioMidGain": 140, "audioHighGain": 220 },
+          "expected": "开启模拟频谱后，低频造成更大的整体收缩与膨胀，中频明显加快呼吸相位，高频让粒径闪动更醒目；频谱读数本身不因这些视觉增益而改变。",
+          "reset": "恢复 audioLowGain=7.5、audioMidGain=50、audioHighGain=85。"
+        },
+        {
+          "id": "audio-response-max",
+          "label": "推到频谱响应上限",
+          "initial": { "audioLowGain": 18, "audioMidGain": 140, "audioHighGain": 220 },
+          "controls": { "audioLowGain": 35, "audioMidGain": 250, "audioHighGain": 400 },
+          "expected": "整体轮廓出现夸张的低频形变，呼吸相位显著加速，高频峰值让粒径产生最醒目的脉冲，用于观察映射上限而非推荐默认视觉。",
+          "reset": "恢复 audioLowGain=18、audioMidGain=140、audioHighGain=220。"
+        }
+      ]
+    },
+    {
+      "id": "mastery",
+      "kind": "mastery",
+      "label": "04 测验",
+      "hint": "沿着目标、受力、积分、渲染的顺序作答。",
+      "eyebrow": "EXPLAIN THE ORGANISM",
+      "title": "证明它是一套粒子系统",
+      "body": "三题检查粒子身份、冲量与生命周期。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "共生体的可见本体由什么构成？",
+          "options": ["全屏雾状距离场", "约一万五千颗带状态的 Three.js 点粒子", "预渲染透明视频"],
+          "correct": 1,
+          "explanation": "BufferGeometry 保存并逐帧更新同一批粒子的位置，点着色器只负责把它们显示出来。"
+        },
+        {
+          "id": "q2",
+          "question": "为什么在共生体外点击也能自然传力？",
+          "options": ["扩张壳层与粒子碰撞体相交后逐层写入冲量", "空白处立即给全部粒子加速", "它只放大 CSS 圆环"],
+          "correct": 0,
+          "explanation": "冲击壳层先在空白中传播，接触近侧粒子后才开始改变速度，并继续扫过内部。"
+        },
+        {
+          "id": "q3",
+          "question": "减少动态偏好下如何保留冲击含义？",
+          "options": ["持续全速模拟", "写入一次静态粒子位移并停止连续积分", "隐藏整个共生体"],
+          "correct": 1,
+          "explanation": "用户仍能看见因果结果，同时避免持续运动。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "用 SDF、模糊光晕或背景噪声画出类雾物体，却称它为粒子生命体。",
+    "点击时只画冲击环、瞬间按距离影响整团粒子，或临时喷出另一批粒子，没有模拟波前与共生体粒子的实际接触。",
+    "直接改写位置而不保存速度，导致粒子没有惯性、阻尼和可解释的回聚过程。",
+    "每次加载都使用不可控的 Math.random，使截图、测试和学习观察无法复现。",
+    "自动播放声音或在 Catalog 暂停后继续推进粒子积分。"
+  ],
+  "furtherReading": [
+    { "label": "AI reproduction guide", "href": "./AI.md" },
+    { "label": "Structured specimen context", "href": "./ai-context.json" }
+  ],
+  "completion": {
+    "criteria": [
+      "完成两个单变量实验并解释差异。",
+      "三道测验全部答对。",
+      "能从点击坐标讲到扫掠碰撞、粒子速度、弹簧回聚和 Points 渲染。"
+    ]
+  }
+}

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#05070b">
+  <meta name="color-scheme" content="dark">
+  <title>共生体 · SYMBIOSIS</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./app.bundle.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#story">跳至叙事</a>
+  <canvas id="organism" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor-orbit" id="cursor-orbit" aria-hidden="true"><i></i><b></b></div>
+
+  <header class="site-header">
+    <a class="wordmark" href="#origin" aria-label="共生体，返回开场">
+      <span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>SYMBIOSIS<small>WEB ORGANISM / 01</small></span>
+    </a>
+    <div class="vital-sign" aria-label="生命体状态"><i></i><span id="vital-copy">感知中</span></div>
+    <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="开启环境声音">
+      <span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="sound-label">声音关闭</span>
+    </button>
+  </header>
+
+  <aside class="signal-console" aria-label="音频频谱控制">
+    <p><span>FREQUENCY INPUT</span><b id="spectrum-state">待机</b></p>
+    <button class="spectrum-toggle" id="spectrum-toggle" type="button" aria-pressed="false" aria-label="启动虚拟音频频谱">
+      <span class="spectrum-icon" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <span><strong>模拟频谱</strong><small>LOCAL AUDIO MOCK</small></span>
+    </button>
+    <div class="frequency-meter" aria-hidden="true">
+      <i style="--band:0"></i><i style="--band:1"></i><i style="--band:2"></i><i style="--band:3"></i><i style="--band:4"></i><i style="--band:5"></i><i style="--band:6"></i><i style="--band:7"></i>
+    </div>
+    <dl><div><dt>LOW</dt><dd id="frequency-low">00</dd></div><div><dt>MID</dt><dd id="frequency-mid">00</dd></div><div><dt>HIGH</dt><dd id="frequency-high">00</dd></div></dl>
+  </aside>
+
+  <main id="story">
+    <section class="chapter hero" id="origin" data-chapter="0" aria-labelledby="origin-title">
+      <p class="chapter-index">ORIGIN <span>00.01</span></p>
+      <div class="hero-copy">
+        <p class="kicker">THE BROWSER IS BREATHING</p>
+        <h1 id="origin-title"><span>别只看它。</span><em>让它看见你。</em></h1>
+        <p class="lede">一个在光标、滚动与时间中持续进化的数字生命体。<br>靠近它，扰动它，成为它记忆的一部分。</p>
+      </div>
+      <button class="enter-pulse" type="button" data-action="enter">
+        <span>建立连接</span><i aria-hidden="true"></i>
+      </button>
+      <div class="coordinate" aria-hidden="true">31.2304° N<br>121.4737° E</div>
+      <div class="scroll-cue" aria-hidden="true"><span>SCROLL TO EVOLVE</span><i></i></div>
+    </section>
+
+    <section class="chapter chapter-left" data-chapter="1" aria-labelledby="sense-title">
+      <div class="chapter-copy">
+        <p class="chapter-index">SENSING <span>01.37</span></p>
+        <h2 id="sense-title">每一次靠近，<br><em>都改变它的神经。</em></h2>
+        <p>你的指针不是光标，而是一颗移动的引力核。它牵引膜层、压缩光线，也唤醒原本沉睡的突触。</p>
+        <dl><div><dt>INPUT</dt><dd>pointer velocity</dd></div><div><dt>RESPONSE</dt><dd>elastic attraction</dd></div></dl>
+      </div>
+    </section>
+
+    <section class="chapter chapter-right" data-chapter="2" aria-labelledby="memory-title">
+      <div class="chapter-copy">
+        <p class="chapter-index">MEMORY <span>02.89</span></p>
+        <h2 id="memory-title">滚动不是导航，<br><em>是一次形态发生。</em></h2>
+        <p>页面深度成为生物年龄。结构从单细胞收缩为神经花冠，色彩沿着记忆的路径重新分泌。</p>
+        <dl><div><dt>STATE</dt><dd>morphogenesis</dd></div><div><dt>ENERGY</dt><dd id="energy-readout">46.8%</dd></div></dl>
+      </div>
+    </section>
+
+    <section class="chapter finale" data-chapter="3" aria-labelledby="finale-title">
+      <div class="finale-copy">
+        <p class="chapter-index">SYMBIOSIS <span>∞</span></p>
+        <h2 id="finale-title">你离开以后，<br><em>它仍会记得光。</em></h2>
+        <p>这是终点，也是下一次感知的初始条件。</p>
+        <button type="button" class="reset-button" data-action="reset">重新唤醒 <span aria-hidden="true">↺</span></button>
+      </div>
+      <footer><span>REAL-TIME GLSL / LOCAL SIGNAL</span><span>DESIGNED TO BE FELT</span><span>© 2026</span></footer>
+    </section>
+  </main>
+
+  <div class="progress" aria-hidden="true"><i id="progress-line"></i><span id="progress-number">00</span><b>03</b></div>
+  <p class="impact-instruction" id="impact-instruction"><span>CLICK ORGANISM</span> 推开构成它的粒子</p>
+  <div class="webgl-fallback" id="webgl-fallback" role="status" hidden>
+    <span>RENDERER OFFLINE</span><strong>生命体正在休眠</strong><p>你的浏览器没有提供可用的 WebGL 上下文，文字叙事仍可继续浏览。</p>
+  </div>
+</body>
+</html>
