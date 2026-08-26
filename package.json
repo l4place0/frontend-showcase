@@ -12,7 +12,7 @@
     "test:components": "playwright test -c playwright.component.config.ts",
     "test:e2e": "npm run test:e2e:ordinary && npm run test:webgl",
     "test:e2e:ordinary": "playwright test -c playwright.e2e.config.ts --project=e2e-chromium",
-    "test:webgl": "playwright test -c playwright.e2e.config.ts --project=webgl-chromium --workers=1",
+    "test:webgl": "playwright test -c playwright.e2e.config.ts --project=webgl-chromium --project=gargantua-webgl-chromium --workers=1",
     "test:visual": "playwright test -c playwright.e2e.config.ts --project=visual-chromium",
     "test:browser": "npm run test:components && playwright test -c playwright.e2e.config.ts --project=e2e-chromium --project=webgl-chromium --project=visual-chromium",
     "check": "npm run typecheck && npm run test:unit && node scripts/validate-source.mjs",

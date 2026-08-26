@@ -4,7 +4,9 @@ const browserPort = Number(process.env.PLAYWRIGHT_PORT ?? 4173);
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${browserPort}/frontend-showcase/`;
 const reportScope = process.env.PLAYWRIGHT_REPORT_SCOPE ?? "browser";
 const useExistingDist = process.env.PLAYWRIGHT_USE_EXISTING_DIST === "1";
-const webglTests = ["e2e/time-gallery.spec.ts", "e2e/time-gallery-reduced-motion.spec.ts"];
+const timeGalleryWebglTests = ["e2e/time-gallery.spec.ts", "e2e/time-gallery-reduced-motion.spec.ts"];
+const gargantuaWebglTests = ["e2e/gargantua-black-hole.spec.ts"];
+const webglTests = [...timeGalleryWebglTests, ...gargantuaWebglTests];
 
 export default defineConfig({
   testDir: "./tests",
@@ -42,9 +44,15 @@ export default defineConfig({
     },
     {
       name: "webgl-chromium",
-      testMatch: webglTests,
+      testMatch: timeGalleryWebglTests,
       fullyParallel: false,
       use: { ...devices["Desktop Chrome"] },
+    },
+    {
+      name: "gargantua-webgl-chromium",
+      testMatch: gargantuaWebglTests,
+      fullyParallel: false,
+      use: { ...devices["Desktop Chrome"], launchOptions: { args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] } },
     },
     {
       name: "visual-chromium",

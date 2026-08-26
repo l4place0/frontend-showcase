@@ -120,6 +120,9 @@ test("every learning view has a stable narrow-screen fallback", async ({ page, r
   const items = await readCatalog(request);
   const iframeOverflows: string[] = [];
   for (const item of items) {
+    const learningResponse = await request.get(resolveItemResource(item, item.learning?.resource || "learning.json"));
+    expect(learningResponse.ok(), item.id).toBeTruthy();
+    const learning = await learningResponse.json() as { steps: unknown[] };
     await page.goto(`./#/items/${encodeURIComponent(item.id)}?view=learn`);
     const viewer = page.getByTestId("specimen-viewer");
     try {
@@ -128,7 +131,7 @@ test("every learning view has a stable narrow-screen fallback", async ({ page, r
       await viewer.getByRole("button", { name: "刷新" }).click();
       await expect(viewer.getByRole("status"), `${item.id} retry`).toContainText("展品已就绪", { timeout: 10_000 });
     }
-    await expect(page.getByRole("navigation", { name: "学习视角" }).getByRole("button"), item.id).toHaveCount(4);
+    await expect(page.getByRole("navigation", { name: "学习视角" }).getByRole("button"), item.id).toHaveCount(learning.steps.length);
     await expect(page.getByTestId("annotation-scene-status"), item.id).toContainText("当前画布过窄");
     await expect(page.getByTestId("specimen-annotations"), item.id).toHaveCount(0);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), `${item.id} horizontal overflow`).toBeTruthy();
