@@ -1,6 +1,12 @@
 import { access, appendFile, cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { digestDirectory, formatBytes, requiredEnvironment, sha256 } from "./artifact-lib.mjs";
+import {
+  digestDirectory,
+  formatBytes,
+  requiredEnvironment,
+  sha256,
+  specimenCatalogIdentity,
+} from "./artifact-lib.mjs";
 
 const root = process.cwd();
 const source = path.resolve(root, process.argv[2] || "dist");
@@ -25,6 +31,8 @@ try {
 
 const directory = await digestDirectory(path.join(target, "dist"));
 const lockfile = await readFile(path.join(root, "package-lock.json"));
+const catalog = JSON.parse(await readFile(path.join(target, "dist", "specimens.json"), "utf8"));
+const catalogIdentity = specimenCatalogIdentity(catalog);
 const manifest = {
   schemaVersion: 1,
   commit,
@@ -35,6 +43,7 @@ const manifest = {
   distDigest: directory.digest,
   fileCount: directory.fileCount,
   totalBytes: directory.totalBytes,
+  ...catalogIdentity,
 };
 
 await writeFile(path.join(target, "artifact-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
@@ -43,3 +52,4 @@ if (process.env.GITHUB_OUTPUT) {
 }
 console.log(`[artifact] staged ${directory.fileCount} files (${formatBytes(directory.totalBytes)}) at ${path.relative(root, target)}`);
 console.log(`[artifact] dist digest ${directory.digest}`);
+console.log(`[artifact] catalog identity ${catalogIdentity.specimenCount} specimens (${catalogIdentity.specimenIdsDigest})`);

@@ -39,6 +39,26 @@ export function sha256(bytes) {
   return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
 }
 
+export function specimenCatalogIdentity(catalog) {
+  if (catalog?.specimenVersion !== 1 || !Array.isArray(catalog.items)) {
+    throw new Error("specimen catalog must use Protocol v1 and contain an items array");
+  }
+
+  const ids = catalog.items.map((item) => item?.id);
+  const invalidIds = ids.filter((id) => typeof id !== "string" || !id.trim());
+  if (invalidIds.length) throw new Error("specimen catalog contains an invalid item id");
+
+  const sortedIds = [...ids].sort((left, right) => left.localeCompare(right, "en"));
+  if (new Set(sortedIds).size !== sortedIds.length) {
+    throw new Error("specimen catalog contains duplicate item ids");
+  }
+
+  return {
+    specimenCount: sortedIds.length,
+    specimenIdsDigest: sha256(JSON.stringify(sortedIds)),
+  };
+}
+
 export function requiredEnvironment(name, fallback) {
   const value = process.env[name] || fallback;
   if (!value) throw new Error(`missing required environment variable ${name}`);

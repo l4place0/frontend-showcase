@@ -9,6 +9,7 @@ const failedJobs = Object.entries(jobs).filter(([, result]) => result !== "succe
 const commit = process.env.GITHUB_SHA || "local";
 const runId = process.env.GITHUB_RUN_ID || "local";
 const runAttempt = Number(process.env.GITHUB_RUN_ATTEMPT || 1);
+const evidenceArtifacts = JSON.parse(process.env.CI_EVIDENCE_ARTIFACTS || "{}");
 
 await mkdir(output, { recursive: true });
 
@@ -79,9 +80,7 @@ const summary = {
     webgl: "npm run test:webgl",
     visual: "npm run test:visual",
   },
-  evidenceArtifacts: ["component", "e2e", "webgl", "visual"].map(
-    (scope) => `${scope}-report-${commit}-attempt-${runAttempt}`,
-  ),
+  evidenceArtifacts,
 };
 
 const failures = [];
