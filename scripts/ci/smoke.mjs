@@ -2,6 +2,7 @@ const base = new URL(process.argv[2] || process.env.DEPLOYMENT_URL || "http://12
 const expectedCommit = process.argv[3] || process.env.EXPECTED_COMMIT;
 const attempts = Number(process.env.SMOKE_ATTEMPTS || 5);
 const retryDelayMs = Number(process.env.SMOKE_RETRY_DELAY_MS || 5000);
+const expectedSpecimenCount = 64;
 
 const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
@@ -25,8 +26,8 @@ const homepage = await fetchRequired("./");
 if (!homepage.includes("<div id=\"root\"></div>")) throw new Error("deployed homepage is missing the React root");
 
 const catalog = await fetchRequired("./specimens.json", "json");
-if (catalog.specimenVersion !== 1 || catalog.items?.length !== 63) {
-  throw new Error(`deployed catalog expected Protocol v1 with 63 items, found ${catalog.items?.length ?? "invalid"}`);
+if (catalog.specimenVersion !== 1 || catalog.items?.length !== expectedSpecimenCount) {
+  throw new Error(`deployed catalog expected Protocol v1 with ${expectedSpecimenCount} items, found ${catalog.items?.length ?? "invalid"}`);
 }
 const missingThumbnails = catalog.items.filter((item) => item.thumbnail !== "thumbnail.webp");
 if (missingThumbnails.length) throw new Error(`deployed catalog has invalid thumbnail metadata: ${missingThumbnails.map(({ id }) => id).join(", ")}`);
@@ -51,4 +52,4 @@ for (const relative of [
   await fetchRequired(relative);
 }
 
-console.log(`[smoke] ${base} serves commit ${manifest.commit} (${manifest.distDigest}) with 63 Protocol v1 specimens and 63 thumbnails`);
+console.log(`[smoke] ${base} serves commit ${manifest.commit} (${manifest.distDigest}) with ${expectedSpecimenCount} Protocol v1 specimens and ${expectedSpecimenCount} thumbnails`);
