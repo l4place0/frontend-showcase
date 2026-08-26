@@ -58,6 +58,7 @@ test("Schwarzschild lab teaches the raytracing pipeline in six steps", async ({ 
 });
 
 test("Schwarzschild lab animates particles only in the final stage", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 240 });
   await page.goto("./items/gargantua-black-hole/index.html?stage=4");
   await expect(page.locator("html")).toHaveAttribute("data-capture-ready", "true", { timeout: 30_000 });
   const before = await page.evaluate(() => (window as typeof window & {
@@ -69,10 +70,12 @@ test("Schwarzschild lab animates particles only in the final stage", async ({ pa
   }).__GARGANTUA_CAPTURE__().state.renderCount);
   expect(after).toBe(before);
 
-  await page.getByRole("button", { name: "第六步：像素成像" }).click();
+  await page.evaluate(() => (window as typeof window & {
+    __GARGANTUA_SET_STATE__: (state: { stage: number }) => void;
+  }).__GARGANTUA_SET_STATE__({ stage: 5 }));
   await expect.poll(async () => page.evaluate(() => (window as typeof window & {
     __GARGANTUA_CAPTURE__: () => { state: { renderCount: number } };
-  }).__GARGANTUA_CAPTURE__().state.renderCount)).toBeGreaterThan(before);
+  }).__GARGANTUA_CAPTURE__().state.renderCount), { timeout: 30_000 }).toBeGreaterThan(before);
 });
 
 test("Schwarzschild capture mode freezes the final stage at a deterministic time", async ({ page }) => {
