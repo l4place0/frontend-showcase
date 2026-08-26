@@ -1,0 +1,150 @@
+{
+  "learningVersion": 1,
+  "contentRevision": 23,
+  "itemId": "gargantua-black-hole",
+  "title": "从一个像素推导 Schwarzschild 黑洞",
+  "summary": "先在可旋转的三维场景中把一条射线推广为像素射线束，再用同一初始条件直接比较欧氏直线与 Schwarzschild 零测地线，最终理解全屏黑洞渲染器。",
+  "difficulty": "advanced",
+  "durationMinutes": 32,
+  "concepts": ["camera ray", "image plane", "view frustum", "Schwarzschild metric", "null geodesic", "Hamiltonian", "RK4", "Fragment Shader"],
+  "objectives": [
+    "辨认世界原点、观察相机、成像平面和参数化射线",
+    "从成像平面上的点推导世界空间相机射线",
+    "解释相机位置不变时不同像素为何产生不同射线方向",
+    "比较相同初始位置与方向在平直空间和 Schwarzschild 时空中的不同路径",
+    "解释事件视界阴影为何来自光线捕获而不是黑色球体",
+    "把 Hamilton 微分方程对应到 GLSL RK4 循环",
+    "说明背景透镜与高阶盘面像如何共享同一条光线路径"
+  ],
+  "prerequisites": ["向量与点积", "Fragment Shader", "常微分方程基础"],
+  "steps": [
+    {
+      "id": "three-dimensional-space",
+      "kind": "explain",
+      "label": "01 三维空间",
+      "hint": "拖动画面，从不同角度辨认橙色世界原点、相机线框、蓝色成像平面和橙色射线。",
+      "eyebrow": "SPACE BEFORE SPACETIME",
+      "title": "先把相机和一条光线放进空间",
+      "body": "这一阶段完全不涉及黑洞。Three.js 建立欧氏三维坐标系；一条射线由起点 C 和方向 d 定义，方向来自成像平面上的点 P：d = normalize(P − C)。",
+      "scene": {
+        "viewport": { "minWidth": 600 },
+        "controls": { "stage": 0 },
+        "screen": "initial",
+        "scroll": { "x": 0, "y": 0 }
+      },
+      "annotations": [
+        {
+          "id": "camera-image-plane-ray",
+          "anchor": [72, 48],
+          "elbow": [81, 34],
+          "end": [92, 34],
+          "detailSide": "left",
+          "summary": "相机、成像平面与射线的空间关系",
+          "detail": "蓝色平面代表虚拟传感器。选定其上的一个点 P，就能从相机位置 C 构造进入场景的世界空间方向 d。"
+        }
+      ],
+      "code": {
+        "file": "specimens/items/gargantua-black-hole/app.js",
+        "locator": "function buildLessonScene()",
+        "snippet": "function buildLessonScene() {\n  lessonScene = new THREE.Scene();\n  lessonScene.fog = new THREE.FogExp2(0x07090c, .018);",
+        "sourceDigest": "sha256:ea0c9eb56da7f6e30b98760dd7d5e57128ced80474cedd28b4f79bac33d23dff",
+        "sourceScope": "item",
+        "sourceAvailability": "build-time-author-source"
+      }
+    },
+    {
+      "id": "pixel-ray-bundle",
+      "kind": "observe",
+      "label": "02 像素射线束",
+      "hint": "在页面中从 01 切到 02，观察所有射线拥有同一起点，却穿过成像平面上的不同采样点。",
+      "eyebrow": "ONE PIXEL, ONE RAY",
+      "title": "一束射线如何覆盖视野",
+      "body": "相机位置 C 对所有像素相同。每个像素中心对应成像平面上的 Pᵢⱼ，并产生 dᵢⱼ = normalize(Pᵢⱼ − C)。页面只画 7 × 5 个离散样本，真实 Fragment Shader 会为每个屏幕像素执行同样的构造。"
+    },
+    {
+      "id": "single-curved-ray",
+      "kind": "observe",
+      "label": "03 单条弯曲光线",
+      "hint": "橙色虚线和蓝色实线从同一位置、沿同一方向出发；旋转视角确认它们都位于穿过中心的轨道平面。",
+      "eyebrow": "STRAIGHT VS GEODESIC",
+      "title": "度规改变路径，而不是初始射线",
+      "body": "橙色虚线是 r(t)=C+td。蓝线使用与 Fragment Shader 相同的 Hamilton 方程和 RK4 积分；红橙圆标记 r=rₛ，淡蓝圆标记 r=1.5rₛ。参考圆不参与遮挡或最终成像。"
+    },
+    {
+      "id": "captured-pixel-shadow",
+      "kind": "observe",
+      "label": "04 捕获与阴影",
+      "hint": "在页面中从 03 切到 04：中心像素被捕获而写黑，外围像素逃逸后按最终方向采样天空。",
+      "eyebrow": "ALL PIXELS",
+      "title": "阴影不是黑球，而是一组被捕获的方向",
+      "body": "Fragment Shader 为每个像素积分同一套零测地线。若路径曾满足 r ≤ rₛ，该像素属于捕获集合并写成黑色；否则用逃逸方向 d_out 采样程序化天空。于是屏幕阴影 Sᵢⱼ=1 当且仅当该像素光线会进入事件视界。"
+    },
+    {
+      "id": "critical-ray",
+      "kind": "experiment",
+      "label": "05 临界光线",
+      "hint": "先沿 x_img、y_img 找到画面中心，再比较 b=0.5b_c、b=b_c、b=1.25b_c 三个同心参考圈。",
+      "eyebrow": "UNSTABLE PHOTON ORBIT",
+      "title": "临界冲量参数决定阴影边界",
+      "body": "有效势在 r_ph=3M=1.5rₛ 处有不稳定极值。当 b=|L|/E 接近 b_c=3√3M 时，光线会在光子球附近停留并积累巨大偏折。屏幕坐标轴以相机朝向为原点，同心圈分别把 0.5b_c、b_c、1.25b_c 投影到像平面；它们是观察方向坐标，不是 Schwarzschild 空间中的实体球面。",
+      "experiments": [
+        {
+          "id": "show-critical-ray",
+          "label": "显示临界光线诊断",
+          "initial": { "stage": 3 },
+          "controls": { "stage": 4 },
+          "expected": "白金细环与动态虚线圆重合；缩放相机时二者同步移动，内部被捕获、外部逃逸。",
+          "reset": "恢复 stage=3。"
+        }
+      ]
+    },
+    {
+      "id": "image",
+      "kind": "mastery",
+      "label": "06 成像",
+      "hint": "先看粒子的高亮核与柔和辉光，再定位中央纯黑捕获区。金色临界辉线来自 b≈b_c 与 r_min≈1.5r_s；红圈和黄色虚线圈用于校验其位置。",
+      "eyebrow": "PATH TO RADIANCE",
+      "title": "光路决定颜色",
+      "body": "每一步先检测捕获，再用 yₙyₙ₊₁<0 检测赤道面穿越。盘面不再设置外半径；粒子按 ω∝r⁻³ᐟ² 运动，并由 r^-0.55 控制远端发射率。为避免粒子投影小于像素后漏采样，程序会在 10r_s–48r_s 降低粒子网格频率以扩大采样足迹，并在 12r_s–36r_s 逐渐加入极弱的未解析粒子平均辉光。",
+      "quiz": [
+        {
+          "id": "q1",
+          "question": "黑洞阴影为什么不是一个普通黑球？",
+          "options": ["因为边界由哪些观察方向会被捕获决定", "因为 Three.js 没有黑色材质", "因为星空亮度不足"],
+          "correct": 0,
+          "explanation": "阴影是测地线捕获截面在观察方向上的投影。"
+        },
+        {
+          "id": "q2",
+          "question": "高阶吸积盘像从哪里来？",
+          "options": ["复制多个圆环", "光线多次穿越赤道面", "Bloom 模糊"],
+          "correct": 1,
+          "explanation": "强偏折光线可以绕行并多次跨过盘面。"
+        },
+        {
+          "id": "q3",
+          "question": "Three.js 在本实验中负责什么？",
+          "options": ["求解 Einstein 场方程", "提供 WebGL、相机和 uniform", "生成吸积盘纹理"],
+          "correct": 1,
+          "explanation": "零测地线积分位于 Fragment Shader；Three.js 负责工程编排。"
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    "从视觉特效开始堆参数，而没有先定义像素对应的光线。",
+    "用黑球和圆环替代事件视界捕获与赤道面穿越。",
+    "把 Three.js 当成物理引擎；真正的积分发生在 Fragment Shader。"
+  ],
+  "furtherReading": [
+    { "label": "AI reproduction guide", "href": "./AI.md" },
+    { "label": "Structured specimen context", "href": "./ai-context.json" }
+  ],
+  "completion": {
+    "criteria": [
+      "能解释六个章节之间只改变了哪一层。",
+      "能把 Hamilton 状态量对应到 Shader 变量。",
+      "两道测验全部答对。"
+    ]
+  }
+}
