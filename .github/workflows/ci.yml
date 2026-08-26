@@ -44,6 +44,7 @@ jobs:
     timeout-minutes: 15
     outputs:
       artifact-name: ${{ steps.artifact-metadata.outputs.name }}
+      manifest-artifact-name: ${{ steps.artifact-metadata.outputs.manifest-name }}
       artifact-digest: ${{ steps.upload-site.outputs.artifact-digest }}
       dist-digest: ${{ steps.create-artifact.outputs.dist-digest }}
       total-bytes: ${{ steps.create-artifact.outputs.total-bytes }}
@@ -84,7 +85,9 @@ jobs:
 
       - name: Publish artifact metadata
         id: artifact-metadata
-        run: echo "name=$SITE_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "name=$SITE_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+          echo "manifest-name=site-manifest-${GITHUB_SHA}-attempt-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
 
       - name: Upload immutable site artifact
         id: upload-site
@@ -98,7 +101,7 @@ jobs:
       - name: Upload artifact identity probe
         uses: actions/upload-artifact@v7
         with:
-          name: site-manifest-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          name: ${{ steps.artifact-metadata.outputs.manifest-name }}
           path: .generated/ci/site-artifact/artifact-manifest.json
           if-no-files-found: error
           retention-days: 30
@@ -108,6 +111,8 @@ jobs:
     needs: release_policy
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      machine-artifact-name: ${{ steps.machine-artifact-metadata.outputs.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -141,11 +146,16 @@ jobs:
           if-no-files-found: warn
           retention-days: ${{ env.REPORT_RETENTION_DAYS }}
 
+      - name: Publish component machine artifact metadata
+        id: machine-artifact-metadata
+        if: ${{ !cancelled() }}
+        run: echo "name=component-machine-${GITHUB_SHA}-attempt-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+
       - name: Upload component machine result
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
         with:
-          name: component-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          name: ${{ steps.machine-artifact-metadata.outputs.name }}
           path: .generated/test-results/components/results.json
           if-no-files-found: warn
           retention-days: 30
@@ -155,6 +165,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      machine-artifact-name: ${{ steps.machine-artifact-metadata.outputs.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -198,11 +210,16 @@ jobs:
           if-no-files-found: warn
           retention-days: ${{ env.REPORT_RETENTION_DAYS }}
 
+      - name: Publish end-to-end machine artifact metadata
+        id: machine-artifact-metadata
+        if: ${{ !cancelled() }}
+        run: echo "name=e2e-machine-${GITHUB_SHA}-attempt-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+
       - name: Upload end-to-end machine result
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
         with:
-          name: e2e-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          name: ${{ steps.machine-artifact-metadata.outputs.name }}
           path: .generated/test-results/e2e/results.json
           if-no-files-found: warn
           retention-days: 30
@@ -212,6 +229,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      machine-artifact-name: ${{ steps.machine-artifact-metadata.outputs.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -255,11 +274,16 @@ jobs:
           if-no-files-found: warn
           retention-days: ${{ env.REPORT_RETENTION_DAYS }}
 
+      - name: Publish WebGL machine artifact metadata
+        id: machine-artifact-metadata
+        if: ${{ !cancelled() }}
+        run: echo "name=webgl-machine-${GITHUB_SHA}-attempt-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+
       - name: Upload WebGL machine result
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
         with:
-          name: webgl-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          name: ${{ steps.machine-artifact-metadata.outputs.name }}
           path: .generated/test-results/webgl/results.json
           if-no-files-found: warn
           retention-days: 30
@@ -269,6 +293,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      machine-artifact-name: ${{ steps.machine-artifact-metadata.outputs.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -312,11 +338,16 @@ jobs:
           if-no-files-found: warn
           retention-days: ${{ env.REPORT_RETENTION_DAYS }}
 
+      - name: Publish visual machine artifact metadata
+        id: machine-artifact-metadata
+        if: ${{ !cancelled() }}
+        run: echo "name=visual-machine-${GITHUB_SHA}-attempt-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+
       - name: Upload visual machine result
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
         with:
-          name: visual-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          name: ${{ steps.machine-artifact-metadata.outputs.name }}
           path: .generated/test-results/visual/results.json
           if-no-files-found: warn
           retention-days: 30
@@ -362,15 +393,36 @@ jobs:
         continue-on-error: true
         uses: actions/download-artifact@v8
         with:
-          name: site-manifest-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          name: ${{ needs.build.outputs.manifest-artifact-name }}
           path: .generated/diagnostic-input/site
 
-      - name: Download machine-readable test results
+      - name: Download component machine result
         continue-on-error: true
         uses: actions/download-artifact@v8
         with:
-          pattern: '*-machine-${{ github.sha }}-attempt-${{ github.run_attempt }}'
-          path: .generated/diagnostic-input/test-reports
+          name: ${{ needs.component.outputs.machine-artifact-name }}
+          path: .generated/diagnostic-input/test-reports/component
+
+      - name: Download end-to-end machine result
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.e2e.outputs.machine-artifact-name }}
+          path: .generated/diagnostic-input/test-reports/e2e
+
+      - name: Download WebGL machine result
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.webgl.outputs.machine-artifact-name }}
+          path: .generated/diagnostic-input/test-reports/webgl
+
+      - name: Download visual machine result
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.visual.outputs.machine-artifact-name }}
+          path: .generated/diagnostic-input/test-reports/visual
 
       - name: Build machine-readable diagnostic bundle
         env:
@@ -378,6 +430,8 @@ jobs:
           CI_BASE_REF: ${{ github.base_ref }}
           CI_ARTIFACT_NAME: ${{ needs.build.outputs.artifact-name }}
           CI_ARTIFACT_UPLOAD_DIGEST: ${{ needs.build.outputs.artifact-digest }}
+          CI_EVIDENCE_ARTIFACTS: >-
+            {"component":"${{ needs.component.outputs.machine-artifact-name }}","e2e":"${{ needs.e2e.outputs.machine-artifact-name }}","webgl":"${{ needs.webgl.outputs.machine-artifact-name }}","visual":"${{ needs.visual.outputs.machine-artifact-name }}"}
           CI_JOB_RESULTS: >-
             {"release-policy":"${{ needs.release_policy.result }}","build":"${{ needs.build.result }}","component":"${{ needs.component.result }}","e2e":"${{ needs.e2e.result }}","webgl":"${{ needs.webgl.result }}","visual":"${{ needs.visual.result }}"}
         run: node scripts/ci/summarize-ci.mjs
