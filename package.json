@@ -5,6 +5,7 @@
   "description": "AI-friendly frontend specimen catalog and isolated runtime",
   "type": "module",
   "scripts": {
+    "docs:check": "node scripts/check-docs.mjs && node scripts/check-history.mjs",
     "generate": "node scripts/generate-catalog.mjs && node scripts/build-specimens.mjs && node scripts/generate-thumbnails.mjs",
     "generate:thumbnails": "node scripts/generate-thumbnails.mjs",
     "typecheck": "tsc -b",
@@ -15,7 +16,7 @@
     "test:webgl": "playwright test -c playwright.e2e.config.ts --project=webgl-chromium --project=gargantua-webgl-chromium --workers=1",
     "test:visual": "playwright test -c playwright.e2e.config.ts --project=visual-chromium",
     "test:browser": "npm run test:components && playwright test -c playwright.e2e.config.ts --project=e2e-chromium --project=webgl-chromium --project=visual-chromium",
-    "check": "npm run typecheck && npm run test:unit && node scripts/validate-source.mjs",
+    "check": "npm run docs:check && npm run typecheck && npm run test:unit && node scripts/validate-source.mjs",
     "build": "npm run check && npm run generate && vite build && node scripts/validate-dist.mjs dist",
     "ci:artifact:create": "node scripts/ci/create-artifact.mjs",
     "ci:artifact:verify": "node scripts/ci/verify-artifact.mjs",
