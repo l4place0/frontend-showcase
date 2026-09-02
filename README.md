@@ -2,7 +2,7 @@
 
 一个面向人类学习、视觉体验与 AI 参考的前端样品平台。React Catalog 负责浏览、搜索、控制和展示；每件 Specimen 都在沙箱 iframe 中独立运行，并携带现场交互教程、AI 提示词与结构化上下文。
 
-当前馆藏包含 62 件展品：30 个视觉风格、30 个布局样品，以及 CSS 动画与 WebGL 独立展品。协议采用开放分类，后续可继续加入组件、Canvas、Shader 和其他前端实验。
+当前馆藏包含 64 件展品：30 个视觉风格、30 个布局样品、1 个 CSS 动画展品，以及 3 个 WebGL 独立展品。协议采用开放分类，后续可继续加入组件、Canvas、Shader 和其他前端实验。
 
 ## 开发
 
@@ -17,7 +17,8 @@ npm run dev
 
 | 命令 | 用途 |
 | --- | --- |
-| `npm run build` | 校验源码、生成 62 件独立展品、构建 SPA 并验证产物 |
+| `npm run docs:check` | 校验文档结构、状态词、相对链接和历史工作单索引 |
+| `npm run build` | 校验源码、生成 64 件独立展品、构建 SPA 并验证产物 |
 | `npm run test:unit` | Vitest 逻辑测试 |
 | `npm run test:components` | Playwright React 组件测试 |
 | `npm run test:e2e` | Catalog、iframe、协议与 AI 资源测试 |
@@ -34,10 +35,11 @@ React Catalog SPA
 ```
 
 - `src/`：React Catalog，以及现有 portfolio fixture 的模板和样式源码。
-- `specimens/catalog.mjs`：62 件现有展品的源注册表。
+- `specimens/catalog.mjs`：64 件现有展品的源注册表。
 - `specimens/learning/items/`：与每件展品一一对应的结构化教程源码。
 - `specimens/specimen.schema.json`：Specimen Protocol v1。
 - `.prototype-engineering/`：原型谱系、边界、验证证据与生产化决策；纳入仓库历史，但不进入部署产物。
+- `docs/`：当前架构、产品边界、工程工作流和历史工作单的文档中心。
 - `scripts/`：目录生成、展品构建和产物校验。
 - `.generated/public/`：临时生成的 Vite publicDir，不提交。
 - `dist/`：GitHub Pages 部署产物，不提交。
@@ -54,6 +56,10 @@ items/<id>/
 ```
 
 站点根目录同时发布 `specimens.json` 和 `llms.txt`。将独立展品的 `index.html` URL 交给 AI，即可发现对应提示词、Manifest 和机器可读上下文。
+
+## 文档
+
+从 [文档中心](./docs/README.md) 开始阅读。当前系统事实写入 `architecture/` 与 `product/`，可重复执行的流程写入 `workflows/`，阶段性方案、验收证据和过时结论归档到 `history/`。
 
 ## 添加展品
 
